@@ -1,0 +1,135 @@
+<ion-header box-shadow>
+	<ion-navbar>
+<!--     <button  *ngIf="!sub_directory_id" ion-button menuToggle>
+      <ion-icon icon-menu name="menu" color="primary"></ion-icon>
+  </button> -->
+  <div buy>
+  	<ion-title>
+  		<span ion-text color="primary">CHAT</span>
+  	</ion-title>
+  </div>
+</ion-navbar>
+</ion-header>
+
+<ion-content>
+	<!------------------------------------ESTOS TIENEN QUE SER TABS ----------------------------------->
+	<ion-row>
+		<button ion-button block style="width: 33%; background-color: #dddddd">Chat</button>
+		<button ion-button block style="width: 33%; background-color: #dddddd">Llamadas</button>
+		<button ion-button block style="width: 33%; background-color: #a3a3a3">Contactos</button>
+	</ion-row>
+	<!------------------------------------ESTOS TIENEN QUE SER TABS----------------------------------->
+
+	<div>
+		<ion-toolbar no-padding>
+			<div header-section>
+				<ion-searchbar ></ion-searchbar>
+			</div>
+			<ion-row>
+				<ion-col col-3 class="pr-0 mr-0">
+					<button ion-button class="botonNuevoMensaje"><ion-icon name="ios-add" style="font-size: 40px;"></ion-icon></button>
+				</ion-col>
+				<ion-col col-9 class="pl-0 ml-0">
+					<h3 class="customText ml-0 pl-0">Crear nuevo grupo</h3>
+				</ion-col>
+			</ion-row>
+		</ion-toolbar>
+		<ion-list no-margin >
+			<!------------------------------------------HEADER DONDE VA LA LETRA------------------------------------->
+			<ion-item-divider class="customBoxShadow" text-capitalize no-margin no-lines header-title ion-affix>A</ion-item-divider> 
+			<!------------------------------------------HEADER DONDE VA LA LETRA------------------------------------->
+
+			<!---------------------------------------CONTENIDO LISTA DE USUARIO EN ESA LETRA------------------------------->
+			<ion-item border no-lines>
+				<ion-avatar item-start>
+					<img src="https://i.kym-cdn.com/entries/icons/original/000/027/843/chungcover.jpg" />
+				</ion-avatar>
+				<h2 item-title text-wrap text-capitalize>Big Chungus</h2>
+				<p item-subtitle text-wrap>Gerente General</p>
+				<!-- 	<ion-badge badge-light>dasdasdasda</ion-badge> -->
+			</ion-item>
+			<ion-item border no-lines>
+				<ion-avatar item-start>
+					<img src="https://i.kym-cdn.com/entries/icons/original/000/026/008/Screen_Shot_2018-04-25_at_12.24.22_PM.png" />
+				</ion-avatar>
+				<h2 item-title text-wrap text-capitalize>E</h2>
+				<p item-subtitle text-wrap>Gerente tienda</p>
+				<!-- 	<ion-badge badge-light>dasdasdasda</ion-badge> -->
+			</ion-item>
+			<ion-item border no-lines>
+				<ion-avatar item-start>
+					<img src="https://imgix.bustle.com/uploads/image/2018/9/27/b2655359-f3c4-436e-b7dc-7ceb3d528dfd-dj92z5rvsaa7uku.jpg?w=970&h=546&fit=crop&crop=faces&auto=format&q=70" />
+				</ion-avatar>
+				<h2 item-title text-wrap text-capitalize>Moth and Lamp</h2>
+				<p item-subtitle text-wrap>Jefe de Iluminacion</p>
+				<!-- 	<ion-badge badge-light>dasdasdasda</ion-badge> -->
+			</ion-item>
+			<!---------------------------------------CONTENIDO LISTA DE USUARIO EN ESA LETRA------------------------------->
+
+			<!------------------------------------------HEADER DONDE VA LA LETRA------------------------------------->
+			<ion-item-divider box-shadow text-capitalize no-margin no-lines header-title ion-affix>B</ion-item-divider> 
+			<!------------------------------------------HEADER DONDE VA LA LETRA------------------------------------->
+
+			<!---------------------------------------CONTENIDO LISTA DE USUARIO EN ESA LETRA------------------------------->
+			<ion-item border no-lines>
+				<ion-avatar item-start>
+					<img src="https://img-9gag-fun.9cache.com/photo/aVY3nyn_460swp.webp" />
+				</ion-avatar>
+				<h2 item-title text-wrap text-capitalize>Krusty Crab</h2>
+				<p item-subtitle text-wrap>Gerente de Foodcurt</p>
+				<!-- 	<ion-badge badge-light>dasdasdasda</ion-badge> -->
+			</ion-item>
+			<ion-item border no-lines>
+				<ion-avatar item-start>
+					<img src="https://i.ebayimg.com/images/g/bAIAAOSwUd9aUDIG/s-l300.jpg" />
+				</ion-avatar>
+				<h2 item-title text-wrap text-capitalize>Ugandan Knuckles</h2>
+				<p item-subtitle text-wrap>Gerente DE WAY</p>
+				<!-- 	<ion-badge badge-light>dasdasdasda</ion-badge> -->
+			</ion-item>
+			<ion-item border no-lines>
+				<ion-avatar item-start>
+					<img src="https://pbs.twimg.com/media/DUVAWfJV4AAktl6.jpg" />
+				</ion-avatar>
+				<h2 item-title text-wrap text-capitalize>Touche my Spageti</h2>
+				<p item-subtitle text-wrap>Jefe de Alimentos</p>
+				<!-- 	<ion-badge badge-light>dasdasdasda</ion-badge> -->
+			</ion-item>
+			<!---------------------------------------CONTENIDO LISTA DE USUARIO EN ESA LETRA------------------------------->
+
+			<!------------------------------------------HEADER DONDE VA LA LETRA------------------------------------->
+			<ion-item-divider box-shadow text-capitalize no-margin no-lines header-title ion-affix>C</ion-item-divider> 
+			<!------------------------------------------HEADER DONDE VA LA LETRA------------------------------------->
+
+			<!---------------------------------------CONTENIDO LISTA DE USUARIO EN ESA LETRA------------------------------->
+			<ion-item border no-lines>
+				<ion-avatar item-start>
+					<img src="https://img-9gag-fun.9cache.com/photo/aVY3nyn_460swp.webp" />
+				</ion-avatar>
+				<h2 item-title text-wrap text-capitalize>Krusty Crab</h2>
+				<p item-subtitle text-wrap>Gerente de Foodcurt</p>
+				<!-- 	<ion-badge badge-light>dasdasdasda</ion-badge> -->
+			</ion-item>
+			<ion-item border no-lines>
+				<ion-avatar item-start>
+					<img src="https://i.ebayimg.com/images/g/bAIAAOSwUd9aUDIG/s-l300.jpg" />
+				</ion-avatar>
+				<h2 item-title text-wrap text-capitalize>Ugandan Knuckles</h2>
+				<p item-subtitle text-wrap>Gerente DE WAY</p>
+				<!-- 	<ion-badge badge-light>dasdasdasda</ion-badge> -->
+			</ion-item>
+			<ion-item border no-lines>
+				<ion-avatar item-start>
+					<img src="https://pbs.twimg.com/media/DUVAWfJV4AAktl6.jpg" />
+				</ion-avatar>
+				<h2 item-title text-wrap text-capitalize>Touche my Spageti</h2>
+				<p item-subtitle text-wrap>Jefe de Alimentos</p>
+				<!-- 	<ion-badge badge-light>dasdasdasda</ion-badge> -->
+			</ion-item>
+			<!---------------------------------------CONTENIDO LISTA DE USUARIO EN ESA LETRA------------------------------->
+
+
+		</ion-list>
+	</div>
+
+</ion-content>

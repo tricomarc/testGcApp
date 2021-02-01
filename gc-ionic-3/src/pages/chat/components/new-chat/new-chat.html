@@ -1,0 +1,68 @@
+<ion-header>
+	<ion-navbar>
+		<div buy>
+			<ion-title>
+				<span ion-text color="primary">{{room ? 'Agregar usuarios' : 'Nuevo chat'}}</span>
+			</ion-title>
+		</div>
+		<!-- Para crear nuevo grupo -->
+		<ion-buttons end right *ngIf="isGroup && !room">
+			<button ion-button clear text-capitalize (click)="navigateToGroupSetup()" color="primary" [disabled]="!members.length">
+				Sig.
+			</button>
+		</ion-buttons>
+		<!-- Para agregar miembros a un grupo -->
+		<ion-buttons end right *ngIf="room">
+			<button ion-button clear text-capitalize (click)="addMembersToGroup()" color="primary" [disabled]="!members.length">
+				Agregar
+			</button>
+		</ion-buttons>
+	</ion-navbar>
+	<ion-toolbar>
+		<div header-section>
+			<ion-searchbar [formControl]="contactSearchControl" placeholder="Buscar usuario"></ion-searchbar>
+			<ion-item no-lines (click)="toggleIsGroup()" *ngIf="!room">
+				<ion-label mode="ios" color="primary">
+					<ion-icon name="people" item-start item-left></ion-icon>
+					Crear grupo
+				</ion-label>
+				<ion-toggle color="primary" [(ngModel)]="isGroup" item-end item-right class="group-toggle"></ion-toggle>
+			</ion-item>
+		</div>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content>
+	<!-- Actualización de usuarios -->
+	<ion-refresher (ionRefresh)="updateContacts($event)" color="primary">
+		<ion-refresher-content pullingText="Actualizar usuarios" refreshingText="Actualizando usuarios..."></ion-refresher-content>
+	</ion-refresher>
+	<div *ngIf="online">
+		<!-- Lista de usuarios -->
+		<div *ngIf="!requesting">
+			<ion-list no-margin>
+				<ion-list-header *ngIf="contacts.length">Usuarios</ion-list-header>
+				<ion-item border no-lines *ngFor="let contact of contacts | contactFilter : searchTerm | orderUsers" (click)="onContactClicked(contact)">
+					<ion-avatar item-start text-center>
+						<img [lazyLoad]="contact.avatar ? contact.avatar : 'assets/img/resources/avatar.png'" [defaultImage]="'assets/img/resources/avatar.png'" class="contact-avatar" alt="">
+					</ion-avatar>
+					<ion-label>
+						<h3 item-title text-wrap text-capitalize>{{contact.name}}</h3>
+						<p ion-text>{{contact.charge ? contact.charge.name : 'No informado.'}}</p>
+						<p *ngIf="contact.store.name">{{contact.store.name}}</p>
+						<p *ngIf="contact.zone.name">{{contact.zone.name}}</p>
+					</ion-label>
+					<ion-checkbox [hidden]="(!isGroup && !room)" color="primary" mode="ios" [checked]="contact.checked" item-right item-end class="contact-checkbox"></ion-checkbox>
+				</ion-item>
+			</ion-list>
+		</div>
+		<!-- Indicador de carga -->
+		<ion-item text-center no-lines *ngIf="requesting">
+			<ion-spinner margin-top></ion-spinner>
+		</ion-item>
+	</div>
+	<ion-item text-center no-lines padding-top *ngIf="!online">
+		<ion-icon name="ios-wifi-outline" class="wifi-icon" margin-bottom></ion-icon>
+		<p ion-text text-wrap>Sin conexión a internet.</p>
+	</ion-item>
+</ion-content>

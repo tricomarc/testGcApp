@@ -1,0 +1,23 @@
+<ion-header box-shadow>
+  <ion-navbar>
+    <div buy>
+      <ion-title ion-text text-center><span ion-text color="primary" text-left>Preguntas pendientes</span></ion-title>
+    </div>
+    <ion-buttons end right>
+      <button ion-button icon-only (click)="closeModal(null)">
+        <ion-icon name="close" color="primary"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <ion-list margin-top>
+    <ion-item *ngFor="let question of questions">
+      <h3 ion-text text-wrap margin-bottom>{{question.title}}</h3>
+      <p *ngFor="let message of question.messages" ion-text text-wrap>{{message}}</p>
+      <button ion-button icon-only item-right clear color="primary" (click)="closeModal(question.uuid)">
+        <ion-icon name="ios-link"></ion-icon>
+      </button>
+    </ion-item>
+  </ion-list>
+</ion-content>

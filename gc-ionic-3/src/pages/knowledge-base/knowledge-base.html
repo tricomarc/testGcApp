@@ -1,0 +1,44 @@
+<!-- HEADER -->
+<ion-header box-shadow>
+    <ion-navbar box-shadow>
+        <button ion-button menuToggle>
+            <ion-icon class="icon-menu" name="menu" color="primary"></ion-icon>
+        </button>
+        <div buy>
+            <ion-title>{{module}}</ion-title>
+        </div>
+    </ion-navbar>
+    <ion-toolbar>
+        <div header-section>
+            <ion-searchbar [formControl]="searchControl" placeholder="Buscar"></ion-searchbar>
+        </div>
+    </ion-toolbar>
+</ion-header>
+
+<!-- CONTENT -->
+<ion-content>
+    <!-- REFRESHER -->
+    <ion-refresher (ionRefresh)="refreshKnowledgewBase($event)" color="positive">
+        <ion-refresher-content pullingText="Actualizar" refreshingText="Actualizando datos..."></ion-refresher-content>      
+    </ion-refresher>
+    <!-- LAODING -->
+    <div *ngIf="requesting" text-center padding-top>
+        <ion-spinner color="primary"></ion-spinner>
+    </div>
+
+    <!-- SIN RESULTADOS -->
+    <div text-center padding-top *ngIf="problems.length < 1 && !requesting">
+        <span class="compomets">Sin resultados, ingrese un nuevo criterio de búsqueda</span>
+    </div>
+
+    <!-- LISTA DE RESULTADOS -->
+    <div *ngIf="problems.length > 0 && !requesting">
+        <ion-item *ngFor="let problem of problems" (click)="showSolutions(problem)">
+            <h2 text-wrap>{{problem.titulo}}</h2>
+            <p>Descripción: <span ion-text color="danger" text-nowrap>{{problem.descripcion ? problem.descripcion : 'Sin información'}}</span></p>
+            <p>{{problem.soluciones.length}} {{(problem.soluciones.length === 1) ? 'solución' : 'soluciones'}}</p>
+            <ion-icon name="ios-arrow-forward" item-end></ion-icon>
+        </ion-item>
+    </div>
+</ion-content>
+

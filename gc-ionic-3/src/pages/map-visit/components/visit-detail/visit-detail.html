@@ -1,0 +1,62 @@
+<ion-header box-shadow>
+    <ion-navbar>
+        <div buy>
+            <ion-title><span ion-text text-center color="primary">Histórico de visitas</span></ion-title>
+        </div>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <div *ngIf="visit">
+
+        <ion-toolbar text-center color="light">
+            <ion-title text-center>
+                <p ion-text color="primary">Detalle de la visita</p>
+            </ion-title>
+        </ion-toolbar>
+
+        <ion-item no-lines padding-right no-lines class="sombra-vb">
+            <h3 ion-text text-wrap class="mt-0" color="primary"><b>{{ 'Sucursal' | synonymous }}:</b> {{visit.branchOffice.name}}</h3>
+            <p ion-text text-wrap><b>Checkin:</b> {{visit.checkinDate | date: 'dd-MM-yyyy HH:mm:ss'}}</p>
+            <p ion-text text-wrap>
+                <b>Checkout:</b>
+                <font *ngIf="visit.checkoutDate">{{visit.checkoutDate | date: 'dd-MM-yyyy HH:mm:ss'}}</font>
+                <font *ngIf="!visit.checkoutDate">No realizado</font>
+            </p>
+            <p ion-text text-wrap><b>Duración:</b> {{visit.duration ? (visit.duration + ' min.') : 'No aplica'}}</p>
+            <p ion-text text-wrap><b>Checklists respondidos:</b> {{visit.checklists.length}}</p>
+        </ion-item>
+
+        <ion-toolbar text-center color="light" class="mt-10">
+            <ion-title text-center>
+                <p ion-text color="primary">Checklists de la visita</p>
+            </ion-title>
+        </ion-toolbar>
+
+        <ion-item no-lines text-center *ngIf="!visit.checklists || !visit.checklists.length">
+            <p ion-text text-wrap>No se respondieron checklists en esta visita.</p>
+        </ion-item>
+
+        <ion-item class="border-bottom-1" *ngFor="let checklist of visit.checklists | orderChecklist" (click)="showChecklistAmbits(checklist)">
+            <ion-icon [name]="checklist.statusData.icon" [color]="checklist.statusData.color" item-start></ion-icon>
+        
+            <span ion-text color="primary" text-wrap>{{checklist.nombre}}</span>
+            <p>
+                <b class="lh-15">Ámbitos:</b> {{checklist.ambitos_cantidad}}
+            </p>
+            <p>
+                <b>Preguntas:</b> ({{checklist.preguntas.contestadas}}/{{checklist.preguntas.total}})
+            </p>
+            <p>
+                <b>Estado:</b> <span ion-text [color]="checklist.statusData.color">{{checklist.estado_nombre}}</span>
+            </p>
+            <p *ngIf="checklist.area_nombre">
+                <b class="lh-15">Área:</b> {{checklist.area_nombre}}
+            </p>
+            <p *ngIf="!checklist.area_nombre">
+                <b class="lh-15">Área:</b> Sin Área
+            </p>
+            <ion-icon name='ios-arrow-forward' item-end color="default" class="icon-lg"></ion-icon>
+        </ion-item>
+    </div>
+</ion-content>

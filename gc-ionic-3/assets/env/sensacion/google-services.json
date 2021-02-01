@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "689877696227",
+    "firebase_url": "https://gc-sensacion.firebaseio.com",
+    "project_id": "gc-sensacion",
+    "storage_bucket": "gc-sensacion.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:689877696227:android:19960e216c64e3e4720fd6",
+        "android_client_info": {
+          "package_name": "cl.gcsen.gcapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "689877696227-jsa7fg8b7bm8t1rpp037chij508becnm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPaxfBU_lcZvPmzdGaXmjXNFIRYrCDr8A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "689877696227-jsa7fg8b7bm8t1rpp037chij508becnm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

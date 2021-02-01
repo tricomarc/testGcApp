@@ -1,0 +1,22 @@
+<ion-list no-border padding-top>
+	<ion-item no-lines text-center class="item-energized text-center" *ngIf="!checklists.length">
+		<p>No hay {{module}} para mostrar.</p>
+	</ion-item>
+	<div *ngIf="checklists.length">
+		<ion-item no-lines class="border-bottom-1" *ngFor="let checklist of checklists">
+			<ion-item (click)="showAmbit(checklist)" no-lines>
+				<h2 ion-text color="primary" text-wrap>{{checklist.check_nombre}}</h2>
+				<p><b>Enviados:</b> {{checklist.enviados}}</p>
+				<p><b>Periodicidad: </b> {{checklist.periocidad_nombre}}</p>
+				<p><b>Promedio: </b> {{checklist.promedio}}</p>
+				<p><b>Total: </b> {{checklist.total}}</p>
+				<ion-icon name='ios-arrow-forward' item-end color="default" class="icon-lg"></ion-icon>
+			</ion-item>
+			<div text-center no-padding no-margin>
+				<button small ion-button outline round (click)="showStatistics(checklist)">
+					<span class="customPaddinTopText"> Ver Estadística </span>
+				</button>
+			</div>
+		</ion-item>
+	</div>
+</ion-list>

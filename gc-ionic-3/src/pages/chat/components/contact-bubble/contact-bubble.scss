@@ -1,0 +1,27 @@
+contact-bubble {
+	.contact-avatar {
+		border-radius: 50%;
+		overflow: hidden;
+		width: 50px;
+		height: 50px;
+	}
+
+	.remove-contact-icon {
+		position: absolute;
+		top: 1px;
+		right: 7px;
+		color: #a1a1a1;
+		font-size: 25px;
+		z-index: 1;
+	}
+
+	.background-icon-circle {
+		background-color: #fff;
+		position: absolute;
+		top: 1px;
+		right: 12px;
+		width: 25px;
+		height: 25px;
+		border-radius: 50%;
+	}
+}

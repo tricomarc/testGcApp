@@ -1,0 +1,454 @@
+<ion-header box-shadow *ngIf="!navParams.data.sucursal">
+	<ion-navbar>
+		<div buy>
+			<ion-title><span ion-text text-center color="primary">{{module}}</span></ion-title>
+		</div>
+	</ion-navbar>
+</ion-header>
+
+<ion-content>
+	<ion-refresher (ionRefresh)="refreshStatistics($event)" color="primary">
+		<ion-refresher-content pullingText="Actualizar" refreshingText="Actualizando..."></ion-refresher-content>
+	</ion-refresher>
+
+	<ion-row>
+		<ion-col no-padding>
+			<ion-list-header box-shadow no-margin no-lines>
+				<h1 ion-text text-wrap color="primary" header-title *ngIf="statistics && statistics.top && statistics.top.nombre">
+					Estadísticas <br> <p ion-text text-wrap color="primary"> {{module}} {{statistics.top.nombre}} </p>
+				</h1>
+				<h1 ion-text color="primary" header-title *ngIf="!statistics || !statistics.top || !statistics.top.nombre">
+					Estadísticas {{module}} 
+				</h1>
+			</ion-list-header>
+		</ion-col>
+	</ion-row>
+
+	<!-- Filtro por rango de fechas -->
+	<date-filter *ngIf="filters" [filters]="filters" (onDateChange)="changeDateFilters($event)"></date-filter>
+
+	<!-- Filtro Subgerencias -->
+	<ion-item no-lines  *ngIf="showFilterSub && (activeFilter.active && activeFilter.isManagerZonal === false)" >
+		<ion-label class="customPadding lh-15">Subgerencias:</ion-label>
+		<ionic-selectable
+			item-content
+			[(ngModel)]="filters.subgerencias"
+			[items]="subgerencias"
+			placeholder="Seleccione"
+			itemValueField="id"
+			itemTextField="nombre"
+			(onSearch)="onSearchSubgerencias($event)"
+			(onChange)="getStatisticsFilter('subgerencias')"
+			closeButtonText="Cancelar"
+			[canSearch]="true"
+			[isMultiple]="false"
+			[searchFailText]="'No se encontraron subgerencias'"
+			[searchPlaceholder]="'Búsqueda'">
+			<ng-template ionicSelectableValueTemplate let-ports="value" *ngIf="filters.subgerencias?.length > 1">
+				<div class="ionic-selectable-value-item">
+					{{filters.subgerencias.length}} seleccionadas
+				</div>
+			</ng-template>
+		</ionic-selectable>
+	</ion-item>
+
+
+	<!-- Filtro Cadenas -->
+	<ion-item no-lines *ngIf="showFilterCadenas">
+		<ion-label class="customPadding lh-15">Cadenas:</ion-label>
+		<ionic-selectable
+			item-content
+			[(ngModel)]="filters.cadenas"
+			[items]="cadenas"
+			placeholder="Seleccione"
+			itemValueField="id"
+			itemTextField="nombre"
+			(onSearch)="onSearchCadenas($event)"
+			(onChange)="getStatisticsFilter('cadena')"
+			closeButtonText="Cancelar"
+			[canSearch]="true"
+			[isMultiple]="false"
+			[searchFailText]="'No se encontraron cadenas'"
+			[searchPlaceholder]="'Búsqueda'">
+			<ng-template ionicSelectableValueTemplate let-ports="value" *ngIf="filters.cadenas?.length > 1">
+				<div class="ionic-selectable-value-item">
+					{{filters.cadenas.length}} seleccionadas
+				</div>
+			</ng-template>
+		</ionic-selectable>
+	</ion-item>
+
+	<ion-item no-lines  *ngIf="isManagerRegion && gerentes && filters">
+		<ion-label class="customPadding lh-15">{{ 'Ger. Operaciones' | synonymous }}:</ion-label>
+		<ionic-selectable item-content 
+			[disabled]="!filters.subgerencias || (filters.subgerencias && !filters.subgerencias.id)"
+			[(ngModel)]="filters.gerentes" 
+			[items]="gerentes"
+			 placeholder="Seleccione"
+			itemValueField="id" 
+			itemTextField="nombre" 
+			(onSearch)="onSearchGerentes($event)"
+			(onChange)="getStatisticsFilter('gerentes')" 
+			closeButtonText="Cancelar" 
+			[canSearch]="true"
+			[isMultiple]="false" 
+			[searchFailText]="'No se encontraron resultados'" 
+			[searchPlaceholder]="'Búsqueda'">
+			<ng-template ionicSelectableValueTemplate let-ports="value" *ngIf="filters.gerentes?.length > 1">
+				<div class="ionic-selectable-value-item">
+					{{filters.gerentes.length}} seleccionadas
+				</div>
+			</ng-template>
+		</ionic-selectable>
+	</ion-item>
+
+		
+		
+	<!-- Filtro por comunicados -->
+	<ion-item no-lines>
+		<ion-label class="customPadding lh-15">{{module}}:</ion-label>
+		<ionic-selectable *ngIf="filters" item-content [(ngModel)]="filters.news" [items]="news" itemValueField="id" closeButtonText="Cancelar" [canSearch]="true" (onSearch)="onSearchNews($event)" (onChange)="getStatistics()" [isMultiple]="true" [searchFailText]="'No se encontraron ' + module + '.'" [searchPlaceholder]="'Búsqueda'">
+			<ng-template ionicSelectableValueTemplate let-ports="value">
+				<div class="ionic-selectable-value-item">
+					{{filters.news.length}} seleccionados
+				</div>
+			</ng-template>
+			<ng-template ionicSelectablePlaceholderTemplate>
+				<div class="ionic-selectable-value-item">
+					Todos
+				</div>
+			</ng-template>
+			<ng-template ionicSelectableItemTemplate let-port="item" let-isPortSelected="isItemSelected" text-wrap>
+				<h3 ion-text text-wrap>{{port.name}}</h3>
+			</ng-template>
+		</ionic-selectable>
+	</ion-item>
+
+	<ion-list>
+		<ion-item text-center no-lines *ngIf="requesting">
+			<ion-spinner></ion-spinner>
+		</ion-item>
+		<div *ngIf="!requesting">
+			<div *ngIf="statistics">
+
+				<ion-item no-padding text-center no-lines *ngIf="statistics.top">
+					<ion-row>
+						<ion-col>
+							<h1 ion-text color="primary"><strong>{{statistics.top.promedio_lectura ? statistics.top.promedio_lectura: 0}}%</strong></h1>
+							<small>Lectura</small>
+						</ion-col>
+						<ion-col>
+							<h1 ion-text color="primary"><strong>{{statistics.top.promedio_comprension > 0 ?
+							statistics.top.promedio_comprension + "%": 'No aplica' }}</strong></h1>
+							<small>Comprensión</small>
+						</ion-col>
+						<ion-col *ngIf="statistics.top.preguntas && (statistics.top.preguntas.promedio || statistics.top.preguntas.promedio == 0)">
+							<h1 ion-text color="primary">
+								<strong>{{statistics.top.preguntas.promedio}}%</strong>
+							</h1>
+							<small>Promedio <br>de respuestas</small>
+						</ion-col>
+					</ion-row>
+				</ion-item>
+
+				<ion-item no-padding text-center no-lines *ngIf="statistics.top">
+					<ion-row>
+						<ion-col>
+							<small ion-text color="primary"><strong>{{statistics.top.cantidad_lectura}}</strong></small>
+							<small>Leídos</small>
+						</ion-col>
+						<ion-col>
+							<small ion-text color="primary"><strong>{{statistics.top.cantidad_comprension}}</strong>
+							</small>
+							<small>Comprendidos</small>
+						</ion-col>
+						<ion-col *ngIf="statistics.top.preguntas && (statistics.top.preguntas.promedio || statistics.top.preguntas.promedio == 0)"></ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col>
+							<small ion-text color="primary"><strong>{{statistics.top.total_lectura}}</strong></small>
+							<small>Asignaciones</small>
+						</ion-col>
+						<ion-col>
+							<small ion-text color="primary"><strong>{{statistics.top.total_comprension}}</strong>
+							</small>
+							<small>Respondidos</small>
+						</ion-col>
+						<ion-col *ngIf="statistics.top.preguntas && (statistics.top.preguntas.promedio || statistics.top.preguntas.promedio == 0)"></ion-col>
+					</ion-row>
+				</ion-item>
+
+				<ion-item no-padding text-center no-lines *ngIf="!statistics.top">
+					<ion-row>
+						<ion-col col-6>
+							<small ion-text color="primary"><strong>0</strong></small>
+							<small>Leídos</small>
+						</ion-col>
+						<ion-col col-6>
+							<small ion-text color="primary"><strong>0</strong></small>
+							<small>Comprendidos</small>
+						</ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col col-6>
+							<small ion-text color="primary"><strong>0</strong></small>
+							<small>Evaluaciones</small>
+						</ion-col>
+						<ion-col col-6>
+							<small ion-text color="primary"><strong>0</strong></small>
+							<small>Respondidos</small>
+						</ion-col>
+					</ion-row>
+				</ion-item>
+
+				<ion-list-header *ngIf="navParams.data.zona_id" no-margin no-padding class="tamañoCustom2" text-center color="primary">
+					{{ 'Sucursales' | synonymous }}
+				</ion-list-header>
+				<ion-list-header *ngIf="!navParams.data.zona_id" no-margin no-padding class="tamañoCustom2" text-center color="primary">
+					{{'Zonas' | synonymous}}
+				</ion-list-header>
+
+				<ion-item class="item-text-wrap p-none" *ngIf="statistics.bot && statistics.bot.length === 0">
+					<div class="p-md pt-md">
+						<span>No hay resultado con los filtros seleccionados</span>
+					</div>
+				</ion-item>
+
+				<div class="card">
+					<ion-item *ngIf="statistics.bot && statistics.bot.length > 0" no-lines>
+						<div class="table-striped">
+							<div class="customBorderBottom" *ngFor="let botData of statistics.bot" (click)="goToDetails(botData)">
+								<ion-row>
+									<ion-col col-12 text-center>
+										<h2>{{botData.nombre}}</h2>
+									</ion-col>
+								</ion-row>
+								<ion-row>
+									<ion-col text-center>
+										<small ion-text class="customTamañoDatoSucursal" color="primary">
+											{{botData.datos.promedio_lectura ? botData.datos.promedio_lectura: 0}}%
+										</small>
+										<br>
+										<small>
+											Lectura ({{botData.datos.cantidad_lectura ? botData.datos.cantidad_lectura: 0}} / {{botData.datos.total_lectura? botData.datos.total_lectura: 0}})
+										</small>
+									</ion-col>
+									<ion-col text-center>
+										<small *ngIf="botData.datos.total_comprension > 0" ion-text class="customTamañoDatoSucursal" color="primary">
+											{{botData.datos.promedio_comprension? botData.datos.promedio_comprension: 0}}%
+										</small>
+										<small *ngIf="botData.datos.total_comprension == 0" class="customTamañoDatoSucursal">N/A
+										</small>
+										<br>
+										<small>Comprensión</small>
+										<small *ngIf="botData.datos.total_comprension > 0">({{botData.datos.cantidad_comprension ? botData.datos.cantidad_comprension:
+											0}} / {{botData.datos.total_comprension ? botData.datos.total_comprension: 0}})
+										</small>
+									</ion-col>
+
+									<ion-col text-center *ngIf="botData.preguntas && (botData.preguntas.promedio || botData.preguntas.promedio == 0)">
+										<small ion-text ion-text class="customTamañoDatoSucursal" color="primary">
+											{{botData.preguntas.promedio}}%
+										</small>
+										<br>
+										<small>Promedio <br>de respuestas</small>
+									</ion-col>
+								</ion-row>
+							</div>
+						</div>
+					</ion-item>
+				</div>
+
+				<div *ngIf="settings.zonalReadVisible && statistics.com_cargos">
+
+					<!-- Detalle de usuarios (Sub gerentes) -->
+					<div *ngIf="settings.showSubManagers && statistics.com_cargos.sub_gerente && statistics.com_cargos.sub_gerente.detalle_usuario && statistics.com_cargos.sub_gerente.detalle_usuario.length">
+						<ion-list-header no-margin color="primary">
+							<ion-row>
+								<ion-col col-12 text-center>
+									Sub Gerentes
+								</ion-col>
+							</ion-row>
+						</ion-list-header>
+
+						<ion-item no-padding text-center no-lines>
+							<ion-row>
+								<ion-col col-6>
+									<h1 ion-text color="primary"><strong>{{statistics.com_cargos.sub_gerente.stats.porcentaje_leido ? statistics.com_cargos.sub_gerente.stats.porcentaje_leido : 0}}%</strong></h1>
+									<small>Lectura</small>
+								</ion-col>
+								<ion-col col-6>
+									<h1 ion-text color="primary"><strong>{{statistics.com_cargos.sub_gerente.stats.porcentaje_comprendido ?
+									statistics.com_cargos.sub_gerente.porcentaje_comprendido : 0 }}%</strong></h1>
+									<small>Comprensión</small>
+								</ion-col>
+							</ion-row>
+						</ion-item>
+
+						<ion-item no-padding text-center no-lines>
+							<ion-row>
+								<ion-col col-6>
+									<small ion-text color="primary"><strong>{{statistics.com_cargos.sub_gerente.stats.leidos}}</strong></small>
+									<small>Leídos</small>
+								</ion-col>
+								<ion-col col-6>
+									<small ion-text color="primary"><strong>{{statistics.com_cargos.sub_gerente.stats.comprendidos}}</strong></small>
+									<small>Comprendidos</small>
+								</ion-col>
+							</ion-row>
+							<ion-row>
+								<ion-col col-6>
+									<small ion-text color="primary"><strong>{{statistics.com_cargos.sub_gerente.stats.total}}</strong>
+									</small>
+									<small>Asignaciones</small>
+								</ion-col>
+								<ion-col col-6>
+									<small ion-text color="primary"><strong>{{statistics.com_cargos.sub_gerente.stats.respondidos}}</strong>
+									</small>
+									<small>Respondidos</small>
+								</ion-col>
+							</ion-row>
+						</ion-item>
+
+						<ion-list-header no-margin color="secondary" class="sub-header-manager">
+							<ion-row>
+								<ion-col col-6 text-left>
+									Nombre
+								</ion-col>
+								<ion-col col-3 text-center>
+									Lectura
+								</ion-col>
+								<ion-col col-3 text-center>
+									Compr.
+								</ion-col>
+							</ion-row>
+						</ion-list-header>
+						<ion-item *ngFor="let user of statistics.com_cargos.sub_gerente.detalle_usuario">
+							<ion-row>
+								<ion-col col-6>
+									<ion-item no-lines no-padding text-wrap text-left>
+										<h3>{{user.nombre}}</h3>
+									</ion-item>
+								</ion-col>
+								<ion-col col-3>
+									<ion-item no-lines no-padding text-wrap text-center>
+										<b>{{user.porcentaje_leido}}%</b>
+										<br>
+										{{user.leidos}} / {{user.total}}
+									</ion-item>
+								</ion-col>
+								<ion-col col-3>
+									<ion-item no-lines no-padding text-wrap text-center>
+										<b>{{user.porcentaje_comprendido}}%</b>
+										<br>
+										({{user.comprendidos}} / {{user.total}})
+									</ion-item>
+								</ion-col>
+							</ion-row>
+						</ion-item>
+					</div>
+
+					<div *ngIf="settings.showZonal && statistics.com_cargos.zonal">
+						<!-- Detalle de zonal -->
+						<div *ngIf="statistics.com_cargos.zonal.stats">
+							<ion-list-header no-margin color="primary">
+								<ion-row>
+									<ion-col col-12 text-center>
+										{{'Zonales' | synonymous}}
+									</ion-col>
+								</ion-row>
+							</ion-list-header>
+
+							<ion-item no-padding text-center no-lines>
+								<ion-row>
+									<ion-col col-6>
+										<h1 ion-text color="primary"><strong>{{statistics.com_cargos.zonal.stats.porcentaje_leido ? statistics.com_cargos.zonal.stats.porcentaje_leido : 0}}%</strong></h1>
+										<small>Lectura</small>
+									</ion-col>
+									<ion-col col-6>
+										<h1 ion-text color="primary"><strong>{{statistics.com_cargos.zonal.stats.porcentaje_comprendido ?
+										statistics.com_cargos.zonal.porcentaje_comprendido : 0 }}%</strong></h1>
+										<small>Comprensión</small>
+									</ion-col>
+								</ion-row>
+							</ion-item>
+
+							<ion-item no-padding text-center no-lines>
+								<ion-row>
+									<ion-col col-6>
+										<small ion-text color="primary"><strong>{{statistics.com_cargos.zonal.stats.leidos}}</strong></small>
+										<small>Leídos</small>
+									</ion-col>
+									<ion-col col-6>
+										<small ion-text color="primary"><strong>{{statistics.com_cargos.zonal.stats.comprendidos}}</strong></small>
+										<small>Comprendidos</small>
+									</ion-col>
+								</ion-row>
+								<ion-row>
+									<ion-col col-6>
+										<small ion-text color="primary"><strong>{{statistics.com_cargos.zonal.stats.total}}</strong>
+										</small>
+										<small>Asignaciones</small>
+									</ion-col>
+									<ion-col col-6>
+										<small ion-text color="primary"><strong>{{statistics.com_cargos.zonal.stats.respondidos}}</strong>
+										</small>
+										<small>Respondidos</small>
+									</ion-col>
+								</ion-row>
+							</ion-item>
+						</div>
+
+
+						<!-- Lista de zonales -->
+						<div *ngIf="statistics.com_cargos.zonal.detalle_usuario && statistics.com_cargos.zonal.detalle_usuario.length">
+							<!-- <ion-list-header no-margin color="primary">
+								<ion-row>
+									<ion-col col-12 text-center>
+										Zonales
+									</ion-col>
+								</ion-row>
+							</ion-list-header> -->
+							<ion-list-header no-margin color="secondary" class="sub-header-manager">
+								<ion-row>
+									<ion-col col-6 text-left>
+										Nombre
+									</ion-col>
+									<ion-col col-3 text-center>
+										Lectura
+									</ion-col>
+									<ion-col col-3 text-center>
+										Compr.
+									</ion-col>
+								</ion-row>
+							</ion-list-header>
+							<ion-item *ngFor="let user of statistics.com_cargos.zonal.detalle_usuario">
+								<ion-row>
+									<ion-col col-6>
+										<ion-item no-lines no-padding text-wrap text-left>
+											<h3>{{user.nombre}}</h3>
+										</ion-item>
+									</ion-col>
+									<ion-col col-3>
+										<ion-item no-lines no-padding text-wrap text-center>
+											<b>{{user.porcentaje_leido}}%</b>
+											<br>
+											{{user.leidos}} / {{user.total}}
+										</ion-item>
+									</ion-col>
+									<ion-col col-3>
+										<ion-item no-lines no-padding text-wrap text-center>
+											<b>{{user.porcentaje_comprendido}}%</b>
+											<br>
+											({{user.comprendidos}} / {{user.total}})
+										</ion-item>
+									</ion-col>
+								</ion-row>
+							</ion-item>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</ion-list>
+</ion-content>

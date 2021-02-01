@@ -1,0 +1,30 @@
+<!--<ion-item class="item-divider item-muted fade padding">
+    <ion-item class="item-fondo item-text-wrap padding">
+        <b class="positive item-text-wrap">{{alternativa.subpregunta.nombre}}</b>
+    </ion-item>
+    <ion-radio
+            ng-repeat="subalternativa in alternativa.subpregunta.alternativas"
+            ng-model="detailCtrl.formulario.pregunta[pregunta.id].subpregunta[alternativa.subpregunta.alternativa_id].respuesta"
+            class="item-text-wrap"
+            ng-value="subalternativa.id"
+            name="alt"
+            ng-disabled="detailCtrl.deshabilitar"
+    >
+        {{subalternativa.nombre}}
+    </ion-radio>
+</ion-item>-->
+
+
+<ion-list *ngIf="alternativa && alternativa.subpregunta && alternativa.subpregunta != null && alternativa.subpregunta.alternativas">
+    <ion-item *ngFor="let alter of alternativa.subpregunta.alternativas">
+        <ion-label>{{alter.nombre}}</ion-label>
+        <ion-radio (ionSelect)="limpiarAlternativasRadio2(alternativa.subpregunta.alternativas, alter, 'visita')"
+                   [(ngModel)]="alter.checked"
+                   [checked]="alter.checked"
+                   [disabled]="checklistEnviado"
+                   class="item-text-wrap"
+                   ngDefaultControl
+                   (ngModelChange)="onChange()">
+        </ion-radio>
+    </ion-item>
+</ion-list>

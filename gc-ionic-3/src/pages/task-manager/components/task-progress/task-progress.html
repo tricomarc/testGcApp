@@ -1,0 +1,73 @@
+<ion-header box-shadow>
+  <ion-navbar>
+    <ion-buttons end *ngIf="task && task.tipoTarea == 'NUMERICA'">
+			<button (click)="sendEmail()" ion-button icon-only clear small>
+				<ion-icon name="ios-mail-outline"></ion-icon>
+			</button>
+    </ion-buttons>
+    
+    <ion-title>Detalle asignación</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+  <div padding *ngIf="task">
+    
+    <stats-summary (onStats)="onStats($event)" [data]="task"></stats-summary>
+
+    <ion-row>
+      <ion-col>
+        <div class="task view border-radius box-shadow">
+          <ion-badge color="primary">{{task.usuarios.length}} usuarios</ion-badge>
+          <ion-badge color="light">Vencimiento: <b ion-text
+              text-capitalize>{{task.vencimiento | date: 'MMM dd - HH:mm'}}</b></ion-badge>
+          <h6 ion-text color="primary" class="titulo">
+            {{task.tareaNombre}}
+          </h6>
+          <h6 ion-text color="primary" class="subtitulo">
+            Descripción de la tarea
+          </h6>
+          <p text-left>
+            {{task.tareaDescripcion ? task.tareaDescripcion : 'Sin descripción'}}
+          </p>
+          <h6 ion-text color="primary" class="subtitulo">Comentario</h6>
+          <p text-left>
+            {{task.tareaComentario ? task.tareaComentario : 'Sin comentario'}}
+          </p>
+
+          <h6 ion-text color="primary" class="subtitulo">Usuarios asignados</h6>
+          <ion-row>
+            <ion-col col-3 *ngFor="let user of task.usuarios">
+              <div class="asignados-xl" text-center>
+                <ion-badge [color]="user.estadoColor" margin-bottom>{{user.estado}}</ion-badge>
+                <img [src]="user.imagen ? user.imagen : 'assets/img/resources/avatar.png'" />
+                <p ion-text color="primary" no-margin>{{user.nombre}} {{user.apellidos}}</p>
+                <ion-badge color="light" margin-bottom>{{user.cargoNombre}}</ion-badge>
+                <!-- <div class="icono-estado-sm" *ngIf="user.estadoAlias === 'realizado'">
+                  <ion-icon name="checkmark" color="success"></ion-icon>
+                </div> -->
+              </div>
+            </ion-col>
+          </ion-row>
+        </div>
+      </ion-col>
+    </ion-row>
+    
+    <ion-list style="padding: 14px;" no-lines *ngIf="task.respuestas && task.respuestas.length > 0">
+      <ion-label color="primary">Acumulado</ion-label>
+      <ion-row class="center" *ngFor="let response of task.respuestas">
+        <ion-col col-10>
+          <ion-label class="color-back">{{response.pregunta_nombre}}</ion-label>
+        </ion-col>
+        <ion-col col-2 align="center">
+          <label style="font-size: 10px" >Total</label><br>
+          <label color="primary" ion-text  style="font-size: 25px; font-weight: bold;">{{response.total || 0}}</label>
+        </ion-col>
+      </ion-row>
+    </ion-list>
+
+  </div>
+
+
+</ion-content>

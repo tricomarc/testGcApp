@@ -1,0 +1,70 @@
+<ion-header box-shadow>
+    <ion-navbar>
+        <ion-title>Mecánica</ion-title>
+    </ion-navbar>
+    <ion-segment [(ngModel)]="view" color="primary" padding>
+        <ion-segment-button value="awards">
+            Premios
+        </ion-segment-button>
+        <ion-segment-button value="files">
+            Archivos
+        </ion-segment-button>
+    </ion-segment>
+</ion-header>
+
+<ion-content padding>
+    <ion-refresher (ionRefresh)="refreshFolders($event)" color="dark">
+        <ion-refresher-content pullingText="Actualizar" refreshingText="Actualizando..."></ion-refresher-content>
+    </ion-refresher>
+    <div [ngSwitch]="view">
+        <div *ngSwitchCase="'awards'">
+            <div *ngIf="!requesting">
+                <div *ngIf="awards.length">
+                    <ion-item no-lines *ngFor="let award of awards">
+                        <ion-item no-lines (click)="showAward(award)" text-wrap no-padding>
+                            <h2 ion-text color="primary" style="margin-top: 0px !important;">
+                                {{award.comunicado_nombre}}
+                            </h2>
+                            <p><b>Tipo: </b>{{award.tipo_nombre}}</p>
+                            <p>
+                                <b>Vigencia: </b> 
+                                {{award.fecha_inicio | date: "dd-MM-yyyy"}} - {{award.fecha_termino | date: "dd-MM-yyyy"}}
+                            </p>
+                            <p *ngIf="award.estado"><b>Estado: </b> Leído </p>
+                            <p *ngIf="!award.estado"><b>Estado: </b> No Leído </p>
+    
+                            <ion-icon name='ios-arrow-forward' item-end color="default" style="margin-right: -10px;" class="icon-lg"></ion-icon>
+                        </ion-item>
+                    </ion-item>
+                </div>
+                <ion-item no-lines text-center *ngIf="!awards.length">
+                    <p>No hemos encontrado premios.</p>
+                </ion-item>
+            </div>
+            <ion-item *ngIf="requesting" text-center no-lines>
+                <ion-spinner></ion-spinner>
+                <p ion-text margin-top>Obteniendo premios...</p>
+            </ion-item>
+        </div>
+
+        <div *ngSwitchCase="'files'">
+            <div *ngIf="!requesting">
+                <div *ngIf="files.length">
+                    <ion-item no-lines *ngFor="let file of files" (click)="downloadFile(file)" class="custom-bb">
+						<ion-icon item-start margin-top margin-left name="ios-document" class="custom-icon"></ion-icon>
+						<h3 ion-text text-wrap style="margin-top: 0px !important;">{{file.nombre ? file.nombre : (file.nombre_archivo ? file.nombre_archivo : 'No informado')}}</h3>
+						<!-- <p>23kb (Programar este dato)</p> -->
+						<ion-icon name="ios-cloud-download-outline" color="primary" item-right></ion-icon>
+					</ion-item>
+                </div>
+                <ion-item no-lines text-center *ngIf="!files.length">
+                    <p>No hemos encontrado archivos.</p>
+                </ion-item>
+            </div>
+            <ion-item *ngIf="requesting" text-center no-lines>
+                <ion-spinner></ion-spinner>
+                <p ion-text margin-top>Obteniendo archivos...</p>
+            </ion-item>
+        </div>
+    </div>
+</ion-content>

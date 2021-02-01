@@ -1,0 +1,72 @@
+<ion-content class="background-color-transparent">
+
+  <!-- Visualizador de foto -->
+  <div *ngIf="picture" class="picture">
+    <div class="img-wrapper">
+      <img [src]="picture">
+    </div>
+
+
+    <div class="bar">
+      <div class="buttons-bar">
+        <button ion-button class="btn-left" (click)="back()">
+          <ion-icon name="md-arrow-round-back"></ion-icon>
+        </button>
+        
+        <button ion-button class="btn-center" (click)="ok()">
+          <ion-icon name="md-checkmark"></ion-icon>
+        </button>
+  
+        <button ion-button class="btn-right" (click)="cancel()">
+          <ion-icon name="md-close"></ion-icon>
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Vista Camara -->
+  <div *ngIf="!picture" #zoom class="base">
+
+    <!-- BackButton -->
+    <div class="back" *ngIf="!cameraConfig.zoom.on">
+      <button ion-button clear icon-only (click)="back()">
+        <ion-icon name="ios-arrow-back"></ion-icon>
+      </button>
+    </div>
+
+    <!-- ZOOM PANE -->
+    <ion-item no-lines class="range-zoom"  *ngIf="cameraConfig.zoom.on">
+      <ion-range mode="ios" color="primary" style="margin: 0px; padding: 0px; padding-top: 0px; padding-left: 4px; width: 200px;" 
+        [(ngModel)]="cameraConfig.zoom.set" 
+        (ionChange)="onChangeZoom()"
+        min="cameraConfig.zoom.min" max="cameraConfig.zoom.max" color="secondary">
+      </ion-range>
+    </ion-item>
+
+    <!-- Cuadro Acciones -->
+    <div class="box-wrapper" [style.width]="cameraOpts.width+'px'">
+      <div class="tools">
+        <!-- ZOOM -->
+        <button ion-button clear class="brde-btn"
+          style="zoom: 1.3"  
+          (click)="zoomBar()" >
+          <ion-icon name="md-aperture"></ion-icon>
+        </button>
+
+        <!-- TAKE PICTURE -->
+        <button ion-button clear icon-only class="btn-take-picture" (click)="takePicture()"></button>
+
+        <!-- Flash -->
+        <button ion-button clear  class="brde-btn">
+          <ion-icon name="ios-flash" 
+            [ngStyle]="!cameraConfig.flash ? {'color': 'white', 'zoom': '1.4'} : { 'color': '#fed842', 'zoom': '1.4'} "
+            (click)="onFlash()"></ion-icon>
+        </button>
+      </div>
+    </div>
+
+
+  </div>
+
+</ion-content>

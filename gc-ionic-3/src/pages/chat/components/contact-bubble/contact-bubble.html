@@ -1,0 +1,7 @@
+
+<ion-avatar item-start>
+	<img [lazyLoad]="contact.avatar ? contact.avatar : 'assets/img/resources/avatar.png'" [defaultImage]="'assets/img/resources/avatar.png'" class="contact-avatar" alt="">
+	<ion-icon name="ios-close-circle" class="remove-contact-icon" (click)="removeIconClicked()"></ion-icon>
+	<div class="background-icon-circle"></div>
+</ion-avatar>
+<p ion-text text-wrap>{{contact.name}}</p>

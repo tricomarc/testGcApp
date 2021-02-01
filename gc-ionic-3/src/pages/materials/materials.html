@@ -1,0 +1,70 @@
+<ion-header box-shadow>
+    <ion-navbar>
+		<button ion-button menuToggle>
+			<ion-icon icon-menu name="menu" color="primary"></ion-icon>
+		</button>
+		
+		<div buy>
+			<ion-title>
+				<span ion-text color="primary"> {{ module }} </span>
+			</ion-title>
+		</div>
+	</ion-navbar>
+</ion-header>
+
+<ion-content>
+	<!-- refresher -->
+	<ion-refresher (ionRefresh)="refreshMaterials($event)" color="primary">
+	    <ion-refresher-content pullingText="Actualizar" refreshingText="Actualizando..."></ion-refresher-content>
+	</ion-refresher>
+	
+	<!-- titulo -->
+	<ion-grid no-padding no-margin>
+		<ion-row>
+			<ion-col col-12>
+				<ion-list-header box-shadow no-margin no-lines>
+					<h1 header-title> Listado de Materiales </h1>
+				</ion-list-header>		
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+	
+	<!-- Filtro -->
+	<ion-toolbar>
+        <ion-item no-lines class="select-status">
+		  	<ion-label> Estado: </ion-label>
+			<ion-select [(ngModel)]="filters.currentStatus" class="select-status" interface="popover" (ngModelChange)="applyFilterByStatus()">
+			    <ion-option [value]="'Todos'"> <p> Todos </p> </ion-option>
+				
+				<ion-option *ngFor="let status of statuses" [value]="status">
+			    	<p> {{ status }} </p>
+			    </ion-option>
+			</ion-select>
+		</ion-item>
+    </ion-toolbar>
+	
+	<!-- Lista de items -->
+	<ion-list *ngIf="materials_view.length > 0">
+		<ion-item class="custom-bb" no-lines *ngFor="let material of materials_view" (click)="navigateToMaterialDetail(material.id)">
+			<ion-avatar item-start>
+				<img [src]="material.imagen_muestra ? (material.imagen_muestra | sanitizeImg) : 'assets/img/resources/default-placeholder.png'"/>
+			</ion-avatar>
+			
+			<h5 ion-text color="primary"> <b> {{ material.nombre }} </b> </h5>
+			
+			<p> <strong> Fechas de recepción: </strong> </p>
+			
+			<p> <strong> Inicio: </strong> {{ material.fecha_inicio }} </p>
+			
+			<p> <strong> Máxima: </strong> {{ material.fecha_termino }} </p>
+			
+			<p> {{ material.total_material_reportado }}/{{ material.total_material }} </p>
+			
+			<ion-icon name='ios-arrow-forward' item-end color="default" class="icon-lg" ></ion-icon>
+		</ion-item>
+	</ion-list>
+	
+	<ion-item no-lines *ngIf="materials_view.length < 1" color="energized" text-wrap text-center>
+		<h2> No hay envíos por reportar </h2>
+	</ion-item>
+</ion-content>

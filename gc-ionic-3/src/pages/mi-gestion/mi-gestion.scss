@@ -1,0 +1,61 @@
+page-mi-gestion {
+    h1 {
+        font-size:10vw !important;
+    }
+    h5 {
+        font-size:4.7vw !important;
+    }
+    
+    h6 {
+        font-size: 2.9vw !important;
+    }
+    ion-grid.fondo {
+    }
+    button.active {
+        font-weight: 900;
+    }
+    ion-segment .segment-button{
+        height: 45px !important;
+        display: flex !important;
+        justify-content: center;
+        align-items: center;
+    }
+    @media only screen and (min-width: 630px) {
+        .label-size {
+            font-size: 1.5rem !important;
+        }
+        .title-list{
+            font-size: 1.8rem !important;
+        }
+    }
+    .current {
+        position: absolute;
+	    top: 73px;
+	    left: 0;
+	    transform: translateY(-50%);
+	    -webkit-transform: translateY(-50%);
+	    text-align: center;
+	    width: 100%;
+	    z-index: 1;
+	    font-size: 1em;
+	    color: color($colors, primary);
+    }
+    .m-0 {
+		margin: 0 auto;
+    }
+    .center-col{
+        display: flex;
+        align-content: center;
+        align-items: center;
+        align-self: center;
+        justify-content: center;
+        text-align: center;
+    }   
+    .m-t{
+        margin-top: 19px;
+    }
+    .label-size {
+        // font-size: 15px !important;
+        }
+    
+}

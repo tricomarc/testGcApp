@@ -1,0 +1,91 @@
+<ion-header box-shadow [ngClass]="view === 'CAMERA' ? 'background-color-transparent no-display' : ''">
+    <ion-navbar box shadow>
+        <div buy box shadow>
+            <ion-title><span ion-text color="primary">{{module}}</span></ion-title>
+        </div>
+    </ion-navbar>
+</ion-header>
+
+<ion-content *ngIf="ready" [ngClass]="view === 'CAMERA' ? 'background-color-transparent no-display' : ''">
+    <ion-row>
+        <ion-col no-padding>
+            <ion-list-header box-shadow no-margin no-lines>
+                <h1 ion-text color="primary" header-title>Ingresar Con Fotografia</h1>
+            </ion-list-header>
+        </ion-col>
+    </ion-row>
+
+    <ion-row>
+        <ion-col class="customBorderFiltros">
+            <ion-item no-lines>
+                <ion-label style="font-size: 1em !important"><span ion-text color="primary">Seleccionar Sucursal</span>
+                </ion-label>
+                <ion-select style="font-size: 0.9em !important" interface="popover" [disabled]="isCheckout"
+                            [(ngModel)]="selectedSuc" (ngModelChange)="changeSuc(selectedSuc)">
+                    <ion-option style="font-size: 0.9em !important" *ngFor="let sucursal of markers"
+                                [value]="sucursal.id">
+                        {{sucursal.nombre}}
+                    </ion-option>
+                </ion-select>
+            </ion-item>
+        </ion-col>
+    </ion-row>
+
+    <ion-row>
+        <ion-col col-8 offset-2 text-center>
+            <h4>Toma una fotografia en la que salgas tú y el local.</h4>
+        </ion-col>
+    </ion-row>
+
+    <ion-row no-margin no-padding>
+        <ion-col no-padding no-margin>
+            <div class="block-insert" text-center="">
+                <div class="button button-lg button-default button-default-lg customButtonSizeFoto" *ngIf="photo"
+                     [style.backgroundImage]="'url(' + photo + ')'"></div>
+
+                <button *ngIf="!photo" button-follow="" ion-button="" (click)="tomarFoto();"
+                        icon-only class="button button-lg button-default button-default-lg customButtonSizeButton">
+                    <ion-icon name="camera"></ion-icon>
+                    <div class="button-effect"></div>
+                </button>
+            </div>
+        </ion-col>
+    </ion-row>
+
+    <ion-row no-padding no-margin>
+        <ion-col text-center no-padding no-margin *ngIf="photo">
+            <button ion-button icon-only clear (click)="tomarFoto();">
+                <ion-icon name="ios-reverse-camera" class="customButtonSizeEdit" color="primary"></ion-icon>
+            </button>
+            <button ion-button icon-only clear *ngIf="photo" (click)="deletePhoto();">
+                <ion-icon name="md-close" class="customButtonSizeEdit" color="danger"></ion-icon>
+            </button>
+        </ion-col>
+    </ion-row>
+
+    <ion-row>
+        <ion-col col-10 offset-1>
+            <ion-item transparent>
+                <ion-input required placeholder="Contraseña" type="password" [(ngModel)]="password"></ion-input>
+            </ion-item>
+            <br>
+            <div class="block-insert" text-center (click)="sendCheckin();" *ngIf="checkin_id == 0">
+                <button ion-button color="primary" [disabled]="!checkinReady()">
+                    Checkin
+                </button>
+            </div>
+
+            <div class="block-insert" text-center (click)="sendCheckout();" *ngIf="checkin_id > 0">
+                <button ion-button color="danger" [disabled]="!checkinReady()">
+                    Checkout
+                </button>
+            </div>
+        </ion-col>
+    </ion-row>
+
+    <ion-row>
+        <ion-col col-8 offset-2 text-center>
+            <h4>{{message}}</h4>
+        </ion-col>
+    </ion-row>
+</ion-content>

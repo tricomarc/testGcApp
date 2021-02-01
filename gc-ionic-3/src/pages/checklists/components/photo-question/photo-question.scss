@@ -1,0 +1,71 @@
+photo-question {
+	.dateCenter {
+		text-align: center;
+	}
+	.coloryTamañoCustom {
+		max-height: 100% !important;
+		color: color($colors, primary);
+	}
+	.posicionCustom {
+		padding-left: 0px !important;
+		padding-right: 0px !important;
+	}
+	.tamañoFoto {
+		height: 100%;
+		width: 100%;
+		margin: auto;
+		text-align: center;
+	}
+	.tamañoTextoBoton {
+		font-size: 0.8em !important;
+	}
+	.imgCorrecta {
+		width: 230px;
+		position: absolute;
+	    margin: auto;
+	    top: 0;
+	    left: 0;
+	    right: 0;
+	    bottom: 0;
+	}
+	.izquierda{
+		right: 15px;
+		position: relative;
+		top: 47%;
+		color: #C7B3B3;
+	}
+	.derecha {
+		position: relative;
+		top: 47%;
+		color: #C7B3B3;
+	}
+	.ws-n {
+		white-space: normal !important;
+	}
+	.h-300 {
+		height: 300px !important;
+	}
+	.btn-capture {
+		min-height: 40px !important;
+	}
+	.img-unique {
+		margin: 0 auto;
+	}
+	.no-locked-opaque {
+		pointer-events: all !important;
+		opacity: 1 !important;
+		z-index: 999 !important;
+	}
+	.ta-photo-answer, textarea {
+	  width: 100% !important;
+	  margin-top: 10px !important;
+	  border-radius: 5px !important;
+	  border-color: #c4c4c4 !important;
+	}
+	.mxw-90 {
+    	max-width: 90% !important;
+    }
+    .mxw-100 {
+    	max-width: 100% !important;
+    }
+}

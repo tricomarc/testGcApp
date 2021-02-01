@@ -1,0 +1,29 @@
+<ion-header box-shadow>
+  	<ion-navbar>
+    	<ion-title>
+    		<span ion-text color="primary">LOG DE LA INCIDENCIA</span>
+    	</ion-title>
+    	<ion-buttons end>
+    		<button ion-button icon-only clear (click)="closeModal()">
+  				<ion-icon color="primary" name="md-close"></ion-icon>
+    		</button>
+  		</ion-buttons>
+  	</ion-navbar>
+</ion-header>
+
+<ion-content text-wrap>
+	<ion-grid>
+		<ion-row *ngFor="let log of logs">
+			<ion-col col-2 text-center>
+				<i class="line"></i>
+				<ion-icon class="CirculoForzado" name="ios-radio-button-on-outline" color="primary"></ion-icon>
+			</ion-col>
+			<ion-col col-10> 	
+				<h2 class="log-title">{{log.created}}</h2>
+				<p><strong>Tipo: </strong>{{log.nombre}}</p>
+				<p><strong>Descripción: </strong>{{log.descripcion}}</p>
+				<p><strong>Autor: </strong>{{log.usuario}}</p>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+</ion-content>

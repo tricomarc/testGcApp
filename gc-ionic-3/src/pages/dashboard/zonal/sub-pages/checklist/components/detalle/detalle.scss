@@ -1,0 +1,35 @@
+page-details-checklist {
+
+  ion-card-header {
+    font-weight: bold;
+  }
+  .tamañoCustom2 {
+    font-size: 1em;
+  }
+  .fuenteColor {
+    color: color($colors, primary) !important;
+  }
+  .icon-lg {
+    font-size: 3em !important;
+    color: #bbb !important;
+  }
+  .paddingEspecial {
+    padding-left: 15px !important;
+  }
+  .noPaddingBottom {
+    padding-bottom: 0px !important;
+  }
+
+  .customTamañoDatoSucursal {
+    font-size: 1.2em !important;
+  }
+  .customBorderBottom {
+    padding-top: 5px !important;
+    border-bottom: 1px solid #E3E3E3 !important;
+  }
+  h2 {
+    margin: 2px 0;
+    font-size: 1.6rem;
+    font-weight: normal;
+  }
+}

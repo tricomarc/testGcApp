@@ -1,0 +1,62 @@
+
+  
+
+<ion-content [ngStyle]="mapStatus === 2 ? {} : {'position': 'absolute', 'z-index': '9999'}">
+	<ion-header box-shadow  >
+		<ion-navbar>
+			<div buy>
+				<ion-title> <span ion-text text-center color="primary"> {{ module }} </span> </ion-title>
+			</div>
+		</ion-navbar>
+			
+		<ion-navbar>
+			<ion-grid>
+				<ion-row>
+					<ion-col col-1>
+						<div>
+						</div>
+					</ion-col>
+					
+					<!-- menu de patentes -->
+					<ion-col col-10>
+						<ion-item no-lines>
+							<ion-label class="customPadding lh-15"> Patente: </ion-label>
+							
+							<ionic-selectable
+								item-content
+								[(ngModel)]="currentTruck"
+								[items]="patents"
+								itemValueField="placa"
+								itemTextField="placa"
+								closeButtonText="Cancelar"
+								[canSearch]="true"
+								(onSearch)="onSearchTrucks($event)"
+								(onChange)="filterbyPatent()"
+								[isMultiple]="false"
+								[searchFailText]="'No se encontraron patentes'"
+								[searchPlaceholder]="'Búsqueda'">
+							</ionic-selectable>
+						</ion-item>
+					</ion-col>
+							
+					<ion-col col-1>
+						<div>
+						</div>
+					</ion-col>
+				</ion-row>
+			</ion-grid>
+		</ion-navbar>
+	</ion-header>
+
+	<!-- SI EL MAPA CARGA EXITOSAMENTE -->
+	<div *ngIf="mapStatus !== 2" style="width: 100%; height: 100%;">			
+		<!-- mapa -->
+		<div id="map_canvas"></div>
+	</div>
+
+	<!-- caso cuando el mapa falla/no carga/offline -->
+	<div *ngIf="mapStatus === 2">  
+		NO HAY MAPA
+		<div [hidden]="true" id="map_canvas_hidden"></div>
+	</div>
+</ion-content>

@@ -1,0 +1,55 @@
+historicas {
+	.customPadding {
+		padding-top: 25px !important;
+	}
+
+	.customFontSize {
+	 font-size: 1.2em !important;
+	}
+
+	.myCustomSelect {
+    max-width: 100% !important;
+    font-size: 1em !important;
+    padding-top: 13px !important;
+  }
+
+  .paddingEstilo {
+    margin-bottom: 10px;
+  }
+
+  .estiloTexto1 {
+    font-size: 0.9em !important;
+    color: color($colors, primary);
+  }
+
+  .estiloTexto2 {
+    font-size: 0.7em !important;
+    color: color($colors, royal);
+  }
+
+  .item-md h2 {
+    font-weight: 600;
+  }
+
+  .custom-bb {
+    border-bottom: 1px solid #ddd !important;
+  }
+
+  .custom-bb:last-child {
+    border-bottom: none !important;
+  }
+
+  .espaciadoIcono {
+    color: #ccc !important;
+    font-size: 1.5em !important;
+    padding-top: 9px !important;
+  }
+
+  .tamañoCustomFuente {
+    font-size: 1.2em !important;
+  }
+
+  .fix-fechas {
+    padding-top: 7px !important;
+  }
+}

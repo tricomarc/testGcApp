@@ -1,0 +1,235 @@
+page-page4 {
+	//-----------------------------ESTILOS HEADER--------------------------------------//
+	.sizecustom{
+		height: 70px !important;
+	}
+	.mbpb-0{
+		margin-bottom: 0px !important;
+		padding-bottom: 0px !important;
+	}
+	.mtpt-x{
+		margin-top: 20px !important;
+	}
+
+	.tamanoFoto{
+		height: 50px !important;
+		width: 50px !important;
+	}
+	.fotoPosicion{
+		padding: 0px !important;
+		margin: 0px !important;
+	}
+	.customPaddingGrid{
+		padding-top: 8px !important;
+	}
+	.customPaddingBottom{
+		margin-bottom: 0px !important;
+		padding-bottom: 0px !important;
+	}
+	.text-overflow{
+		white-space: nowrap !important;
+		overflow: hidden !important;
+		text-overflow: ellipsis !important; 
+	}
+	.customPaddingTop{
+		margin-top: 0px !important;
+		padding-top: 0px !important;
+	}
+	.fontSize1{
+		font-size: 16px !important;
+	}
+	.fontSize2{
+		text-transform: none !important;
+		font-size: 12px !important;
+	}
+	.iconoLlamada{
+		padding-top: 5px !important;
+		font-size: 25px !important;
+		color: color($colors, primary);
+	}
+	.customAlign{
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+	}
+	//-----------------------------ESTILOS HEADER--------------------------------------//
+
+	//-----------------------------ESTILOS BODY BURBUJAS DE CHAT izquierda--------------------------//
+
+
+
+.line-breaker-left {
+  white-space: pre-line; }
+
+    .message-wrap-left {
+    	padding: 0 10px; }
+    	.message-wrap-left .message-left {
+    		position: relative;
+    		padding: 7px 0; }
+    		.message-wrap-left .message-left .user-img-left {
+    			position: absolute;
+    			border-radius: 45px;
+    			width: 45px;
+    			height: 45px;
+    			box-shadow: 0 0 2px rgba(0, 0, 0, 0.36);
+    		}
+    		.message-wrap-left .message-left .msg-detail-left {
+    			width: 100%;
+    			display: inline-block; }
+    			.message-wrap-left .message-left .msg-detail-left p {
+    				margin: 0; }
+    				.message-wrap-left .message-left .msg-detail-left .msg-info-left p {
+    					margin-top: 8px;
+    					margin-left: 52px;
+    					font-size: .8em;
+    					color: #888; }
+    					.message-wrap-left .message-left .msg-detail-left .msg-content-left {
+    						margin-left: 50px;
+    						background-color: #C0BEBE;
+    						position: relative;
+    						margin-top: 0px;
+    						border-radius: 5px;
+    						padding: 8px;
+    						border: 1px solid #ddd;
+    						color: #fff;
+    						width: auto;
+    						max-width: 70%; }
+    						.message-wrap-left .message-left .msg-detail-left .msg-content-left span.triangle-left {
+    							left: -3px;
+    							background-color: #C0BEBE;
+    							border-radius: 2px;
+    							height: 8px;
+    							width: 8px;
+    							top: 8px;
+    							display: block;
+    							border-style: solid;
+    							border-color: #C0BEBE;
+    							border-width: 1px;
+    							-webkit-transform: rotate(45deg);
+    							transform: rotate(45deg);
+    							position: absolute; }
+
+//-----------------------------ESTILOS BODY BURBUJAS DE CHAT izquierda--------------------------//
+
+	//-----------------------------ESTILOS BODY BURBUJAS DE CHAT derecha--------------------------//
+
+
+	.line-breaker-right {
+		text-align: right;
+		white-space: pre-line; }
+
+		.message-wrap-right {
+			padding: 0 10px; }
+			.message-wrap-right .message-right {
+				position: relative;
+				padding: 7px 0; }
+				.message-wrap-right .message-right .user-img-right {
+					position: absolute;
+					border-radius: 45px;
+					right: 5px;
+					width: 45px;
+					height: 45px;
+					box-shadow: 0 0 2px rgba(0, 0, 0, 0.36);
+				}
+				.message-wrap-right .message-right .msg-detail-right {
+					width: 100%;
+					display: inline-block; }
+					.message-wrap-right .message-right .msg-detail-right p {
+						margin: 0; }
+						.message-wrap-right .message-right .msg-detail-right .msg-info-right p {
+							text-align: right;
+							margin-top: 8px;
+							margin-right: 60px;
+							font-size: .8em;
+							color: #888; }
+							.message-wrap-right .message-right .msg-detail-right .msg-content-right {
+								margin-left: 50px;
+								background-color: #0F8DF0;
+								position: relative;
+								margin-top: 0px;
+								border-radius: 5px;
+								padding: 8px;
+								border: 1px solid #ddd;
+								color: #fff;
+								width: auto;
+								max-width: 70%; }
+								.message-wrap-right .message-right .msg-detail-right .msg-content-right span.triangle-right {
+									right: -3px;
+									background-color: #0F8DF0;
+									border-radius: 2px;
+									height: 8px;
+									width: 8px;
+									top: 8px;
+									display: block;
+									border-style: solid;
+									border-color: #0F8DF0;
+									border-width: 1px;
+									-webkit-transform: rotate(45deg);
+									transform: rotate(45deg);
+									position: absolute; }
+
+//-----------------------------ESTILOS BODY BURBUJAS DE CHAT derecha--------------------------//
+//---------------------------Foooter-----------------------------//
+ion-footer {
+	margin-bottom: 2px;
+	background-color: #D4D4D4;
+	height: 45px;
+	border-radius: 100px;
+	box-shadow: 0 0 4px rgba(0, 0, 0, 0.11);
+	// background-color: #fff; 
+}
+.input-wrap {
+	padding-top: 15px;
+	padding: 5px;
+	display: flex; 
+}
+.input-wrap textarea {
+	position: relative;
+	background-color: #E5E5E5;
+	margin-right: 0px;
+	margin-top: 0px;
+	padding-top: 8px;
+	margin-left: 0px;
+	padding-left: 15px;
+	height: 35px;
+	flex: 1;
+	border-radius: 100px;
+	border: 1px #C7C7C7;
+	border-style: solid; 
+}
+.BotonesSizesEnviar{
+	font-size: 45px !important;
+	-webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+.BotonesSizesCamara{
+	font-size: 33px !important;
+}
+.BotonesSizesClip{
+	font-size: 33px !important;
+}
+.posicionEnviar{
+	width: 40px;
+	position: relative;
+	top: -5px;
+	right: 4px;
+}
+.posicionCamara{
+	width: 35px;
+	position: relative;
+	top: -5px;
+	right: 2px;
+}
+.posicionClip{
+	width: 30px;
+	position: relative;
+	top: -5px;
+	right: 0px;
+}
+
+
+
+
+
+}

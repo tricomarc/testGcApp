@@ -1,0 +1,125 @@
+<ion-header box-shadow>
+  <ion-navbar>
+<!--     <button  *ngIf="!sub_directory_id" ion-button menuToggle>
+      <ion-icon icon-menu name="menu" color="primary"></ion-icon>
+    </button> -->
+    <div buy>
+      <ion-title>
+        <span ion-text color="primary">CHAT</span>
+      </ion-title>
+    </div>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+	<!----------------------PERSONA A LA CUAL SE ESTA HABLANDO---------------------------------->
+	<ion-grid no-padding no-margin>
+		<ion-row class="mbpb-0">
+			<ion-col col-12 class="mbpb-0">
+				<ion-list-header box-shadow no-margin no-lines class="sizecustom">
+					<ion-row class="mtpt-x">
+						<ion-col col-2>
+							<ion-avatar item-start class="fotoPosicion">
+								<img class="tamanoFoto" src="https://video-images.vice.com/articles/5a0390c629d2680bfcf09b3e/lede/1516399524621-barneygettyccwcrop.jpeg" />
+							</ion-avatar>
+						</ion-col>
+						<ion-col col-7>
+							<ion-grid class="customPaddingGrid">
+								<ion-row class="customPaddingBottom">
+									<h3 item-title text-wrap text-capitalize class="text-overflow fontSize1">Barney el Dinosaurio</h3>
+								</ion-row>
+								<ion-row class="customPaddingTop">
+									<h3  text-wrap style="padding-top: 5px;" class="fontSize2">Activo</h3>
+								</ion-row>
+							</ion-grid>
+						</ion-col>
+						<ion-col col-1>
+							<ion-icon name="ios-videocam" class="iconoLlamada customAlign"></ion-icon>
+						</ion-col>
+						<ion-col col-2>
+							<ion-icon name="ios-call" class="iconoLlamada customAlign"></ion-icon>
+						</ion-col>
+					</ion-row>
+
+				</ion-list-header>    
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+<!----------------------PERSONA A LA CUAL SE ESTA HABLANDO---------------------------------->
+<!--------------------------------CONTENEDOR DEL CHAT------------------------------------>
+	<div class="ChatContainer">
+	<!---------------------------------MENSAJE DE PERSONA QUE RECIBE EL MENSAJE (el otro tipo)--------------------------->
+		<div class="mensajeIzquierda">
+			<div class="message-wrap-left">
+				<div class="message-left message.left">
+					<img class="user-img-left" src="https://video-images.vice.com/articles/5a0390c629d2680bfcf09b3e/lede/1516399524621-barneygettyccwcrop.jpeg">
+					<div class="msg-detail-left">
+						<div class="msg-info-left">
+							<p>
+								Barney&nbsp;&nbsp;&nbsp;15:15
+							</p>
+						</div>
+						<div class="msg-content-left">
+							<span class="triangle-left"></span>
+							<p class="line-breaker-left">Hola, ¿como estas?</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	<!---------------------------------MENSAJE DE PERSONA QUE RECIBE EL MENSAJE (el otro tipo)--------------------------->
+	<!---------------------------------MENSAJE DE PERSONA QUE RECIBE EL MENSAJE (el otro tipo)--------------------------->
+		<div class="mensajeIzquierda">
+			<div class="message-wrap-left">
+				<div class="message-left message.left">
+					<img class="user-img-left" src="https://video-images.vice.com/articles/5a0390c629d2680bfcf09b3e/lede/1516399524621-barneygettyccwcrop.jpeg">
+					<div class="msg-detail-left">
+						<div class="msg-info-left">
+							<p>
+								Barney&nbsp;&nbsp;&nbsp;15:17
+							</p>
+						</div>
+						<div class="msg-content-left">
+							<span class="triangle-left"></span>
+							<p class="line-breaker-left">¿Aló?</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	<!---------------------------------MENSAJE DE PERSONA QUE RECIBE EL MENSAJE (el otro tipo)--------------------------->
+
+	<!--------------------------------MENSAJE ENVIADO POR MI--------------------------------->
+		<div class="mensajederecha">
+			<div class="message-wrap-right">
+				<div class="message-right message.right">
+					<img class="user-img-right" src="https://images-na.ssl-images-amazon.com/images/G/01/digital/video/hero/TVSeries/GoDiegoGo_944600-GODIEGOGO._V392937829_RI_SX940_.jpg">
+					<div class="msg-detail-right">
+						<div class="msg-info-right">
+							<p>
+								Diego Go&nbsp;&nbsp;&nbsp;15:18
+							</p>
+						</div>
+						<div class="msg-content-right">
+							<span class="triangle-right"></span>
+							<p class="line-breaker-right">Si si, si estoy, estaba en el baño haciendo mis necesidades, mil disculpas mi buen comañero barny</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	<!--------------------------------MENSAJE ENVIADO POR MI--------------------------------->
+	</div>
+<!--------------------------------CONTENEDOR DEL CHAT------------------------------------>
+
+</ion-content>
+
+<ion-footer no-border>
+  <div class="input-wrap">
+  	 <textarea placeholder="Escriba su texto"></textarea>
+  	 <button no-margin no-padding ion-button clear icon-only item-right class="posicionClip"><ion-icon name="attach" class="BotonesSizesClip"></ion-icon></button>
+  	 <button no-margin no-padding ion-button clear icon-only item-right class="posicionCamara"><ion-icon name="ios-camera" class="BotonesSizesCamara"></ion-icon></button>
+  	 <button no-margin no-padding ion-button clear icon-only item-right class="posicionEnviar"><ion-icon name="ios-send" class="BotonesSizesEnviar"></ion-icon></button>
+
+  </div>
+</ion-footer>

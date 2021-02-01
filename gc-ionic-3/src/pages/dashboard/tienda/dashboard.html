@@ -1,0 +1,1043 @@
+<ion-header box-shadow>
+    <ion-navbar>
+        <button ion-button menuToggle>
+            <ion-icon class="icon-menu" name="menu" color="primary"></ion-icon>
+        </button>
+        <div buy>
+            <ion-title>
+                <span ion-text color="primary" class="lh-15" align="left">{{title}}</span>
+            </ion-title>
+        </div>
+        <ion-buttons end>
+            <div ion-button icon-only (click)="presentPopover($event)">
+                <span item-start class="counter" *ngIf="!leidas &&counterNotif > 0">{{counterNotif}}</span>
+                <ion-icon item-end name="notifications" color="primary"></ion-icon>
+            </div>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+<ion-content>
+    <ion-refresher (ionRefresh)="refreshDashboard($event)" color="dark">
+        <ion-refresher-content pullingText="Actualizar" refreshingText="Actualizando..."></ion-refresher-content>
+    </ion-refresher>
+    
+    <ion-row *ngIf="!dashboards">
+        <ion-item no-lines>
+            <ion-icon color="assertive" name="ios-alert"></ion-icon>
+            <p>No existen datos para el {{moduleName}} en este momento</p>
+        </ion-item>
+    </ion-row>
+    <ion-grid no-margin no-padding>
+        <ion-row>
+            <ion-col col-12>
+                <ion-list-header box-shadow no-margin no-lines>
+                    <h1 header-title ion-text color="primary">{{moduleName}}</h1>
+                </ion-list-header>
+            </ion-col>
+            <ion-col col-12>
+                <ion-list> 
+
+                    <div *ngIf="dashboardTasks">
+                        <ion-slides>
+                            <ion-slide  *ngIf="dashboardTasks && dashboardTasks.tareas && dashboardTasks.tareas.length > 0">
+                                <div class="box-md box-shadow-m border-radius" margin>
+                                    <ion-list no-margin>
+                                        <ion-list-header no-lines no-margin>
+                                            <h5 ion-text color="primary">Task Manager</h5>
+                                        </ion-list-header>
+                                    </ion-list>
+                                    <ion-list no-lines class="middle" style="height: 70%">
+                                        <div>
+                                            <ion-item text-wrap *ngFor="let task of dashboardTasks.tareas" (click)="openTask(task)">
+                                                <p ion-text color="primary">{{task.nombre}}</p>
+                                                <p>Fecha: <b>{{task.vencimiento | date: 'MMM dd - HH:mm'}}</b></p>
+                                                <p>Estado: <b>{{task.estadoNombre}}</b></p>
+                                                <ion-icon name="clipboard" item-start color="primary"></ion-icon>
+                                                <ion-icon name='ios-arrow-forward' item-end color="primary"></ion-icon>
+                                            </ion-item><br>
+                                        </div>
+                                    </ion-list>
+                                    <ion-row style=" position: absolute; width: 85%; bottom: 28px;">
+                                        <ion-col>
+                                            <button ion-button class="box-shadow-sm border-radius" color="primary" block clear
+                                                (click)="redirectToTM()">Ir a Task Manager</button>
+                                        </ion-col>
+                                    </ion-row>
+                                </div>
+                            </ion-slide>
+                            <ion-slide 
+                                *ngIf="dashboardTasks.estadisticas && dashboardTasks.estadisticas.tareas &&
+                                    dashboardTasks.estadisticas.tareas.length > 0">
+                                <div class="box-md box-shadow-m border-radius" margin >
+                                    <ion-list no-margin>
+                                        <ion-list-header no-lines no-margin>
+                                            <h5 ion-text color="primary">Estadisticas</h5>
+                                        </ion-list-header>
+                                    </ion-list>
+                    
+                                    <stats-summary [fromDash]="true"></stats-summary>
+                    
+                    
+                                    <ion-row>
+                                        <ion-col>
+                                            <button ion-button class="box-shadow-sm border-radius" color="primary" block clear
+                                                (click)="redirectToTM(true)">Ir a Task Manager</button>
+                                        </ion-col>
+                                    </ion-row>
+                                </div>
+                            </ion-slide>
+                    
+                            <ion-slide 
+                                *ngIf="dashboardTasks && dashboardTasks.tareas.length == 0 && 
+                                     dashboardTasks.estadisticas && dashboardTasks.estadisticas.tareas &&
+                                    dashboardTasks.estadisticas.tareas.length == 0">
+                    
+                                <div class="box box-shadow border-radius" margin>
+                                    <ion-list no-margin>
+                                        <ion-list-header no-lines no-margin>
+                                            <h5 ion-text color="primary">Task Manager</h5>
+                                        </ion-list-header>
+                                    </ion-list>
+                    
+                                    <p ion-text color="primary">Sin Tareas.</p>
+                    
+                                    <ion-row>
+                                        <ion-col>
+                                            <button ion-button class="box-shadow-sm border-radius" color="primary" block clear
+                                                (click)="redirectToTM()">Ir a Task Manager</button>
+                                        </ion-col>
+                                    </ion-row>
+                               </div>
+                               
+                            </ion-slide >
+                    
+                        </ion-slides>
+                    </div>
+
+                    <div *ngFor="let module of dashboard_modules; let i = index"  no-padding>
+                        
+
+                        <!-- VISUAL -->
+                        <div *ngIf="module.visual">
+                            <ion-item no-lines no-padding text-wrap *ngIf="module.visual.data && module.visual.data.length !== 0">
+                                <div class="box box-shadow-m border-radius margin-left-10">
+                                    <ion-badge (click)="redirect('VisualPage', null, null, module.visual.nombre, true)"
+                                        float-right margin-top margin-right color="primary"
+                                        *ngIf="module.visual.data.visuales_no_leidos" class="badge badge-energized">
+                                        {{module.visual.data.visuales_no_leidos}} sin leer
+                                    </ion-badge>
+                                    <h2 ion-text color="primary" padding-vertical>{{module.visual.nombre}}</h2>
+                                    <ion-row>
+                                        <ion-col
+                                            [ngClass]="module.visual.data && module.visual.data.promedio ? 'col-4' : 'col-6'"
+                                            text-center *ngFor="let visual of module.visual.data.estadisticas">
+                                            <div>
+                                                <h2 ion-text [style.color]="visual.color">
+                                                    {{(visual.cantidad || visual.cantidad === 0) ? visual.cantidad : '--'}}
+                                                </h2>
+                                                <div>
+                                                    <small text-wrap ion-text>{{visual.nombre}}</small>
+                                                </div>
+                                            </div>
+                                        </ion-col>
+                                        <ion-col
+                                            [ngClass]="module.visual.data && module.visual.data.promedio ? 'col-4' : 'col-6'"
+                                            text-center *ngIf="module.visual.data && module.visual.data.promedio">
+                                            <div>
+                                                <h2 ion-text>
+                                                    <b>{{(module.visual.data.promedio || module.visual.data.promedio === 0) ? module.visual.data.promedio : '--'}}</b>
+                                                </h2>
+                                                <div text-wrap>
+                                                    <small notatext>Nota promedio</small>
+                                                </div>
+                                            </div>
+                                        </ion-col>
+                                    </ion-row>
+    
+                                    <ion-row text-center text-wrap margin-top>
+                                        <ion-col col-12>
+                                            <ion-badge color="light">
+                                                Campañas implementadas:
+                                                {{(module.visual.data.reportes_implementados || module.visual.data.reportes_implementados === 0) ? module.visual.data.reportes_implementados : '-- '}}
+                                                de
+                                                {{(module.visual.data.total_reportes || module.visual.data.total_reportes === 0) ? module.visual.data.total_reportes : ' -- '}}
+                                            </ion-badge>
+                                        </ion-col>
+                                    </ion-row>
+    
+                                    <ion-row margin-top>
+                                        <ion-col col-12 align="right">
+                                            <button *ngIf="clientCode === '1c469c16' || clientCode === '7ba63049'"
+                                                (click)="redirect('VisualPage', null, null, module.visual.nombre, null, null, true)"
+                                                class="box-shadow-sm border-radius"
+                                                ion-button  color="primary" block clear>
+                                                Ver Tareas
+                                            </button>
+                                            <button (click)="redirect('VisualPage', null, null, module.visual.nombre)"
+                                                class="box-shadow-sm border-radius"
+                                                ion-button  color="primary" block clear>
+                                                Ver campañas
+                                            </button>
+                                        </ion-col>
+                                    </ion-row>
+
+                                </div>
+
+                            </ion-item>
+                            <ion-item no-lines no-padding text-wrap *ngIf="!module.visual.data || module.visual.data.length === 0">
+                                <h2 ion-text color="primary" padding-vertical>{{module.visual.nombre}}</h2>
+                                <ion-item no-lines text-center>
+                                    <p>No hay campañas disponibles</p>
+                                </ion-item>
+                                <ion-row margin-top>
+                                    <ion-col col-12>
+                                        <button (click)="redirect('VisualPage', null, null, module.visual.nombre)"
+                                            ion-button float-right color="primary" small clear>
+                                            Ver campañas
+                                        </button>
+                                    </ion-col>
+                                </ion-row>
+                            </ion-item>
+                        </div>
+
+                        <!-- VALES -->
+                        <div *ngIf="module.vale">
+                            <ion-item no-lines no-padding text-wrap>
+                                <div class="box box-shadow-m border-radius margin-left-10">
+                                    <h2 ion-text color="primary" padding-vertical>Vale</h2>
+                                    <ion-grid *ngFor="let vale of module.vale; let i = index" padding>
+                                        <ion-row (click)="redirectToLocales(vale.periodo_id)">
+                                            <ion-col col-6>
+                                                <h2 ion-text color="primary">
+                                                    {{vale.direccion}}
+                                                </h2>
+                                                <ion-row>
+                                                    <p>
+                                                        <ion-badge color="primary">{{vale.cadena}}</ion-badge>
+                                                    </p>&nbsp;
+                                                    <p>
+                                                        <ion-badge color="grey1">{{vale.tienda_codigo}}</ion-badge>
+                                                    </p>
+                                                </ion-row>
+                                            </ion-col>
+                                            <ion-col col-6 text-right padding-top>
+                                                <h6 ion-text color="stable">{{vale.pendientes}} Boleta(s) Pendiente(s)</h6>
+                                            </ion-col>
+                                        </ion-row>
+                                    </ion-grid>
+    
+                                    <ion-row>
+                                        <ion-col col-12>
+                                            <button ion-button (click)="redirectToSegVale()"
+                                                class="box-shadow-sm border-radius"
+                                                ion-button  color="primary" block clear> Ver Vales
+                                            </button>
+                                        </ion-col>
+                                    </ion-row>
+                                </div>
+                            </ion-item>
+                        </div>
+
+                        <!-- PREMIOS CLIENTE -->
+                        <div *ngIf="module.premios && (cliente && cliente == 'com_cruzverde')">
+
+                            <ion-item no-lines no-padding text-wrap *ngIf="module.premios.comunicados.length > 0">
+                                <div class="box box-shadow-m border-radius margin-left-10">
+                                    <ion-badge float-right margin-top margin-right color="primary"
+                                        *ngIf="module.premios.total_sin_leer"
+                                        (click)="redirect('ComunicadosTiendaPage', null, null, null, null, idModulosCliente.premios)">
+                                        {{module.premios.total_sin_leer}} sin leer de {{module.premios.total}}
+                                    </ion-badge>
+                                    <h2 ion-text color="primary" padding-vertical>{{module.premios.nombre | titlecase }}
+                                    </h2>
+                                    <ion-row>
+                                        <ion-col col-12>
+                                            <ion-list no-lines>
+                                                <ion-item *ngFor="let comunicado of module.premios.comunicados"
+                                                    (click)="redirect('ComunicadosTiendaPage', comunicado, null, module.premios.nombre, null,  idModulosCliente.premios)">
+                                                    <h3 ion-text color="primary">{{comunicado.nombre}}</h3>
+                                                    <p ion-text color="stable">{{comunicado.fecha_termino | cleanDate | date:
+                                                                                                        'dd/MM/yyyy'}}</p>
+                                                    <ion-icon name='ios-arrow-forward' item-end color="default"></ion-icon>
+                                                </ion-item>
+                                                <ion-item text-center no-lines
+                                                    *ngIf="module.premios.comunicados.length == 0 || module.premios.comunicados.length == 0">
+                                                    <p>No tiene premios asignados</p>
+                                                </ion-item>
+                                            </ion-list>
+                                        </ion-col>
+                                    </ion-row>
+                                    <ion-row style="margin-top: -30px">
+                                        <ion-col col-12>
+                                            <button
+                                                (click)="redirect('ComunicadosTiendaPage', null, null, module.premios.nombre, null,  idModulosCliente.premios)"
+                                                class="box-shadow-sm border-radius"
+                                                ion-button  color="primary" block clear>Ver premios 
+                                            </button>
+                                        </ion-col>
+                                    </ion-row>
+
+                                </div>
+                            </ion-item>
+
+                            <ion-item no-lines no-padding text-wrap *ngIf="module.premios.comunicados.length == 0">
+                                <div class="box box-shadow-m border-radius margin-left-10">
+                                    <h2 ion-text color="primary" padding-vertical>{{module.premios.nombre}}</h2>
+                                    <ion-item text-center no-lines>
+                                        <p>No tiene premios sin leer</p>
+                                    </ion-item>
+                                    <ion-row>
+                                        <ion-col col-12>
+                                            <button
+                                                (click)="redirect('ComunicadosTiendaPage', null, null, module.premios.nombre, null,  idModulosCliente.premios)"
+                                                class="box-shadow-sm border-radius"
+                                                ion-button  color="primary" block clear>Ver premios
+                                            </button>
+                                        </ion-col>
+                                    </ion-row>
+                                </div>
+                            </ion-item>
+
+                        </div>
+
+                        <!-- COMUNICADOS Cliente -->
+                        <div
+                            *ngIf="module.comunicados && module.comunicados.clienteComunicados && (cliente && cliente == 'com_cruzverde')">
+                            <ion-item no-lines no-padding text-wrap
+                                *ngIf="module.comunicados.clienteComunicados.comunicados.length > 0">
+
+                                <div class="box box-shadow-m border-radius margin-left-10">
+                                    <ion-badge float-right margin-top margin-right color="primary"
+                                        *ngIf="module.comunicados.clienteComunicados.total_sin_leer"
+                                        (click)="redirect('ComunicadosTiendaPage', null, null)">
+                                        {{module.comunicados.clienteComunicados.total_sin_leer}} sin leer de
+                                        {{module.comunicados.clienteComunicados.total}}
+                                    </ion-badge>
+                                    <h2 ion-text color="primary" padding-vertical>
+                                        {{module.comunicados.clienteComunicados.nombre | titlecase }}</h2>
+                                    <ion-row>
+                                        <ion-col col-12>
+                                            <ion-list no-lines>
+                                                <ion-item
+                                                    *ngFor="let comunicado of module.comunicados.clienteComunicados.comunicados"
+                                                    (click)="redirect('ComunicadosTiendaPage', comunicado, null, module.comunicados.clienteComunicados.nombre)">
+                                                    <h3 ion-text color="primary">{{comunicado.nombre}}</h3>
+                                                    <p ion-text color="stable">{{comunicado.fecha_termino | cleanDate | date:
+                                                                                                            'dd/MM/yyyy'}}
+                                                    </p>
+                                                    <ion-icon name='ios-arrow-forward' item-end color="default"></ion-icon>
+                                                </ion-item>
+                                                <ion-item text-center no-lines
+                                                    *ngIf="module.comunicados.clienteComunicados.comunicados.length == 0 || module.comunicados.clienteComunicados.comunicados.length == 0">
+                                                    <p>No tiene comunicados asignados</p>
+                                                </ion-item>
+                                            </ion-list>
+                                        </ion-col>
+                                    </ion-row>
+                                    <ion-row style="margin-top: -30px">
+                                        <ion-col col-12>
+                                            <button
+                                                (click)="redirect('ComunicadosTiendaPage', null, null, module.comunicados.clienteComunicados.nombre)"
+                                                class="box-shadow-sm border-radius"
+                                                ion-button  color="primary" block clear>Ver comunicados 
+                                            </button>
+                                        </ion-col>
+                                    </ion-row>
+                                </div>
+                            </ion-item>
+
+                            <ion-item no-lines no-padding text-wrap
+                                *ngIf="module.comunicados.clienteComunicados.comunicados.length == 0">
+
+                                <div class="box box-shadow-m border-radius margin-left-10">
+                                    <h2 ion-text color="primary" padding-vertical>
+                                        {{module.comunicados.clienteComunicados.nombre}}</h2>
+                                    <ion-item text-center no-lines>
+                                        <p>No tiene comunicados sin leer</p>
+                                    </ion-item>
+                                    <ion-row>
+                                        <ion-col col-12>
+                                            <button
+                                                (click)="redirect('ComunicadosTiendaPage', null, null, module.comunicados.clienteComunicados.nombre)"
+                                                class="box-shadow-sm border-radius"
+                                                ion-button  color="primary" block clear>Ver comunicados 
+                                            </button>
+                                        </ion-col>
+                                    </ion-row>
+                                </div>
+                            </ion-item>
+                        </div>
+
+                        <!-- COMUNICADOS -->
+                        <div *ngIf="module.comunicados && cliente != 'com_cruzverde' ">
+
+                            <ion-item no-lines no-padding text-wrap *ngIf="module.comunicados.data">
+
+                                <div class="box box-shadow-m border-radius margin-left-10">
+                                    <ion-badge float-right margin-top margin-right color="primary"
+                                        *ngIf="module.comunicados.total_sin_leer"
+                                        (click)="redirect('ComunicadosTiendaPage', null, null)">
+                                        {{module.comunicados.total_sin_leer}} sin leer
+                                    </ion-badge>
+                                    <h2 ion-text color="primary" padding-vertical>{{module.comunicados.nombre}}</h2>
+                                    <ion-row>
+                                        <ion-col col-12>
+                                            <ion-list no-lines>
+                                                <ion-item
+                                                    *ngFor="let comunicado of module.comunicados.data.comunicados_sin_leer"
+                                                    (click)="redirect('ComunicadosTiendaPage', comunicado, null, module.comunicados.nombre)">
+                                                    <h3 ion-text color="primary">{{comunicado.nombre}}</h3>
+                                                    <p ion-text color="stable">{{comunicado.fecha_termino | cleanDate | date:
+                                                        'dd/MM/yyyy'}}</p>
+                                                    <ion-icon name='ios-arrow-forward' item-end color="default"></ion-icon>
+                                                </ion-item>
+                                                <ion-item text-center no-lines
+                                                    *ngIf="module.comunicados.data.length == 0 || module.comunicados.data.comunicados_sin_leer.length == 0">
+                                                    <p>No tiene comunicados asignados</p>
+                                                </ion-item>
+                                            </ion-list>
+                                        </ion-col>
+                                    </ion-row>
+                                    <ion-row>
+                                        <ion-col col-12>
+                                            <button
+                                                (click)="redirect('ComunicadosTiendaPage', null, null, module.comunicados.nombre)"
+                                                class="box-shadow-sm border-radius"
+                                                ion-button  color="primary" block clear>Ver comunicados 
+                                            </button>
+                                        </ion-col>
+                                    </ion-row>
+                                </div>
+                            </ion-item>
+
+                            <ion-item no-lines no-padding text-wrap *ngIf="module.comunicados.data == null">
+                                <h2 ion-text color="primary" padding-vertical>{{module.comunicados.nombre}}</h2>
+                                <ion-item text-center no-lines>
+                                    <p>No tiene comunicados sin leer</p>
+                                </ion-item>
+                                <ion-row>
+                                    <ion-col col-12>
+                                        <button
+                                            (click)="redirect('ComunicadosTiendaPage', null, null, module.comunicados.nombre)"
+                                            class="box-shadow-sm border-radius"
+                                            ion-button  color="primary" block clear>Ver comunicados 
+                                        </button>
+                                    </ion-col>
+                                </ion-row>
+                            </ion-item>
+
+                        </div>
+
+                        <!-- PREMIOS -->
+                        <div *ngIf="module.premios">
+
+                            <ion-item no-lines no-padding text-wrap *ngIf="module.premios.data">
+                                <div class="box box-shadow-m border-radius margin-left-10">
+                                    <ion-badge float-right margin-top margin-right color="primary"
+                                        *ngIf="module.premios.total_sin_leer"
+                                        (click)="redirect('ComunicadosTiendaPage', null, null, null, null, idModulosCliente.premios)">
+                                        {{module.premios.total_sin_leer}} sin leer
+                                    </ion-badge>
+                                    <h2 ion-text color="primary" padding-vertical>{{module.premios.nombre}}</h2>
+                                    <ion-row>
+                                        <ion-col col-12>
+                                            <ion-list no-lines>
+                                                <ion-item
+                                                    *ngFor="let comunicado of module.premios.data.comunicados_sin_leer"
+                                                    (click)="redirect('ComunicadosTiendaPage', comunicado, null, module.premios.nombre)">
+                                                    <h3 ion-text color="primary">{{comunicado.nombre}}</h3>
+                                                    <p ion-text color="stable">{{comunicado.fecha_termino | cleanDate | date:
+                                                        'dd/MM/yyyy'}}</p>
+                                                    <ion-icon name='ios-arrow-forward' item-end color="default"></ion-icon>
+                                                </ion-item>
+                                                <ion-item text-center no-lines
+                                                    *ngIf="module.premios.data.length == 0 || module.premios.data.comunicados_sin_leer.length == 0">
+                                                    <p>No tiene comunicados asignados</p>
+                                                </ion-item>
+                                            </ion-list>
+                                        </ion-col>
+                                    </ion-row>
+                                    <ion-row>
+                                        <ion-col col-12>
+                                            <button
+                                            (click)="redirect('ComunicadosTiendaPage', null, null, null, null, idModulosCliente.premios)"
+                                            class="box-shadow-sm border-radius"
+                                            ion-button  color="primary" block clear>Ver premios
+                                            </button>
+                                        </ion-col>
+                                    </ion-row>
+                                </div>
+
+                            </ion-item>
+
+                            <ion-item no-lines no-padding text-wrap *ngIf="module.premios.data == null">
+                                <div class="box box-shadow-m border-radius margin-left-10">
+                                    <h2 ion-text color="primary" padding-vertical>{{module.premios.nombre}}</h2>
+                                    <ion-item text-center no-lines>
+                                        <p>No tiene comunicados sin leer</p>
+                                    </ion-item>
+                                    <ion-row>
+                                        <ion-col col-12>
+                                            <button
+                                                (click)="redirect('ComunicadosTiendaPage', null, null, module.premios.nombre)"
+                                                class="box-shadow-sm border-radius"
+                                                ion-button  color="primary" block clear>Ver comunicados 
+                                            </button>
+                                        </ion-col>
+                                    </ion-row>
+                                </div>
+                            </ion-item>
+                        </div>
+
+                        <!-- Checklist -->
+                        <div *ngIf="module.checklist">
+                            <ion-item no-lines no-padding
+                                text-wrap *ngIf="module.checklist.data">
+
+                                <div class="box box-shadow-m border-radius margin-left-10">
+                                    <ion-badge
+                                        (click)="redirect('ChecklistTiendaPage', null, null, module.checklist.nombre)"
+                                        float-right margin-top margin-right color="primary"
+                                        *ngIf="module.checklist.total_sin_leer">
+    
+                                        {{module.checklist.total_sin_leer}} sin contestar
+                                    </ion-badge>
+                                    <h2 ion-text color="primary" padding-vertical>{{module.checklist.nombre}}</h2>
+                                    
+                                    <ion-list *ngIf="module.checklist.data.checklist_sin_leer.length > 0">
+                                        <ion-scroll
+                                            [ngStyle]="{ 'height' : module.checklist.data.checklist_sin_leer.length == '1' ? '85px' : '150px' }"
+                                            scrollY="true">
+                                            <div [ngClass]="{'tarjeta-calm' : checklist.estado_id == 4 && checklist.activo, 'tarjeta-balanced' : checklist.estado_id == 3 && checklist.activo, 'tarjeta-energized' : checklist.estado_id == 2 && checklist.activo, 'tarjeta-dark' : checklist.estado_id == 1 && checklist.activo, 'tarjeta-assertive' : !checklist.activo}"
+                                                *ngFor="let checklist of module.checklist.data.checklist_sin_leer">
+                                                
+                                                <ion-item no-lines
+                                                    (click)="redirect('ChecklistPage', checklist, module.checklist.nombre, module.checklist.nombre)"
+                                                    *ngIf="checklist.activo">
+                                                    <h2 ion-text color="primary"><strong>{{checklist.nombre}}</strong></h2>
+                                                    <p
+                                                        [ngClass]="{'dark': checklist.estado_id == 1, 'energized': checklist.estado_id == 2, 'balanced': checklist.estado_id == 3, 'calm': checklist.estado_id == 4}">
+                                                        {{checklist.estado}}</p>
+                                                    <p>Fin: {{checklist.fecha_fin}}</p>
+                                                    <ion-icon name='ios-arrow-forward' item-end color="default"></ion-icon>
+                                                </ion-item>
+    
+    
+                                                <ion-item no-lines *ngIf="!checklist.activo">
+                                                    <h2 ion-text color="primary"><strong>{{checklist.nombre}}</strong></h2>
+                                                    <p ion-text color="primary">Fuera de horario</p>
+                                                    <p>Fin: <strong>{{checklist.fecha_fin}}</strong>
+                                                    </p>
+                                                    <ion-icon name='ios-arrow-forward' item-end color="default"></ion-icon>
+                                                </ion-item>
+                                            </div>
+                                        </ion-scroll>
+                                    </ion-list>
+                                    <ion-row
+                                        *ngIf="module.checklist.data.checklist_sin_leer <= 0 || module.checklist.data.checklist_sin_leer.length <= 0">
+                                        <ion-col col-12 text-center>
+                                            <p>No tiene {{module.checklist.nombre}} asignados</p>
+                                        </ion-col>
+                                    </ion-row>
+                                    <ion-row>
+                                        <ion-col col-12>
+                                            <!-- Checklist nuevo -->
+                                            <!-- <button (click)="redirect('ChecklistsBranchOfficePage', null, null, module.checklist.nombre)" ion-button
+                                                    float-right color="primary" small clear> -->
+                                            <!-- Checklist viejo -->
+                                            <button
+                                                (click)="redirect('ChecklistTiendaPage', null, null, module.checklist.nombre)"
+                                                class="box-shadow-sm border-radius"
+                                                ion-button  color="primary" block clear>
+                                                Ver {{module.checklist.nombre}}
+                                            </button>
+                                        </ion-col>
+                                    </ion-row>
+
+                                </div>
+                            </ion-item>
+
+                            <ion-item no-lines text-wrap *ngIf="module.checklist.data == null">
+                                <h2 ion-text color="primary" padding-vertical>{{module.checklist.nombre}}</h2>
+                                <ion-col col-12 text-center>
+                                    <p>No tiene {{module.checklist.nombre}} sin contestar</p>
+                                </ion-col>
+                                <ion-row>
+                                    <ion-col col-12>
+                                        <!-- Checklist nuevo -->
+                                        <!-- <button (click)="redirect('ChecklistsBranchOfficePage', null, null, module.checklist.nombre)" ion-button
+                                                float-right color="primary" small clear> -->
+                                        <!-- Checklist viejo -->
+                                        <button
+                                            (click)="redirect('ChecklistTiendaPage', null, null, module.checklist.nombre)"
+                                            ion-button float-right color="primary" small clear>
+                                            Ver Checklists
+                                        </button>
+                                    </ion-col>
+                                </ion-row>
+                            </ion-item>
+
+                        </div>
+
+                        <!-- Checklist LEAN -->
+                        <div *ngIf="module.checklistambitos">
+                            <ion-item no-lines no-padding text-wrap
+                                *ngIf="module.checklistambitos.data">
+
+                                <div class="box box-shadow-m border-radius margin-left-10">
+                                    <h2 ion-text color="primary" padding-vertical>{{module.checklistambitos.nombre}}</h2>
+                                    <ion-row>
+                                        <ion-col col-6>
+                                            <ion-list no-lines>
+                                                <h1 ion-text color="primary" text-center>
+                                                    {{module.checklistambitos.data.promedio_enviados > 0 ?
+                                                    module.checklistambitos.data.promedio_enviados : 0}}</h1>
+                                                <p ion-text text-center>% Respondido</p>
+                                            </ion-list>
+                                        </ion-col>
+                                        <ion-col col-6>
+                                            <ion-list no-lines>
+                                                <h1 ion-text color="primary" text-center>
+                                                    {{module.checklistambitos.data.promedio_enviados > 0 ?
+                                                    module.checklistambitos.data.promedio_nota : 'N/A'}}</h1>
+                                                <p ion-text text-center>Nota Promedio</p>
+                                            </ion-list>
+                                        </ion-col>
+                                    </ion-row>
+    
+                                    <ion-row>
+                                        <ion-col col-12>
+                                            <button (click)="redirect('AmbitosPage', null, null, 'Levantamiento')"
+                                                class="box-shadow-sm border-radius"
+                                                ion-button  color="primary" block clear>
+                                                Ver Ámbitos
+                                            </button>
+                                        </ion-col>
+                                    </ion-row>
+                                </div>
+                            </ion-item>
+                            <ion-item no-lines no-padding text-wrap
+                                *ngIf="module.checklistambitos.data == null">
+                                <div class="box box-shadow-m border-radius margin-left-10">
+                                    <h2 ion-text color="primary" padding-vertical>{{module.checklistambitos.nombre}}</h2>
+                                    <ion-col col-12 text-center>
+                                        <p>No tiene checklists {{module.checklistambitos.nombre}} sin contestar</p>
+                                    </ion-col>
+    
+                                    <ion-row>
+                                        <ion-col col-12>
+                                            <button (click)="redirect('AmbitosPage', null, null, 'Levantamiento')"
+                                                class="box-shadow-sm border-radius"
+                                                ion-button  color="primary" block clear>
+                                                Ver Ámbitos
+                                            </button>
+                                        </ion-col>
+                                    </ion-row>
+                                </div>
+                            </ion-item>
+                        </div>
+
+                        <!-- Archivos -->
+                        <div *ngIf="module.archivos">
+                            <ion-item no-lines no-padding text-wrap
+                                *ngIf="module.archivos.data && module.archivos.data.archivos">
+                                <div class="box box-shadow-m border-radius margin-left-10">
+                                    <h2 ion-text color="primary" padding-vertical>{{module.archivos.nombre}}</h2>
+                                    <ion-row>
+                                        <ion-col col-12>
+                                            <ion-list *ngIf="module.archivos.data.archivos.length > 0">
+                                                <ion-item *ngFor="let file of module.archivos.data.archivos"
+                                                    (click)="downloadFile(file)">
+                                                    <ion-icon name="ios-document-outline" color="primary" item-start>
+                                                    </ion-icon>
+                                                    {{file.nombre}}
+                                                    <ion-icon name='ios-arrow-forward' item-end color="default"></ion-icon>
+                                                </ion-item>
+                                            </ion-list>
+                                        </ion-col>
+                                    </ion-row>
+                                    <ion-row *ngIf="module.archivos.data.archivos.length === 0">
+                                        <ion-col col-12 text-center>
+                                            <p>No tiene archivos asociados</p>
+                                        </ion-col>
+                                    </ion-row>
+    
+                                    <ion-row>
+                                        <ion-col col-12>
+                                            <button class="box-shadow-sm border-radius"
+                                                ion-button  color="primary" block clear
+                                                (click)="redirect('FilesPage', null, null, module.archivos.nombre)">
+                                                Ver Archivos
+                                            </button>
+                                        </ion-col>
+                                    </ion-row>
+                                </div>
+                            </ion-item>
+
+                            <ion-item no-lines no-padding *ngIf="!module.archivos.data || !module.archivos.data.archivos">
+                                <div class="box box-shadow-m border-radius margin-left-10">
+                                    <h2 ion-text color="primary" padding-vertical>{{module.archivos.nombre}}</h2>
+                                    <ion-col col-12 text-center>
+                                        <p>No tiene archivos asociados</p>
+                                    </ion-col>
+    
+                                    <ion-row>
+                                        <ion-col col-12>
+                                            <button class="box-shadow-sm border-radius"
+                                                ion-button  color="primary" block clear
+                                                (click)="redirect('FilesPage', null, null, module.archivos.nombre)">
+                                                Ver Archivos
+                                            </button>
+                                        </ion-col>
+                                    </ion-row>
+                                </div>
+                            </ion-item>
+                        </div>
+
+                        <!-- KPI -->
+                        <div *ngIf="module.kpi && module.kpi.data">
+                            <ion-item no-lines no-padding text-wrap no-padding *ngIf="module.kpi && module.kpi.data">
+                                <div class="box box-shadow-m border-radius margin-left-10">
+                                    <h2 ion-text color="primary" padding-vertical>{{module.kpi.nombre}}</h2>
+                                    <ion-row
+                                        *ngIf="module.kpi.data.sucursal && module.kpi.data.zona && module.kpi.data.pais">
+                                        <ion-col text-center
+                                            [ngClass]="{ 'col-4': module.kpi.data.sucursal, 'col-6': !module.kpi.data.sucursal}">
+                                            <h1 ion-text color="primary" style="font-size:19pt;">
+                                                <strong>{{module.kpi.data.sucursal}}</strong>
+                                            </h1>
+                                            <p>Tienda</p>
+                                        </ion-col>
+                                        <ion-col text-center
+                                            [ngClass]="{ 'col-4': module.kpi.data.sucursal, 'col-6': !module.kpi.data.sucursal}">
+                                            <h1 ion-text color="primary" style="font-size:19pt;">
+                                                <strong>{{module.kpi.data.zona}}</strong>
+                                            </h1>
+                                            <p>Zona</p>
+                                        </ion-col>
+                                        <ion-col text-center
+                                            [ngClass]="{ 'col-4': module.kpi.data.sucursal, 'col-6': !module.kpi.data.sucursal}">
+                                            <h1 ion-text color="primary" style="font-size:19pt;">
+                                                <strong>{{module.kpi.data.pais}}</strong>
+                                            </h1>
+                                            <p>País</p>
+                                        </ion-col>
+                                    </ion-row>
+                                    <ion-row
+                                        *ngIf="!module.kpi.data.sucursal && module.kpi.data.zona && module.kpi.data.pais">
+                                        <ion-col text-center
+                                            [ngClass]="{ 'col-4': module.kpi.data.sucursal, 'col-6': !module.kpi.data.sucursal}">
+                                            <h1 ion-text color="primary" style="font-size:19pt">
+                                                <strong>{{module.kpi.data.zona}}</strong>
+                                            </h1>
+                                            <p>Zona</p>
+                                        </ion-col>
+                                        <ion-col text-center
+                                            [ngClass]="{ 'col-4': module.kpi.data.sucursal, 'col-6': !module.kpi.data.sucursal}">
+                                            <h1 ion-text color="primary" style="font-size:19pt">
+                                                <strong>{{module.kpi.data.pais}}</strong>
+                                            </h1>
+                                            <p>País</p>
+                                        </ion-col>
+                                    </ion-row>
+    
+                                    <ion-row
+                                        *ngIf="!module.kpi.data.sucursal && !module.kpi.data.zona && module.kpi.data.pais">
+                                        <ion-col text-center col-12>
+                                            <h1 ion-text color="primary" style="font-size:19pt">
+                                                <strong>{{module.kpi.data.pais}}</strong>
+                                            </h1>
+                                            <p>País</p>
+                                        </ion-col>
+                                    </ion-row>
+    
+                                    <ion-row
+                                        *ngIf="!module.kpi.data.sucursal && !module.kpi.data.zona && !module.kpi.data.pais">
+                                        <ion-col col-12 text-center>
+                                            <p>No tiene kpis asociados</p>
+                                        </ion-col>
+                                    </ion-row>
+    
+                                    <ion-row>
+                                        <ion-col col-12>
+                                            <button class="box-shadow-sm border-radius"
+                                                ion-button  color="primary" block clear
+                                                (click)="redirect('KPI', null, null, module.kpi.nombre)">
+                                                Ver KPIS
+                                            </button>
+                                        </ion-col>
+                                    </ion-row>
+                                </div>
+                            </ion-item>
+
+                            <ion-item no-lines no-padding text-wrap
+                                *ngIf="module.kpi == null">
+                                <div class="box box-shadow-m border-radius margin-left-10">
+                                    <h2 ion-text color="primary" padding-vertical>{{module.kpi.nombre}}</h2>
+                                    <ion-col col-12 text-center>
+                                        <p>No tiene kpis asociados</p>
+                                    </ion-col>
+    
+                                    <ion-row>
+                                        <ion-col col-12>
+                                            <button 
+                                                class="box-shadow-sm border-radius"
+                                                ion-button  color="primary" block clear
+                                                (click)="redirect('KPI', null, null, module.kpi.nombre)">
+                                                Ver KPIS
+                                            </button>
+                                        </ion-col>
+                                    </ion-row>
+                                </div>
+                            </ion-item>
+
+                        </div>
+
+                        <!-- Tareas -->
+                        <div *ngIf="module.tareas">
+                            <ion-item no-lines no-padding text-wrap
+                                *ngIf="module.tareas.data">
+                                <div class="box box-shadow-m border-radius margin-left-10">
+                                    <h2 ion-text color="primary" padding-vertical>{{module.tareas.nombre}}</h2>
+                                    <ion-row *ngIf="module.tareas.data.length > 0">
+                                        <ion-list>
+                                            <div no-lines *ngFor="let tarea of module.tareas.data"
+                                                [ngClass]="{'item-muted': !tarea.activo}"
+                                                (click)="redirect('TasksBranchOfficePage', tarea.id, null, module.tareas.nombre)">
+                                                <p ion-text color="primary">{{tarea.nombre}}</p>
+                                                <ion-row>
+                                                    <ion-col>
+                                                        <p
+                                                            [ngClass]="{'label-royal': !tarea.activo, 'label-balanced': tarea.activo}">
+                                                            <span
+                                                                *ngIf="tarea.activo">Finaliza:{{tarea.fecha_fin | cleanDate | date: 'HH:mm'}}
+                                                                hrs.</span>
+                                                            <span *ngIf="!tarea.activo" class="light">Fuera de plazo</span>
+                                                        </p>
+                                                    </ion-col>
+                                                    <ion-col>
+                                                        <p style="text-transform: capitalize;">{{tarea.estado}}</p>
+                                                    </ion-col>
+                                                </ion-row>
+                                            </div>
+                                        </ion-list>
+                                    </ion-row>
+                                    <ion-row *ngIf="module.tareas.data.length == 0">
+                                        <ion-col col-12 text-center>
+                                            <p>No tiene tareas asociadas</p>
+                                        </ion-col>
+                                    </ion-row>
+    
+                                    <ion-row>
+                                        <ion-col col-12>
+                                            <button
+                                                class="box-shadow-sm border-radius"
+                                                ion-button  color="primary" block clear
+                                                (click)="redirect('TasksBranchOfficePage', null, null, module.tareas.nombre)">
+                                                Ver Tareas
+                                            </button>
+                                        </ion-col>
+                                    </ion-row>
+                                </div>
+
+                            </ion-item>
+
+                            <ion-item no-lines no-padding text-wrap
+                                *ngIf="module.tareas.data == null">
+                                <div class="box box-shadow-m border-radius margin-left-10">
+                                    <h2 ion-text color="primary" padding-vertical>{{module.tareas.nombre}}</h2>
+                                    <ion-col col-12 text-center>
+                                        <p>No tiene tareas asociadas</p>
+                                    </ion-col>
+    
+                                    <ion-row>
+                                        <ion-col col-12>
+                                            <button 
+                                                class="box-shadow-sm border-radius"
+                                                ion-button  color="primary" block clear
+                                                (click)="redirect('TasksBranchOfficePage', null, null, module.tareas.nombre)">
+                                                Ver Tareas
+                                            </button>
+                                        </ion-col>
+                                    </ion-row>
+                                </div>
+
+                            </ion-item>
+                        </div>
+
+                        <!-- Incidencias -->
+                        <div *ngIf="module.incidencias">
+                            <ion-item no-lines no-padding text-wrap
+                                *ngIf="module.incidencias.data">
+                                <div class="box box-shadow-m border-radius margin-left-10">
+                                    <h2 ion-text color="primary" padding-vertical>{{module.incidencias.nombre}}</h2>
+                                    <ion-row *ngIf="module.incidencias.data.length > 0">
+                                        <ion-list>
+                                            <div *ngFor="let incidencia of module.incidencias.data"
+                                                [ngClass]="{'tarjeta-assertive': incidencia.estado_id == 9, 'tarjeta-balanced': incidencia.estado_id == 3, 'tarjeta-energized': incidencia.estado_id == 2 || incidencia.estado_id == 1 }"
+                                                (click)="redirect('DetailIncidentPage', incidencia.id, null, module.incidencias.nombre)">
+                                                <ion-item no-lines>
+                                                    <h2 ion-text color="primary">#{{incidencia.id}}
+                                                        {{incidencia.servicio}}</h2>
+                                                    <p>{{incidencia.estado}}</p>
+                                                    <p *ngIf="incidencia.created"><strong>{{incidencia.created | cleanDate | date:
+                                                        'dd/MM/yyyy'}}</strong></p>
+                                                    <p *ngIf="!incidencia.created">
+                                                        <strong>Sin fecha</strong>
+                                                    </p>
+                                                    <ion-icon name='ios-arrow-forward' item-end color="default"></ion-icon>
+                                                </ion-item>
+                                            </div>
+                                        </ion-list>
+                                    </ion-row>
+                                    <ion-row *ngIf="module.incidencias.data.length == 0">
+                                        <ion-col col-12 text-center>
+                                            <p>No tiene incidencias asociadas</p>
+                                        </ion-col>
+                                    </ion-row>
+    
+                                    <ion-row>
+                                        <ion-col col-12>
+                                            <button 
+                                                class="box-shadow-sm border-radius"
+                                                ion-button  color="primary" block clear
+                                                (click)="redirect('incidents', null, null, module.incidencias.nombre)">
+                                                Ver Incidencias
+                                            </button>
+                                        </ion-col>
+                                    </ion-row>
+
+                                </div>
+
+                            </ion-item>
+                            <ion-item no-lines  no-padding  text-wrap
+                                *ngIf="module.incidencias.data == null">
+                                <div class="box box-shadow-m border-radius margin-left-10">
+                                    <h2 ion-text color="primary" padding-vertical>{{module.incidencias.nombre}}</h2>
+                                    <ion-col col-12 text-center>
+                                        <p>No tiene incidencias asociadas</p>
+                                    </ion-col>
+                                    <ion-row>
+                                        <ion-col col-12>
+                                            <button 
+                                                class="box-shadow-sm border-radius"
+                                                ion-button  color="primary" block clear
+                                                (click)="redirect('incidents', null, null, module.incidencias.nombre)">
+                                                Ver Incidencias
+                                            </button>
+                                        </ion-col>
+                                    </ion-row>
+
+                                </div>
+                            </ion-item>
+
+                        </div>
+
+                        <!-- Materiales -->
+                        <div *ngIf="module.materiales">
+                            <ion-item no-lines no-padding text-wrap *ngIf="module.materiales.data">
+                                <div class="box box-shadow-m border-radius margin-left-10">
+                                    <h2 ion-text color="primary" padding-vertical>{{module.materiales.nombre}}</h2>
+                                    <ion-col *ngIf="module.materiales.data.length > 0">
+                                        <ion-list>
+                                            <div class="list card tarjetas"
+                                                *ngFor="let materiales of module.materiales.data"
+                                                [ngClass]="{'tarjeta-assertive': materiales.estado == 'Pendiente', 'tarjeta-balanced': materiales.estado == 'Recibido', 'tarjeta-energized': materiales.estado == 'Recibido parcialmente'}">
+                                                <ion-item no-lines
+                                                    (click)="redirect('MaterialsPage', materiales.id, null, module.materiales.nombre)">
+                                                    <h2 ion-text color="primary">#{{materiales.reporte_id}}
+                                                        {{materiales.nombre}}</h2>
+                                                    <p>{{materiales.estado}}</p>
+                                                    <p *ngIf="materiales.fecha_inicio">Recepción:
+                                                        <strong>{{materiales.fecha_inicio | cleanDate | date: 'dd/MM/yyyy'}}
+                                                            al
+                                                            {{materiales.fecha_termino | cleanDate | date: 'dd/MM/yyyy'}}</strong>
+                                                    </p>
+                                                    <p *ngIf="materiales.fecha_inicio">Materiales
+                                                        recibidos: <strong>{{materiales.total_material_reportado}} de
+                                                            {{materiales.total_material}}</strong>
+                                                    </p>
+                                                    <ion-icon name='ios-arrow-forward' item-end color="default"></ion-icon>
+                                                </ion-item>
+                                            </div>
+                                        </ion-list>
+                                    </ion-col>
+                                    <ion-row *ngIf="module.materiales.data.length == 0">
+                                        <ion-col col-12 text-center>
+                                            <p>No tiene envios de materiales vigentes</p>
+                                        </ion-col>
+                                    </ion-row>
+    
+                                    <ion-row>
+                                        <ion-col col-12>
+                                            <button 
+                                                class="box-shadow-sm border-radius"
+                                                ion-button  color="primary" block clear
+                                                (click)="redirect('MaterialsPage', null, null, module.materiales.nombre)">
+                                                Ver Materiales
+                                            </button>
+                                        </ion-col>
+                                    </ion-row>
+                                </div>
+                            </ion-item>
+
+                            <ion-item no-lines no-padding text-wrap *ngIf="module.materiales.data == null">
+                                <div class="box box-shadow-m border-radius margin-left-10">
+                                    <h2 ion-text color="primary" padding-vertical>{{module.materiales.nombre}}</h2>
+                                    <ion-col col-12 text-center>
+                                        <p>No tiene envios de materiales vigentes</p>
+                                    </ion-col>
+    
+                                    <ion-row>
+                                        <ion-col col-12>
+                                            <button
+                                                class="box-shadow-sm border-radius"
+                                                ion-button  color="primary" block clear
+                                                (click)="redirect('MaterialsPage', null, null, module.materiales.nombre)">
+                                                Ver Materiales
+                                            </button>
+                                        </ion-col>
+                                    </ion-row>
+                                </div>
+                            </ion-item>
+                        </div>
+
+                        <!--*********************************** CONTROL GASTOS *************************************-->
+                        <!-- Esto no se modifico -->
+                        <!-- <div class="row" *ngIf="module.pedidos && module.pedidos.data">
+                            <div class="col">
+                                <div class="card m-xs">
+                                    <ion-item class="moduleTitle item-positive">
+                                        <h2 class="light">{{module.pedidos.nombre}}</h2>
+                                        <h5 ion-text text-center color="stable" padding-vertical>Detalle de control de gastos</h5>
+                                    </ion-item>
+                                    <ion-item class="item-text-wrap" *ngIf="module.pedidos.data.porcentaje_consumo_mensual != null && module.pedidos.data.consumo_mensual != null && module.pedidos.data.porcentaje_ahorrado_mensual != null && module.pedidos.data.total_ahorrado_mensual != null">
+                                        <div class="row">
+                                            <div class="col col-50 text-center">
+                                                <h1 class="positive" style="font-size:19pt;"><b>{{module.pedidos.data.porcentaje_consumo_mensual}}%</b>
+                                                </h1>
+                                                <span class="pt-xs pb-sm">Consumo Mensual</span>
+                                                <div class="label label-muted pt-xs pb-xs mt-sm" style="border-radius:500px;"><p>
+                                                ${{module.pedidos.data.consumo_mensual}}</p></div>
+                                            </div>
+                                            <div class="col col-50 text-center">
+                                                <h1 class="positive" style="font-size:19pt;"><b>{{module.pedidos.data.porcentaje_ahorrado_mensual}}%</b>
+                                                </h1>
+                                                <span class="pt-xs pb-sm">Ahorro Mensual</span>
+                                                <div class="label label-muted pt-xs pb-xs mt-sm" style="border-radius:500px;"><p>
+                                                ${{module.pedidos.data.total_ahorrado_mensual}}</p></div>
+                                            </div>
+                                        </div>
+                                    </ion-item>
+                                    <ion-item class="text-center" *ngIf="module.pedidos.data.length == 0">
+                                        <span class="assertive">No tiene pedidos asociados</span>
+                                    </ion-item>
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+                </ion-list>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

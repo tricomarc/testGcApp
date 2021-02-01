@@ -1,0 +1,140 @@
+<ion-header [ngClass]="view === 'CAMERA' ? 'background-color-transparent no-display' : ''">
+	<ion-navbar>
+		<div buy>
+			<ion-title>
+				<span ion-text color="primary"> {{ module }} </span>
+			</ion-title>
+		</div>
+		
+		<ion-buttons end *ngIf="requesting">
+			<ion-spinner color="primary"></ion-spinner>
+		</ion-buttons>
+	</ion-navbar>
+</ion-header>
+
+<ion-content [ngClass]="view === 'CAMERA' ? 'background-color-transparent no-display' : ''">
+	<div *ngIf="material" class="material-content">
+		<!-- foto del material -->
+		<img [src]="material.imagen_muestra ? (material.imagen_muestra | sanitizeImg) : 'assets/img/resources/default-placeholder.png'" class="photo">
+	 
+		<!-- material/medida -->
+		<ion-item no-lines class="custom-bb">
+			<ion-row>
+				<ion-col col-6 text-wrap>
+					<h1 text-center ion-text color="primary"> Material </h1>
+					
+					<h3 text-center ion-text> {{ material.nombre }} </h3>
+				</ion-col>
+				
+				<ion-col col-6 text-wrap>
+					<h1 text-center ion-text color="primary"> Medida </h1>
+					
+					<h3 text-center ion-text> {{ material.medida }} </h3>
+				</ion-col>
+			</ion-row>
+		</ion-item>
+		
+		<!-- Fecha de recepción -->
+		<ion-item no-lines class="custom-bb">
+			<h3 ion-text color="primary"> <b> Fecha de recepción </b> </h3>
+			
+			<ion-segment [(ngModel)]="form.date.segment" color="primary" class="segment-date-report" (click)="changedSegementDate()" mode="ios">
+				<ion-segment-button *ngFor="let segment of segments" [value]="segment" [disabled]="(form.status && form.status.id==='No llegó la gráfica')">
+					{{ !segment.label ? 'Otra' : segment.label }}
+				</ion-segment-button>
+			</ion-segment>
+		</ion-item>
+		
+		<!-- Estado del material -->
+		<ion-item no-lines class="custom-bb">
+			<h3 ion-text color="primary"> <b> Estado del material </b> </h3>
+			
+			<ion-segment [(ngModel)]="form.status" color="primary" class="segment-date-report" (click)="changedStatus()" mode="ios">
+				<ion-segment-button *ngFor="let status of statuses" [value]="status" class="segment-status" text-wrap [ngClass]="status.active ? status.class : ''">
+					<ion-icon padding-top [name]="status.icon"></ion-icon>
+					
+					<h3 ion-text> {{ status.label }} </h3>
+				</ion-segment-button>
+			</ion-segment>
+		</ion-item>
+		
+		<!-- Cantidad recibida (MAL ESTADO) -->
+		<ion-item no-lines class="custom-bb" *ngIf="form.status && form.status.id!=='No llegó la gráfica'">
+			<h3 ion-text color="primary"> <b> Cantidad recibida </b> </h3>
+			
+			<!-- barrita de incrementar/disminuir cantidad --> 
+			<ion-item no-lines class="item-quantity">
+				<button ion-button item-left icon-only class="btn-remove" [disabled]="form.quantity < 1" (click)="decreaseMaterialsQuantity()">
+					<ion-icon name="remove"></ion-icon>
+				</button>
+				
+				<ion-input type="number" class="input-material" min="0" disabled="true" [(ngModel)]="form.quantity"></ion-input>
+				
+				<button ion-button item-right icon-only class="btn-add" (click)="increaseMaterialsQuantity()">
+					<ion-icon name="add"></ion-icon>
+				</button>
+			</ion-item>
+		</ion-item>
+		
+		<div *ngIf="form.status && form.status.id==='Incorrecto'">
+			<!-- Motivo mal estado -->
+			<ion-item no-lines class="custom-bb">
+				<ion-label color="positive"> Motivo mal estado </ion-label>
+				
+				<ion-select [(ngModel)]="form.error_reason" cancelText="Cancelar" class="select-status textLowercase"  okText="Seleccionar">
+					<ion-option class="textLowercase" *ngFor="let error of errors" [value]="error.id">
+						<p class="textLowercase"> {{ error.nombre }} </p>
+					</ion-option>
+				</ion-select>
+			</ion-item>
+			
+			<!-- Fotografía -->
+			<ion-item no-lines class="custom-bb">
+				<h3 text-center ion-text [hidden]="form.status && form.status.id!=='Pendiente'"> Fotografía obligatoria: </h3>
+				
+				<h3 text-center ion-text *ngIf="form.status && form.status.id!=='Pendiente'"> Fotografía del material en mal estado </h3>
+				
+				<button ion-button block default color="primary" (click)="takePhoto()" class="btn-photo">
+					<ion-icon item-right name="camera"></ion-icon>
+					
+					<label *ngIf="!material.foto_incorrecta"> Capturar fotografía </label>
+					
+					<label *ngIf="material.foto_incorrecta"> Recapturar fotografía </label>
+				</button>
+			</ion-item>
+			
+			<!-- muestra foto capturada -->
+			<ion-item *ngIf="form.photo" no-lines class="custom-bb">
+				<h3 text-center ion-text> Fotografía capturada </h3>
+				
+				<img [src]="(form.photo | sanitizeImg)" class="captured-photo">
+				
+				<ion-fab right bottom>
+					<button ion-fab mini color="positive" (click)="removePhoto()"> 
+						<ion-icon name="md-close"></ion-icon>
+					</button>
+				</ion-fab>
+			</ion-item>
+			
+			<!-- Observación -->
+			<ion-item no-lines>
+				<h3 ion-text color="primary"> <b> Agregar observación </b> </h3>
+			</ion-item>
+			
+			<ion-item no-lines>
+				<ion-textarea type="text" placeholder="Escribe tu comentario aquí" [(ngModel)]="form.commentary" class="textarea-commentary"></ion-textarea>
+			</ion-item>
+		</div>
+	</div>
+</ion-content>
+
+<!-- reportar material -->
+<ion-footer *ngIf="material" [ngClass]="view === 'CAMERA' ? 'background-color-transparent no-display' : ''">
+	<ion-toolbar color="primary" text-center>
+		<ion-buttons>
+			<button ion-button block clear class="btn-footer" (click)="sendReport()">
+				{{ material.estado_material === 'Pendiente' ? 'REPORTAR MATERIAL' : 'EDITAR MATERIAL' }}
+			</button>
+		</ion-buttons>
+	</ion-toolbar>
+</ion-footer>

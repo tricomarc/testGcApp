@@ -1,0 +1,136 @@
+<ion-header box-shadow [ngClass]="view === 'CAMERA' ? 'background-color-transparent no-display' : ''">
+	<ion-navbar hideBackButton="true" class="ion-navbar-class">
+		<ion-buttons start left>
+			<button (click)="popView()" ion-button icon-only clear small>
+				<ion-icon name="arrow-back"></ion-icon>
+			</button>
+		</ion-buttons>
+		<ion-list no-margin>
+			<ion-item no-padding no-lines (click)="showRoomInfo(room)" class="item-room-header">
+				<ion-avatar item-start no-padding class="avatar-header">
+					<img [src]="room.avatar ? room.avatar : 'assets/img/resources/avatar.png'" alt="">
+				</ion-avatar>
+				<h2 ion-text text-nowrap color="primary" class="h2-room-name">{{room.name}}</h2>
+				<div *ngIf="room.typing && room.typing.value === 2">
+					<p class="fs-1dot2rem" *ngIf="room.isGroup && room.typing.user">
+						{{room.typing.user}}:
+						<span ion-text color="success" class="fs-1dot2rem">Escribiendo...</span>
+					</p>
+					<span ion-text color="success" class="fs-1dot2rem" *ngIf="!room.isGroup">Escribiendo...</span>
+				</div>
+			</ion-item>
+		</ion-list>
+		<!-- <ion-buttons end right *ngIf="!room.isGroup">
+				<button ion-button icon-only (click)="call(true)" [disabled]="!userAvailable">
+					<ion-icon name="ios-videocam" color="primary"></ion-icon>
+				</button>
+				<button ion-button icon-only (click)="call(false)" [disabled]="!userAvailable">
+					<ion-icon name="ios-call" color="primary"></ion-icon>
+				</button>
+			</ion-buttons> -->
+	</ion-navbar>
+</ion-header>
+
+<ion-content [ngClass]="view === 'CAMERA' ? 'background-color-transparent no-display' : 'content-room content-room-' + os">
+	<ion-item padding-top no-lines text-center *ngIf="isReading" class="loading-item">
+		<ion-spinner name="dots"></ion-spinner>
+	</ion-item>
+	<!--------------------------------CONTENEDOR DEL CHAT------------------------------------>
+	<div class="ChatContainer" margin-top [hidden]="isReading" #container>
+
+		<div *ngFor="let date of dates | orderRoomDates">
+			<ion-item-divider color="light" class="date-divider" sticky text-wrap>{{date.alternativeLabel ?
+				date.alternativeLabel : date.label}}</ion-item-divider>
+			<div *ngFor="let message of date.messages | orderChatMessages | isUserBreak">
+				<div *ngIf="message.isIncoming">
+					<div class="message-wrap-left">
+						<div class="message-left">
+							<message-detail [message]="message" [position]="'left'" [isGroup]="room.isGroup"
+								[storageDirectory]="storageDirectory"></message-detail>
+						</div>
+					</div>
+				</div>
+
+				<div *ngIf="!message.isIncoming">
+					<div class="message-wrap-right">
+						<div class="message-right">
+							<message-detail [message]="message" [position]="'right'" [isGroup]="room.isGroup"
+								[storageDirectory]="storageDirectory"></message-detail>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div *ngIf="queue.length" class="queue-container">
+			<ion-item-divider color="light" class="queue-divider" sticky>Pendientes de envío <br> debido a restricción
+				horaria</ion-item-divider>
+			<div *ngFor="let message of queue">
+				<div class="message-wrap-right">
+					<div class="message-right">
+						<message-detail [message]="message" [position]="'right'" [isGroup]="room.isGroup"
+							[storageDirectory]="storageDirectory"></message-detail>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<ion-item *ngIf="fileUpload.uploading" class="uploading">
+			Enviando...
+			<round-progress [current]="fileUpload.progress" [max]="100" [color]="fileUpload.color"
+				[background]="'#eaeaea'" [radius]="12" [stroke]="2" [duration]="800" [rounded]="true"
+				[animation]="'easeOutCubic'" [animationDelay]="0" class="upload-progress"></round-progress>
+			<button ion-button icon-only clear item-right color="primary" (click)="abortUpload()">
+				<ion-icon name="md-close"></ion-icon>
+			</button>
+		</ion-item>
+	</div>
+
+	<ion-item *ngIf="!userAvailable && !isReading" no-lines text-center>
+		<p *ngIf="room && !room.isGroup" ion-text text-centet text-wrap>{{room.name}} ha dejado esta sala.</p>
+		<p *ngIf="room && room.isGroup" ion-text text-centet text-wrap>Todos han dejado esta sala.</p>
+	</ion-item>
+
+	<ion-fab right bottom *ngIf="showScrollToBottom">
+		<button ion-fab mini [color]="(showNewMessage ? 'primary' : 'light')" (click)="scrollToBottom(1000)">
+			<ion-icon [name]="(showNewMessage ? 'ios-chatbubbles' : 'ios-arrow-dropdown')"></ion-icon>
+		</button>
+	</ion-fab>
+</ion-content>
+
+<ion-footer no-border [ngClass]="view === 'CAMERA' ? 'background-color-transparent no-display' : 'room-footer'">
+
+	<div class="input-wrapper" [hidden]="!recordingAudio">
+		<audio-recorder class="audio-recorder" [onRecord]="onRecord" [maxAudioDuration]="mediaParams.maxAudioDuration"
+			(onCancelRecord)="onCancelRecord()" (onSendRecord)="onSendRecord($event)"></audio-recorder>
+	</div>
+
+	<div class="input-wrap" [hidden]="recordingAudio">
+		<button no-margin no-padding ion-button clear icon-only item-left
+			[disabled]="!userAvailable || fileUpload.uploading || lockInputs" class="posicionClip btn-attach"
+			(click)="showAttachOptions()">
+			<ion-icon name="ios-add-circle-outline" class="BotonesSizesClip"></ion-icon>
+		</button>
+		<ion-textarea #textAreaInput placeholder="Escriba su texto" autocomplete="off" autocorrect="off"
+			[(ngModel)]="messageInput" (ngModelChange)="typing()" [disabled]="!userAvailable" [ngClass]="'mt-ta-' + os">
+		</ion-textarea>
+
+		<button no-margin no-padding ion-button clear icon-only item-right
+			[disabled]="!userAvailable || fileUpload.uploading || lockInputs" class="posicionClip"
+			(click)="showCameraOptions()" *ngIf="!messageInput">
+			<ion-icon name="ios-camera-outline" class="BotonesSizesClip"></ion-icon>
+		</button>
+
+		<button no-margin no-padding ion-button clear icon-only item-right
+			[disabled]="!userAvailable || fileUpload.uploading || lockInputs" class="posicionClip"
+			(click)="recordAudio()" *ngIf="!messageInput">
+			<ion-icon name="ios-mic-outline" class="BotonesSizesClip"></ion-icon>
+		</button>
+
+		<button no-margin no-padding ion-button clear icon-only item-right class="posicionEnviar"
+			(click)="sendMessage(); textAreaInput.setFocus();" *ngIf="messageInput && userAvailable"
+			[disabled]="lockInputs">
+			<ion-icon name="ios-send-outline" class="BotonesSizesEnviar"></ion-icon>
+		</button>
+	</div>
+</ion-footer>

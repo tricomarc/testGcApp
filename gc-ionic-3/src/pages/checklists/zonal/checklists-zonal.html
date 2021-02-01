@@ -1,0 +1,37 @@
+<ion-header box-shadow>
+    <ion-navbar>
+        <button ion-button menuToggle>
+            <ion-icon class="icon-menu" name="menu" color="primary"></ion-icon>
+        </button>
+        <div buy>
+            <ion-title><span ion-text text-center color="primary">{{module}}</span></ion-title>
+        </div>
+        <ion-buttons end right>
+            <button ion-button icon-only (click)="presentActionSheet()">
+                <ion-icon name="md-more" color="primary"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+    <ion-segment [(ngModel)]="view" color="primary" padding>
+        <ion-segment-button value="own">
+            Propios
+        </ion-segment-button>
+        <ion-segment-button value="all">
+            Todos
+        </ion-segment-button>
+    </ion-segment>
+</ion-header>
+
+<ion-content>
+    <ion-refresher (ionRefresh)="refreshChecklists($event)" color="dark">
+        <ion-refresher-content pullingText="Actualizar" refreshingText="Actualizando..."></ion-refresher-content>
+    </ion-refresher>
+    <div *ngIf="!requesting" [ngSwitch]="view">
+        <all-checklists *ngSwitchCase="'all'" [checklists]="checklists.all" [module]="module" [checklistState]="checklistState" [session]="session"></all-checklists>
+        <own-checklists *ngSwitchCase="'own'" [checklists]="checklists" [module]="module" [checklistState]="checklistState" [session]="session" [filterSelected]="filterSelected"></own-checklists>
+    </div>
+    <ion-item *ngIf="requesting" no-lines text-center margin-top>
+        <ion-spinner></ion-spinner>
+        <p>Obteniendo {{ diccChecklists }}...</p>
+    </ion-item>
+</ion-content>

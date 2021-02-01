@@ -1,0 +1,164 @@
+page-report-material {
+	
+	.pt-fix {
+		padding-top: 9px;
+	}
+
+	.fix-fz {
+		font-size: 16px !important;
+	}
+
+	ion-searchbar {
+		background: color($colors, primary) !important;
+	}
+
+	.report-div {
+		margin-bottom: 56px !important;
+	}
+	.list-visual > .item-block:first-child {
+        border-top: 0px !important;
+    }
+
+    .list-ios > .item-block:last-child, .list-ios > .item-wrapper:last-child .item-block, .list-ios .item-block .item-inner {
+        border-bottom: 0px !important;
+    }
+    
+	.select-date .item-inner {
+        border-bottom: 0px !important;
+    }
+
+    .select-date {
+        max-width: 100%;
+    }
+
+    .btn-top-left {
+		position: absolute;
+		top: 80px;
+		left: 18px;
+		z-index: 1;
+	    height: 30px;
+	    width: 100px;
+	    margin-right: 15px !important;
+	    opacity: 0.7;
+	}
+
+	.img-thumbnail {
+		position: absolute !important;
+		top: 15px !important;
+		left: 20px !important;
+		height: 100px !important;
+		width: 100px !important;
+		margin-right: 15px !important;
+	}
+
+	.reported-img {
+		position: absolute;
+	    right: 15px;
+	    top: -1px;
+	    width: 31px;
+	}
+
+	.grid-material {
+		margin-left: -14px !important;
+    	padding-left: 0px !important;
+	}
+
+	.item-material {
+		max-width: 150px !important;
+		border-bottom: 0px !important;
+	}
+
+	.btn-remove {
+		margin: 0 !important;
+    	width: 30px !important;
+    	height: 34px !important;
+    	border-radius: 10px 0px 0px 10px !important;
+    	background-color: #fff !important;
+    	color: color($colors, positive) !important;
+    	border: 1px solid #ddd !important;
+    	border-right: none !important;
+    	box-shadow: none !important;
+	}
+
+	.item-material .list-ios .item-block .item-inner {
+		border-bottom: none !important;
+	}
+
+	.input-material {
+		border: 1px #ddd solid !important;
+		height: 34px !important;
+		margin-left: 0px !important;	
+	}
+
+	.btn-add {
+		margin: 0 !important;
+	    width: 30px !important;
+	    height: 34px !important;
+	    border-radius: 0px 10px 10px 0px !important;
+	    background-color: #fff !important;
+	    color: color($colors, positive) !important;
+    	border: 1px solid #ddd !important;
+    	border-left: none !important;
+    	box-shadow: none !important;
+	}
+
+	.item-list-material.item-ios > .item-inner {
+		margin-left: 15px !important;
+	}
+
+	.item-list-material > .item-inner {
+		border-bottom: 0px !important;
+	}
+
+	.item-list-material {
+		border-bottom: 1px solid #ddd;
+	}
+
+	.item-list-material:last-child {
+		border-bottom: none !important;
+	}
+
+	.row-material {
+		margin-left: 15px !important;
+	}
+
+	.btn-edit-material {
+		width: 35px !important;
+		height: 35px !important;
+	}
+
+	.input-material {
+		text-align: center;
+	}
+
+	.input-material > input {
+		text-align: center;
+		font-size: 15px;
+		opacity: 1 !important;
+		margin: 8px 0px 10px 10px !important;
+		color: color($colors, primary) !important;
+	}
+
+	.report-material-toolbar > .toolbar-background {
+		background-color: color($colors, dark);
+	}
+
+	.item-material > .item-inner {
+		border-bottom: 0px !important;
+	}
+
+	.searchbar-md .searchbar-input {
+		font-size: 14px !important;
+		padding: 6px 40px !important;
+	}
+
+	.small-info-material {
+		font-size: 12.5px;
+	}
+	.tamañoFecha{
+		font-size: 1.5em;
+	}
+	.searchbar-md .searchbar-input {
+			color: color($colors, primary) !important;
+	}
+}

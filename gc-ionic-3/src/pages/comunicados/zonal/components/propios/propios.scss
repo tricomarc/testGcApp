@@ -1,0 +1,20 @@
+propios {
+	 .tamañoCustom2{
+        font-size: 1.2em;
+    }
+
+	.border-bottom-1 {
+		border-bottom: 1px solid #ddd !important;
+	}
+	
+	.border-bottom-1:last-child {
+		border-bottom: none !important;
+	}
+
+	.icon-lg {
+        font-size: 2em !important;
+        color: #bbb !important; 
+    }
+
+
+}

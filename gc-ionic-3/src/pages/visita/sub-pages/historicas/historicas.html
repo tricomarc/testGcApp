@@ -1,0 +1,90 @@
+<ion-header box-shadow>
+    <ion-navbar>
+        <div buy>
+            <ion-title><span ion-text color="primary">{{module}}</span></ion-title>
+        </div>
+        <ion-buttons end right>
+            <button ion-button icon-only (click)="showVisitActionSheet()">
+                <ion-icon name="more" color="primary"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <ion-row>
+        <ion-col no-padding>
+            <ion-list-header box-shadow no-margin no-lines>
+                <h1 ion-text color="primary" header-title>Histórico checklists</h1>
+            </ion-list-header>
+        </ion-col>
+    </ion-row>
+    <ion-row padding-left margin-top>
+        <ion-col col-3>
+            <ion-label ion-text color="primary" class="tamañoCustomFuente">Fecha:</ion-label>
+        </ion-col>
+        <ion-col col-4 text-right class="fix-fechas">
+            <ion-datetime right displayFormat="DD/MM/YYYY" placeholder="Desde"
+                          cancelText="Cancelar" doneText="Aceptar"
+                          [(ngModel)]="showDesde" (ngModelChange)="updateFilters()">
+                {{showDesde}}
+            </ion-datetime>
+        </ion-col>
+        <ion-col col-1 text-right class="fix-fechas">
+            <ion-icon class="espaciadoIcono" name="ios-arrow-forward"></ion-icon>
+        </ion-col>
+        <ion-col col-4 text-right class="fix-fechas">
+            <ion-datetime right displayFormat="DD/MM/YYYY" pickerFormat="DD-MM-YYYY" placeholder="Hasta"
+                          cancelText="Cancelar" doneText="Aceptar"
+                          [(ngModel)]="showHasta" (ngModelChange)="updateFilters()">
+                {{showHasta}}
+            </ion-datetime>
+        </ion-col>
+    </ion-row>
+
+    <ion-row padding-left *ngIf="filter.length > 0">
+        <ion-col col-6>
+            <ion-label color="primary" class="tamañoCustomFuente">Estado:</ion-label>
+        </ion-col>
+        <ion-col col-6>
+            <ion-select padding-right class="myCustomSelect" placeholder="Todos"
+                        okText="OK" cancelText="Cancelar"
+                        [(ngModel)]="filtroEstado" (ngModelChange)="actualizarFiltro($event)">
+                <ion-option class="tamañoCustomFuente" *ngFor="let filtro of filter" [value]="filtro.value">
+                    {{filtro.title}}
+                </ion-option>
+            </ion-select>
+        </ion-col>
+    </ion-row>
+    <!-- -------------------------------VISITADAS-------------------------- -->
+    <ion-item no-lines color="stable" *ngIf="sucursales_visitadas_ver.length > 0">
+        <h4 ion-text color="light"><strong>Checklists respondidos ({{realizadas}})</strong></h4>
+    </ion-item>
+    <ion-item no-lines *ngIf="sucursales_visitadas_ver.length > 0">
+        <div *ngIf="sucursales_visitadas_ver.length > 0">
+            <ion-item class="custom-bb" no-lines text-wrap *ngFor="let historico of sucursales_visitadas_ver" (click)="redirectToChecklist(historico.sucursal_id, historico.nombre_sucursal, historico.fecha)">
+                <h2 ion-text color="primary">{{historico.nombre_sucursal}}</h2>
+                <p><b>Cantidad de checklist: </b> {{historico.cantidad_checklist}}</p>
+                <p><b>Fecha de visita: </b>{{historico.fecha}}</p>
+            </ion-item>
+        </div>
+    </ion-item>
+    <!-- -------------------------------- NO VISITADAS------------------------ -->
+    <ion-item no-lines color="stable" *ngIf="sucursales_por_visitar_ver.length > 0">
+        <h4 ion-text color="light"><strong>Checklists por responder ({{faltantes}})</strong></h4>
+    </ion-item>
+    <ion-item no-lines *ngIf="sucursales_por_visitar_ver.length > 0">
+        <div *ngIf="sucursales_por_visitar_ver.length > 0">
+            <ion-item class="custom-bb" no-lines text-wrap *ngFor="let historico of sucursales_por_visitar_ver" (click)="redirectToSucursal(historico.sucursal_id)">
+                <h2 ion-text color="primary">{{historico.nombre_sucursal}}</h2>
+                <p><b>Cantidad de checklist: </b> {{historico.cantidad_checklist}}</p>
+            </ion-item>
+        </div>
+    </ion-item>
+    <ion-item text-wrap text-center no-lines
+              *ngIf="!requesting && sucursales_por_visitar_ver.length <= 0 && sucursales_visitadas_ver.length <= 0">
+        <p>No se encuentran resultados, seleccione un nuevo filtro
+            <ion-icon color="energized" name="alert"></ion-icon>
+        </p>
+    </ion-item>
+</ion-content>

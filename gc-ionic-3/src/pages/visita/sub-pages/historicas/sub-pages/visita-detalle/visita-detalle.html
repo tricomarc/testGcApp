@@ -1,0 +1,193 @@
+<ion-header box-shadow>
+    <ion-navbar>
+        <div buy>
+            <ion-title><span ion-text color="primary" class="lh-15">{{title}}</span></ion-title>
+        </div>
+        <ion-buttons end right>
+            <button ion-button icon-only (click)="showVisitActionSheet()">
+                <ion-icon name="more" color="primary"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <ion-row>
+        <ion-col no-padding>
+            <ion-list-header box-shadow no-margin no-lines>
+                <h1 ion-text color="primary" header-title>Detalle históricos</h1>
+            </ion-list-header>
+        </ion-col>
+    </ion-row>
+
+    <!-- INICIO VISTA NUEVA SOLO HTML -->
+
+    <!-- <ion-item no-lines text-center text-wrap color="primary" *ngIf="ready">
+         <h2>{{finalizadosDetalle.nombre}}</h2>
+     </ion-item>-->
+
+    <div *ngIf="ready">
+        <!-- <ion-item no-lines text-center text-wrap color="stable">
+             <h2>Ámbito: {{ambito.nombre}}</h2>
+         </ion-item>-->
+
+        <div *ngFor="let pregunta of preguntas">
+            <!--Tipo Radio-->
+            <ion-row margin-top class="custom-bb" *ngIf="pregunta.tipo_id == '1' || pregunta.tipo_id == 1">
+                <ion-col col-2>
+                    <ion-icon class="customIconList" name="md-checkmark-circle-outline" ion-text
+                              color="primary"></ion-icon>
+                </ion-col>
+                <ion-col col-9>
+                    <h3 style="font-size: 15px" ion-text color="primary"><b>{{pregunta.nombre}}</b></h3>
+
+                    <ion-row *ngIf="pregunta.aplica && pregunta.hasApply == false">
+                        <ion-col col-12>
+                            <ion-icon name="close" class="customFontSize3"></ion-icon>
+                            <span class="customFontSize4">Criterios no aplican</span>
+                        </ion-col>
+                    </ion-row>
+
+                    <ion-row
+                            *ngIf="pregunta.hasApply == undefined || pregunta.hasApply == null || pregunta.hasApply == true">
+                        <ion-list radio-group *ngFor="let radio of pregunta.alternativas">
+                            <ion-item no-lines>
+                                <ion-radio no-padding item-start disabled
+                                           [checked]="radio.respuesta && radio.respuesta.alternativa_id"></ion-radio>
+                                <ion-label fixed class="customLabel"><b>{{radio.texto}}</b></ion-label>
+                            </ion-item>
+
+                            <div *ngIf="radio.respuesta && radio.respuesta.data && radio.tipo_id == 4">
+                                <div>
+                                    <img class="imgCorrecta" src={{radio.respuesta.data}} alt="">
+                                    <p *ngIf="radio.respuesta.texto" margin-top ion-text color="royal">
+                                        {{radio.respuesta.texto}}</p>
+                                </div>
+                                <!--<p *ngIf="radio.adicional" margin-top ion-text color="royal">
+                                    {{radio.adicional}}</p>-->
+                            </div>
+
+                            <p *ngIf="radio.respuesta && radio.respuesta.data && radio.tipo_id == 3" margin-top ion-text
+                               color="royal">
+                                {{radio.respuesta.data}}</p>
+
+                            <p *ngIf="radio.comentarios" margin-top ion-text color="royal">
+                                {{radio.comentarios}}</p>
+
+                            <p *ngIf="radio.texto_adicional" margin-top ion-text color="royal">
+                                {{radio.texto_adicional}}</p>
+                        </ion-list>
+                    </ion-row>
+                </ion-col>
+                <ion-col col-1>&nbsp;</ion-col>
+            </ion-row>
+
+            <!-- Tipo Checkbox-->
+            <ion-row margin-top class="custom-bb" *ngIf="pregunta.tipo_id == '2' || pregunta.tipo_id == 2">
+                <ion-col col-2>
+                    <ion-icon class="customIconList" name="md-checkmark-circle-outline" ion-text
+                              color="primary"></ion-icon>
+                </ion-col>
+                <ion-col col-9>
+                    <h3 style="font-size: 15px" ion-text color="primary"><b>{{pregunta.nombre}}</b></h3>
+                    <ion-row *ngIf="pregunta.aplica && pregunta.hasApply == false">
+                        <ion-col col-12>
+                            <ion-icon name="close" class="customFontSize3"></ion-icon>
+                            <span class="customFontSize4">Criterios no aplican</span>
+                        </ion-col>
+                    </ion-row>
+
+                    <ion-row
+                            *ngIf="pregunta.hasApply == undefined || pregunta.hasApply == null || pregunta.hasApply == true">
+                        <ion-list radio-group *ngFor="let check of pregunta.alternativas">
+                            <ion-item no-lines>
+                                <ion-checkbox item-start [checked]="check.respuesta && check.respuesta.checked"
+                                              disabled></ion-checkbox>
+                                <ion-label *ngIf="check.texto" fixed class="customLabel"><b>{{check.texto}}</b>
+                                </ion-label>
+                            </ion-item>
+                            <p *ngIf="check.comentarios" margin-top ion-text color="royal">
+                                {{check.comentarios}}</p>
+                        </ion-list>
+                    </ion-row>
+                </ion-col>
+                <ion-col col-1>&nbsp;</ion-col>
+            </ion-row>
+
+            <!--Tipo Texto-->
+            <ion-row margin-top class="custom-bb" *ngIf="pregunta.tipo_id == '3' || pregunta.tipo_id == 3">
+                <ion-col col-2>
+                    <ion-icon class="customIconList" name="md-checkmark-circle-outline" ion-text
+                              color="primary"></ion-icon>
+                </ion-col>
+                <ion-col col-9>
+                    <h3 style="font-size: 15px" ion-text color="primary"><b>{{pregunta.nombre}}</b></h3>
+
+                    <ion-row *ngIf="pregunta.aplica && pregunta.hasApply == false">
+                        <ion-col col-12>
+                            <ion-icon name="close" class="customFontSize3"></ion-icon>
+                            <span class="customFontSize4">Criterios no aplican</span>
+                        </ion-col>
+                    </ion-row>
+
+                    <ion-row
+                            *ngIf="pregunta.hasApply == undefined || pregunta.hasApply == null || pregunta.hasApply == true">
+                        <p ion-text color="royal" *ngIf="pregunta.respuesta[0] && pregunta.respuesta[0].data">
+                            {{pregunta.respuesta[0].data}}</p>
+                        <p ion-text color="royal" *ngIf="!pregunta.respuesta[0] || !pregunta.respuesta[0].data">
+                            No hay respuesta</p>
+                    </ion-row>
+                </ion-col>
+                <ion-col col-1>&nbsp;</ion-col>
+            </ion-row>
+
+            <!--Tipo Foto-->
+            <ion-row margin-top class="custom-bb" *ngIf="pregunta.tipo_id == '4' || pregunta.tipo_id == 4">
+                <ion-col col-2>
+                    <ion-icon class="customIconList" name="md-checkmark-circle-outline" ion-text
+                              color="primary"></ion-icon>
+                </ion-col>
+                <ion-col col-9>
+                    <h3 style="font-size: 15px" ion-text color="primary"><b>{{pregunta.nombre}}</b></h3>
+
+                    <ion-row *ngIf="pregunta.aplica && pregunta.hasApply == false">
+                        <ion-col col-12>
+                            <ion-icon name="close" class="customFontSize3"></ion-icon>
+                            <span class="customFontSize4">Criterios no aplican</span>
+                        </ion-col>
+                    </ion-row>
+
+                    <ion-row
+                            *ngIf="pregunta.hasApply == undefined || pregunta.hasApply == null || pregunta.hasApply == true">
+                        <div *ngIf="pregunta.respuesta">
+                            <ion-slides (ionSlideDidChange)="slideChanged()">
+                                <ion-slide *ngFor="let photo of pregunta.respuesta">
+                                    <ion-grid>
+                                        <ion-row>
+                                            <ion-col col-12>
+                                                <img class="imgCorrecta" src={{photo.data}}>
+                                                <ion-icon class="izquierda" name="ios-arrow-back"
+                                                          (click)="goToLeftSlide();"></ion-icon>
+                                                <ion-icon class="derecha" name="ios-arrow-forward"
+                                                          (click)="goToRightSlide();"></ion-icon>
+                                            </ion-col>
+                                        </ion-row>
+                                        <ion-row>
+                                            <p *ngIf="photo.texto" margin-top ion-text color="royal">
+                                                {{photo.texto}}</p>
+                                        </ion-row>
+                                    </ion-grid>
+                                </ion-slide>
+                            </ion-slides>
+                        </div>
+
+                        <div *ngIf="!pregunta.respuesta">
+                            <p ion-text color="royal"> No hay respuesta </p>
+                        </div>
+                    </ion-row>
+                </ion-col>
+                <ion-col col-1>&nbsp;</ion-col>
+            </ion-row>
+        </div>
+    </div>
+</ion-content>

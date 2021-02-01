@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "725621855262",
+    "firebase_url": "https://gc-cruz-verde-ecuador.firebaseio.com",
+    "project_id": "gc-cruz-verde-ecuador",
+    "storage_bucket": "gc-cruz-verde-ecuador.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:725621855262:android:ca90918b01689efd7b4a0f",
+        "android_client_info": {
+          "package_name": "cl.gcfcve.gcapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "725621855262-ahfg1t26pu8psgbd0gcv22rubvl963gs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAx0myZtr9RlHdK4e8TE9-6VouvkKOYbVM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "725621855262-ahfg1t26pu8psgbd0gcv22rubvl963gs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

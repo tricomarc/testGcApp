@@ -1,0 +1,77 @@
+<ion-header box-shadow *ngIf="!navParams.data.sucursal">
+    <ion-navbar>
+        <div buy>
+            <ion-title><span ion-text text-center color="primary">{{module}}</span></ion-title>
+        </div>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <ion-row>
+        <ion-col no-padding>
+            <ion-list-header box-shadow no-margin no-lines>
+                <h1 ion-text color="primary" header-title>Detalle {{module}}</h1>
+            </ion-list-header>
+        </ion-col>
+    </ion-row>
+
+    <ion-list-header no-margin no-padding class="tamañoCustom2" color="primary" text-center>Estadísticas
+    </ion-list-header>
+
+    <!-- Filtro por rango de fechas -->
+    <date-filter *ngIf="filters" [filters]="filters" (onDateChange)="changeDateFilters($event)"></date-filter>
+
+    <ion-item no-padding text-center no-lines>
+        <ion-row>
+            <ion-col [ngClass]="!navParams.data.preguntas ? 'col-6' : 'col-4'">
+                <canvas #doughnutCanvas></canvas>
+                <div *ngIf="navParams.data.graphics">
+                    <h1 ion-text color="primary"><strong>{{navParams.data.graphics.promedio_lectura}}%</strong></h1>
+                    <small>Lectura</small>
+                </div>
+            </ion-col>
+            <ion-col [ngClass]="!navParams.data.preguntas ? 'col-6' : 'col-4'">
+                <canvas #doughnutCanvas2></canvas>
+                <div *ngIf="navParams.data.graphics">
+                    <h1 ion-text color="primary" *ngIf="total_comprension != 0">
+                        <strong>{{navParams.data.graphics.promedio_comprension}}%</strong></h1>
+                    <h1 ion-text color="primary" *ngIf="total_comprension == 0"><strong>N/A</strong></h1>
+                    <small>Comprensión</small>
+                </div>
+            </ion-col>
+
+            <ion-col *ngIf="navParams.data.preguntas" col-4>
+                <h1 ion-text color="primary"><strong>{{navParams.data.preguntas.promedio ? navParams.data.preguntas.promedio : 0}}%</strong></h1>
+                <small>Promedio <br> de respuestas</small>
+            </ion-col>
+        </ion-row>
+    </ion-item>
+
+    <ion-list-header no-margin no-padding *ngIf="datos.length > 0" class="tamañoCustom2 fuenteColor" color="stable"
+        text-center>Listado de Usuarios
+    </ion-list-header>
+
+    <ion-list no-border class="noPaddingBottom" *ngIf="datos.length > 0">
+        <div *ngFor="let botData of datos">
+            <ion-item no-padding *ngIf="botData.Usuario"
+                (click)="redirectToUser(botData.Usuario.id, botData.Usuario.nombre_despliegue)">
+                <h2 class="paddingEspecial" text-wrap ion-text color="primary">
+                    {{botData.Usuario.nombre_despliegue}}</h2>
+                <p class="paddingEspecial">{{'Cargo' | synonymous}}:<b><strong ion-text
+                                                            color="primary">{{botData.Cargo.nombre}}</strong></b></p>
+                <p class="paddingEspecial">Comprendidos: <b><strong ion-text
+                            color="primary">{{botData.comprendidos}}</strong></b>
+                </p>
+                <p class="paddingEspecial">Evaluaciones: <b><strong ion-text
+                            color="primary">{{botData.evaluaciones}}</strong></b>
+                </p>
+                <p class="paddingEspecial">Leídos: <b><strong ion-text color="primary">{{botData.leidos}}</strong></b>
+                </p>
+                <p class="paddingEspecial">Respondidos: <b><strong ion-text
+                            color="primary">{{botData.respondidos}}</strong></b>
+                </p>
+                <ion-icon name='ios-arrow-forward' item-end color="default" class="icon-lg"></ion-icon>
+            </ion-item>
+        </div>
+    </ion-list>
+</ion-content>

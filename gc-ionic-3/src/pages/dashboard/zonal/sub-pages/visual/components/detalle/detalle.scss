@@ -1,0 +1,47 @@
+page-details-visual {
+
+  ion-card-header {
+    font-weight: bold;
+  }
+  .tamañoCustom2{
+    font-size: 1.1em;
+  }
+  .fuenteColor{
+    color: color($colors, primary) !important;
+  }
+  .icon-lg{
+    font-size:3em !important;
+    color: #bbb !important;
+  }
+  .paddingEspecial{
+    padding-left: 15px !important;
+  }
+  .noPaddingBottom{
+    padding-bottom: 0px !important;
+  }
+  .customTamañoDatoSucursal{
+    font-size: 1.2em !important;
+  }
+  .customBorderBottom{
+    padding-top: 5px !important;
+    border-bottom: 1px solid #E3E3E3 !important;
+  }
+
+  .customBorderFiltros{
+    border-bottom: 1px #000 !important
+  }
+  .fixMT{
+    margin-top: -18px !important;
+  }
+  .tamañoCustomFuente{
+    font-size: 1.2em !important;
+  }
+  .espaciadoIcono{
+    color: #ccc !important;
+    font-size: 1.5em !important;
+    padding-top: 9px !important;
+  }
+  .customPaddingTop{
+    padding-top: 8px !important;
+  }
+}

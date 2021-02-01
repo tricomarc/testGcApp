@@ -1,0 +1,107 @@
+photo-viewer {
+    .photoAndVideoStyle {
+        height: 60vh !important;
+        margin-top: -115px !important;
+    }
+
+    @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+        .photoAndVideoStyle {
+            height: 100vh !important;
+        }
+    }
+
+    .videoSize {
+        height: 350px;
+        width: 300px;
+        object-fit: contain;
+    }
+
+    .photo {
+        width: 300px;
+        height: 300px;
+        object-fit: contain;
+    }
+
+    .divider-visual-report {
+        background-color: #f5f5f5;
+        color: #222;
+        border: 1px solid #ddd;
+    }
+
+    .item-list-report {
+        border-bottom: 0;
+        color: #666;
+    }
+
+    .custom-bb {
+        border-bottom: 1px solid #ddd !important;
+    }
+
+    .commentary-date {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        font-size: 11px;
+    }
+
+    .commentary-date p {
+        font-size: 11px;
+    }
+
+    .commentary-title {
+        max-width: 59%;
+    }
+
+    .black-text {
+        color: #000;
+    }
+
+    .item-list-report .item-inner {
+        border-bottom: 0 !important;
+    }
+
+    .stop-audio {
+        color: #f53d3d;
+        margin-top: 10px;
+    }
+
+    .play-audio {
+        color: #32db64;
+        margin-top: 10px;
+    }
+
+    .spinner-audio {
+        margin-top: 10px;
+    }
+
+    .video-container {
+        height: 300px !important;
+        width: 90% !important;
+        margin: 0 auto !important;
+    }
+
+    .video-player {
+        width: 100% !important;
+    }
+
+    .box-p {
+        margin-top: 5px;
+    }
+
+    .commentary-implementation {
+        border-bottom: 1px #ddd solid;
+    }
+
+    .audio-container {
+        width: 100% !important;
+        background-color: transparent !important;
+    }
+
+    .audio-player {
+        width: 100% !important;
+    }
+
+    .deployment-name {
+        margin-bottom: 12px;
+    }
+}

@@ -1,0 +1,22 @@
+checkbox-question {
+	ion-list{
+		margin: 0px !important;
+	}
+	.customTamaño{
+		font-size: 0.9em !important;
+	}
+	.customPadding{
+		padding-top: 0px !important;
+	}
+
+	textarea{
+		border: none !important;
+		padding-top: 20px;
+		padding-right: 20px;
+		padding-left: 20px;
+		padding-bottom: 20px;
+		line-height: 20px;
+		background: rgba(221, 221, 221, .6);
+		color: color($colors, primary) !important;
+	}
+}

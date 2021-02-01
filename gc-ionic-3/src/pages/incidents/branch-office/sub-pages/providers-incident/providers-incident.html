@@ -1,0 +1,44 @@
+<ion-header>
+    <ion-navbar color="dark">
+        <ion-title *ngIf="incident">
+            {{incident.adjudicado ? 'Proveedor adjudicado' : 'Visita de proveedores'}}
+        </ion-title>
+        <ion-buttons right>
+            <button ion-button icon-only clear (click)="closeModal()">
+                <ion-icon name="md-close"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+<ion-content text-wrap>
+    <ion-card>
+        <ion-card-content>
+            <div *ngFor="let provider of incident.providers">
+                <ion-item>
+                    <h2 color="light">{{provider.nombre}}</h2>
+                </ion-item>
+                <ion-item>
+                    <strong>Contacto técnico:</strong> {{provider.contacto_t}}
+                    <br>
+                    <strong>Télefono:</strong> +{{provider.telefono_t}}
+                    <br>
+                    <strong>Email:</strong> {{provider.email_t}}
+                    <br>
+                    <div *ngIf="provider.especialidades.lenght > 0">
+                        <strong>Especialidades:</strong>
+                        <br>
+                        <label *ngFor="let specialty of provider.especialidades">-{{specialty.nombre}}<br></label>
+                    </div>
+                </ion-item>
+            </div>
+            <!-- <div *ngIf="!incident.adjudicado">
+                <ion-item icon-left text-uppercase color="positive" *ngIf="proveedores.visita == 0" ng-click="detalleCtrl.cambiarVisitas(detalleCtrl.detalles.id, proveedores.cotizacion_proveedor_id);">
+                    <i class="balanced icon ion-checkmark"></i> Confirmar visita
+                </ion-item>
+                <ion-item class="item-icon-left positive text-uppercase" ng-show="proveedores.visita == 1" ng-click="detalleCtrl.cambiarVisitas(detalleCtrl.detalles.id, proveedores.cotizacion_proveedor_id);">
+                    <i class="assertive icon ion-close"></i> Limpiar visita
+                </ion-item>
+            </div> -->
+        </ion-card-content>
+    </ion-card>
+</ion-content>

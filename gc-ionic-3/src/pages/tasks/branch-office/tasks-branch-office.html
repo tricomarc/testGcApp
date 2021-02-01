@@ -1,0 +1,120 @@
+<ion-header box-shadow>
+    <ion-navbar>
+        <button ion-button menuToggle>
+            <ion-icon icon-menu name="menu" color="primary"></ion-icon>
+        </button>
+        <div buy>
+            <ion-title>{{module}}</ion-title>
+        </div>
+        <!--<ion-buttons end right>
+            <button ion-button icon-only (click)="presentActionSheet(data)">
+                <ion-icon name="md-add" color="primary"></ion-icon>
+            </button>
+        </ion-buttons>-->
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <ion-refresher (ionRefresh)="getTasksByDays(true)" color="dark">
+        <ion-refresher-content pullingText="Actualizar" refreshingText="Actualizando..."></ion-refresher-content>
+    </ion-refresher>
+    <!--<ion-grid padding-right>
+        <ion-row>
+            <ion-col col-3>
+                <ion-label ion-text color="primary" class="tamañoCustomFuente fixMargenPequeño">Fecha:</ion-label>
+            </ion-col>
+            <ion-col class="customPaddingTop" col-4 text-right>
+                <ion-datetime right displayFormat="DD/MM/YYYY" placeholder="Desde" cancelText="Cancelar" doneText="Aceptar"></ion-datetime>
+            </ion-col>
+            <ion-col class="customPaddingTop" col-1 text-right>
+                <ion-icon class="espaciadoIcono" name="ios-arrow-forward"></ion-icon>
+            </ion-col>
+            <ion-col class="customPaddingTop" col-4 text-right>
+                <ion-datetime right displayFormat="DD/MM/YYYY" placeholder="Hasta" cancelText="Cancelar" doneText="Aceptar"></ion-datetime>
+            </ion-col>
+        </ion-row>
+    </ion-grid>-->
+    <!--<ion-item no-lines class="arregloMargen">
+        <ion-label>
+            <span ion-text color="primary">Área:</span>
+        </ion-label>
+        <ion-select multiple="false" okText="Aceptar" cancelText="Cancelar">
+            <ion-option>Área 1</ion-option>
+            <ion-option>Área 2</ion-option>
+            <ion-option>Área 3</ion-option>
+            <ion-option>Área 4</ion-option>
+        </ion-select>
+    </ion-item>
+    <ion-item no-lines>
+        <ion-label>
+            <span ion-text color="primary">Estado:</span>
+        </ion-label>
+        <ion-select multiple="false" okText="Aceptar" cancelText="Cancelar">
+            <ion-option>Estado 1</ion-option>
+            <ion-option>Estado 2</ion-option>
+            <ion-option>Estado 3</ion-option>
+            <ion-option>Estado 4</ion-option>
+        </ion-select>
+    </ion-item>
+    <ion-item no-lines>
+        <ion-label>
+            <span ion-text color="primary">Originador:</span>
+        </ion-label>
+        <ion-select multiple="false" okText="Aceptar" cancelText="Cancelar">
+            <ion-option>Originador 1</ion-option>
+            <ion-option>Originador 2</ion-option>
+            <ion-option>Originador 3</ion-option>
+            <ion-option>Originador 4</ion-option>
+        </ion-select>
+    </ion-item>-->
+    <!-- <ion-item no-lines>
+         <ion-label ion-text color="primary">Fecha de vencimiento:</ion-label>
+         <ion-datetime right displayFormat="DD/MM/YYYY" placeholder="27/12/2018" cancelText="Cancelar" doneText="Aceptar"></ion-datetime>
+     </ion-item>-->
+    <ion-item text-center no-lines color="royal">
+        <h3>Listado de tareas</h3>
+    </ion-item>
+    <ion-list *ngIf="today">
+        <div *ngFor="let day of days">
+            <ion-item text-center [color]="((day.fecha | date: 'yyyy-M-d') === today ? 'primary' : 'default')">
+                {{day.fecha | date: 'd MMM, y'}}
+            </ion-item>
+            <!-- <ion-item text-wrap>
+                 <h2 ion-text color="primary">Nombre tarea</h2>
+                 <p><strong>Fecha:</strong> 27/12/2018 - 31/12/2018</p>
+                 <p><strong>Estado:</strong> Respondido </p>
+                 <p><strong>Tarea realizada</strong></p>
+                 <ion-icon name="ios-radio-button-on" color="success"></ion-icon>
+                 <ion-icon name="ios-arrow-forward" color="stable" item-right></ion-icon>
+             </ion-item>
+             <ion-item text-wrap>
+                 <h2 ion-text color="primary">Nombre tarea</h2>
+                 <p><strong>Fecha:</strong> 27/12/2018 - 31/12/2018</p>
+                 <p><strong>Estado:</strong> No respondido</p>
+                 <p><strong>Tarea atrasada 2 días</strong></p>
+                 <ion-icon name="ios-radio-button-on" color="primary"></ion-icon>
+                 <ion-icon name="ios-arrow-forward" color="stable" item-right></ion-icon>
+             </ion-item>-->
+            <div *ngIf="day.tareas.length > 0">
+                <ion-item *ngFor="let task of day.tareas" text-wrap [ngClass]="!task.activo ? 'locked opaque' : ''"
+                          (click)="navigateToTaskDetail(task.id)">
+                    <h2 ion-text color="primary">{{task.nombre}}</h2>
+                    <p class="stable"><strong>Hora:</strong> {{task.inicio | date: "HH:mm"}} a {{task.fin | date:
+                        "HH:mm"}}</p>
+                    <p class="stable" text-capitalize><strong>Estado:</strong> {{task.estado_nombre}}
+                        <ion-icon *ngIf="task.estado_id == '1'" name="ios-radio-button-on" color="primary"></ion-icon>
+                        <ion-icon *ngIf="task.estado_id == '2'" name="ios-radio-button-on" color="danger"></ion-icon>
+                        <ion-icon *ngIf="task.estado_id == '3'" name="ios-radio-button-on" color="success"></ion-icon>
+                        <ion-icon *ngIf="task.estado_id == '4'" name="ios-radio-button-on" color="assertive"></ion-icon>
+                    </p>
+                    <ion-icon *ngIf="task.activo" name="ios-arrow-forward" color="stable" item-right></ion-icon>
+                    <ion-badge *ngIf="!task.activo" color="dark" item-right>Fuera de horario</ion-badge>
+                </ion-item>
+            </div>
+            <ion-item *ngIf="day.tareas.length < 1" text-wrap>
+                <ion-icon name="md-alert" color="primary" item-left></ion-icon>
+                <p class="dark">Día sin tareas</p>
+            </ion-item>
+        </div>
+    </ion-list>
+</ion-content>

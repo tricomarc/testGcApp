@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "284641170155",
+    "firebase_url": "https://ripleyperu-f1ee9.firebaseio.com",
+    "project_id": "ripleyperu-f1ee9",
+    "storage_bucket": "ripleyperu-f1ee9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:284641170155:android:a77dfe5816792f4eb324ae",
+        "android_client_info": {
+          "package_name": "cl.ripleyperu.gcapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "284641170155-lrhpvg7fhusjiotp4kh4rkke2u5b0fsb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA216MQ6GYGM-BNmzNAiSBQ2qSCRjsZE-4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "284641170155-lrhpvg7fhusjiotp4kh4rkke2u5b0fsb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "284641170155-jrgum3c2of3c4ivriuu0oc5da624j2nb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "cl.ripleyperu.gcapp",
+                "app_store_id": "1440521783"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

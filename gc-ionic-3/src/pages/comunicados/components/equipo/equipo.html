@@ -1,0 +1,22 @@
+<ion-item class="item-text-wrap item-divider">
+  <h2 class="positive">{{details.data.comunicado.comunicado_nombre}}</h2>
+</ion-item>
+<ion-list *ngIf="details.data.equipo.length > 0">
+  <ion-item *ngFor="let equipo of details.data.equipo">
+    <h2 class="positive text-capitalize">{{equipo.nombre}} {{equipo.apellidos}}</h2>
+    <p>Cargo: <b>{{equipo.cargo_nombre}}</b></p>
+    Tienda: <strong>{{equipo.nombre_sucursal}}</strong>
+    <p *ngIf="equipo.leido">Leido: <strong>Si</strong></p>
+    <p *ngIf="!equipo.leido">Leido: <strong>No</strong></p>
+    <p *ngIf="equipo.comprendido">Comprendido: <strong>Sí</strong></p>
+    <p *ngIf="!equipo.comprendido">Comprendido: <strong>No</strong></p>
+    <!-- <span ng-show="! equipo.comprendido">
+            <i  ng-show="equipo.leido" class="positive icon ion-eye"></i>
+        </span> -->
+  </ion-item>
+</ion-list>
+<ion-list *ngIf="details.data.equipo.length == 0">
+  <ion-item class="item-energized item-text-wrap">
+    Actualmente no cuenta con un equipo relacionado a su cargo.
+  </ion-item>
+</ion-list>

@@ -1,0 +1,44 @@
+page-kpi-colgram {
+	.noPaddingBottom{
+		border-top: 0px solid #fff;
+		padding-bottom: 0px !important;
+	}
+	.customBorderFiltros{
+		border-bottom: 1px #000 !important
+	}
+	
+	.customFontSize{
+		font-size: 12px !important;
+	}
+	[numeroPrincipal]{
+		color: color($colors, primary);
+		font-size: 40px !important;
+	}
+	[textoPrincipal]{
+		color: color($colors, primary);
+		font-size: 25px !important;
+	}
+	[numeroSecundario]{
+		color: color($colors, primary);
+		font-size: 17px !important;
+	}
+	[textoSecundario]{
+		color: color($colors, primary);
+		font-size: 15px !important;
+	}
+	[borderBottom]{
+		padding-bottom: 3px !important;
+		padding-top: 3px !important;
+		border-bottom: 1px solid #DBDBDB;
+	}
+	[pt-0]{
+		margin-top: 0px;
+		padding-top: 0px;
+	}
+	
+	[CustomNumerosSize]{
+		padding: 0px !important;
+		margin: 0px !important;
+		font-size: 3.1vw !important;
+	}
+}

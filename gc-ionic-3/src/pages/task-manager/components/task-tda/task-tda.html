@@ -1,0 +1,58 @@
+<ion-header box-shadow [ngClass]="viewContent === 'CAMERA' ? 'background-color-transparent no-display' : ''">
+  <ion-toolbar>
+    <button ion-button menuToggle start>
+      <ion-icon icon-menu name="menu" color="primary"></ion-icon>
+    </button>
+    
+    <ion-buttons end right>
+      <button ion-button icon-only end (click)="sendReport()">
+        <ion-icon icon-menu name="ios-mail-outline" color="primary"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>Task Manager</ion-title>
+
+  </ion-toolbar>
+
+  <div no-padding>
+    <ion-segment [(ngModel)]="view" color="primary">
+      <ion-segment-button value="home" *ngIf="showAssign">
+        Inicio
+      </ion-segment-button>
+      <ion-segment-button value="stats" *ngIf="showAssign">
+        Estadística
+      </ion-segment-button>
+      <ion-segment-button value="extra">
+        Mis Tareas
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+</ion-header>
+
+<ion-content padding-bottom margin-bottom [ngClass]="viewContent === 'CAMERA' ? 'background-color-transparent no-display' : ''">
+
+  <ion-refresher (ionRefresh)="refresh($event)" color="primary">
+    <ion-refresher-content pullingText="Actualizar" refreshingText="Actualizando...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <ion-fab right bottom *ngIf="showAssign">
+    <button ion-fab color="primary">
+      <ion-icon name="add"></ion-icon>
+    </button>
+    <ion-fab-list side="top">
+      <button ion-fab color="primary" (click)="addTask()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+      <button ion-fab color="primary" (click)="newAssignment()">
+        <ion-icon name="contacts"></ion-icon>
+      </button>
+    </ion-fab-list>
+  </ion-fab>
+
+  <div [ngSwitch]="view">
+    <task-home *ngSwitchCase="'home'"></task-home>
+    <task-stats *ngSwitchCase="'stats'"></task-stats>
+    <task-extra *ngSwitchCase="'extra'"></task-extra>
+  </div>
+</ion-content>

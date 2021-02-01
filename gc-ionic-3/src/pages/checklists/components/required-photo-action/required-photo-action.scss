@@ -1,0 +1,29 @@
+required-photo-action {
+	.dateCenter{
+		text-align: center;
+	}
+	.coloryTamañoCustom{
+		max-height: 100% !important;
+		max-width:100% !important;
+	}
+	.posicionCustom{
+		padding-left: 20px !important;
+		padding-right: 20px !important;
+	}
+	.tamañoFoto{
+    	height: 100%;
+    	width: 230px;
+    	margin: auto;
+    }
+    .tamañoTextoBoton{
+    	font-size: 0.8em !important;
+    }
+    .mxw-100 {
+    	/*max-width: 100% !important;*/
+    }
+
+    .mxw-80 {
+    	max-width: 90% !important;
+    	margin: 0 auto !important;
+    }
+}

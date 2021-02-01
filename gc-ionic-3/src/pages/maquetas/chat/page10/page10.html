@@ -1,0 +1,177 @@
+<ion-header box-shadow no-padding>
+    <ion-navbar>
+        <button ion-button menuToggle>
+            <ion-icon class="icon-menu" name="menu" color="primary"></ion-icon>
+        </button>
+        <div buy>
+            <!-- <ion-title><span ion-text color="primary">{{module}}</span></ion-title> -->
+        </div>
+    </ion-navbar>
+</ion-header>
+
+<!--------------------FILTROS QUE DEBERIAN IR EN LA VISTA DE GERENTE CREO::: ES EL SELECTOR DE SUCURSALES Y ZONAS------------------>
+
+<!--   <ion-toolbar box-shadow *ngIf="charge !== 'sucursal'"> -->
+    <!-- Filtro por zona -->
+<!--     <ion-item *ngIf="charge === 'pais'" class="select-period" no-lines>
+      <ion-label>Filtrar por zonas</ion-label>
+      <ion-select [(ngModel)]="selected_zone" okText="OK" cancelText="Cancelar" (ngModelChange)="zoneChanged()">
+        <ion-option [value]="'Todas'">Todas</ion-option>
+        <ion-option *ngFor="let zone of zones" [value]="zone">{{zone.nombre}}</ion-option>
+      </ion-select>
+    </ion-item> -->
+    <!-- Filtro por sucursal -->
+  <!--   <ion-item *ngIf="branch_offices && branch_offices.length > 0"  class="select-period" no-lines>
+      <ion-label>Filtrar por sucursales</ion-label>
+      <ion-select [(ngModel)]="selected_branch_office" okText="OK" cancelText="Cancelar" (ngModelChange)="branchOfficeChanged()">
+        <ion-option [value]="'Todas'">Todas</ion-option>
+        <ion-option *ngFor="let branch_office of branch_offices" [value]="branch_office">{{branch_office.nombre}}</ion-option>
+      </ion-select>
+    </ion-item>
+  </ion-toolbar> -->
+
+<ion-content>
+    <ion-item no-lines>
+        <h2 margin-top ion-text color="primary">
+            <b>Cumplimiento general</b>
+        </h2>
+        <p>Indicadores actualizados a la fecha: 7/7/2019</p>
+    </ion-item>  
+    <ion-grid>
+        <!-- CUMPLIMIENTO ACTUAL DEL PAÍS, ZONA O TIENDA SEGÚN CORRESPONDA -->
+        <ion-row>
+            <ion-col col-12 text-center>
+                <!-- SUCURSAL -->
+            <!--     <span>
+                    <h1 ion-text color="primary">
+                        <strong class="fs-5em">54%</strong>
+                    </h1>
+                </span> -->
+                <!-- ZONA -->
+                <!-- <span>
+                    <h1 ion-text color="primary" >
+                        <strong class="fs-5em">52%</strong>
+                    </h1>
+                </span> -->
+                <!-- PAÍS -->
+                <span >
+                    <h1 ion-text color="primary">
+                        <strong class="fs-5em">5%</strong>
+                    </h1>
+                </span>
+                <!-- <hr style="width:80%"> -->
+                <h3 ion-text color="primary" text-uppercase><b>Actual</b></h3>
+            </ion-col>
+        </ion-row>
+
+<!-- CUMPLIMIENTO ADICIONAL DE LA ZONA / PAÍS (NO DISPONIBLE PARA PAÍS) -->
+<ion-row >
+    <ion-col text-center col-6>
+        <h3 ion-text color="primary">52%</h3>
+        <!-- <hr style="width: 80%; margin-top: -5px; margin-bottom: -5px;"> -->
+        <h4 ion-text color="primary" text-uppercase>Zona</h4>
+    </ion-col>
+    <ion-col text-center >
+        <h3 ion-text color="primary">52%</h3>
+        <!-- <hr style="width: 80%; margin-top: -5px; margin-bottom: -5px;"> -->
+        <h4 ion-text color="primary" text-uppercase>País</h4>
+    </ion-col>
+</ion-row>
+<!-- GRÁFICO DEL CUMPLIMIENTO HISTÓRICO -->
+<ion-row>
+    <ion-col col-12>
+        <ion-item no-lines text-wrap text-center margin-top>
+            <p style="margin-bottom: 5px;">Cumplimiento últimos 3 meses</p>
+        </ion-item>
+        ¡¡¡¡aca va el grafico!!!!
+<!-- <ion-item text-wrap text-center no-lines>
+<span>El gráfico no tiene datos</span>
+</ion-item> -->
+</ion-col>
+</ion-row>
+</ion-grid>
+
+<!-- CUMPLIMIENTO ACTUAL POR ÁREA -->
+<div>
+    <ion-item no-lines>
+        <h2 ion-text color="primary">
+            <b>Cumplimiento por área</b>
+        </h2>
+        <p margin-top text-center>Resumen actual por área</p>
+    </ion-item>  
+    <ion-grid>
+        <ion-row>
+            <ion-col col-6 class="br-1 text-center custom-bb" >
+                <div>
+                    <span ion-text color="primary">
+                        <h1>-39,7</h1>
+                    </span>
+                    <button ion-button block clear color="dark"  style="height: 3.3em;">
+                        <ion-icon color="primary" name="document"></ion-icon>&nbsp;
+                        <span>Capacitación</span>    
+                    </button>
+                </div>
+            </ion-col>
+            <ion-col col-6 class="br-1 text-center custom-bb" >
+                <div>
+                    <span ion-text color="primary">
+                        <h1>-8,3%</h1>
+                    </span>
+                    <button ion-button block clear color="dark"  style="height: 3.3em;">
+                        <ion-icon color="primary" name="cash"></ion-icon>&nbsp;
+                        <span>Avance</span>    
+                    </button>
+                </div>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col col-6 class="br-1 text-center custom-bb" >
+                <div>
+                    <span ion-text color="primary">
+                        <h1>3,8%</h1>
+                    </span>
+                    <button ion-button block clear color="dark"  style="height: 3.3em;">
+                        <ion-icon color="primary" name="card"></ion-icon>&nbsp;
+                        <span>p/credito</span>    
+                    </button>
+                </div>
+            </ion-col>
+            <ion-col col-6 class="br-1 text-center custom-bb" >
+                <div>
+                    <span ion-text color="primary">
+                        <h1>-44,8%</h1>
+                    </span>
+                    <button ion-button block clear color="dark"  style="height: 3.3em;">
+                        <ion-icon color="primary" name="paper-plane"></ion-icon>&nbsp;
+                        <span>Cuota liviana</span>    
+                    </button>
+                </div>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col col-6 class="br-1 text-center custom-bb" >
+                <div>
+                    <span ion-text color="primary">
+                        <h1>-8,1%</h1>
+                    </span>
+                    <button ion-button block clear color="dark"  style="height: 3.3em;">
+                        <ion-icon color="primary" name="calculator"></ion-icon>&nbsp;
+                        <span>Digitación</span>    
+                    </button>
+                </div>
+            </ion-col>
+            <ion-col col-6 class="br-1 text-center custom-bb" >
+                <div>
+                    <span ion-text color="primary">
+                        <h1>43,9%</h1>
+                    </span>
+                    <button ion-button block clear color="dark"  style="height: 3.3em;">
+                        <ion-icon color="primary" name="hand"></ion-icon>&nbsp;
+                        <span>Seguro</span>    
+                    </button>
+                </div>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</div>
+</ion-content>

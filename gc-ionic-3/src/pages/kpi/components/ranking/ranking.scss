@@ -1,0 +1,59 @@
+page-ranking {
+	.border-r{
+		border-right: 1px solid color($colors, primary);
+	}
+	.border-b{
+		border-bottom: 1px solid color($colors, primary);
+	}
+	.custom-bb{
+		border-bottom: 1px solid #ddd;
+	}
+	.custom-bb:last-child{
+		border-bottom: none !important;
+	}
+	.fixMT{
+		margin-top: 60px;
+	}
+	.bg-primary{
+		background: color($colors, primary) !important;
+		color: #fff !important;
+	}
+
+	.main-trophy {
+		font-size: 3.7em !important;
+	}
+	.gold {
+		color:#ffd700 !important;
+	}
+	.silver {
+		color:#c0c0c0 !important;
+	}
+	.bronze {
+		color:#b8860b !important;
+	}
+	.dark {
+		color: #424242 !important;
+	}
+	.header-filter {
+		border: none !important;
+		color: #000 !important;
+	}
+	.fw-700 {
+		font-weight: 700 !important;
+	}
+	[textonivelpais]{
+		padding-bottom: 0px !important;
+		margin-bottom: 0px !important;
+	}
+	[textocumplimientopais]{
+		padding-top: 10px !important;
+		margin-top: 0px !important;
+		padding-bottom: 0px !important;
+		margin-bottom: 0px !important;
+	}
+	[indicadorpais]{
+		padding-top: 5px !important;
+		margin-top: 0px !important;
+		
+	}
+}

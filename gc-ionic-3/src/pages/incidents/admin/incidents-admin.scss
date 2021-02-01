@@ -1,0 +1,48 @@
+page-incidents-admin {
+
+    /* Estilos para clases creadas */
+    .select-status .item-inner {
+        border-bottom: 0px !important;
+    }
+
+    .incident {
+        padding-right: 90px;
+        font-weight: 700;
+    }
+
+    .icon-no-results {
+        padding-top: 3px;
+    }
+
+    .toolbar-background {
+        background-color: #fff;
+    }
+
+    .myCustomSelect{
+    max-width: 100% !important;
+    font-size: 1em !important;
+   }
+
+   .customPadding{
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+   }
+
+   .customPosition{
+    padding-left:15px;
+   }
+
+   .tamañoyColor{
+    font-size: 1.3em !important;
+    color: color($colors, primary);
+   }
+
+  .custom-bb{
+    border-bottom: 1px solid #ddd !important;
+  }
+
+  .b-t{
+    border-top: 1px solid #ddd !important;
+  }
+
+}

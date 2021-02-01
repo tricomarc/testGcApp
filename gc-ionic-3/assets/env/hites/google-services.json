@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1069191373645",
+    "firebase_url": "https://hites-139b6.firebaseio.com",
+    "project_id": "hites-139b6",
+    "storage_bucket": "hites-139b6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1069191373645:android:e648497989b502472ecd04",
+        "android_client_info": {
+          "package_name": "cl.estandariza.gcapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1069191373645-55vse7mgu5mf826pv1oskmnuoanl5c8j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcG_mY4Y2c0kF6QkUwLu2ETCGxZ7lA6pM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1069191373645-55vse7mgu5mf826pv1oskmnuoanl5c8j.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1069191373645-dtnqgi23dqse4n92olune7t50ecqnm4j.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "cl.estandariza.gcapp",
+                "app_store_id": "1447650192"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

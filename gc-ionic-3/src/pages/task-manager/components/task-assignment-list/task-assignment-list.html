@@ -1,0 +1,52 @@
+<ion-header box-shadow>
+  <ion-navbar>
+    <ion-title>Lista de tareas</ion-title>
+  </ion-navbar>
+
+  <ion-toolbar *ngIf="summaries && summaries.length">
+    <ion-item no-lines>
+      <ion-label>Estado</ion-label>
+      <ion-select [(ngModel)]="estadoId" (ngModelChange)="onSummaryChange()" interface="popover">
+        <ion-option *ngFor="let summary of summaries" [value]="summary.id">
+          {{summary.name}}
+        </ion-option>
+      </ion-select>
+    </ion-item>
+  </ion-toolbar>
+  <ion-toolbar>
+    <!-- Filtro por rango de fechas -->
+    <date-filter *ngIf="filters" [filters]="filters" (onDateChange)="changeDateFilters($event)"></date-filter>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+  <ion-item no-lines margin-top text-center *ngIf="!tasks || !tasks.length">
+    <p color="primary" ion-text>No existen tareas para este estado.</p>
+  </ion-item>
+  <ion-list>
+    <ion-row>
+      <ion-col *ngFor="let task of tasks" col-6>
+        <div class="task border-radius box-shadow" (click)="showResolution(task)">
+          <ion-badge [color]="task.estadoColor" class="categoria">{{task.estadoNombre}}</ion-badge>
+          <h4 ion-text color="primary">{{task.asignacionNombre}}</h4>
+          <h6 ion-text color="primary">{{task.usuarioNombre}} {{task.usuarioApellidos}}</h6>
+
+          <div class="footer">
+            <ion-row>
+              <ion-col col-2>
+                <!-- <div class="asignados">
+                <img src="assets/img/avatar-01.jpg" />
+              </div> -->
+              </ion-col>
+              <ion-col col-10 text-right>
+                <h6 ion-text text-capitalize>{{task.finTarea | date: 'MMM dd - HH:mm'}}</h6>
+                <p>Vencimiento</p>
+              </ion-col>
+            </ion-row>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-list>
+</ion-content>

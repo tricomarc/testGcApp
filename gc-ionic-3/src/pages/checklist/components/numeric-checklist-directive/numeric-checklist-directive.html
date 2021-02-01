@@ -1,0 +1,7 @@
+
+	<ion-card-content no-margin no-padding>
+		<p>{{pregunta.adicional ? pregunta.adicional : ''}}</p>
+			<ion-item >
+			<ion-input type="number" placeholder="Ingrese numero" [disabled]="checklistEnviado" [(ngModel)]="pregunta.respuesta.data" (ngModelChange)="onChange()"></ion-input>
+			</ion-item>   
+</ion-card-content>

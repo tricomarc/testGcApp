@@ -1,0 +1,133 @@
+<ion-header box-shadow>
+    <ion-navbar>
+        <button ion-button menuToggle>
+            <ion-icon icon-menu name="menu" color="primary"></ion-icon>
+        </button>
+        <ion-title>
+            {{module | titlecase}}
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content class="has-subheader fondo-bg">
+    <ion-refresher (ionRefresh)="refreshComunicados($event)" color="dark">
+        <ion-refresher-content pullingText="Actualizar" refreshingText="Actualizando..."></ion-refresher-content>
+    </ion-refresher>
+    <ion-searchbar box-shadow [(ngModel)]="searchComunicate" (ionInput)="filterByText($event)"
+        placeholder="Nombre de comunicado.."></ion-searchbar>
+    <ion-list *ngIf="releases || unreadReleases">
+
+        <ion-row>
+            <ion-col class="customBorderFiltros">
+                <ion-item *ngIf="!navParams.data.sucursal" no-lines>
+                    <ion-label style="font-size: 1em !important"><span ion-text color="primary">Tipo:</span>
+                    </ion-label>
+
+                    <ion-select style="font-size: 0.9em !important" [(ngModel)]="selectedType" interface="popover"
+                        (ngModelChange)="filterbyType($event)" okText="Filtrar" cancelText="Cancelar">
+                        <ion-option style="font-size: 0.9em !important" *ngFor="let type of types" value="{{type.id}}">
+                            {{type.name}}
+                        </ion-option>
+                    </ion-select>
+                </ion-item>
+            </ion-col>
+        </ion-row>
+
+        <ion-row padding-left class="customMarginTop">
+            <ion-col col-3>
+                <ion-label ion-text color="primary" class="tamañoCustomFuente">Fecha:</ion-label>
+            </ion-col>
+            <ion-col class="customPaddingTop" col-4 text-right>
+                <!--  <ion-datetime right displayFormat="DD/MM/YYYY" placeholder="Desde" [(ngModel)]="fechaDesde" (ngModelChange)="dateChanged()"
+                              doneText="Aceptar" cancelText="Cancelar">
+                    {{filter.fechaInicio | date: 'dd-MM-yyyy'}}
+                </ion-datetime>-->
+
+                <ion-datetime right [(ngModel)]="filter.fechaInicio" displayFormat="DD/MM/YYYY" placeholder="Desde"
+                    cancelText="Cancelar" doneText="Aceptar" (ngModelChange)="getAllComunicates()">
+                    {{filter.fechaInicio| date: 'dd/MM/yyyy'}}
+                </ion-datetime>
+            </ion-col>
+            <ion-col class="customPaddingTop" col-1 text-right>
+                <ion-icon class="espaciadoIcono" name="ios-arrow-forward"></ion-icon>
+            </ion-col>
+            <ion-col class="customPaddingTop" col-4 text-right>
+                <!--<ion-datetime right displayFormat="DD/MM/YYYY" placeholder="Hasta" [(ngModel)]="fechaHasta" (ngModelChange)="dateChanged()"
+                              doneText="Aceptar" cancelText="Cancelar">
+                    {{filter.fechaFin | date: 'dd-MM-yyyy'}}
+                </ion-datetime>-->
+
+                <ion-datetime right [(ngModel)]="filter.fechaFin" displayFormat="DD/MM/YYYY" placeholder="Hasta"
+                    cancelText="Cancelar" doneText="Aceptar" (ngModelChange)="getAllComunicates()">
+                    {{filter.fechaFin| date: 'dd/MM/yyyy'}}
+                </ion-datetime>
+            </ion-col>
+        </ion-row>
+
+        <ion-list-header no-margin no-padding class="tamañoCustom2 paddingEspecial" color="stable">Listado de
+            Comunicados
+        </ion-list-header>
+
+
+        <!-- <ion-row padding-left padding-right text-center class="custom-bb">
+          <ion-col col-12>
+            <button ion-button clear>Limpiar filtro de fechas</button>
+          </ion-col>
+        </ion-row> -->
+        <ion-list no-border padding-top *ngIf="comunicadosType == 'tienda'">
+            <ion-item no-lines text-center class="item-energized text-center" *ngIf="comunicados_tienda.length <= 0">
+                Sin Comunicados
+            </ion-item>
+            <div padding-top *ngIf="showUnreadReleases.length > 0">
+                <ion-item no-lines *ngFor="let comunicado of showUnreadReleases" (click)="openModal(comunicado)"
+                    detail-none>
+                    <ion-item no-lines>
+                        <h2 ion-text color="primary">{{comunicado.comunicado_nombre}}</h2>
+                        <p><b>Tipo: </b> {{comunicado.tipo_nombre}}</p>
+                        <p>Vigencia: {{comunicado.fecha_inicio | date: "dd-MM-yyyy"}}
+                            - {{comunicado.fecha_termino | date: "dd-MM-yyyy"}}</p>
+                        <ion-icon name='ios-arrow-forward' item-end color="default" class="icon-lg"></ion-icon>
+                    </ion-item>
+                </ion-item>
+            </div>
+        </ion-list>
+        <div class="fixPT2" *ngIf="showReleases.length > 0">
+            <ion-item no-lines *ngFor="let comunicado of showReleases" class="custom-bb">
+
+                <ion-item no-lines (click)="openModal(comunicado)" text-wrap no-padding>
+
+
+                    <h2 ion-text color="primary"
+                        [ngClass]="{'positive': comunicado.estado == 0, 'royal': comunicado.estado == 1}">
+                        {{comunicado.comunicado_nombre}}</h2>
+                    <p><b>Tipo: </b>{{comunicado.tipo_nombre}}</p>
+                    <p><b>Vigencia: </b> {{comunicado.fecha_inicio | date: "dd-MM-yyyy"}} - {{comunicado.fecha_termino |
+                        date: "dd-MM-yyyy"}}
+                    </p>
+                    <p *ngIf="comunicado.estado"><b>Estado: </b> Leído </p>
+                    <p *ngIf="!comunicado.estado"><b>Estado: </b> No Leído </p>
+
+                    <ion-icon *ngIf="comunicado.destacar_cuestionario" name='ios-list-box-outline' item-end
+                        [attr.style]="('color:' + comunicado.destacar_cuestionario + ' !important;' + ' margin-right: -8px;') | safeStyle"
+                        class="icon-lg" (click)="explainStatus();$event.stopPropagation();"></ion-icon>
+
+
+                    <ion-icon
+                        (click)="setFavorite(comunicado.favorito, comunicado.comunicado_id);$event.stopPropagation();"
+                        item-end [name]=" !comunicado.favorito ? 'md-star-outline' : 'md-star' "
+                        style="color: #FFAC00 !important; zoom: 1.2 !important; margin-right: -8px; "></ion-icon>
+
+                    <ion-icon name='ios-arrow-forward' item-end color="default" style="margin-right: -10px;"
+                        class="icon-lg"></ion-icon>
+                </ion-item>
+            </ion-item>
+        </div>
+    </ion-list>
+    <div *ngIf="showReleases.length == 0 && showUnreadReleases.length == 0" class=" list card item-text-wrap p-sm">
+        <ion-col col-12 padding-top>
+            <ion-item no-lines text-center>
+                <p>No se encontraron comunicados</p>
+            </ion-item>
+        </ion-col>
+    </div>
+</ion-content>

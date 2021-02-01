@@ -1,0 +1,86 @@
+<div 
+    [ngClass]="'msg-detail-' + position" 
+    [ngStyle]="(position === 'left' && message.isUserBreak) ? {'margin-top': '15px'} : {}"
+    ion-long-press [interval]="400" 
+    (onPressStart)="messageSelected()">
+    <div [ngClass]="'msg-content-' + position + '-' + message.type">
+        <span [ngClass]="'triangle-' + position" *ngIf="message.isUserBreak && message.type === 1"></span>
+        <b *ngIf="isGroup && message.isIncoming && message.isUserBreak && position === 'left'" ion-text text-nowrap class="user-name-message">
+            <img class="user-img-left"
+                [lazyLoad]="(message.owner && message.owner.avatar) ? message.owner.avatar : 'assets/img/resources/avatar.png'"
+                [tooltip]="message.owner && message.owner.name ? message.owner.name : ''" positionV="top" arrow
+                [defaultImage]="'assets/img/resources/avatar.png'">
+            <font style="margin-left: 20px !important;">{{message.owner.name}}</font>
+        </b>
+
+        <!-- MENSAJES TIPO TEXTO ( type === 1 ) -->
+        <p [ngClass]="'line-breaker-' + position + '-' + message.type" *ngIf="message.type === 1">
+            {{message.content}}
+        </p>
+
+        <!-- MENSAJES TIPO ARCHIVO ( type === 2 ) -->
+        <div [ngClass]="'line-breaker-' + position + '-' + message.type + (message.file && message.file.showAs ? (' lb-show-as-' + message.file.showAs) : '')" 
+        *ngIf="message.type === 2 && message.file && message.file.url" 
+        style="white-space: unset !important;"
+        [ngStyle]="message.isUserBreak ? { 'margin-top': '15px' } : {}">
+            <!-- IMAGENES -->
+            <div *ngIf="message.file.showAs === 'image'" class="image-container-detail">
+                <img 
+                [defaultImage]="'assets/spinner.gif'" 
+                [lazyLoad]="message.file.url"
+                [offset]="10"
+                class="default-image" #img 
+                (click)="openImage(img)" 
+                (onLoad)="imageLoaded($event, img)" alt="">
+            </div>
+            <!-- VIDEOS -->
+            <div *ngIf="message.file.showAs === 'video'">
+                <vg-player [vgMedia]="media" #media class="video-container" [ngClass]="(playingMessageId === null ? '' : (playingMessageId === message.id ? '' : 'locked'))">
+                    <video class="video-player" controls controlsList="nodownload nofullscreen" poster="''" preload="false" (playing)="onPlaying(message.id)"
+                        (pause)="onPause(message.id)">
+                        <source [src]="message.file.url">
+                    </video>
+                </vg-player>
+            </div>
+            <!-- AUDIOS -->
+            <div *ngIf="message.file.showAs === 'audio'">
+                <!-- <ion-item no-margin no-padding no-lines [ngClass]="'audio-file-' + position" class="audio-file">
+                    <audio-player [isGroup]="isGroup" [position]="position" [message]="message"></audio-player>
+                </ion-item> -->
+                <vg-player class="audio-container"
+                    [ngClass]="(playingMessageId === null ? '' : (playingMessageId === message.id ? '' : 'locked'))">
+                    <audio controls [vgMedia]="audio" #audio class="audio-player" controlsList="nodownload" (playing)="onPlaying(message.id)"
+                        (pause)="onPause(message.id)">
+                        <source [src]="message.file.url">
+                    </audio>
+                </vg-player>
+            </div>
+            <!-- OTROS -->
+            <div *ngIf="!message.file.showAs">
+                <ion-item item-right [ngClass]="'other-file-' + position" class="other-file">
+                    <h3>Archivo adjunto</h3>
+                    <p>{{message.file.name}}</p>
+                    <button ion-button item-right icon-only clear (click)="downloadFile()">
+                        <ion-icon *ngIf="!message.file.downloading" name="ios-cloud-download-outline"></ion-icon>
+                        <ion-spinner *ngIf="message.file.downloading" class="download-spinner-other"></ion-spinner>
+                    </button>
+                </ion-item>
+            </div>
+
+            <!-- INDICADOR DE DESCARGA -->
+            <ion-spinner *ngIf="message.type === 2 && message.file.downloading && message.file.showAs" class="download-spinner"></ion-spinner>
+        </div>
+
+        <!-- INFO DEL MENSAJE -->
+        <em [ngClass]="
+        ('message-time-' + position + '-' + message.type) + 
+        (message.file && message.file.showAs ? (' show-as-' + message.file.showAs + '-' + position + '-' + os) : '')">
+            {{message.time | date: 'hh:mm'}}
+            <ion-icon 
+            *ngIf="!message.isIncoming && message.status && message.status.icon"
+            [ngClass]="message.status.cssClass" 
+            [name]="message.status.icon" 
+            class="icon-message-time-right"></ion-icon>
+        </em>
+    </div>
+</div>

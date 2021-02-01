@@ -1,0 +1,207 @@
+page-map-visit {
+	.branch-offices-list {
+		margin-top: 90px !important;
+	}
+
+	.selectedBranchOfficeItem {
+		width: 100% !important;
+	}
+
+	.selectedBranchOfficeItem > .item-inner {
+		padding-right: 0px !important;
+	}
+
+	.status-avatar {
+		min-width: 40px !important;
+		min-height: 40px !important;
+	}
+
+	.status-avatar > img {
+		width: 40px !important;
+		height: 40px !important;
+	}
+
+	.no-map-alert {
+		background-color: color($colors, primary);
+		color: #fff;
+		height: 30px !important;
+		margin-top: 4px !important;
+		margin-bottom: 4px !important;
+	}
+
+	.precision-item,
+	.precision-item > .input-wrapper {
+		height: 30px !important;
+		min-height: 30px !important;
+	}
+
+	ion-content {
+		background: rgb(229, 227, 223);
+		#map_canvas {
+			width: 100%;
+			height: 100%;
+			opacity: 0;
+			transition: opacity 150ms ease-in;
+			display: block;
+		}
+		#map_canvas_hidden {
+			width: 101px;
+			height: 101px;
+			transition: opacity 150ms ease-in;
+			opacity: 0 !important;
+			display: block;
+			position: fixed;
+			bottom: 0px;
+			right: 0px;
+			z-index: -1;
+		}
+		#map_curtain {
+			width: 101px;
+			height: 101px;
+			transition: opacity 150ms ease-in;
+			display: block;
+			position: fixed;
+			bottom: 0px;
+			right: 0px;
+			z-index: 0;
+			background-color: white;
+		}
+
+		.fixed-content,
+		.scroll-content {
+			margin-bottom: 0px !important;
+		}
+	}
+	.header-md::after,
+	.tabs-md[tabsPlacement="top"] > .tabbar::after,
+	.footer-md::before,
+	.tabs-md[tabsPlacement="bottom"] > .tabbar::before {
+		background-image: none !important;
+	}
+	.toolbar-background-ios {
+		background-color: transparent !important;
+	}
+	.toolbar-background-md {
+		background-color: transparent !important;
+	}
+	ion-header ion-icon.back-button-icon.icon {
+		color: #fff;
+	}
+	.toolbar-title-ios {
+		text-align: center;
+		font-size: 1.7rem;
+		font-weight: 600;
+		color: #fff;
+		pointer-events: auto;
+	}
+	.toolbar-title-md {
+		padding: 0 12px;
+		font-size: 17px !important;
+		font-weight: 500;
+		color: #fff;
+	}
+	.accuracy {
+		position: absolute;
+		top: 30px;
+		margin: 0 auto;
+	}
+	[nombremodulo] {
+		color: #fff !important;
+		text-align: center !important;
+	}
+
+	[posicionRow] {
+		left: 0px;
+		bottom: 0px;
+	}
+	[customSeparacionPaddingMargin] {
+		color: #fff;
+		top: 50px !important;
+		position: relative;
+		padding: 0px !important;
+		margin: 0px !important;
+	}
+	[customSeparacionPaddingMarginBottom] {
+		color: #fff;
+		top: 13px !important;
+		position: relative;
+		padding: 0px !important;
+		margin: 0px !important;
+	}
+	[customSeparacionPaddingMarginTienda] {
+		color: #fff;
+		top: 27px !important;
+		position: relative;
+		padding-bottom: 0px !important;
+		margin-bottom: 0px !important;
+		font-size: 25px;
+		text-transform: capitalize !important;
+	}
+	[customSeparacionPaddingMarginDireccion] {
+		color: #fff;
+		top: 3px !important;
+		position: relative;
+		padding-bottom: 0px !important;
+		margin-bottom: 0px !important;
+	}
+	[customSeparacionPaddingMarginDistancia] {
+		color: #fff;
+		position: relative;
+		top: 5px !important;
+		font-size: 13px;
+	}
+	[customSeparacionPaddingMarginDistancia2] {
+		color: #fff;
+		top: -10px !important;
+		left: 148px;
+		position: relative;
+		padding-bottom: 0px !important;
+		margin-bottom: 0px !important;
+	}
+	[customFontSizeDireccion] {
+		font-size: 14px !important;
+	}
+	[customSeparacionPaddingMarginBoton] {
+		font-size: 25px !important;
+		text-transform: none !important;
+		height: 40px !important;
+		width: 280px !important;
+		top: 10px !important;
+		position: relative;
+		padding-bottom: 0px !important;
+		margin-bottom: 0px !important;
+		border-radius: 25px;
+	}
+	[customSeparacionPaddingMarginBoton2] {
+		font-size: 20px !important;
+		text-transform: none !important;
+		height: 40px !important;
+		width: 280px !important;
+		top: 40px !important;
+		position: relative;
+		padding-bottom: 0px !important;
+		margin-bottom: 0px !important;
+		border-radius: 25px;
+	}
+	[gradiente] {
+		height: 200px;
+		background-image: linear-gradient(to bottom, rgba(36, 71, 63, 0), rgba(36, 71, 63, 1));
+	}
+	[gradienteTop] {
+		height: 80px;
+		background-image: linear-gradient(to top, rgba(130, 130, 130, 0), rgba(130, 130, 130, 1));
+	}
+	[botonlocalizacion] {
+		width: 35px;
+		height: 35px;
+		border-radius: 25px;
+		top: 590px;
+		left: 340px;
+	}
+	[iconolocalizacion] {
+		font-size: 25px;
+		color: #fff;
+		padding: 0px !important;
+		margin: 0px !important;
+	}
+}

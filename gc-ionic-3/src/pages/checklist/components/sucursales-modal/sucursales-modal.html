@@ -1,0 +1,25 @@
+<ion-header>
+  	<ion-navbar (click)="closeModal()">
+    	<ion-title ion-text color="primary">
+    		<ion-icon color="primary" name="md-close"></ion-icon>
+    		CERRAR
+    	</ion-title>
+  	</ion-navbar>
+  	<ion-toolbar>
+		<div header-section>
+			<ion-searchbar [formControl]="searchControl" placeholder="Filtrar sucursales"></ion-searchbar>
+		</div>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content>
+	<ion-item no-lines>
+		<h4 ion-text color="primary"><b>Seleccione una sucursal</b></h4>
+	</ion-item>
+	<ion-item *ngFor="let branchOffice of branchOffices">
+		<h3 ion-text text-wrap>{{branchOffice.nombre}}</h3>
+		<button ion-button item-right round outline (click)="onBranchOfficeSelected(branchOffice)">
+			Seleccionar
+		</button>
+	</ion-item>
+</ion-content>

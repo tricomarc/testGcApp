@@ -1,0 +1,4 @@
+<ion-item no-lines class="p-sm" [ngClass]="((question.validations && question.validations.isIncomplete === true) ? 'ch-incomplete-question' : '')">
+    <p ion-text text-wrap text-center class="ws-n">{{question.adicional ? question.adicional : ''}}</p>
+    <textarea [(ngModel)]="question.respuesta.data" (ngModelChange)="onChange()" cols="30" rows="5" class="b-stable padding  ta-w" placeholder="Comentarios" [ngClass]="(checklist.estado_id === 4 || checklist.fromStatistics) ? 'opaque' : ''"></textarea>
+</ion-item>

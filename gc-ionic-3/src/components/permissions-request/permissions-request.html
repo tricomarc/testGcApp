@@ -1,0 +1,37 @@
+<ion-header box-shadow>
+    <ion-navbar>
+        <div buy>
+            <ion-title ion-text text-center><span ion-text color="primary" text-center>Permisos</span></ion-title>
+        </div>
+    </ion-navbar>
+</ion-header>
+<ion-content padding>
+	<ion-item no-lines text-center text-wrap>
+		<p>Para el correcto funcionamiento de la aplicación, por favor, acepte <br> los permisos solicitados a continuación.</p>
+	</ion-item>
+	<ion-item text-center no-lines>
+		<img src="assets/img/permissions.png" width="200" height="200">
+	</ion-item>
+
+	<div *ngIf="permissions_denied_always.length">
+		<ion-item no-lines text-wrap text-center>
+			<p>
+				Haz rechazado {{permissions_denied_always.length}} {{permissions_denied_always.length === 1 ? ' permiso' : ' permisos'}}
+				<br>
+				Para continuar, otorgue los siguientes permisos <a (click)="showSettings()">manualmente</a>
+			</p>
+		</ion-item>
+
+		<ion-item no-lines>
+			<ion-list text-center>
+				<ion-item *ngFor="let permission of permissions_denied_always" no-lines text-center>
+					<span>{{permission.label}}</span>
+				</ion-item>
+			</ion-list>
+		</ion-item>
+	</div>
+
+	<ion-item text-center no-lines *ngIf="waiting">
+		<ion-spinner name="dots" color="primary" margin-top></ion-spinner>
+	</ion-item>
+</ion-content>

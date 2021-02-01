@@ -1,0 +1,95 @@
+<ion-list class="outer-content" *ngFor="let alternativa of pregunta.alternativas">
+
+    <!--CHECKLIST-->    <!--PREGUNTA DE ALTERNATIVA EN CHECKLIST-->
+
+    <!--  <ion-list no-lines no-margin no-padding *ngIf="alternativa.respuesta && !isTask">
+       <ion-item border no-lines>
+         <div item-start>
+           <span ion-text no-margin>{{alternativa.texto}}</span>
+         </div>
+         <ion-checkbox color="primary" item-end (ionChange)="limpiarAlternativasCheckbox2(pregunta.alternativas, alternativa)"
+    [(ngModel)]="alternativa.respuesta.checked" [disabled]="checklistEnviado"></ion-checkbox>
+       </ion-item>
+     </ion-list> -->
+
+    <ion-list class="customPadding" *ngIf="alternativa.respuesta && !isTask">
+        <ion-item *ngIf="alternativa.respuesta && !isTask">
+            <ion-label class="customTamaño" text-wrap>
+                {{alternativa.texto}}
+            </ion-label>
+            <ion-checkbox color="primary" item-end
+                          (ionChange)="limpiarAlternativasCheckbox2(pregunta.alternativas, alternativa)"
+                          [(ngModel)]="alternativa.respuesta.checked" [disabled]="checklistEnviado">
+
+            </ion-checkbox>
+        </ion-item>
+    </ion-list>
+
+    <!-- ------------------------------------------------------------------Checkbox--------------------------- -->
+
+    <preguntas-checklist-directive
+            *ngIf="alternativa.respuesta && alternativa.respuesta.checked && alternativa.codigo_tipo && !isTask"
+            [pregunta]="alternativa"
+            [checklistEnviado]="checklistEnviado"
+            [fromStats]="fromStats"
+            [subPregunta]="true">
+    </preguntas-checklist-directive>
+
+
+    <preguntas-checklist-directive
+            *ngIf="alternativa.respuesta && alternativa.respuesta.checked && !alternativa.codigo_tipo && alternativa.subPregunta && !isTask"
+            [pregunta]="alternativa.subPregunta"
+            [checklistEnviado]="checklistEnviado"
+            [fromStats]="fromStats"
+            [subPregunta]="true">
+    </preguntas-checklist-directive>
+
+
+    <!--VISITAS-->
+    <ion-item *ngIf="pregunta.visita && !isTask">
+        <ion-label text-wrap>{{alternativa.nombre}}</ion-label>
+        <ion-checkbox
+                name="{{alternativa.id}}-alt"
+                [(ngModel)]="alternativa.checked"
+                [disabled]="checklistEnviado"
+                [checked]="alternativa.checked"
+                class="item-text-wrap"
+                (ionChange)="updateSelect(alternativa, $event)">
+
+        </ion-checkbox>
+    </ion-item>
+
+    <subradio-visita-directive
+            *ngIf="alternativa.subpregunta != null && alternativa.subpregunta.tipo_id == 1 && alternativa.checked == true && !isTask"
+            [alternativa]="alternativa" [ambitState]="ambitState"
+    ></subradio-visita-directive>
+
+    <subtext-visita-directive *ngIf="alternativa.tipo_id == 3 && alternativa.checked == true && !isTask" [alternativa]="alternativa" [pregunta]="pregunta" [ambitState]="ambitState"></subtext-visita-directive>
+
+    <subfoto-visita-directive *ngIf="alternativa.tipo_id == 4 && alternativa.checked == true && !isTask"
+                              [alternativa]="alternativa" [ambitState]="ambitState"></subfoto-visita-directive>
+
+    <subalert-visita-directive *ngIf="alternativa.tipo_id == 5 && alternativa.checked == true && !isTask"
+                               [alternativa]="alternativa"></subalert-visita-directive>
+
+    <commentary-visita-directive *ngIf="alternativa.checked == true && alternativa.comentario > 0 && !isTask" [alternativa]="alternativa" [ambitState]="ambitState"></commentary-visita-directive>
+
+    <!-- TAREAS-->
+    <ion-list class="customPadding" *ngIf="isTask">
+        <ion-item>
+            <ion-label class="customTamaño">
+                {{alternativa.texto}}
+            </ion-label>
+            <ion-checkbox name="{{alternativa.id}}-alt" color="primary" item-end [(ngModel)]="alternativa.checked"
+                          [disabled]="checklistEnviado" [checked]="alternativa.checked">
+            </ion-checkbox>
+        </ion-item>
+    </ion-list>
+
+    <!-- <ion-item *ngIf="isTask">
+        <ion-label>{{alternativa.texto}}</ion-label>
+        <ion-checkbox name="{{alternativa.id}}-alt" [(ngModel)]="alternativa.checked" [disabled]="checklistEnviado" [checked]="alternativa.checked" class="item-text-wrap">
+        </ion-checkbox>
+    </ion-item> -->
+
+</ion-list>

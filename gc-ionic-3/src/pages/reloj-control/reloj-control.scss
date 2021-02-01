@@ -1,0 +1,59 @@
+reloj-control {
+
+  .customColorSeccionHeader {
+    color: #fff;
+  }
+  .customSizeHoras {
+    font-size: 3.7vw !important;
+  }
+  .fondoColor {
+    background-color: color($colors, primary);
+  }
+  .customBorderFiltros {
+    border-bottom: 1px #000 !important
+  }
+  .textoDia {
+    font-size: 5vw;
+  }
+  .customDiaText {
+    color: color($colors, primary);
+    padding-left: 25px !important;
+    margin-bottom: 0px !important;
+    padding-bottom: 0px !important;
+  }
+  .customFontSize1 {
+    font-size: 4vw;
+    margin-top: 5px !important;
+    padding-bottom: 0px !important;
+    margin-bottom: 0px !important;
+
+  }
+  .customFontSize2 {
+    font-size: 4vw;
+    margin-top: 5px !important;
+    padding-top: 0px !important;
+    margin-bottom: 0px !important;
+
+  }
+  .customMarginRow {
+    margin-left: 12px !important;
+    margin-top: 0px !important;
+    padding-top: 0px !important;
+  }
+  .list-ios > .item-block:first-child {
+    border-top: none !important;
+  }
+  .customColorBadgeAprobada {
+    background-color: color($colors, balanced) !important;
+  }
+  .customColorBadgeRechazada {
+    background-color: color($colors, danger) !important;
+  }
+  .customColorBadgeEspera {
+    background-color: color($colors, energized) !important;
+  }
+  .customColorBadgeActual {
+    background-color: color($colors, primary) !important;
+  }
+
+}

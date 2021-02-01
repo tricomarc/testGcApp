@@ -1,0 +1,232 @@
+<ion-header box-shadow>
+  	<ion-navbar>
+	    <div buy>
+	    	<ion-title>
+	    		<span ion-text color="primary" class="lh-15">{{title}}</span>
+	    	</ion-title>
+	    </div>
+  	</ion-navbar>
+</ion-header>
+
+<ion-content>
+	<ion-refresher (ionRefresh)="refreshVisualReport($event)" color="primary">
+	    <ion-refresher-content pullingText="Actualizar" refreshingText="Actualizando..."></ion-refresher-content>
+	</ion-refresher>
+	<ion-row>
+        <ion-col no-padding>
+            <ion-list-header box-shadow no-margin no-lines>
+                <h1 ion-text color="primary" header-title>Detalle campaña a revisar</h1>
+            </ion-list-header>
+        </ion-col>
+    </ion-row>
+	<div *ngIf="visual" text-wrap>
+		<ion-item no-lines>
+		    <ion-icon [name]="visual.status_data.icon" [color]="visual.status_data.color" item-start></ion-icon>
+		    <h2 ion-text color="primary"><b>{{visual.nombre}}</b></h2>
+		    <p>Estado: <strong>{{visual.status_data.nombre}}</strong></p>
+		</ion-item>
+		<img [src]="visual.banner">
+		<!-- Descripción -->
+		<ion-row>
+			<ion-col col-12>
+				<h4 ion-text margin color="primary">
+					<b>Descripción:</b>
+				</h4>
+			</ion-col>
+			<ion-col col-12>
+				<div margin-top class="fixInterlineado" [innerHTML]="visual.descripcion | sanitizeHtml"></div>
+			</ion-col>
+		</ion-row>
+		<!-- Código -->
+		<div *ngIf="visual.codigo">
+			<ion-item no-lines class="custom-bb">
+				<h4 ion-text color="primary"><b>Código:</b></h4>
+				<p>{{visual.codigo}}</p>
+			</ion-item>
+		</div>
+		<!-- Fechas -->
+		<ion-item no-lines>
+			<h4 ion-text color="primary"><b>Fechas:</b></h4>
+		</ion-item>
+		<ion-list class="custom-bb">
+		  	<ion-item no-lines *ngIf="visual.fecha_implementacion">
+		  		<p>Implementación:</p>
+		    	<ion-badge item-end color="primary">
+		    		{{visual.fecha_implementacion.day.real}} - {{visual.fecha_implementacion.month.string}} - {{visual.fecha_implementacion.year.real}}
+		    	</ion-badge>
+		  	</ion-item>
+		  	<ion-item no-lines *ngIf="visual.fecha_lanzamiento">
+		  		<p>Lanzamiento:</p>
+		    	<ion-badge item-end color="primary">
+		    		{{visual.fecha_lanzamiento.day.real}} - {{visual.fecha_lanzamiento.month.string}} - {{visual.fecha_lanzamiento.year.real}}
+		    	</ion-badge>
+		  	</ion-item>
+		  	<ion-item no-lines *ngIf="visual.fecha_termino">
+		  		<p>Término:</p>
+		    	<ion-badge item-end color="primary">
+		    		{{visual.fecha_termino.day.real}} - {{visual.fecha_termino.month.string}} - {{visual.fecha_termino.year.real}}
+		    	</ion-badge>
+		  	</ion-item>
+		  	<ion-item no-lines *ngIf="visual.fecha_reporte">
+		  		<p>Reporte:</p>
+		    	<ion-badge item-end color="primary">
+		    		{{visual.fecha_reporte.day.real}} - {{visual.fecha_reporte.month.string}} - {{visual.fecha_reporte.year.real}} {{visual.fecha_reporte.time}}
+		    	</ion-badge>
+		  	</ion-item>
+		</ion-list>
+
+		<!-- Material -->
+		<div *ngIf="visual.reportable">
+			<ion-item no-margin no-lines>
+				<h4 ion-text color="primary"><b>Material:</b></h4>
+			</ion-item>
+			<ion-item no-lines class="custom-bb">
+				<ion-label><p>¿Fue recibido el material?</p></ion-label>
+			  	<ion-label *ngIf="visual.llego_material"><p>Recepción: <strong>{{(visual.fecha_llego_material*1000) | cleanDate | date:'dd-MM-yyyy H:mm'}}</strong></p></ion-label>
+			  	<ion-toggle [disabled]="true" [(ngModel)]="visual.llego_material" color="dark"></ion-toggle>
+			</ion-item>
+		</div>
+		<!-- Fotos -->
+		<ion-item no-lines *ngIf="visual.fotos.length < 1">
+			<p>No hay fotos</p>
+		</ion-item>
+		<!-- Fotos sin clasificar -->
+		<ion-item no-lines *ngIf="visual.fotos.length > 0 && (visual.fotos_clasificadas.length < 1 || visual.fotos_clasificadas === null)">
+			<ion-grid>
+				<ion-row>
+					<!-- Referencias -->
+					<ion-col col-6 *ngFor="let photo of visual.fotos">
+						<div class="photo-container">
+							<img [src]="photo.url ? (photo.url | sanitizeImg) : 'assets/img/resources/default-placeholder.png'" class="implementation-container">
+							<button ion-button color="light" class="btn-bottom-left" (click)="openPhotoViewer(photo, 'reference', false, null, false)">
+								<ion-icon name="eye" color="primary"></ion-icon>
+							</button>
+						</div>
+						<p>{{photo.descripcion}}</p>
+					</ion-col>
+				</ion-row>
+			</ion-grid>
+		</ion-item>
+		<!-- Fotos requeridas -->
+		<!-- Fotos / videos pendientes -->
+		<ion-item no-lines>
+			<h4 ion-text color="primary"><b>Implementaciones</b></h4>
+		</ion-item>
+		<ion-item no-lines *ngIf="visual.classified_photos.required.pending.length < 1">
+			<p class="black-text"><strong>No hay implementaciones.</strong></p>
+		</ion-item>
+		<ion-item no-lines *ngIf="visual.classified_photos.required.pending.length > 0" class="custom-bb">
+			<ion-grid>
+				<ion-row *ngFor="let photo of visual.classified_photos.required.pending">
+					<!-- Referencias -->
+					<ion-col col-6>
+						<div class="photo-container">
+							<img [src]="photo.url ? (photo.url | sanitizeImg) : 'assets/img/resources/default-placeholder.png'" class="implementation-container">
+							<button ion-button color="light" *ngIf="photo.url" class="btn-bottom-left" (click)="openPhotoViewer(photo, 'reference', false, null, false)">
+								<ion-icon name="eye" color="primary"></ion-icon>
+							</button>
+						</div>
+						<p text-center margin-top>{{photo.descripcion}}</p>
+					</ion-col>
+					<!-- Implementación -->
+					<ion-col col-6 *ngIf="photo.implementation">
+						<div class="photo-container">
+							<!-- Si la implementación es foto -->
+							<img *ngIf="!photo.solicitar_video" [src]="photo.implementation.url ? (photo.implementation.url | sanitizeImg) : 'assets/img/resources/default-placeholder.png'" class="implementation-container">
+							<!-- Si la implementación es video pero no se grabó uno -->
+							<img *ngIf="photo.solicitar_video && (photo.implementation.motivo && photo.implementation.motivo.id)" [src]="photo.implementation.url ? (photo.implementation.url | sanitizeImg) : 'assets/img/resources/default-placeholder.png'" class="implementation-container">
+							<!-- Si la implementación es video -->
+							<img *ngIf="photo.solicitar_video && photo.implementation.url && (!photo.implementation.motivo || !photo.implementation.motivo.id)" class="implementation-container locked" [src]="'assets/img/resources/play-btn.png'">
+							<button ion-button color="light" class="btn-bottom-left" (click)="openPhotoViewer(photo.implementation, 'implementation', photo.solicitar_video, photo.url, false)">
+								<ion-icon name="eye" color="primary"></ion-icon>
+							</button>
+							<button ion-button color="light" class="btn-bottom-right" *ngIf="photo.implementation && photo.implementation.comentario_admin" (click)="openPhotoViewer(photo.implementation, 'implementation', photo.solicitar_video, photo.url, false)">
+								<ion-icon name="ios-chatbubbles" color="primary"></ion-icon>
+							</button>
+							<button ion-button color="light" class="btn-top-right" *ngIf="photo.implementation && photo.implementation.motivo && photo.implementation.motivo.id" (click)="showNoImplementationReason(photo.implementation.motivo)">
+								<ion-icon name="ios-information-circle" color="primary"></ion-icon>
+							</button>
+						</div>
+					</ion-col>
+				</ion-row>
+			</ion-grid>
+		</ion-item>
+		<!-- Fotos adicionales -->
+		<div *ngIf="visual.classified_photos.optional.length > 0">
+			<ion-item no-lines>
+				<h4 ion-text color="primary"><b><p>Mis fotos adicionales</p></b></h4>
+			</ion-item>
+			<ion-item no-lines>
+				<ion-grid>
+					<ion-row>
+						<ion-col col-6 *ngFor="let photo of visual.classified_photos.optional">
+							<div class="photo-container">
+								<img [src]="photo.url ? (photo.url | sanitizeImg) : 'assets/img/resources/default-placeholder.png'" class="implementation-container">
+								<button ion-button color="light" class="btn-bottom-left" (click)="openPhotoViewer(photo, 'implementation', photo.solicitar_video, photo.url, false)">
+									<ion-icon name="eye" color="primary"></ion-icon>
+								</button>
+								<button ion-button color="light" class="btn-bottom-right" *ngIf="photo.implementation && photo.implementation.comentario_admin" (click)="openPhotoViewer(photo, 'implementation', photo.solicitar_video, photo.url, false)">
+									<ion-icon name="ios-chatbubbles" color="primary"></ion-icon>
+								</button>
+							</div>
+							<textarea #area rows="5" disabled="true" class="commentary-field" [value]="photo.comentario ? photo.comentario : 'No se ha comentado la foto.'" style="max-width: 100%;"></textarea>
+							<ion-icon name="ios-arrow-dropdown-circle" *ngIf="photo.comentario && photo.comentario.length > 75" class="icon-scroll" color="dark" ion-long-press [interval]="400" (onPressStart)="scrollTextArea(area)" (onPressing)="scrollTextArea(area)"></ion-icon>
+						</ion-col>
+					</ion-row>
+				</ion-grid>
+			</ion-item>
+		</div>
+		<!-- Archivos -->
+		<ion-item no-lines>
+			<h4 ion-text color="primary"><b>Archivos:</b></h4>
+		</ion-item>
+		<ion-item no-lines *ngIf="visual.archivos.length < 1">
+			Sin archivos.
+		</ion-item>
+		<div *ngIf="visual.archivos.length > 0">
+			<ion-item no-lines *ngFor="let file of visual.archivos" (click)="downloadFile(file)" class="custom-bb">
+				<ion-icon color="primary" name="ios-cloud-download" item-right></ion-icon>
+				<p>{{file.nombre}}</p>
+			</ion-item>
+		</div>
+		<!-- Comentarios -->
+		<ion-item no-lines>
+			<h4 ion-text color="primary"><b>Comentarios:</b></h4>
+		</ion-item>
+		<ion-item no-lines *ngFor="let commentary of visual.comentarios" class="custom-bb">
+		    <ion-avatar item-start>
+		      	<img src="assets/img/resources/avatar.png">
+		    </ion-avatar>
+		    <h3 class="commentary-title black-text">{{commentary.nombre}}</h3>
+		    <p>{{commentary.comentario}}</p>
+		    <small class="commentary-date"><p>{{commentary.created}}</p></small>
+		 </ion-item>
+		<ion-item no-lines *ngIf="visual.comentarios.length < 1" class="custom-bb">
+			<p>No se han realizado comentarios a la campaña</p>
+		</ion-item>
+		<ion-item no-lines>
+			<h4 ion-text color="primary"><b>Agregar comentario:</b></h4>
+		</ion-item>
+		<ion-item no-lines>
+		    <ion-textarea type="text" placeholder="Escribe tu comentario aquí" [(ngModel)]="form.commentary" class="textarea-commentary" rows="5"></ion-textarea>
+		</ion-item>
+		<ion-item no-lines class="pbfix">
+			<button ion-button block default color="primary" (click)="addCommentary()">Enviar comentario</button>	
+		</ion-item>
+	</div>
+</ion-content>
+
+<ion-footer *ngIf="visual">
+	<ion-toolbar color="primary">
+		<ion-grid>
+			<ion-row>
+				<ion-col col-6>
+					<button ion-button block clear color="light" (click)="sendVisualRevision(false)">RECHAZAR</button>
+				</ion-col>
+				<ion-col col-6>
+					<button ion-button block clear color="light" (click)="sendVisualRevision(true)">ACEPTAR</button>
+				</ion-col>
+			</ion-row>
+		</ion-grid>
+	</ion-toolbar>
+</ion-footer>

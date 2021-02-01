@@ -1,0 +1,140 @@
+<ion-header box-shadow [hidden]="!showView">
+	<ion-navbar>
+		<button ion-button menuToggle>
+			<ion-icon class="icon-menu" name="menu" color="primary"></ion-icon>
+		</button>
+		<div buy>
+			<ion-title>{{module}}</ion-title>
+		</div>
+		<ion-buttons end right>
+			<button ion-button icon-only [disabled]="disableUpdateButton" (click)="actualizarData(zonaSeleccionada.id)">
+                <ion-icon name="cloud-upload" color="primary"></ion-icon>
+            </button>
+			<button ion-button icon-only (click)="showVisitActionSheet()">
+				<ion-icon name="more" color="primary"></ion-icon>
+			</button>
+		</ion-buttons>
+	</ion-navbar>
+</ion-header>
+
+<ion-content no-lines *ngIf="showView">
+	<!-- <ion-toolbar box-shadow>
+		<ion-list no-margin>
+			<ion-item no-lines *ngIf="zonas != undefined && zonas.length > 1">
+				<label>
+					Zonas
+					<select [(ngModel)]="zonaSeleccionada" (ngModelChange)="selecionarZona(zonaSeleccionada)">
+						<option *ngFor="let zona of zonas" [ngValue]="zona"> {{zona.nombre}}</option>
+					</select>
+				</label>
+			</ion-item>
+			<ion-item no-lines>
+				<ion-label>Selecciona una tienda</ion-label>
+				<ion-select placeholder="Todas" okText="OK" cancelText="Cancelar" [(ngModel)]="sucursalSeleccionada" (ngModelChange)="actualizarLocal(sucursalSeleccionada)" #branch_office_select>
+					<ion-option class="customFont" *ngFor="let sucursal of sucursales" [value]="sucursal" class="lh-15">
+						{{sucursal.nombre}}
+					</ion-option>
+				</ion-select>
+			</ion-item>
+		</ion-list>
+	</ion-toolbar> -->
+
+	<!-- Filtro por zonas -->
+	<ion-item no-lines *ngIf="zones.all && zones.all.length > 1">
+		<ion-label class="customPadding lh-15">Zonas:</ion-label>
+		<ionic-selectable
+			item-content
+			[(ngModel)]="selectedZone"
+			[items]="zones.view"
+			itemValueField="id"
+			itemTextField="nombre"
+			closeButtonText="Cancelar"
+			[canSearch]="true"
+			(onSearch)="onSearchZones($event)"
+			(onChange)="setBranchOffices()"
+			[isMultiple]="false"
+			[searchFailText]="'No se encontraron zonas.'"
+			[searchPlaceholder]="'Búsqueda'">
+			<ng-template ionicSelectablePlaceholderTemplate>
+                <div class="ionic-selectable-value-item">
+                    Seleccione
+                </div>
+            </ng-template>
+		</ionic-selectable>
+	</ion-item>
+
+	<!-- Filtro por sucursales -->
+	<ion-item no-lines *ngIf="((zones && zones.length && selectedZone) || ((!zones || !zones.length) && (branchOffices.current && branchOffices.current.length)))">
+		<ion-label class="customPadding lh-15">Sucursales:</ion-label>
+		<ionic-selectable
+			item-content
+			[(ngModel)]="selectedBranchOffice"
+			[items]="branchOffices.view"
+			itemValueField="id"
+			itemTextField="nombre"
+			closeButtonText="Cancelar"
+			[canSearch]="true"
+			(onSearch)="onSearchBranchOffices($event)"
+			(onChange)="selectBranchOffice()"
+			[isMultiple]="false"
+			[searchFailText]="'No se encontraron sucursales.'"
+			[searchPlaceholder]="'Búsqueda'">
+			<ng-template ionicSelectablePlaceholderTemplate>
+                <div class="ionic-selectable-value-item">
+                    Seleccione
+                </div>
+            </ng-template>
+		</ionic-selectable>
+	</ion-item>
+
+	<ion-row>
+		<ion-col col-12 text-center>
+			<!-- <i class="fas fa-store" customTamañoStore (click)="openBranchOfficeSelect()"></i> -->
+			<i class="fas fa-store" customTamañoStore></i>
+		</ion-col>
+		<ion-col col-12 text-center margin-bottom *ngIf="sucursalSeleccionada.nombre">
+			<h3 ion-text color="primary" customSeparacionPaddingMargin margin-top margin-bottom>
+				Tienda <br> {{sucursalSeleccionada.nombre}}
+			</h3>
+		</ion-col>
+
+		<ion-col col-12 text-center margin-bottom margin-top *ngIf="!sucursalSeleccionada || !sucursalSeleccionada.nombre">
+			<h5 ion-text color="primary">Ninguna tienda seleccionada</h5>
+		</ion-col>
+
+		<ion-col col-12 text-center margin-top padding-top>
+			<button box-shadow ion-button customSeparacionPaddingMarginBoton [disabled]="!sucursalSeleccionada.nombre" (click)="redirectToSucursal(sucursalSeleccionada.id)">
+				Ir a tienda
+			</button>
+		</ion-col>
+	</ion-row>
+	<ion-row *ngIf="totalToSend > 0" (click)="redirectToNotSend()">
+		<ion-col col-12 text-center>
+			<p ion-text customTamañoAlerta color="primary">
+				<strong>¡Atención!</strong><br>Envía tus checklists finalizados <strong>aquí</strong>.
+			</p>
+			<i class="fas fa-bell" customTamañoCampanaAlerta></i>
+		</ion-col>
+	</ion-row>
+	<ion-row>
+		<ion-col col-12 text-center>
+			<p margin-bottom ion-text color="primary">
+				Recuerda 
+				<strong (click)="actualizarData(zonaSeleccionada.id)">
+					actualizar<ion-icon name="cloud-upload" color="primary"></ion-icon>
+				</strong> 
+				los datos periódicamente para evitar la pérdida de información y mantener tus checklist al día.
+			</p>
+			<p ion-text customTamañoActualizacion>
+				Última actualización <strong>{{last_update | date: 'dd-MM-yyyy'}}
+				a las {{last_update | date: 'HH:mm'}} hrs</strong>
+			</p>
+		</ion-col>
+	</ion-row>
+</ion-content>
+
+<ion-content no-lines *ngIf="!showView">
+	<ion-item no-lines text-center margin-top>
+		<ion-spinner></ion-spinner>
+	</ion-item>
+</ion-content>

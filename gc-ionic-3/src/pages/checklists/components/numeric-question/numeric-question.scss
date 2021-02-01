@@ -1,0 +1,38 @@
+numeric-question {
+    .btn-remove {
+		margin: 0 !important;
+    	width: 30px !important;
+    	height: 34px !important;
+    	border-radius: 10px 0px 0px 10px !important;
+    	background-color: #fff !important;
+    	color: color($colors, positive) !important;
+    	border: 1px solid #ddd !important;
+    	//border-right: none !important;
+    	box-shadow: none !important;
+    }
+    
+    .btn-add {
+		margin: 0 !important;
+	    width: 30px !important;
+	    height: 34px !important;
+	    border-radius: 0px 10px 10px 0px !important;
+	    background-color: #fff !important;
+	    color: color($colors, positive) !important;
+    	border: 1px solid #ddd !important;
+    	//border-left: none !important;
+    	box-shadow: none !important;
+    }
+    
+    .input-material {
+		border: 1px #ddd solid !important;
+		height: 34px !important;
+		margin-left: 50px !important;
+		margin-right: 50px !important;	
+	}
+	
+	.input-cover{
+		touch-action: none !important;
+		width: 200px !important;
+		left: 85px !important;
+	}
+}

@@ -1,0 +1,68 @@
+<ion-header box-shadow>
+  <ion-navbar>
+    <div buy>
+      <ion-title>
+        <span ion-text color="primary">Recuperar clave</span>
+      </ion-title>
+    </div>
+  </ion-navbar>
+</ion-header>
+  
+<ion-content padding>
+
+  <ion-grid padding *ngIf="!showPassword">
+    <div text-center no-lines>
+      <h4 ion-tex>Pregunta de seguridad</h4>
+    </div>
+
+    <ion-row *ngFor="let alternative of alternatives">
+      <ion-item no-lines margin-top class="bb-custom" *ngIf="alternative == 'birthdate'">
+        <ion-label stacked><span ion-text color="primary">Indique su fecha de cumpleaños</span></ion-label>
+        <ion-datetime [(ngModel)]="birthdate" 
+          displayFormat="DD-MM-YYYY" placeholder="DD-MM-YYYY" cancelText="Cancelar"
+          doneText="Aceptar" >
+        </ion-datetime>
+      </ion-item>    
+
+      <ion-item no-lines margin-top class="bb-custom" *ngIf="alternative == 'dni'">
+        <ion-label stacked><span ion-text color="primary">Indique su Cédula</span></ion-label>
+        <ion-input placeholder="Cédula" [(ngModel)]="dni" ></ion-input>
+      </ion-item>
+    </ion-row>
+
+
+
+    <ion-row margin-top padding-top>
+      <button margin-top ion-button color="primary" block (click)="recoverPass()">Solicitar</button>
+    </ion-row>                   
+  </ion-grid>
+
+
+  <ion-grid padding *ngIf="showPassword">
+    <ion-item *ngIf="password_rules" text-left no-lines text-wrap>
+      <p>{{password_rules}}</p>
+    </ion-item>
+    
+    <!-- Nueva clave -->
+    <ion-row>
+      <ion-item  class="ion-item bb-custom">
+        <ion-label stacked><span ion-text color="primary">Nueva clave</span></ion-label>
+        <ion-input type="password" [(ngModel)]="form.clave"></ion-input>
+      </ion-item>
+    </ion-row>
+
+    <!-- Confirmación -->
+    <ion-row>
+      <ion-item margin-top class="ion-item bb-custom">
+        <ion-label stacked><span ion-text color="primary">Confirmar nueva clave</span></ion-label>
+        <ion-input type="password" [(ngModel)]="form.confirmacion" >
+        </ion-input>
+      </ion-item>
+    </ion-row>
+    <ion-row margin-top>
+      <button margin-top ion-button color="primary" block (click)="changePassword()"
+        [disabled]="!form.clave || !form.confirmacion">Cambiar clave</button>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

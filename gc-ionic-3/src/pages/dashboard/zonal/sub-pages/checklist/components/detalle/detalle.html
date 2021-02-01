@@ -1,0 +1,76 @@
+<ion-header box-shadow *ngIf="!navParams.data.sucursal">
+    <ion-navbar>
+        <div buy>
+            <ion-title><span ion-text text-center color="primary">{{module}}</span></ion-title>
+        </div>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <ion-row>
+        <ion-col no-padding>
+            <ion-list-header box-shadow no-margin no-lines>
+                <h1 ion-text color="primary" header-title>Detalle {{module}}</h1>
+            </ion-list-header>
+        </ion-col>
+    </ion-row>
+
+    <ion-list-header no-margin no-padding class="tamañoCustom2" color="primary" text-center>Estadísticas</ion-list-header>
+
+    <!-- Filtro por rango de fechas y buscador -->
+    <date-filter *ngIf="filters" [filters]="filters" (onDateChange)="changeDateFilters($event)"></date-filter>
+
+    <!-- box-shadow -->
+    <ion-searchbar *ngIf="showFilter" [(ngModel)]="searchChecklist" (ionInput)="filterChecklist()"
+        placeholder="Nombre del checklist..."></ion-searchbar>
+
+    <!-- Gráficos -->
+    <ion-item no-padding text-center no-lines [ngStyle]="{'display':datos.length > 0 ? 'inline' : 'none' }">
+        <ion-row>
+            <ion-col col-6>
+                <canvas #doughnutCanvas></canvas>
+                <h1 ion-text color="primary" *ngIf="datos.length > 0"><strong>{{datos[0].totales.porcentaje_enviados}}%</strong></h1>
+                <small>Enviados</small>
+            </ion-col>
+            <ion-col col-6>
+                <canvas #doughnutCanvas2 [ngStyle]="{'display':datos.length > 0 ? 'inline' : 'none' }"></canvas>
+                <h1 ion-text color="primary" *ngIf="datos.length > 0"><strong>{{datos[0].totales.porcentaje_nota}}%</strong></h1>
+                <small>{{'Nota' | synonymous}}</small>
+            </ion-col>
+        </ion-row>
+    </ion-item>
+
+    <ion-list-header no-margin no-padding *ngIf="datos.length > 0" class="tamañoCustom2 fuenteColor" color="stable"
+                     text-center>Listado de {{module}}
+    </ion-list-header>
+
+    <ion-list no-border class="noPaddingBottom" *ngIf="datos.length > 0 && isReady">
+        <div class="customBorderBottom" *ngFor="let check of datos[0].checklist"
+             (click)="redirectToChecklist(check.check_id, check.nombre)">
+            <ion-row>
+                <ion-col col-12 text-center>
+                    <h2 class="paddingEspecial" text-wrap ion-text color="primary">{{check.nombre}}</h2>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col col-6 text-center>
+                    <small ion-text class="customTamañoDatoSucursal" color="primary">
+                        <b>{{check.enviados}}</b>
+                    </small>
+                    <br>
+                    <small>Enviados</small>
+                </ion-col>
+                <ion-col col-6 text-center>
+                    <small ion-text class="customTamañoDatoSucursal" color="primary">
+                        <b>{{check.total}}</b>
+                    </small>
+                    <br>
+                    <small>Total</small>
+                </ion-col>
+            </ion-row>
+        </div>
+    </ion-list>
+</ion-content>
+
+
+    

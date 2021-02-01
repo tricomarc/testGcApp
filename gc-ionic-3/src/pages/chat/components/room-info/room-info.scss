@@ -1,0 +1,191 @@
+room-info {
+	.botonNuevoMensaje{
+		margin-top: 18px !important;
+		margin-bottom: 0px !important;
+		margin-left: 0px;
+		height: 10px !important;
+		width: 10px !important;
+		border-radius: 50% !important;
+	}
+	.mr-0{
+		margin-right: 0px !important;
+	}
+	.ml-0{
+		margin-left: 0px !important;
+	}
+	.pr-0{
+		padding-right: 0px !important;
+	}
+	.pl-0{
+		padding-left: 0px !important;
+	}
+	.customBack{
+		bottom: -5px !important;
+		height: 80px !important;
+		left: 0px !important;
+		padding-left: 0px;
+		margin-left: 0px;
+		width: 100%;
+		background-color: rgba(0, 0, 0, 0.4);
+		box-shadow: -0px -20px 30px rgba(0, 0, 0, 0.4), -350px -20px 30px rgba(0, 0, 0, 0.1), 350px -20px 30px rgba(0, 0, 0, 0.1) ; 
+
+	}
+
+
+	[background-size] {
+		height: 200px;
+		position: relative;
+		[parallax-header] {
+			margin-bottom: 5px !important;
+			position: absolute;
+			bottom: 20px;
+			left: 16px;
+			right: 16px;
+		}
+	}
+
+	.input-wrapper {
+		display: block;
+	}
+	[parallax-title] {
+		color: color($parallaxPage, parallax-title-basic) !important;
+		z-index: 999;
+		line-height: 39px !important;
+		position: relative;
+		margin-bottom: 0px;
+		margin-left: 10px;
+	}
+	[parallax-subtitle] {
+		color: color($parallaxPage, parallax-subtitle-basic) !important;
+		z-index: 999;
+		position: relative;
+		padding-bottom: 10px !important;
+		margin-bottom: 0px !important;
+		margin-left: 12px !important;
+	}
+
+
+	.scroll-content {
+		top: -56px !important;
+	}
+	.customFuenteIcon2{
+		font-size: 25px !important;
+	}
+
+	[ImagenDocumentos]{
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+		height: 80px;
+		width: 100px;
+		object-fit: cover;
+	}
+	.customFontSize{
+		margin-bottom: 0px !important;
+		padding-left: 10px !important;
+	}
+	.customFontSize1{
+		margin-top: 5px !important;
+		padding-left: 10px !important;
+	}
+	.customFontSize2{
+		padding-left: 10px !important;
+	}
+	.customFontSize3{
+		margin-top: 0px !important;
+		padding-left: 10px !important;
+	}
+	.toggle-ios .toggle-icon {
+		border-radius: 16px;
+		position: relative;
+		display: block;
+		width: 80%;
+		height: 75%;
+		background-color: #e6e6e6;
+		-webkit-transition: background-color 300ms;
+		transition: background-color 300ms;
+		pointer-events: none;
+	}
+	.toggle-ios .toggle-inner {
+		left: 2px;
+		top: 2px;
+		border-radius: 14px;
+		position: absolute;
+		width: 20px;
+		height: 20px;
+		background-color: white;
+		-webkit-box-shadow: 0 3px 12px rgba(0, 0, 0, 0.16), 0 3px 1px rgba(0, 0, 0, 0.1);
+		box-shadow: 0 3px 12px rgba(0, 0, 0, 0.16), 0 3px 1px rgba(0, 0, 0, 0.1);
+		-webkit-transition: width 120ms ease-in-out 80ms, left 110ms ease-in-out 80ms, right 110ms ease-in-out 80ms, -webkit-transform 300ms;
+		transition: width 120ms ease-in-out 80ms, left 110ms ease-in-out 80ms, right 110ms ease-in-out 80ms, -webkit-transform 300ms;
+		transition: transform 300ms, width 120ms ease-in-out 80ms, left 110ms ease-in-out 80ms, right 110ms ease-in-out 80ms;
+		transition: transform 300ms, width 120ms ease-in-out 80ms, left 110ms ease-in-out 80ms, right 110ms ease-in-out 80ms, -webkit-transform 300ms;
+		will-change: transform;
+		contain: strict;
+	}
+	.Redondes{
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+		height: 80px;
+		width: 80px;
+		object-fit: cover;
+		border-radius: 50%;
+	}
+	.grupoPosicion{
+		padding-left: 20px !important;
+	}
+	.text-overflow{
+		white-space: nowrap !important;
+		overflow: hidden !important;
+		text-overflow: ellipsis !important; 
+	}
+	.customColor{
+		color: #FC1A1A !important;
+	}
+	.customFuenteIcon3{
+		font-size: 30px !important;
+	}
+	.customAlign{
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+	}
+	.customFontSize4{
+		font-size: 40px;
+		margin-top: 0px !important;
+		padding-left: 10px !important;
+	}
+	.FotoParticipantes{
+		width: 50px;
+		height: 50px;
+		border-radius: 50%;
+	}
+
+    .user-avatar img {
+    	width: 45px !important;
+        height: 45px !important;
+    }
+
+    .item-md ion-avatar {
+    	min-height: 50px !important;
+    }
+
+    .admin-label {
+    	font-size: 14px;
+    	color: #bbb;
+    }
+
+    .avatar-options {
+    	position: absolute;
+    	top: 60px;
+    	right: 5px;
+	}
+	
+	.h4-room-name {
+		font-size: 20px !important;
+		margin: 25px 5px 5px 5px !important;
+		line-height: 30px !important;
+	}
+}

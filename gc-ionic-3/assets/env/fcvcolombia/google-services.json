@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "2307451951",
+    "firebase_url": "https://fcvcolombia-eb3b9.firebaseio.com",
+    "project_id": "fcvcolombia-eb3b9",
+    "storage_bucket": "fcvcolombia-eb3b9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:2307451951:android:241ecd343ece21c98aeada",
+        "android_client_info": {
+          "package_name": "cl.fcvcolombia.gcapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "2307451951-ek21t7aq0fdqcle78d8h9q7f0e7a13s4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-gzHo5bfv5dWnGNtaUlgIwGNBPI1xMe8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "2307451951-ek21t7aq0fdqcle78d8h9q7f0e7a13s4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

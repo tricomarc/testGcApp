@@ -1,0 +1,117 @@
+<ion-header box-shadow>
+    <ion-navbar>
+        <ion-buttons left>
+            <button ion-button icon-only menuToggle>
+                <ion-icon name="menu" color="primary"></ion-icon>
+            </button>
+        </ion-buttons>
+        <ion-title>{{module}}</ion-title>
+        <ion-buttons right>
+            <button ion-button icon-only clear (click)="updateAll()">
+                <ion-icon class="customSize" name="ios-refresh" color="primary"></ion-icon>
+            </button>
+            <button ion-button icon-only (click)="presentActionSheet(data)">
+                <ion-icon name="md-more" color="primary"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <ion-item margin-top *ngIf="branch_offices.length > 0">
+        <ion-label>Tiendas</ion-label>
+        <ion-select [(ngModel)]="selected_branch_office" class="select-status" (ngModelChange)="onBranchOfficeChange()" cancelText="CANCELAR" interface="popover" [disabled]="isLoadingButtons || showBtnCheckOut || noInternet">
+            <ion-option [value]="0">Sin selección</ion-option>
+            <ion-option *ngFor="let branch_office of branch_offices" [value]="branch_office.id">{{branch_office.nombre}}</ion-option>
+        </ion-select>
+    </ion-item>
+
+    <div [ngClass]="{'hiddenItem': !noInternet || !noGps, 'showItem': noInternet && noGps}">
+        <img src="./assets/img/nointernetgps.jpg">
+    </div>
+    <div [ngClass]="{'hiddenItem': !noInternet || noGps, 'showItem': noInternet && !noGps}">
+        <img src="./assets/img/nointernet.jpg">
+    </div>
+    <div [ngClass]="{'hiddenItem': noInternet || !noGps, 'showItem': !noInternet && noGps}">
+        <img src="./assets/img/nogps.jpg">
+    </div>
+
+    <div [ngClass]="{'hiddenItem': noInternet || noGps, 'showItem': !noInternet && !noGps}">
+        <div margin-top id="map_canvas" [ngStyle]="showBtnCheckOut ? {'pointer-events': 'none'} : {}">
+            <div class="box left top" [ngClass]="{'hiddenItem': !isLoading, 'showItem': isLoading}">
+                <!--<ion-spinner name="ios" color="primary" style="height: 25px; width: 25px;"></ion-spinner>-->
+                <img src="./assets/img/resources/loadMap.png" style="width: 100%; height: 200px;">
+            </div>
+        </div>
+    </div>
+
+    <!--<div [hidden]="true">
+        <div margin-top id="map_canvas_aux" style="pointer-events: none;"></div>
+    </div>-->
+
+    <ion-row margin-top *ngIf="!noGps">
+        <ion-col text-center>
+            <span><img class="iconSize" src="assets/img/ico-mapa-finalizado.png"></span>
+            <p class="customMarginTop">
+                <small ion-text color="primary">Finalizado</small>
+            </p>
+        </ion-col>
+        <ion-col text-center>
+            <span><img class="iconSize" src="assets/img/ico-mapa-incompleto.png"></span>
+            <p class="customMarginTop">
+                <small ion-text color="primary">En Check In</small>
+            </p>
+        </ion-col>
+        <ion-col text-center>
+            <span><img class="iconSize" src="assets/img/ico-mapa-sin-visitar.png"></span>
+            <p class="customMarginTop">
+                <small ion-text color="primary">Sin Visitar</small>
+            </p>
+        </ion-col>
+        <ion-col text-center>
+            <span><img class="iconSize1" src="assets/img/iconos/mymarker.png"></span>
+            <p>
+                <small ion-text color="primary">Mi Ubicación</small>
+            </p>
+        </ion-col>
+    </ion-row>
+
+    <ion-grid>
+        <ion-row *ngIf="message" [ngClass]="{'hiddenItem': isLoadingButtons, 'showItem': !isLoadingButtons}">
+            <ion-col col-12>
+                <h4 ion-text text-center color="primary">{{message}}</h4>
+            </ion-col>
+        </ion-row>
+
+        <ion-row (change)="onChange(values)" [ngClass]="{'hiddenItem': isLoadingButtons || noInternet, 'showItem': !isLoadingButtons && !noInternet}">
+            <ion-grid>
+                <ion-row>
+                    <ion-col col-12 *ngIf="showBtnCheckIn">
+                        <button ion-button round block color="primary" (click)="selectCheckin()" [disabled]="isLoadingButtons">
+                            Checkin
+                        </button>
+                    </ion-col>
+
+                    <ion-col col-6 *ngIf="showBtnCheckOut">
+                        <button ion-button round block color="danger" (click)="selectCheckout()" [disabled]="isLoadingButtons">
+                            Checkout
+                        </button>
+                    </ion-col>
+
+                    <ion-col col-6 *ngIf="showBtnVisit">
+                        <button ion-button round block color="primary" (click)="goToSuc('select')" [disabled]="isLoadingButtons">
+                            Ir a Visita
+                        </button>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </ion-row>
+
+        <ion-row [ngClass]="{'hiddenItem': !isLoadingButtons, 'showItem': isLoadingButtons}">
+            <div class="box2">
+                <ion-spinner name="ios" color="primary" style="display: inline-block; height: 40px; width: 40px;"></ion-spinner>
+                <!--<img src="./assets/img/resources/spinner.gif" height="40" width="40" style="display: inline-block;">-->
+            </div>
+        </ion-row>
+    </ion-grid>
+</ion-content>

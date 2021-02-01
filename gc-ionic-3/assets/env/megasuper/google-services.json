@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1017991776361",
+    "firebase_url": "https://gc-megasuper.firebaseio.com",
+    "project_id": "gc-megasuper",
+    "storage_bucket": "gc-megasuper.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1017991776361:android:b6060b14f16f618c23faf8",
+        "android_client_info": {
+          "package_name": "cl.gcmegs.gcapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1017991776361-ml3p7k0os2642jlr7mjfp6hvgp22o00d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD60RopFhh6f5SQtyRyMOv5JdOIou7cIf4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1017991776361-ml3p7k0os2642jlr7mjfp6hvgp22o00d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,25 @@
+<ion-header box-shadow>
+	<ion-navbar>
+		<button ion-button menuToggle>
+			<ion-icon icon-menu name="menu" color="primary"></ion-icon>
+		</button>
+		<div buy>
+			<ion-title>
+				<span ion-text color="primary"> OperaApp </span>
+			</ion-title>
+		</div>
+	</ion-navbar>
+</ion-header>
+
+<ion-content>
+
+	<ion-row *ngFor="let module of modules; let i = index" [attr.data-index]="i" (click)="navigateToModule(module)">
+		<!-- MÓDULO A LA DERECHA -->
+		<ion-col col-6 class="customColorFondo" *ngIf="(i%2) === 0" [ngStyle]="{'background-image': 'url(' + module.info.icon + ')'}"></ion-col>
+		<ion-col col-6 class="customColorFondo" *ngIf="(i%2) === 0" [ngStyle]="{'background-image': 'url(' + module.info.avatar + ')'}"></ion-col>
+		<!-- MÓDULO A LA IZQUIERDA -->
+		<ion-col col-6 class="customColorFondo" *ngIf="(i%2) !== 0" [ngStyle]="{'background-image': 'url(' + module.info.avatar + ')'}"></ion-col>
+		<ion-col col-6 class="customColorFondo" *ngIf="(i%2) !== 0" [ngStyle]="{'background-image': 'url(' + module.info.icon + ')'}"></ion-col>
+	</ion-row>
+
+</ion-content>

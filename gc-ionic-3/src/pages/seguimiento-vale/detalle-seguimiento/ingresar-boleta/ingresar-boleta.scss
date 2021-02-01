@@ -1,0 +1,18 @@
+page-ingresar-boleta {
+
+    ion-item{
+        font-size: 3vw !important;
+    }
+
+    .sombra-vb {
+        -webkit-box-shadow: 0px 6px 10px 0px rgba(0,0,0,0.2);
+        -moz-box-shadow: 0px 6px 10px 0px rgba(0,0,0,0.2);
+        box-shadow: 0px 6px 10px 0px rgba(0,0,0,0.2);
+    }
+
+    .scroll-content {
+        overflow: hidden !important;
+        bottom: 0;
+    }
+
+}

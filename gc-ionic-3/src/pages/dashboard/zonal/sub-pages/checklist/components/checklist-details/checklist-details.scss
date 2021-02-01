@@ -1,0 +1,22 @@
+page-checklist-details-checklist {
+
+  ion-card-header {
+    font-weight: bold;
+  }
+  .tamañoCustom2 {
+    font-size: 1em;
+  }
+  .fuenteColor {
+    color: color($colors, primary) !important;
+  }
+  .icon-lg {
+    font-size: 3em !important;
+    color: #bbb !important;
+  }
+  .paddingEspecial {
+    padding-left: 15px !important;
+  }
+  .noPaddingBottom {
+    padding-bottom: 0px !important;
+  }
+}

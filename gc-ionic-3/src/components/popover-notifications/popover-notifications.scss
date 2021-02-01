@@ -1,0 +1,73 @@
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+    .popover-ios {
+        .popover-content {
+            width: 70% !important;
+        }
+    }
+}
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+    .popover-ios {
+        .popover-content {
+            width: 52% !important;
+        }
+    }
+}
+popover-notifications {
+
+    $primary: #1d1d1b;
+    $danger: #f53d3d;
+    $default: #E2E3DF;
+  
+
+    .unread {
+        color: $danger !important;
+    }
+
+    .read {
+        color: $default;
+    }
+
+    [icon-small] {
+        font-size: 12px !important;
+    }
+
+    .icon-chevron-right {
+        font-size: 18px !important;
+    }
+
+    ion-list {
+        button {
+            background: none !important;
+
+            span.button-inner {
+                font-size: 1.2rem !important;
+            }
+        }
+    }
+
+    ion-item-divider {
+        ion-label {
+            color: $primary !important;
+            font-size: 1.5rem;
+        }
+    }
+
+    ion-item {
+        strong {
+            font-size: 1rem;
+            color: $primary;
+        }
+
+        p {
+            font-size: 1rem !important;
+        }
+
+        ion-note {
+            font-size: 1rem !important;
+            font-weight: bold !important;
+            color: $primary !important;
+        }
+    }
+
+}

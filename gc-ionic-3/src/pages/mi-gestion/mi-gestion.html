@@ -1,0 +1,172 @@
+<ion-header>
+  <ion-toolbar box-shadow>
+    <button ion-button menuToggle>
+      <ion-icon icon-menu name="menu" color="primary"></ion-icon>
+    </button>
+    <ion-title>Mi Gestión</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content padding>
+  <ion-refresher (ionRefresh)="refresh($event)" color="dark">
+    <ion-refresher-content pullingText="Actualizar" refreshingText="Actualizando..."></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-toolbar text-center color="#F4F4F4" *ngIf="clientCode === '1c469c16' || clientCode === '7ba63049'">
+    <label col-12>Última actualización {{ current_time | date: 'dd-MM-yyy HH:mm'}} Hrs</label>
+  </ion-toolbar>
+
+
+  <ion-segment mode="ios" [(ngModel)]="segments" (ionChange)="onSegmentChanged($event)" color="primary">
+
+    <ion-segment-button value="miGestion" *ngIf="clientCode === '1c469c16' || clientCode === '7ba63049'">
+      <label for="">Mi Gestión</label>
+    </ion-segment-button>
+
+    <ion-segment-button value="importantes" *ngIf="clientCode === '1c469c16' || clientCode === '7ba63049'">
+      <label for="">Importantes</label>
+    </ion-segment-button>
+
+    <ion-segment-button value="favoritos">
+      <label for="">Favoritos</label>
+    </ion-segment-button>
+
+  </ion-segment>
+
+  <ion-toolbar no-margin *ngIf="segments == 'miGestion'">
+
+    <ng-template #noData1>
+      <ion-item text-center no-lines>
+        <span color="primary">Hoy no tienes gestiones</span>
+      </ion-item>
+    </ng-template>
+
+    <ion-grid *ngIf="_data.gestiones != 'noData';else noData1">
+      <ion-row align="center">
+        <ion-col col-6 text-center *ngFor="let item of misGestiones">
+          <br><br>
+          <p class="current">{{ item.nota | number }}%</p>
+          <round-progress [current]="item.nota" [max]="100" [background]="'#eaeaea'" [color]="chartColor" [radius]="50"
+            [stroke]="13" [duration]="800" [rounded]="true" [animation]="'easeOutCubic'" [animationDelay]="0"
+            class="m-0">
+          </round-progress>
+          <!-- Desde la api esta llegando como premio y se debe mostrar como premios -->
+          <p ion-text color="primary" *ngIf="item.modulo.url_prefix == 'premio'">{{item.modulo.nombre}}s</p> 
+          <p ion-text color="primary" *ngIf="item.modulo.url_prefix != 'premio'">{{item.modulo.nombre}}</p>
+          <small ion-text color="grey1">
+          {{item.modulo.nombre == 'Implementar/Ejecutar' ? '% de implementación de las campañas vigentes' :
+            item.modulo.nombre == 'Promociones Clientes' ? '% de lectura de promociones clientes' :
+            item.modulo.nombre == 'Premio'   ? '% de lectura de premios'    :
+            item.modulo.nombre == 'Checklist' ? '% de checklist respondidos' : ''}}</small>
+
+        </ion-col>
+      </ion-row><br>
+    </ion-grid>
+
+  </ion-toolbar>
+
+
+  <ion-toolbar *ngIf="segments == 'importantes'">
+
+    <ng-template #noData2>
+      <ion-item text-center no-lines>
+        <span color="primary">No hay importantes</span>
+      </ion-item>
+    </ng-template>
+    <br>
+
+    <ion-list *ngIf="_data.importantes != 'noData';else noData2" margin-buttom no-margin>
+      <ion-row *ngFor="let item of importantes" (click)="openPage(item)">
+        <ion-col text-left col-10>
+          <h6 ion-text color="primary">
+            <strong class="title-list">{{item.nombre}}</strong>
+          </h6>
+          <h6 no-margin ion-text color="grey1">
+            <h6 class="label-size" ion-text *ngIf="item.url_prefix == 'visual'">
+              Módulo: {{item.modulo}}<br>
+              Fecha Implementación: {{item.fecha_implementacion | date: 'dd-MM-yyyy' }}<br>
+              Fecha Lanzamiento: {{item.fecha_lanzamiento | date: 'dd-MM-yyyy'}}<br>
+              Fecha Término:{{item.fecha_termino | date: 'dd-MM-yyy' }}<br>
+              Gestión: {{item.reportes ? item.reportes[0].estado.nombre : ''}}
+          
+            </h6>
+            <h6 class="label-size" ion-text *ngIf="item.url_prefix == 'com'">
+              Módulo: {{item.modulo}}<br>
+              Fecha inicio: {{item.fecha_inicio  | date: 'dd-MM-yyy' }}<br>
+              Fecha Término:{{item.fecha_termino | date: 'dd-MM-yyy' }}<br>
+              Gestión: {{item.evaluaciones && item.evaluaciones[0].fecha_leido ? 'Leída' : 'No leída'}}
+
+            </h6>
+
+          </h6>
+        </ion-col>
+        <ion-col col-2 text-center  class="center-col">
+          <ion-icon color="primary" [style.zoom]="1.7" name="arrow-dropright"></ion-icon>
+        </ion-col>
+      </ion-row>
+    </ion-list>
+
+  </ion-toolbar>
+
+
+  <ion-toolbar *ngIf="segments == 'favoritos'">
+    <ng-template #noData3>
+      <ion-item text-center no-lines>
+        <span color="primary">No posees favoritos</span>
+      </ion-item>
+    </ng-template>
+    <br>
+
+    <ion-list *ngIf="_data.favoritos != 'noData';else noData3">
+      <ion-row *ngFor="let item of favoritos" style="font-size: 0;">
+        <br><br>
+        
+        <!-- Visual -->
+        <ng-container *ngIf="item.Modulo.url_prefix == 'visual' && item.Modulo.reporte">
+          <ion-col text-left col-10 (click)="openPage(item, true)">
+            <h6 ion-text color="primary">
+              <strong class="title-list">{{item.Modulo.reporte.visual.nombre }}</strong>
+            </h6>
+            <h6 no-margin  class="label-size" ion-text color="grey1">
+              Módulo: {{item.Modulo.nombre }}<br>
+              Fecha Publicación:{{item.created | date: 'dd-MM-yyyy'}} <br>
+              Gestión: {{item.Modulo.reporte.estado.nombre}}
+        
+            </h6>
+          </ion-col>
+          <ion-col col-2 text-center class="center-col" (click)="desfavoritar(item)">
+            <ion-icon color="primary" style="font-size: 24px;"  name="star"></ion-icon>
+          </ion-col>
+        </ng-container>
+
+          <!-- Comunicado -->
+          <ng-container *ngIf="item.Modulo.url_prefix == 'com' && item.Modulo.comunicado">
+              <ion-col text-left col-10 (click)="openPage(item, true)">
+                <h6 ion-text color="primary">
+                  <strong class="title-list">
+                    {{item.Modulo.comunicado.nombre  | truncatetext: 35}}
+                  </strong>
+                </h6>
+                <h6 no-margin class="label-size" ion-text color="grey1">
+                    Módulo: {{item.Modulo.nombre }}<br>
+                    Fecha Publicación:{{item.created | date: 'dd-MM-yyyy'}} <br>
+                    Gestión: {{item.Modulo.comunicado.evaluaciones ? 
+                      (item.Modulo.comunicado.evaluaciones[0].fecha_leido ? 'Leída' : 'No leída') : '' }}
+                </h6>
+                
+              </ion-col>
+              <ion-col col-2 text-center class="center-col" (click)="desfavoritar(item)">
+                <ion-icon color="primary" style="font-size: 24px;" name="star"></ion-icon>
+              </ion-col>
+          </ng-container>
+
+      </ion-row>
+    </ion-list>
+
+  </ion-toolbar>
+
+
+
+
+</ion-content>

@@ -1,0 +1,158 @@
+<ion-header box-shadow *ngIf="!navParams.data.sucursal">
+	<ion-navbar>
+		<div buy>
+			<ion-title><span ion-text text-center color="primary">{{module}}</span></ion-title>
+		</div>
+	</ion-navbar>
+</ion-header>
+<ion-content>
+	<!-- TÍTULO -->
+	<ion-row>
+		<ion-col no-padding>
+			<ion-list-header box-shadow no-margin no-lines *ngIf="branch_office">
+				<h1 ion-text color="primary" header-title>Estadísticas {{branch_office.nombre}}</h1>    
+			</ion-list-header>
+		</ion-col>
+	</ion-row>
+
+	<!-- FILTROS -->
+	<ion-row padding-left padding-top>
+		<ion-col col-3>
+			<ion-label ion-text color="primary" class="tamañoCustomFuente">Fecha:</ion-label>
+		</ion-col>
+		<ion-col class="customPaddingTop" col-4 text-right>
+			<ion-datetime right [(ngModel)]="filters.from" displayFormat="DD/MM/YYYY" pickerFormat="DD-MM-YYYY" placeholder="Desde" (ngModelChange)="applyFilters()" doneText="ok" cancelText="cancelar" [max]="filters.to">
+				{{filters.from | date: 'dd/MM/yyyy' }}
+			</ion-datetime>
+		</ion-col>
+		<ion-col class="customPaddingTop" col-1 text-right>
+			<ion-icon class="espaciadoIcono" name="ios-arrow-forward"></ion-icon>
+		</ion-col>
+		<ion-col class="customPaddingTop" col-4 text-right>
+			<ion-datetime right [(ngModel)]="filters.to" displayFormat="DD/MM/YYYY" placeholder="Hasta" (ngModelChange)="applyFilters()" doneText="ok" cancelText="cancelar" [min]="filters.from">
+				{{filters.to | date: 'dd/MM/yyyy' }}
+			</ion-datetime>
+		</ion-col>
+	</ion-row>
+
+	<ion-item no-lines padding-bottom>
+		<ion-label class="customPadding">Campañas: </ion-label>
+		<!-- <ion-select [(ngModel)]="filters.visuals" okText="OK" cancelText="Cancelar" multiple="true" (ngModelChange)="applyFilters()">
+			<ion-option *ngFor="let visual of select_visuals" value="{{visual.id}}">{{visual.nombre}}</ion-option>
+		</ion-select> -->
+		<ionic-selectable
+	        item-content
+	        [(ngModel)]="filters.visuals"
+	        [items]="search_visuals"
+	        itemValueField="id"
+	        itemTextField="nombre"
+	        closeButtonText="Cancelar"
+	        [canSearch]="true"
+	        (onSearch)="onSearch($event)"
+	        (onChange)="applyFilters()"
+	        [isMultiple]="true"
+	        [searchFailText]="'No se encontraron campañas'"
+	        [searchPlaceholder]="'Búsqueda'">
+	        <ng-template ionicSelectableValueTemplate let-ports="value">
+		        <div class="ionic-selectable-value-item">
+		            {{filters.visuals.length}} seleccionadas
+		        </div>
+		    </ng-template>
+		    <ng-template ionicSelectablePlaceholderTemplate>
+                <div class="ionic-selectable-value-item">
+                    Todos
+                </div>
+            </ng-template>
+	    </ionic-selectable>
+	</ion-item>
+
+	<!-- INDICADOR DE CAMPAÑAS -->
+	<ion-list-header *ngIf="filters.visuals.length > 0" no-margin no-padding class="tamañoCustom2" text-center color="primary">
+		{{ filters.visuals.length === 1 ? (filters.visuals.length + ' campaña seleccionada') : (filters.visuals.length + ' campañas seleccionadas')}}
+	</ion-list-header>
+	<ion-list-header *ngIf="filters.visuals.length < 1" no-margin no-padding class="tamañoCustom2" text-center color="primary">
+		Se consideran todas las campañas
+	</ion-list-header>
+
+	<ion-list>
+		<!-- ESTADÍSTICA DE LA SUCURSAL -->
+		<ion-item text-center *ngIf="requesting.stats" margin-top>
+			<ion-spinner color="primary"></ion-spinner>
+		</ion-item>
+
+		<div *ngIf="!requesting.stats">
+			<ion-item text-wrap text-center *ngIf="!branch_office_stats">
+				<span>No hemos encontrado estadísticas para esta sucursal</span>
+			</ion-item>
+			<ion-item padding text-center no-lines *ngIf="branch_office_stats && branch_office_stats.top">
+				<ion-row>
+					<ion-col>
+						<h1 ion-text color="primary">
+							<strong>{{(branch_office_stats.top.promedio_lectura || branch_office_stats.top.promedio_lectura === 0) ? (branch_office_stats.top.promedio_lectura + ' %') : '--'}}</strong>
+						</h1>
+						<small>Lectura</small>
+					</ion-col>
+					<ion-col>
+						<h1 ion-text color="primary">
+							<strong>{{(branch_office_stats.top.promedio_implementacion || branch_office_stats.top.promedio_implementacion === 0) ? (branch_office_stats.top.promedio_implementacion + ' %') : '--'}}</strong>
+						</h1>
+						<small>Implementación</small>
+					</ion-col>
+					<ion-col *ngIf="(branch_office_stats.top.nota || branch_office_stats.top.nota === 0)">
+						<h1 ion-text color="primary">
+							<strong>{{branch_office_stats.top.nota}}</strong>
+						</h1>
+						<small>Nota</small>
+					</ion-col>
+				</ion-row>
+				<ion-row>
+					<ion-col [ngClass]="(branch_office_stats.top.nota || branch_office_stats.top.nota === 0) ? 'w-33' : 'w-50'">
+						<small ion-text color="primary">
+							<strong>{{(branch_office_stats.top.cantidad_lectura || branch_office_stats.top.cantidad_lectura === 0) ? branch_office_stats.top.cantidad_lectura : '--'}}</strong>
+						</small>
+						<small> de </small>
+						<small ion-text color="primary">
+							<strong>{{(branch_office_stats.top.total_lectura || branch_office_stats.top.total_lectura === 0) ? branch_office_stats.top.total_lectura : '--'}}</strong>
+						</small>
+					</ion-col>
+					<ion-col [ngClass]="(branch_office_stats.top.nota || branch_office_stats.top.nota === 0) ? 'w-33' : 'w-50'">
+						<small ion-text color="primary">
+							<strong>{{(branch_office_stats.top.cantidad_implementacion || branch_office_stats.top.cantidad_implementacion === 0) ? branch_office_stats.top.cantidad_implementacion: '--'}}</strong>
+						</small>
+						<small> de </small>
+						<small ion-text color="primary">
+							<strong>{{(branch_office_stats.top.total_implementacion || branch_office_stats.top.total_implementacion === 0) ? branch_office_stats.top.total_implementacion : '--'}}</strong>
+						</small>
+					</ion-col>
+				</ion-row>
+			</ion-item>
+		</div>
+
+		<!-- REPORTES DE LA SUCURSAL -->
+		<ion-list-header no-margin no-padding class="tamañoCustom2" text-center color="primary">Campañas</ion-list-header>
+
+		<ion-item text-center *ngIf="requesting.visuals">
+			<ion-spinner color="primary"></ion-spinner>
+		</ion-item>
+
+		<div *ngIf="!requesting.visuals" margin-top>
+			<ion-item text-wrap text-center no-lines *ngIf="!visuals || !visuals.length">
+				<span>No hemos encontrado campañas para esta sucursal</span>
+			</ion-item>
+			<div *ngIf="visuals && visuals.length">
+				<ion-list>
+					<ion-item *ngFor="let visual of visuals" (click)="showReport(visual)">
+						<ion-avatar item-start style="width: 50px; height: 50px;">
+							<img [src]="visual.visual.banner ? visual.visual.banner : 'assets/img/resources/default-placeholder.png'" style="width: 50px; height: 50px; margin-top: 12px; margin-left: 5px;">
+						</ion-avatar>
+						<h2 style="font-size: 13px;" text-wrap>{{visual.visual.nombre}}</h2>
+						<p style="font-size: 12px;">Estado: {{(visual.estado.defecto && visual.visual.reportable === 0) ? 'No Reportable' :  visual.estado.nombre}}</p>
+						<ion-badge item-right item-end *ngIf="visual.nota !== null">
+							{{visual.nota}}
+						</ion-badge>
+					</ion-item>
+				</ion-list>
+			</div>
+		</div>
+	</ion-list>
+</ion-content>

@@ -1,0 +1,76 @@
+<ion-header>
+	<ion-navbar>
+		<button ion-button menuToggle>
+			<ion-icon icon-menu name="menu" color="primary"></ion-icon>
+		</button>
+		<div buy>
+			<ion-title>
+				<span ion-text color="primary">Chats</span>
+			</ion-title>
+		</div>
+		<ion-buttons end right>
+			<!-- <button ion-button icon-only (click)="showHistoryCall()">
+				<ion-icon name="ios-call-outline" color="primary"></ion-icon>
+			</button> -->
+			<button ion-button icon-only [disabled]="!state.value.isOnline" (click)="addChat()">
+				<ion-icon name="ios-create-outline" color="primary"></ion-icon>
+			</button>
+		</ion-buttons>
+	</ion-navbar>
+	<ion-toolbar>
+		<div header-section>
+			<ion-searchbar [formControl]="roomSearchControl" placeholder="Buscar chat"></ion-searchbar>
+		</div>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content>
+	<!-- Actualización de salas -->
+	<ion-refresher (ionRefresh)="updateRooms($event)" color="primary">
+		<ion-refresher-content pullingText="Actualizar conversaciones" refreshingText="Actualizando conversaciones..."></ion-refresher-content>
+	</ion-refresher>
+	<div padding-top *ngIf="(!state.value.isRequesting && !state.value.isConnecting && !schedule.failedRequest)">
+		<ion-list no-margin>
+			<room-item *ngFor="let room of state.value.rooms | roomFilter : searchTerm | orderRooms" [room]="room" [os]="os" [rooms]="state.value.rooms" (onDelete)="confirmRoomDelete(room)"></room-item>
+		</ion-list>
+		<ion-item text-center no-lines padding-top *ngIf="!state.value.rooms.length && state.value.isOnline">
+			<p ion-text text-wrap>
+				No hemos encontrado conversaciones. 
+				<br> 
+				<font *ngIf="!searchTerm">
+					Inicia un <a (click)="addChat()">nuevo chat</a> grupal o individual.
+				</font>
+			</p>
+		</ion-item>
+
+		<ion-list no-margin *ngIf="searchTerm && otherContacts.length">
+			<ion-item-divider>Otros contactos</ion-item-divider>
+			<ion-item border no-lines class="main-item" *ngFor="let contact of otherContacts" (click)="createOneToOneChat(contact)">
+				<!-- Avatar de la sala -->
+				<ion-avatar item-start class="avatar-class" style="margin: 8px 10px 8px 0 !important;">
+					<img [lazyLoad]="contact.avatar ? contact.avatar : 'assets/img/resources/avatar.png'"
+						[defaultImage]="'assets/img/resources/avatar.png'" class="contact-avatar" alt="">
+				</ion-avatar>
+				<!-- Nombre de la sala -->
+				<ion-label>
+					<h3 item-title text-wrap text-capitalize>{{contact.name}}</h3>
+					<p ion-text>{{contact.charge ? contact.charge.name : 'No informado.'}}</p>
+					<p *ngIf="contact.store.name">{{contact.store.name}}</p>
+					<p *ngIf="contact.zone.name">{{contact.zone.name}}</p>
+				</ion-label>
+			</ion-item>
+		</ion-list>
+	</div>
+	<ion-item *ngIf="((state.value.isConnecting || state.value.isRequesting) && !schedule.failedRequest)" no-lines margin-top text-center>
+		<ion-spinner></ion-spinner>
+		<p>Iniciando...</p>
+	</ion-item>
+	<ion-item *ngIf="schedule.failedRequest" no-lines margin-top text-center text-wrap (click)="updateRooms(null)">
+		<ion-icon name="md-refresh" color="primary" class="fs-18"></ion-icon>
+		<p>
+			No ha sido posible obtener cargar tus chats.  Presione 
+			<a>aquí</a> 
+			para reintentar.
+		</p>
+	</ion-item>
+</ion-content>

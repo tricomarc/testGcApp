@@ -1,0 +1,312 @@
+<ion-header box-shadow *ngIf="!navParams.data.sucursal">
+	<ion-navbar>
+		<div buy>
+			<ion-title><span ion-text text-center color="primary">{{module}}</span></ion-title>
+		</div>
+		<ion-buttons end right *ngIf="show_ranking">
+            <button ion-button icon-only (click)="showRanking()">
+                <ion-icon name="md-trophy" color="primary"></ion-icon>
+            </button>
+        </ion-buttons>
+	</ion-navbar>
+</ion-header>
+
+<ion-content class="fondo-bg">
+	<ion-refresher (ionRefresh)="refreshStatistics($event, true, false)" color="primary">
+        <ion-refresher-content pullingText="Actualizar" refreshingText="Actualizando..."></ion-refresher-content>
+    </ion-refresher>
+	<ion-row>
+		<ion-col no-padding>
+			<ion-list-header box-shadow no-margin no-lines>
+				<h1 ion-text text-wrap color="primary" header-title *ngIf="statistics && statistics.top && statistics.top.nombre">
+					{{module}} <br> <p ion-text text-wrap color="primary"> {{statistics.top.nombre}} </p>
+				</h1>
+				<h1 ion-text color="primary" header-title *ngIf="!statistics || !statistics.top || !statistics.top.nombre">
+					{{module}}
+				</h1>
+			</ion-list-header>
+		</ion-col>
+	</ion-row>
+
+	<!-- FILTROS -->
+	<ion-row padding-left padding-top>
+		<ion-col col-3>
+			<ion-label ion-text color="primary" class="tamañoCustomFuente">Fecha:</ion-label>
+		</ion-col>
+		<ion-col class="customPaddingTop" col-4 text-right>
+			<ion-datetime right [(ngModel)]="filters.from" displayFormat="DD/MM/YYYY" pickerFormat="DD-MM-YYYY" placeholder="Desde" (ngModelChange)="refreshStatistics(null, false, true)" doneText="ok" cancelText="cancelar" [max]="filters.to">
+				{{filters.from | date: 'dd/MM/yyyy' }}
+			</ion-datetime>
+		</ion-col>
+		<ion-col class="customPaddingTop" col-1 text-right>
+			<ion-icon class="espaciadoIcono" name="ios-arrow-forward"></ion-icon>
+		</ion-col>
+		<ion-col class="customPaddingTop" col-4 text-right>
+			<ion-datetime right [(ngModel)]="filters.to" displayFormat="DD/MM/YYYY" pickerFormat="DD-MM-YYYY" placeholder="Hasta" (ngModelChange)="refreshStatistics(null, false, true)" doneText="ok" cancelText="cancelar" [min]="filters.from">
+				{{filters.to | date: 'dd/MM/yyyy' }}
+			</ion-datetime>
+		</ion-col>
+	</ion-row>
+
+	<!-- Filtro Subgerencias -->
+	<ion-item no-lines  *ngIf="showFilterSub && (activeFilter.active && activeFilter.isManagerZonal === false)" >
+		<ion-label class="customPadding lh-15">Subgerencias:</ion-label>
+		<ionic-selectable
+			item-content
+			[(ngModel)]="filters.subgerencias"
+			[items]="subgerencias"
+			placeholder="Seleccione"
+			itemValueField="id"
+			itemTextField="nombre"
+			(onSearch)="onSearchSubgerencias($event)"
+			(onChange)="getStatisticsFilter('subgerencias')"
+			closeButtonText="Cancelar"
+			[canSearch]="true"
+			[isMultiple]="false"
+			[searchFailText]="'No se encontraron subgerencias'"
+			[searchPlaceholder]="'Búsqueda'">
+			<ng-template ionicSelectableValueTemplate let-ports="value" *ngIf="filters.subgerencias?.length > 1">
+				<div class="ionic-selectable-value-item">
+					{{filters.subgerencias.length}} seleccionadas
+				</div>
+			</ng-template>
+		</ionic-selectable>
+	</ion-item>
+
+
+	<!-- Filtro Cadenas -->
+	<ion-item no-lines *ngIf="showFilterCadenas">
+		<ion-label class="customPadding lh-15">Cadenas:</ion-label>
+		<ionic-selectable
+			item-content
+			[(ngModel)]="filters.cadenas"
+			[items]="cadenas"
+			placeholder="Seleccione"
+			itemValueField="id"
+			itemTextField="nombre"
+			(onSearch)="onSearchCadenas($event)"
+			(onChange)="getStatisticsFilter('cadena')"
+			closeButtonText="Cancelar"
+			[canSearch]="true"
+			[isMultiple]="false"
+			[searchFailText]="'No se encontraron cadenas'"
+			[searchPlaceholder]="'Búsqueda'">
+			<ng-template ionicSelectableValueTemplate let-ports="value" *ngIf="filters.cadenas?.length > 1">
+				<div class="ionic-selectable-value-item">
+					{{filters.cadenas.length}} seleccionadas
+				</div>
+			</ng-template>
+		</ionic-selectable>
+	</ion-item>
+
+	
+	<ion-item no-lines  *ngIf="isManagerRegion && gerentes && filters">
+		<ion-label class="customPadding lh-15">{{ 'Ger. Operaciones' | synonymous }}:</ion-label>
+		<ionic-selectable item-content 
+			[disabled]="!filters.subgerencias || (filters.subgerencias && !filters.subgerencias.id)"
+			[(ngModel)]="filters.gerentes" 
+			[items]="gerentes"
+			 placeholder="Seleccione"
+			itemValueField="id" 
+			itemTextField="nombre" 
+			(onSearch)="onSearchGerentes($event)"
+			(onChange)="getStatisticsFilter('gerentes')" 
+			closeButtonText="Cancelar" 
+			[canSearch]="true"
+			[isMultiple]="false" 
+			[searchFailText]="'No se encontraron resultados'" 
+			[searchPlaceholder]="'Búsqueda'">
+			<ng-template ionicSelectableValueTemplate let-ports="value" *ngIf="filters.gerentes?.length > 1">
+				<div class="ionic-selectable-value-item">
+					{{filters.gerentes.length}} seleccionadas
+				</div>
+			</ng-template>
+		</ionic-selectable>
+	</ion-item>
+
+	
+	<ion-item no-lines padding-bottom>
+		<ion-label class="customPadding">Campañas: </ion-label>
+		<!-- <ion-select [(ngModel)]="filters.visuals_id" okText="OK" cancelText="Cancelar" multiple="true" (ngModelChange)="refreshStatistics(null, false)">
+			<ion-option *ngFor="let visual of visuals" value="{{visual.id}}">{{visual.nombre}}</ion-option>
+		</ion-select> -->
+		<ionic-selectable
+	        item-content
+	        [(ngModel)]="filters.visuals_id"
+	        [items]="search_visuals"
+	        itemValueField="id"
+	        closeButtonText="Cancelar"
+	        [canSearch]="true"
+	        (onSearch)="onSearch($event)"
+	        (onChange)="refreshStatistics(null, false, false)"
+	        [isMultiple]="true"
+	        [searchFailText]="'No se encontraron campañas'"
+	        [searchPlaceholder]="'Búsqueda'">
+	        <ng-template ionicSelectableValueTemplate let-ports="value">
+		        <div class="ionic-selectable-value-item">
+		            {{filters.visuals_id.length}} seleccionadas
+		        </div>
+		    </ng-template>
+		    <ng-template ionicSelectablePlaceholderTemplate>
+                <div class="ionic-selectable-value-item">
+                    Todos
+                </div>
+            </ng-template>
+            <ng-template ionicSelectableItemTemplate let-port="item" let-isPortSelected="isItemSelected" text-wrap>
+				<h3 ion-text text-wrap>{{port.nombre}}</h3>
+			</ng-template>
+	    </ionic-selectable>
+	</ion-item>
+
+	<!-- INDICADOR DE CAMPAÑAS -->
+	<ion-list-header *ngIf="filters.visuals_id.length > 0" no-margin no-padding class="tamañoCustom2" text-center color="primary">
+		{{ filters.visuals_id.length === 1 ? (filters.visuals_id.length + ' campaña seleccionada') : (filters.visuals_id.length + ' campañas seleccionadas')}}
+	</ion-list-header>
+	<ion-list-header *ngIf="filters.visuals_id.length <= 0" no-margin no-padding class="tamañoCustom2" text-center color="primary">
+		Se consideran todas las campañas
+	</ion-list-header>
+
+	<ion-list *ngIf="!requesting">
+		<div *ngIf="statistics">
+			<!-- INFORMACIÓN DE PAÍS / ZONA -->
+			<ion-item padding text-center no-lines *ngIf="statistics.top" class="row-no-padding">
+				<ion-row>
+					<ion-col>
+						<h1 ion-text color="primary">
+							<strong>{{(statistics.top.promedio_lectura || statistics.top.promedio_lectura === 0) ? (statistics.top.promedio_lectura + ' %') : '--'}}</strong>
+						</h1>
+						<small>Lectura</small>
+					</ion-col>
+					<ion-col>
+						<h1 ion-text color="primary">
+							<strong>{{(statistics.top.promedio_implementacion || statistics.top.promedio_implementacion === 0) ? (statistics.top.promedio_implementacion + ' %') : '--'}}</strong>
+						</h1>
+						<small>Implementación</small>
+					</ion-col>
+					<ion-col *ngIf="(statistics.top.nota || statistics.top.nota === 0)">
+						<h1 ion-text color="primary">
+							<strong>{{statistics.top.nota}}</strong>
+						</h1>
+						<small>Nota</small>
+					</ion-col>
+				</ion-row>
+				<ion-row *ngIf="statistics && statistics.top">
+					<ion-col [ngClass]="(statistics.top.nota || statistics.top.nota === 0) ? 'w-33' : 'w-50'">
+						<small ion-text color="primary">
+							<strong>{{(statistics.top.cantidad_lectura || statistics.top.cantidad_lectura === 0) ? statistics.top.cantidad_lectura : '--'}}</strong>
+						</small>
+						<small> de </small>
+						<small ion-text color="primary">
+							<strong>{{(statistics.top.total_lectura || statistics.top.total_lectura === 0) ? statistics.top.total_lectura : '--'}}</strong>
+						</small>
+					</ion-col>
+					<ion-col [ngClass]="(statistics.top.nota || statistics.top.nota === 0) ? 'w-33' : 'w-50'">
+						<small ion-text color="primary">
+							<strong>{{(statistics.top.cantidad_implementacion || statistics.top.cantidad_implementacion === 0) ? statistics.top.cantidad_implementacion : '--'}}</strong>
+						</small>
+						<small> de </small>
+						<small ion-text color="primary">
+							<strong>{{(statistics.top.total_implementacion || statistics.top.total_implementacion === 0) ? statistics.top.total_implementacion : '--'}}</strong>
+						</small>
+					</ion-col>
+				</ion-row>
+			</ion-item>
+
+			<ion-list-header  *ngIf="statistics.visuales && statistics.visuales.length > 0 && filters.zone_id" no-margin no-padding class="tamañoCustom2" text-center color="primary">
+				Sucursales
+			</ion-list-header>
+			<ion-list-header  *ngIf="statistics.visuales && statistics.visuales.length > 0 && !filters.zone_id" no-margin no-padding class="tamañoCustom2" text-center color="primary">
+				Zonas
+			</ion-list-header>
+
+			<ion-item class="item-text-wrap p-none" *ngIf="!statistics.visuales || statistics.visuales.length <= 0" text-center>
+				<div class="p-md pt-md">
+					<span ion-text text-wrap>No hay resultado con los filtros seleccionados</span> 
+				</div>
+			</ion-item>
+
+			<!-- ZONAS -->
+			<div *ngIf="statistics.visuales && statistics.visuales.length > 0 && !filters.zone_id">
+				<ion-item no-lines>
+					<div class="table-striped">
+						<div class="customBorderBottom" *ngFor="let zone of statistics.bot" (click)="showZoneDetail(zone.id)">
+							<ion-row>
+								<ion-col col-12 text-center>
+									<h2 class="positionNombre">{{zone.nombre}}</h2>
+								</ion-col>
+							</ion-row>
+							<ion-row class="PosicionInfo">
+								<ion-col text-center>
+									<small ion-text class="customTamañoDatoSucursal" color="primary">
+										<b>{{(zone.datos.promedio_lectura || zone.datos.promedio_lectura === 0) ? zone.datos.promedio_lectura + ' %' : '--'}}</b>
+									</small>
+									<br>
+									<small>Lectura</small>
+								</ion-col>
+								<ion-col text-center>
+									<small ion-text class="customTamañoDatoSucursal" color="primary">
+										<b>{{(zone.datos.promedio_implementacion || zone.datos.promedio_implementacion === 0) ? zone.datos.promedio_implementacion + ' %' : '--'}}</b>
+									</small>
+									<br>
+									<small>Implementación</small>
+								</ion-col>
+								<ion-col text-center *ngIf="(zone.datos.nota || zone.datos.nota === 0)">
+									<small ion-text class="customTamañoDatoSucursal" color="primary">
+										<b>{{zone.datos.nota}}</b>
+									</small>
+									<br>
+									<small>Nota</small>
+								</ion-col>
+								<ion-icon name='ios-arrow-forward' item-end color="default" class="icon-lg"></ion-icon>
+							</ion-row>
+							
+						</div>
+					</div>
+				</ion-item>
+			</div>
+
+			<!-- SUCURSALES -->
+			<div *ngIf="statistics.bot && statistics.bot.length > 0 && filters.zone_id">
+				<ion-item no-lines>
+					<div class="table-striped">
+						<div class="customBorderBottom" *ngFor="let branch_office of statistics.bot" (click)="showBranchOfficeDetail(branch_office)">
+							<ion-row>
+								<ion-col col-12 text-center>
+									<h2 class="positionNombre">{{branch_office.nombre}}</h2>
+								</ion-col>
+							</ion-row>
+							<ion-row class="PosicionInfo">
+								<ion-col text-center>
+									<small ion-text class="customTamañoDatoSucursal" color="primary">
+										<b>{{(branch_office.datos.promedio_lectura || branch_office.datos.promedio_lectura === 0) ? branch_office.datos.promedio_lectura + ' %' : '--'}}</b>
+									</small>
+									<br>
+									<small>Lectura</small>
+								</ion-col>
+								<ion-col text-center>
+									<small ion-text class="customTamañoDatoSucursal" color="primary">
+										<b>{{(branch_office.datos.promedio_implementacion || branch_office.datos.promedio_implementacion === 0) ? branch_office.datos.promedio_implementacion + ' %' : '--'}}</b>
+									</small>
+									<br>
+									<small>Implementación</small>
+								</ion-col>
+								<ion-col text-center *ngIf="(branch_office.datos.nota || branch_office.datos.nota === 0)">
+									<small ion-text class="customTamañoDatoSucursal" color="primary">
+										<b>{{branch_office.datos.nota}}</b>
+									</small>
+									<br>
+									<small>Nota</small>
+								</ion-col>
+								<ion-icon name='ios-arrow-forward' item-end color="default" class="icon-lg"></ion-icon>
+							</ion-row>
+						</div>
+					</div>
+				</ion-item>
+			</div>
+		</div>
+	</ion-list>
+
+	<ion-item *ngIf="requesting" margin-top text-center no-lines>
+		<ion-spinner color="primary"></ion-spinner>
+	</ion-item>
+</ion-content>

@@ -1,0 +1,166 @@
+<ion-header box-shadow>
+    <ion-navbar>
+        <button ion-button menuToggle>
+            <ion-icon class="icon-menu" name="menu" color="primary"></ion-icon>
+        </button>
+        
+        <div buy>
+            <ion-title> {{ module }} </ion-title>
+        </div>
+        
+        <ion-buttons end right>
+            <button ion-button icon-only (click)="showActionSheet()">
+                <ion-icon name="md-more" color="primary"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content no-lines>
+    <ion-toolbar box-shadow>
+        <ion-list no-margin>
+            <ion-item no-lines *ngIf="clientCode === '1c469c16' || clientCode === '7ba63049'">
+                <ion-label> Tipo </ion-label>
+                <ion-select [(ngModel)]="onlyTask" (ngModelChange)="getComponentData(false, false);" cancelText="CANCELAR" interface="popover">
+                    <ion-option [value]="0"> <p> Todos </p> </ion-option>
+                    
+                    <ion-option [value]="1"> <p> Campañas </p> </ion-option>
+                    
+                    <ion-option [value]="2"> <p> Tareas </p> </ion-option>
+                </ion-select>
+            </ion-item>
+            
+            <ion-item no-lines>
+                <ion-label> Estado </ion-label>
+                
+                <ion-select [(ngModel)]="filters.currentStatus" class="select-status"
+                            (ngModelChange)="applyFilters()"
+                            cancelText="CANCELAR"
+                            interface="popover">
+                    <ion-option [value]="0">
+                        <p> Todos </p>
+                    </ion-option>
+                    
+                    <ion-option *ngFor="let status of statuses" [value]="status.id">
+                        <p> {{ status.nombre }} </p>
+                    </ion-option>
+                </ion-select>
+            </ion-item>
+            
+            <ion-item no-lines>
+                <ion-label>Lectura</ion-label>
+                
+                <ion-select [(ngModel)]="filters.statusRead" class="select-status"
+                            (ngModelChange)="applyFilters()"
+                            cancelText="CANCELAR"
+                            interface="popover">
+                    <ion-option [value]="0">
+                        <p> Todos </p>
+                    </ion-option>
+                    
+                    <ion-option [value]="1">
+                        <p> Leídos </p>
+                    </ion-option>
+                    
+                    <ion-option [value]="2">
+                        <p> Sin leer </p>
+                    </ion-option>
+                </ion-select>
+            </ion-item>
+        </ion-list>
+    </ion-toolbar>
+    
+    <ion-item *ngIf="revision && revision.total > 0" color="assertive" text-center text-wrap (click)="showRevisions()">
+        Revisiones a realizar <b> ( {{ revision.total }} ) </b>
+    </ion-item>
+    
+    <ion-item no-lines *ngIf="(!branchOffices || branchOffices.length < 1) && !requesting" text-center text-wrap no-lines padding-top>
+        <p> No tienes campañas asociadas </p>
+    </ion-item>
+    
+    <!-- spinner de requesting -->
+    <ion-item no-lines margin-top text-center *ngIf="requesting">
+        <ion-spinner color="primary"></ion-spinner>
+        
+        <p margin-top> Obteniendo campañas </p>
+    </ion-item>
+    
+    <!-- REFRESHER -->
+    <ion-refresher (ionRefresh)="refreshVisuals($event)" color="primary">
+        <ion-refresher-content pullingText="Actualizar" refreshingText="Actualizando..."></ion-refresher-content>
+    </ion-refresher>
+    
+    <!-- LISTA DE TAREASS -->
+    <ion-list *ngIf="(branchOffices && branchOffices.length > 0) && !requesting">
+        <ion-list *ngFor="let branchOffice of branchOffices" [id]="branchOffice.id" no-padding>
+            <ion-list padding-top no-margin *ngIf="branchOffice.open">
+                <ion-item class="custom-bb" *ngFor="let visual of branchOffice.visuals"
+                          (click)="navigateToVisualReport(visual)" no-lines>
+                    <ion-avatar item-start>
+                        <img [src]="visual.banner"/>
+                        
+                        <ion-icon [name]="visual.status_data.icon" [color]="visual.status_data.color" class="fix-icon"></ion-icon>
+                    </ion-avatar>
+                    
+                    <h3 text-wrap ion-text color="primary"> <b> {{ visual.nombre }} </b> </h3>
+                    
+                    <p> <strong> Estado: </strong> {{ ( visual.status_data.defecto && visual.reportable === 0 ) ? 'No Reportable' :  visual.status_data.nombre }} </p>
+                    
+                    <p> <strong> Lanzamiento: </strong> {{ visual.fecha_lanzamiento.day.real }} - {{ visual.fecha_lanzamiento.month.string }} </p>
+
+                    <p>
+                        <strong> Implementación: </strong> 
+                        
+                        <font *ngIf="visual.reportable !== 0">
+                            {{ visual.fecha_reporte.day.real }} - {{ visual.fecha_reporte.month.string }} {{ visual.fecha_reporte.time }}
+                        </font>
+                        
+                        <font *ngIf="visual.reportable === 0">
+                            No aplica
+                        </font>
+                    </p>
+
+                    <p> <strong> Término: </strong> {{ visual.fecha_termino.day.real }} - {{ visual.fecha_termino.month.string }} </p>
+                    
+                    <p> <strong> Lectura: </strong> {{ visual.fecha_leido ? 'Leído' : 'No leído' }} </p>
+                    
+                    <p *ngIf="visual.evaluable">
+                        <strong> Nota: </strong> {{ ( visual.reportable === 0 || visual.reportable === 2 ) ? 'No aplica' : ( visual.nota ? visual.nota : 'No evaluado' ) }} 
+                    </p>
+                    
+                    <button *ngIf="isTask && visual.status_data.implementado == 0" ion-button round (click)="implementar(visual);$event.stopPropagation();"> <p style="color: white !important"> implementar </p> </button>
+                    
+                    <ion-icon (click)="setFavorite(visual.favorito, visual.reporte_id);$event.stopPropagation();" item-end 
+                    [name]=" !visual.favorito ? 'md-star-outline' : 'md-star' " style="color: #FFAC00 !important; zoom: 1.2 !important; margin-right: -8px; "> </ion-icon>
+                   
+                    <ion-icon name='ios-arrow-forward' item-end color="default" style="margin-right: -8px !important" class="icon-lg"></ion-icon>
+                </ion-item>
+                
+                <div *ngIf="branchOffice.visuals.length < 1">
+                    <ion-item no-lines text-center *ngIf="branchOffice.visuals.length < 1">
+                        <h2 ion-text color="royal"><ion-icon color="energized" name="md-information-circle" item-start> </ion-icon> Información </h2>
+                    </ion-item>
+                    
+                    <ion-item no-lines text-center text-wrap>
+                        <p *ngIf="!filters.currentStatus && !filters.statusRead"> No tienes campañas asociadas </p>
+                        
+                        <p *ngIf="filters.currentStatus || filters.statusRead"> No existen campañas con los filtros seleccionados </p>
+                    </ion-item>
+                </div>
+            </ion-list>
+        </ion-list>
+    </ion-list>
+</ion-content>
+
+<!-- FOOTER -->
+<ion-footer class="bg-white">
+    <ion-row class="textoCentrado">
+            <ion-col col class="col-centered" *ngFor="let status of statuses" [ngClass]="status.id === filters.currentStatus ? 'selected-bottom-filter' : ''" (click)="selectFilter(status)">
+                <span>
+                    <ion-icon [name]="status.icon"
+                              [color]="status.id === filters.currentStatus ? 'light' : status.color"> </ion-icon>
+                    <p> {{ status.mini_app }} </p>
+                </span>
+            </ion-col>
+        </ion-row>
+</ion-footer>

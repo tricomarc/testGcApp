@@ -1,0 +1,44 @@
+<ion-header [ngClass]="view === 'CAMERA' ? 'background-color-transparent no-display' : ''">
+	<ion-navbar>
+		<div buy>
+			<ion-title>
+				<span ion-text color="primary">Crear grupo</span>
+			</ion-title>
+		</div>
+		<ion-buttons end right>
+			<button ion-button clear text-capitalize (click)="saveGroup()" color="primary" [disabled]="!form.name && members.length">
+				Guardar
+			</button>
+		</ion-buttons>
+	</ion-navbar>
+</ion-header>
+
+<ion-content [ngClass]="view === 'CAMERA' ? 'background-color-transparent no-display' : ''">
+	<ion-grid>
+		<ion-row>
+			<ion-col col-8>
+				<ion-item>
+					<ion-label stacked>Nombre</ion-label>
+					<ion-input type="text" maxlength="25" [(ngModel)]="form.name" placeholder="(Obligatorio)"></ion-input>
+					<p ion-text item-right class="p-current-length">{{form.name.length}}/25</p>
+				</ion-item>
+			</ion-col>
+			<ion-col col-4>
+				<ion-avatar (click)="showAvatarOptions()" text-center>
+					<img [src]="form.avatar ? (form.avatar | sanitizeImg) : 'assets/img/resources/camera.png'" class="contact-avatar" alt="">
+				</ion-avatar>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+	
+
+	<ion-item-divider margin-top no-lines color="light">Participantes: {{ members.length }}</ion-item-divider>
+	
+	<ion-grid>
+		<ion-row>
+			<ion-col col-3 text-center *ngFor="let contact of members">
+				<contact-bubble [contact]="contact" (onRemoveIconClick)="removeContact($event)"></contact-bubble>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+</ion-content>

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "89316784927",
+    "firebase_url": "https://gc-tricot.firebaseio.com",
+    "project_id": "gc-tricot",
+    "storage_bucket": "gc-tricot.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:89316784927:android:fa60de005b4fe6f1de0e2a",
+        "android_client_info": {
+          "package_name": "cl.informatv3.gcapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "89316784927-bdil8jeika1he738c41gnga3sgdr2346.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBspgr0HdZ9TwVYavSL-opiJZTHDg2eK28"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "89316784927-bdil8jeika1he738c41gnga3sgdr2346.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "89316784927-q4tqpva7c3ovi72khen1n68mfnpda046.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "cl.informatv3.gcapp",
+                "app_store_id": "1467764896"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,48 @@
+update {
+	.div-progress {
+		margin-top: 40px;
+		text-align: center;
+	}
+
+	.update-progress {
+		margin: 0 auto;
+	}
+
+	.status {
+		margin-top: 30px;
+	}
+
+	.progress-info {
+		position: absolute;
+	    top: 140px;
+	    left: 0;
+	    transform: translateY(-50%);
+	    -webkit-transform: translateY(-50%);
+	    text-align: center;
+	    width: 100%;
+	    z-index: 1;
+	    font-size: 2em;
+	    color: color($colors, primary);
+	}
+
+	.spinner {
+		width: 20px;
+		top: 12px;
+		left: 2px;
+	}
+
+	.tips {
+		margin-top: 40px;
+	}
+
+	.tips p {
+		color: #444;
+		font-size: 12px;
+	}
+	.colorCustom{
+		color: color($colors, primary) !important;
+	}
+	.customFontSize{
+		font-size: 1.5em !important;
+	}
+}

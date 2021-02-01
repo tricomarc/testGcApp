@@ -1,0 +1,41 @@
+<ion-header>
+	<ion-navbar (click)="closeModal()">
+		<ion-title color="primary">
+			<ion-icon color="primary" name="md-close"></ion-icon>
+			CERRAR
+		</ion-title>
+	</ion-navbar>
+</ion-header>
+<ion-content>
+	<ion-item no-lines>
+		<h4 ion-text color="primary"><b>Seleccionar motivo</b></h4>
+	</ion-item>
+	<ion-list class="custom-bb" radio-group [(ngModel)]="noImplement.selected_reason">
+		<ion-item no-lines *ngFor="let reason of noImplement.reasons">
+			<ion-label>{{reason.nombre}}</ion-label>
+			<ion-radio [value]="reason"></ion-radio>
+		</ion-item>
+	</ion-list>
+	<div *ngIf="noImplement.selected_reason && noImplement.selected_reason.requiere_sku">
+		<ion-item no-lines>
+			<h4 ion-text color="primary"><b>SKU asociado(s):</b></h4>
+			<ion-icon name="ios-barcode-outline" item-right (click)="scanSku()"></ion-icon>
+		</ion-item>
+		<ion-item no-lines>
+			<ion-textarea onpaste="return false;" placeholder="Ingrese sus SKU aquí o escanéelos presionando el ícono de la derecha" [(ngModel)]="noImplement.form.sku"></ion-textarea>
+		</ion-item>
+	</div>
+	<div>
+		<ion-item no-lines>
+			<h4 ion-text color="primary"><b>Agregar Comentario</b></h4>
+		</ion-item>
+		<ion-item no-lines>
+			<ion-textarea type="text" placeholder="Escribe tu comentario aquí" [(ngModel)]="noImplement.form.commentary"></ion-textarea>
+		</ion-item>
+	</div>
+	<ion-item no-lines>
+		<button ion-button default block color="primary" (click)="sendReason()">Enviar</button>	
+	</ion-item>
+	<!-- CANVAS PARA OBTENER BASE64 AL EDITAR FOTOS -->
+	<canvas #provisionalPhoto hidden="true"></canvas>
+</ion-content>

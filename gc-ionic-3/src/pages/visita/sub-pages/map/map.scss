@@ -1,0 +1,69 @@
+page-map {
+  #map_canvas{
+    width: 100%;
+    height: 200px;
+    position: relative;
+  }
+  #map_canvas_aux{
+    width: 100%;
+    height: 280px;
+    position: relative;
+  }
+  .posicionIcono{
+  	font-size: 2.6em !important;
+  	position: absolute;
+  	right: 15px;
+  	top: 4px;
+  }
+  .posicionTextoEspecifico{
+  	padding-top: 4px !important;
+  }
+  .posicionPaddingEspecifico{
+  	padding-top: 0px !important;
+  }
+  .customSize{
+    font-size: 2.5em !important;
+  }
+
+  .iconSize{
+    width: 25px;
+    height: 25px;
+  }
+  .iconSize1{
+    width: 25px;
+    height: 40px;
+  }
+  .customMarginTop{
+    margin-top: 28px !important;
+  }
+
+  .hiddenItem{
+   display: none;
+  }
+  .showItem{
+    display: inline;
+  }
+
+  #container{
+    width:200px;
+    height:200px;
+    position:relative;
+  }
+  .box{
+    position:absolute;
+    width:100%;
+    height:200px;
+  }
+
+  .top{top:0}
+  .middle{top:50%;margin-top:-10px;/*half of the .box height*/}
+  .bottom{bottom:0}
+
+  .left{left:0;}
+  .center{left:50%;margin-left:-10px;/*half of the .box width*/}
+  .right{right:0;}
+
+  .box2{
+    width:100%; height:100px; text-align: center; margin-top: 30px;
+  }
+}

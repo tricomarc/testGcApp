@@ -1,0 +1,49 @@
+<ion-header box-shadow>
+
+  <ion-navbar>
+    <ion-title>Tareas</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="close()" color="primary">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+  <ion-toolbar>
+    <div header-section>
+      <ion-searchbar [formControl]="searchControl" placeholder="Buscar tarea"></ion-searchbar>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-refresher (ionRefresh)="refreshTasks($event)" color="primary">
+    <ion-refresher-content pullingText="Actualizar tareas" refreshingText="Actualizando tareas...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <ion-list padding>
+    <ion-item text-wrap *ngFor="let task of tasks">
+      <ion-label>
+        <h2 ion-text color="primary">{{task.Tarea_nombre}}</h2>
+        <p>{{task.descripcion}}</p>
+        <small margin-bottom *ngIf="task.requiereEvidencia" ion-text color="danger">Requiere evidencia fotográfica</small>
+      </ion-label>
+      <ion-checkbox color="primary" [(ngModel)]="task.selected"></ion-checkbox>
+    </ion-item>
+  </ion-list>
+
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+<ion-row >
+    <ion-col col-8 offset-2 text-center>
+      <button color="balanced" padding full ion-button round (click)="next()">
+        Seleccionar tarea
+      </button>
+    </ion-col>
+  </ion-row>
+  </ion-toolbar>
+  
+</ion-footer>

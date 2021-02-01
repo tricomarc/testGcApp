@@ -1,0 +1,68 @@
+week {
+    .customColorSeccionHeader{
+        color: #fff;
+    }
+    .fondoColor{
+        background-color: color($colors, primary);
+    }
+    .textoDia{
+        font-size: 5vw;
+    }
+    .customDiaText{
+        color: color($colors, primary);
+        padding-left: 25px !important;
+        margin-bottom: 0px !important;
+        padding-bottom: 0px !important;
+    }
+    .customFontSize1{
+        font-size: 4vw;
+        margin-top: 5px !important;
+        padding-bottom: 0px !important;
+        margin-bottom: 0px !important; 
+        
+    }
+    .customFontSize2{
+        font-size: 4vw;
+        margin-top: 5px !important;
+        padding-top: 0px !important; 
+        margin-bottom: 0px !important;
+    }
+    .customMarginRow{
+        margin-left: 12px !important;
+        margin-top: 0px !important;
+        padding-top: 0px !important;
+    }
+    .list-ios > .item-block:first-child{
+        border-top: none !important;
+    }
+    .customSizeBoton{
+        width: 50%;
+    }
+    
+    //ESTAS SON LAS CLASES DE LO QUE YA NO VA PERO QUE PEUDE CAMBIAR EN UN FUTURO  
+    //ESTAS SON LAS CLASES DE LO QUE YA NO VA PERO QUE PEUDE CAMBIAR EN UN FUTURO  
+    //ESTAS SON LAS CLASES DE LO QUE YA NO VA PERO QUE PEUDE CAMBIAR EN UN FUTURO    
+    // .custom-bb {
+    //  border-bottom: 1px solid #ddd !important;
+    // }
+    // .icon-lg {
+    //     font-size: 2em !important;
+    //     color: #bbb !important; 
+    // }
+    // .CustomFotoInformacion{
+    //  width: 100%;
+    //  height: 100%;
+    //  border-radius: 45%;
+    // }
+    // .customPaddingTop{
+    //  padding-top: 5px !important;
+    //  padding-bottom: 5px !important;
+    // }
+    // .customPaddingTop2{
+    //  padding-top: 5px !important;
+    // }
+    // .customMargin{
+    //  margin-top: 12px !important;
+    //  padding-bottom: 5px !important;
+    // }
+}

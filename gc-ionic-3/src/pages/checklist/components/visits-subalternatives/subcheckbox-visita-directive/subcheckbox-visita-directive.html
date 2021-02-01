@@ -1,0 +1,26 @@
+<ion-item class="p-sm" *ngIf="!pregunta.visita">
+  <p style="white-space: normal">{{pregunta.adicional ? pregunta.adicional : ''}}</p>
+  <textarea
+          [(ngModel)]="pregunta.respuesta.data"
+          cols="30"
+          rows="5"
+          class="b-stable padding"
+          style="width:100%"
+          [disabled]="checklistEnviado"
+          placeholder="Escribe tu respuesta...">
+	</textarea>
+</ion-item>
+
+<ion-item class="p-sm" *ngIf="pregunta.visita">
+    <p style="white-space: normal">{{pregunta.adicional ? pregunta.adicional : ''}}</p>
+    <textarea
+            [(ngModel)]="pregunta.respuesta"
+            (ngModelChange)="onChange()"
+            cols="30"
+            rows="5"
+            class="b-stable padding"
+            style="width:100%"
+            [disabled]="checklistEnviado"
+            placeholder="Escribe tu respuesta 2...">
+	</textarea>
+</ion-item>

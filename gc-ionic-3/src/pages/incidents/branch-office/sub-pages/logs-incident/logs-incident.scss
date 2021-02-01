@@ -1,0 +1,23 @@
+page-logs-incident {
+	
+	.log-title {
+		color: color($colors, primary);
+	}
+
+	.line {
+		height: 100%;
+	    position: absolute;
+	    border-right: 2px solid #9e9e9e;
+	    top: 0;
+	    padding-left: 10px;
+	    z-index: -1;
+	}
+
+	.icon-line {
+		color: color($colors, positive);
+	}
+	
+	.CirculoForzado{
+		padding-top: 50px;
+	}
+}

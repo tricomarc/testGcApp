@@ -1,0 +1,35 @@
+<ion-header box-shadow>
+    <ion-navbar>
+        <div buy>
+            <ion-title>
+                <span ion-text color="primary">Detalle Comunicado</span>
+            </ion-title>
+        </div>
+        <ion-buttons end *ngIf="isFavorite != null">
+            <button ion-button  icon-only (click)="setFavorite()" *ngIf="showFavorite">
+                <ion-icon  [name]=" !isFavorite ? 'md-star-outline' : 'md-star' " [style.zoom]="1.2" style="color: #FFAC00 !important;" ></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+<!--[ngStyle]="{'display':tabs.length <= 1 ? 'none' : 'inline' }"-->
+<ion-content>
+    <ion-tabs *ngIf="tabs.length > 0">
+        <!--<p>tabs</p>-->
+        <div id="pageTabs">
+            <ion-tab *ngFor="let tab of tabs" [root]="tab.root" [rootParams]="details" tabTitle="{{tab.tabTitle}}" tabIcon="{{tab.tabIcon}}"></ion-tab>
+        </div>
+    </ion-tabs>
+</ion-content>
+<!--<ion-footer>
+
+</ion-footer>-->
+<!--
+<ion-content padding>
+    <ion-tabs *ngIf="tabs.length > 0" color="dark">
+        <div id="pageTabs">
+            <ion-tab *ngFor="let tab of tabs" (ionSelect)="selectedTabs(1)" [root]="tab.root" [rootParams]="details" tabTitle="{{tab.tabTitle}}"
+                     tabIcon="{{tab.tabIcon}}"></ion-tab>
+        </div>
+    </ion-tabs>
+</ion-content>-->

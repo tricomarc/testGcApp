@@ -1,0 +1,19 @@
+no-enviadas {
+
+   .botonAnimado {
+      height: 40px !important;
+   	width: 200px !important;
+   	border-radius: 500px;
+   	box-shadow: 0 2px 3px rgba(33,33,33,0.5);
+   	z-index: 2;
+   }
+
+   .custom-bb {
+      border-bottom: 1px solid #ddd !important;
+   }
+
+   .custom-bb:last-child {
+      border-bottom: none !important;
+   }
+
+}

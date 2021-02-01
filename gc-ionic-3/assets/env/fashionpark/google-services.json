@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "338497163645",
+    "firebase_url": "https://fashionpark-ae35e.firebaseio.com",
+    "project_id": "fashionpark-ae35e",
+    "storage_bucket": "fashionpark-ae35e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:338497163645:android:a0049d304fabc13c4dfc14",
+        "android_client_info": {
+          "package_name": "cl.fashiopark.gcapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "338497163645-0u57pl077qgbbbi2hg67q70l6rgorp4n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDr1yat5GI92WCJmSSz2L7Evqpoio4kZcE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "338497163645-0u57pl077qgbbbi2hg67q70l6rgorp4n.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "338497163645-0h0dsm828i6iee0jkhj9hhaud25hk116.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "cl.fashiopark.gcapp",
+                "app_store_id": "1444745135"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

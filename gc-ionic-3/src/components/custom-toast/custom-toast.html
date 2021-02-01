@@ -1,0 +1,10 @@
+<ion-item no-lines no-margin class="custom-toast-item">
+    <ion-avatar item-start class="custom-avatar" (click)="openRoom()">
+        <img [src]="data.image ? data.image : 'assets/img/resources/avatar.png'">
+    </ion-avatar>
+    <h3 (click)="openRoom()">{{data.title}}</h3>
+    <p (click)="openRoom()">{{data.text}}</p>
+    <button ion-button item-right clear icon-only (click)="destroy()">
+        <ion-icon name="close"></ion-icon>
+    </button>
+</ion-item>

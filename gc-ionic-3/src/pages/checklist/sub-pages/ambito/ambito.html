@@ -1,0 +1,318 @@
+<ion-header box-shadow>
+    <ion-navbar>
+        <div buy>
+            <ion-title><span ion-text color="primary"> {{ module }} </span></ion-title>
+        </div>
+        
+        <ion-buttons end right *ngIf="this.navParams.data.visita">
+            <button ion-button icon-only (click)="showVisitActionSheet()">
+                <ion-icon name="more" color="primary"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <div *ngIf="ready">
+        <ion-list-header no-margin no-padding *ngIf="!isTask" class="tamañoCustom2" color="primary" text-center>
+            {{ checklist.nombre }}
+        </ion-list-header>
+
+        <ion-list  no-padding-bottom>
+            <ion-row *ngIf="!navParams.data.visita && !onlyWatch"
+                     class="tamañoFuenteCustom paddingEspecial stripeColorCustom">
+                <ion-col col-6>
+                    <span ion-text>Fecha de inicio:</span>
+                </ion-col>
+                
+                <ion-col col-6>
+                    <span ion-text> {{ checklist.fecha | date:'dd-MM-yyyy' }} </span>
+                </ion-col>
+            </ion-row>
+
+            <ion-row *ngIf="!navParams.data.visita && !onlyWatch"
+                     class="tamañoFuenteCustom paddingEspecial stripeColorCustom">
+                <ion-col col-6>
+                    <span ion-text> Fecha de término: </span>
+                </ion-col>
+                <ion-col col-6>
+                    <span ion-text> {{ checklist.vencimiento | date:'dd-MM-yyyy' }} </span>
+                </ion-col>
+            </ion-row>
+
+            <!----------------------------------VISITAS--------------------------->
+            <ion-row *ngIf="navParams.data.visita && userSettingsView"
+                     class="tamañoFuenteCustom paddingEspecial stripeColorCustom">
+                <ion-col col-6>
+                    <span ion-text> Fecha inicio de visita: </span>
+                </ion-col>
+                
+                <ion-col col-6>
+                        <span ion-text *ngIf="checklist.fecha_visita"> {{ checklist.fecha_visita | date:'dd-MM-yyyy' }} a las
+                            {{checklist.fecha_visita | date:'HH:mm'}} hrs.</span>
+                </ion-col>
+                
+                <ion-col col-12>
+                    <span ion-text *ngIf="!checklist.fecha_visita"> Aún no se ha visitado esta tienda. </span>
+                </ion-col>
+            </ion-row>
+            
+            <!----------------------------------FIN VISITAS--------------------------->
+            <ion-row *ngIf="!navParams.data.visita && checklist.periocidad_id" class="tamañoFuenteCustom paddingEspecial stripeColorCustom">
+                <ion-col col-6>
+                    <span ion-text> Periodicidad: </span>
+                </ion-col>
+                
+                <ion-col col-6>
+                    <span ion-text *ngIf="checklist.periocidad_id == 1"> Diario </span>
+                    <span ion-text *ngIf="checklist.periocidad_id == 2"> Semanal </span>
+                    <span ion-text *ngIf="checklist.periocidad_id == 3"> Mensual </span>
+                    <span ion-text *ngIf="checklist.periocidad_id == 4"> Ocasional </span>
+                    <span ion-text *ngIf="checklist.periocidad_id == 5"> Único </span>
+                </ion-col>
+            </ion-row>
+           
+            <ion-row *ngIf="!navParams.data.visita && !onlyWatch"
+                     class="tamañoFuenteCustom paddingEspecial stripeColorCustom">
+                <ion-col col-6>
+                    <span ion-text>Fecha último estado:</span>
+                </ion-col>
+                
+                <ion-col col-6>
+                        <span ion-text> {{ checklist.modified | date:'dd-MM-yyyy' }} a las
+                            {{ checklist.modified | date:'HH:mm' }} hrs. </span>
+                </ion-col>
+            </ion-row>
+            
+            <ion-row *ngIf="!navParams.data.visita && onlyWatch && nombre"
+                     class="tamañoFuenteCustom paddingEspecial stripeColorCustom">
+                <ion-col col-6>
+                    <span ion-text> Nombre: </span>
+                </ion-col>
+                
+                <ion-col col-6>
+                    <span ion-text> {{ nombre } }</span>
+                </ion-col>
+            </ion-row>
+            
+            <ion-row *ngIf="!navParams.data.visita && onlyWatch && cargo"
+                     class="tamañoFuenteCustom paddingEspecial stripeColorCustom">
+                <ion-col col-6>
+                    <span ion-text> Cargo: </span>
+                </ion-col>
+                
+                <ion-col col-6>
+                    <span ion-text> {{ cargo }} </span>
+                </ion-col>
+            </ion-row>
+            
+            <ion-row *ngIf="!navParams.data.visita && !onlyWatch"
+                     class="tamañoFuenteCustom paddingEspecial stripeColorCustom">
+                <ion-col col-6>
+                    <span ion-text> Estado: </span>
+                </ion-col>
+                
+                <ion-col col-6
+                         [ngClass]="{'assertive': checklist.estado_id == 1, 'energized': checklist.estado_id == 2}">
+                    <span ion-text> {{ checklist.estado_nombre }} </span>
+                </ion-col>
+            </ion-row>
+            
+            <ion-row *ngIf="checklist.sucursal" class="tamañoFuenteCustom paddingEspecial stripeColorCustom">
+                <ion-col col-6>
+                    <span ion-text>Sucursal:</span>
+                </ion-col>
+                <ion-col col-6>
+                    <span ion-text>{{checklist.sucursal}}</span>
+                </ion-col>
+            </ion-row>
+            <!-- 
+
+<ion-list-header *ngIf="navParams.data.visita && checklist" class="tamañoFuenteCustom paddingEspecial stripeColorCustom">
+    Estado:
+
+                <b *ngIf="!checklist.nombre_estado">
+                    Aún no se ha visitado esta tienda.
+                </b>
+                <b *ngIf="checklist.nombre_estado">
+                    {{checklist.nombre_estado}}
+                </b>
+
+
+    </ion-list-header>
+
+    <ion-item color="primary" *ngIf="navParams.data.sucursal" no-padding>
+        <h3 ion-text text-center>Tienda: {{sucursal.nombre}}</h3>
+    </ion-item>
+            -->
+            <ion-list-header no-margin no-padding *ngIf="navParams.data.visita && checklist"
+                             class="tamañoFuenteCustom paddingEspecial stripeColorCustom">
+                Estado:
+                <b *ngIf="!checklist.nombre_estado">
+                    Aún no se ha visitado esta tienda.
+                </b>
+               
+                <b *ngIf="checklist.nombre_estado">
+                    {{ checklist.nombre_estado }}
+                </b>
+            </ion-list-header>
+            
+            <ion-row
+                    *ngIf="!navParams.data.visita && checklist && (checklist.nota_tienda || checklist.nota_tienda == 0) && checklist.estado_id == 4"
+                    class="tamañoFuenteCustom paddingEspecial stripeColorCustom">
+                <ion-col col-6>
+                    <span ion-text> Nota Tienda: </span>
+                </ion-col>
+                
+                <ion-col col-6>
+                    <span ion-text> {{ checklist.nota_tienda }} </span>
+                </ion-col>
+            </ion-row>
+            
+            <ion-row
+                    *ngIf="!navParams.data.visita && checklist && (checklist.nota || checklist.nota == 0) && checklist.estado_id == 4"
+                    class="tamañoFuenteCustom paddingEspecial stripeColorCustom">
+                <ion-col col-6>
+                    <span ion-text> Nota: </span>
+                </ion-col>
+                
+                <ion-col col-6>
+                    <span ion-text> {{ checklist.nota }} </span>
+                </ion-col>
+            </ion-row>
+           
+            <ion-row *ngIf="!navParams.data.visita && settingViewDescripcion && checklist && checklist.introduccion"
+                     class="tamañoFuenteCustom paddingEspecial stripeColorCustom">
+                <ion-col col-6>
+                    <span ion-text> Descripción: </span>
+                </ion-col>
+                <ion-col col-6>
+                    <span ion-text [innerHTML]="checklist.introduccion | nl2br : false"></span>
+                </ion-col>
+            </ion-row>
+
+            <ion-item *ngIf="fromVisit && settings.commentaryVisit" no-lines>
+                <h3> Comentarios de la visita anterior: </h3>
+                <p ion-text margin-top> {{ ( commentary && commentary.comentario ) ? commentary.comentario : 'Sin comentarios.' }} </p>
+            </ion-item>
+
+            <div *ngIf="checklist && checklist.archivo && checklist.archivo.url">
+                <ion-list-header no-margin no-padding class="tamañoCustom2 paddingEspecial" color="stable" style="line-height: 1.5;">Archivo adjunto</ion-list-header>
+                <ion-item no-padding (click)="downloadFile(checklist.archivo.url)">
+                        <h2 class="paddingEspecial" ion-text color="primary">{{checklist.archivo.nombre}}</h2>
+                        <ion-icon name="download" item-right></ion-icon>
+                </ion-item>
+            </div>
+            
+            <!-- AMBITOS -->
+            <ion-list-header no-margin no-padding class="tamañoCustom2 paddingEspecial" color="stable"
+                             style="line-height: 1.5;">Ámbitos
+            </ion-list-header>
+            
+            <ion-item no-padding *ngIf="!navParams.data.visita">
+                <h2 class="paddingEspecial" ion-text color="primary" *ngIf="ambito && ambito.nombre">{{ambito.nombre}}</h2>
+            </ion-item>
+
+            <ion-row *ngIf="!mostrarAmbitos" class="tamañoFuenteCustom stripeColorCustom" margin-top>
+                <ion-col col-12 text-center>
+                    <span ion-text text-center> Debe iniciar el checklist para ver los ámbitos </span>
+                </ion-col>
+            </ion-row>
+
+            <!-- ambitos -->
+            <!-- Navegar al detalle  -->
+            <ion-list no-border class="noPaddingBottom" *ngIf="checklist != undefined && mostrarAmbitos">
+                <div (click)="navigateToDetalle(checklist.id, ambito.id, checklist.estado_id)"
+                     *ngFor="let ambito of checklist.ambitos | orderAmbits">
+                    <ion-item no-padding *ngIf="!navParams.data.visita">
+                        <h2 class="paddingEspecial" ion-text color="primary" *ngIf="ambito && ambito.nombre">
+                             {{ ambito.nombre }} </h2>
+                        
+                        <p class="paddingEspecial" *ngIf="!onlyWatch"> Estado:
+                            <b *ngIf="checklist.estado_id == 4"><strong ion-text color="primary"> Enviado </strong></b>
+                            
+                            <b *ngIf="ambito.pendientes == 0  && ambito.contestadas >= ambito.total && checklist.estado_id != 4">
+                                <strong ion-text color="primary"> Completo </strong>
+                            </b>
+                            
+                            <b *ngIf="ambito.pendientes > 0 && ambito.contestadas < ambito.total && ambito.contestadas > 0 && checklist.estado_id != 4">
+                                <strong ion-text color="primary"> Incompleto </strong></b>
+                            
+                            <b *ngIf="ambito.pendientes > 0 && ambito.contestadas == 0 && checklist.estado_id != 4">
+                                <strong ion-text color="primary"> Sin
+                                Contestar </strong>
+                            </b>
+                        </p>
+                        
+                        <p class="paddingEspecial" *ngIf="!onlyWatch"> Preguntas: <b><strong ion-text color="primary">( {{ ambito.contestadas }}/{{ ambito.total }} )</strong></b>
+                        </p>
+
+                        <p class="paddingEspecial" *ngIf="onlyWatch"> Preguntas:
+                            <b><strong ion-text color="primary"> {{ ambito.total }} </strong></b>
+                        </p>
+
+                        <ion-icon *ngIf="onlyWatch == false" name='ios-arrow-forward' item-end color="default"
+                                  class="icon-lg"></ion-icon>
+                    </ion-item>
+                    
+                    <ion-item no-padding *ngIf="navParams.data.visita">
+                        <h2 class="paddingEspecial" ion-text color="primary" *ngIf="ambito && ambito.nombre">
+                             {{ ambito.nombre }} </h2>
+                        
+                        <p class="paddingEspecial"> Estado:
+                            <b>
+                                <strong ion-text color="primary"> {{ ambito.nombre_estado }} </strong>
+                            </b>
+                        </p>
+                        
+                        <p class="paddingEspecial"> Preguntas: <b><strong ion-text color="primary">( {{ ambito.contestadas }}/{{ ambito.total }}) </strong></b>
+                        </p>
+                        
+                        <ion-icon *ngIf="onlyWatch == false" name='ios-arrow-forward' item-end color="default"
+                                  class="icon-lg"></ion-icon>
+                    </ion-item>
+                </div>
+            </ion-list>
+
+            <!-- --------------------------------------ALERTA-------------------------------- -->
+            <!-- disclaimer cuando checklist NO esta completo -->
+            <div class="item-divider text-center padding" *ngIf="checklist && checklist.estado_id < 3 && onlyWatch == false" text-wrap text-center>
+                <p margin-bottom ion-text color="primary"> *Para poder {{ this.navParams.data.visita ? 'finalizar' : 'enviar' }} el checklist debe completar todos los ámbitos </p>
+            </div>
+
+            <!-- disclaimer cuando checklist esta completo, para agregar la firma -->
+            <div class="item-divider text-center padding" *ngIf="checklist && checklist.estado_id==3 && onlyWatch==false && !signatureImg && checklist.requiere_firma==1" text-wrap text-center> 
+                <p margin-bottom ion-text color="primary"> *Para enviar el checklist debe agregar una firma. De contrario, no podrá enviarlo. </p>
+            </div>
+
+            <!-- vista firma ejemplo -->
+            <div text-center>
+                <img *ngIf="signatureImg" [src]="(signatureImg | sanitizeImg)" imageViewer width="300" height="446">
+            </div>
+            
+            <!-- ----------------------------------------BOTONES---------------------------------- -->
+            <!-- boton no se muestra/activa hasta que se haya agregado una firma -->
+           
+            <ion-item no-lines class="no-padding-bottom" *ngIf="!navParams.data.visita && mostrarBotonAmbito == true && deshabilitar == false && onlyWatch == false && ( signatureImg || checklist.requiere_firma==0)">
+                <button ion-button block default color="primary" (click)="cambiarEstado(checklist.id, 'checklist', null)">
+                    Enviar
+                </button>
+            </ion-item>
+
+            <ion-item *ngIf="!mostrarAmbitos">
+                <button ion-button block default color="primary" (click)="iniciarVisita()"> Iniciar Checklist </button>
+            </ion-item>
+
+            <ion-item *ngIf="navParams.data.visita && checklist != undefined && checklist.estado_id == 3 && mostrarAmbitos">
+                <button ion-button block default color="primary" (click)="cambiarEstado(checklist.id, 'visita', checklist)">
+                    Finalizar Checklist
+                </button>
+            </ion-item>
+        </ion-list>
+
+        <!-- botón para firmar: cuando el checklist viene completo -->
+        <ion-item no-lines class="no-padding-bottom" *ngIf="!navParams.data.visita && deshabilitar==false && onlyWatch==false && checklist.estado_id==3 && checklist.requiere_firma==1 && !signatureImg">
+            <button ion-button block default color="primary" (click)="openSignatureDrawer()"> Firmar checklist </button>
+        </ion-item>
+    </div>
+</ion-content>

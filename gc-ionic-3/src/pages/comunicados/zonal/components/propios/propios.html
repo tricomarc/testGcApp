@@ -1,0 +1,46 @@
+<ion-content no-padding>
+    <ion-refresher (ionRefresh)="refreshComunicados($event)" color="primary">
+        <ion-refresher-content pullingText="Actualizar" refreshingText="Actualizando..."></ion-refresher-content>
+    </ion-refresher>
+    <ion-row>
+        <ion-col no-padding>
+            <ion-list-header box-shadow no-margin no-lines>
+                <h1 ion-text color="primary" header-title>Listado de Comunicados Propios</h1>
+            </ion-list-header>
+        </ion-col>
+    </ion-row>
+    <ion-list no-border padding-top >
+        <ion-item text-center class="item-energized text-center" *ngIf="comunicados_propios.length <= 0">
+            <p>Sin Comunicados Propios</p>
+        </ion-item>
+        <div *ngIf="comunicados_propios.length > 0">
+            <ion-item no-lines class="border-bottom-1" *ngFor="let comunicado of comunicados_propios">
+                <ion-item (click)="goToDetails(comunicado)" no-lines text-wrap>
+                    <h2 ion-text color="primary" text-wrap>{{comunicado.comunicado_nombre}}</h2>
+                    <p>
+                        <b>Fecha Inicio: </b>{{comunicado.fecha_inicio | date: 'dd-MM-yyyy' }}
+                    </p>
+                    <p>
+                        <b>Fecha Término: </b> {{comunicado.fecha_termino | date: 'dd-MM-yyyy' }}
+                    </p>
+                    <p>
+                        <b>Área: </b> {{comunicado.leidos}}
+                    </p>
+                    <p>
+                        <b>Tipo: </b> {{comunicado.tipo_nombre}}
+                    </p>
+                    <p *ngIf="comunicado.estado">
+                        <b>Estado: </b> Leído 
+                    </p>
+                    <p *ngIf="!comunicado.estado">
+                        <b>Estado: </b> No Leído 
+                    </p>
+                    <!-- <ion-icon (click)="setFavorite(comunicado.favorito, comunicado.comunicado_id);$event.stopPropagation();" item-end 
+                    [name]=" !comunicado.favorito ? 'md-star-outline' : 'md-star' " style="color: #FFAC00 !important; zoom: 1.2 !important; margin-right: -8px; "></ion-icon> -->
+              
+                    <ion-icon name='ios-arrow-forward' item-end color="default" style="margin-right: -10px;"  class="icon-lg"></ion-icon>
+                </ion-item>
+            </ion-item>
+        </div>
+    </ion-list>
+</ion-content>

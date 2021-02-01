@@ -1,0 +1,175 @@
+<ion-header box-shadow>
+    <ion-navbar box shadow>
+        <div buy box shadow>
+            <ion-title><span ion-text color="primary">{{module}}</span></ion-title>
+        </div>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <ion-row>
+        <ion-col no-padding>
+            <ion-list-header box-shadow no-margin no-lines>
+                <h1 ion-text color="primary" header-title>Semana del {{desde}} al {{hasta}}</h1>
+            </ion-list-header>
+        </ion-col>
+    </ion-row>
+    <ion-row class="fondoColor">
+        <ion-col col-4 text-center>
+            <h2 ion-text class="customColorSeccionHeader">{{workHours}}</h2>
+            <p class="customColorSeccionHeader">Hrs. Trabajadas</p>
+        </ion-col>
+        <ion-col col-4 text-center>
+            <h2 ion-text class="customColorSeccionHeader">{{extraHours}}</h2>
+            <p class="customColorSeccionHeader">Hrs. Extras</p>
+        </ion-col>
+        <ion-col col-4 text-center>
+            <h2 ion-text class="customColorSeccionHeader">{{lateHours}}</h2>
+            <p class="customColorSeccionHeader">Hrs. Atrasadas</p>
+        </ion-col>
+    </ion-row>
+    <ion-list padding-top *ngFor="let day of days">
+        <ion-item><p ion-text color="primary" class="textoDia">{{day.dia_nombre}} {{day.fecha_entrada | date: 'dd'}}</p></ion-item>
+        <ion-row class="customMarginRow">
+            <ion-col col-4>
+                <p class="customFontSize1">Entrada</p>
+                <p class="customFontSize2">{{day.hora_entrada | date: 'hh:mm'}}</p>
+            </ion-col>
+            <ion-col col-4>
+                <p class="customFontSize1">Salida</p>
+                <p class="customFontSize2">{{day.hora_salida | date: 'hh:mm'}}</p>
+            </ion-col>
+            <ion-col col-4>
+                <p class="customFontSize1">Total</p>
+                <p class="customFontSize2">{{day.horas_trabajadas}} horas</p>
+            </ion-col>
+        </ion-row>
+
+        <!--<ion-item><p ion-text color="primary" class="textoDia">Martes 2</p></ion-item>
+        <ion-row class="customMarginRow">
+            <ion-col col-4>
+                <p class="customFontSize1">Entrada</p>
+                <p class="customFontSize2">12:00</p>
+            </ion-col>
+            <ion-col col-4>
+                <p class="customFontSize1">Salida</p>
+                <p class="customFontSize2">12:00</p>
+            </ion-col>
+            <ion-col col-4>
+                <p class="customFontSize1">Total</p>
+                <p class="customFontSize2">150</p>
+            </ion-col>
+        </ion-row>
+
+        <ion-item><p ion-text color="primary" class="textoDia">Miercoles 3</p></ion-item>
+        <ion-row class="customMarginRow">
+            <ion-col col-4>
+                <p class="customFontSize1">Entrada</p>
+                <p class="customFontSize2">12:00</p>
+            </ion-col>
+            <ion-col col-4>
+                <p class="customFontSize1">Salida</p>
+                <p class="customFontSize2">12:00</p>
+            </ion-col>
+            <ion-col col-4>
+                <p class="customFontSize1">Total</p>
+                <p class="customFontSize2">150</p>
+            </ion-col>
+        </ion-row>
+
+        <ion-item><p ion-text color="primary" class="textoDia">Jueves 4</p></ion-item>
+        <ion-row class="customMarginRow">
+            <ion-col col-4>
+                <p class="customFontSize1">Entrada</p>
+                <p class="customFontSize2">12:00</p>
+            </ion-col>
+            <ion-col col-4>
+                <p class="customFontSize1">Salida</p>
+                <p class="customFontSize2">12:00</p>
+            </ion-col>
+            <ion-col col-4>
+                <p class="customFontSize1">Total</p>
+                <p class="customFontSize2">150</p>
+            </ion-col>
+        </ion-row>
+
+        <ion-item><p ion-text color="primary" class="textoDia">Viernes 5</p></ion-item>
+        <ion-row class="customMarginRow">
+            <ion-col col-4>
+                <p class="customFontSize1">Entrada</p>
+                <p class="customFontSize2">12:00</p>
+            </ion-col>
+            <ion-col col-4>
+                <p class="customFontSize1">Salida</p>
+                <p class="customFontSize2">12:00</p>
+            </ion-col>
+            <ion-col col-4>
+                <p class="customFontSize1">Total</p>
+                <p class="customFontSize2">150</p>
+            </ion-col>
+        </ion-row>-->
+
+    </ion-list>
+    <ion-toolbar>
+        <ion-grid *ngIf="state != 'aprobada' && state != 'rechazada'">
+            <ion-row>
+                <ion-col col-6>
+                    <button ion-button block color="primary" (click)="aceptWeek();">Aprobar</button>
+                </ion-col>
+                <ion-col col-6>
+                    <button ion-button block color="danger" (click)="rejectWeek();">Rechazar</button>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-toolbar>
+
+
+    <!--------------------------------------------ESTO YA NO VA PERO LO COMENTE POR SI CAMBIAN DE IDEA---------------------------------->
+    <!--------------------------------------------ESTO YA NO VA PERO LO COMENTE POR SI CAMBIAN DE IDEA---------------------------------->
+    <!--------------------------------------------ESTO YA NO VA PERO LO COMENTE POR SI CAMBIAN DE IDEA---------------------------------->
+    <!-- 	<ion-row>
+            <ion-col no-padding>
+                <ion-list-header box-shadow no-margin no-lines>
+                    <h1 ion-text color="primary" header-title>Información</h1>
+                </ion-list-header>
+            </ion-col>
+        </ion-row>
+        <ion-row padding-top>
+          <ion-col col-12>
+              <ion-item no-lines>
+                <ion-avatar item-start>
+                    <img src="https://i.redd.it/rrwhnivn4twz.jpg" alt="">
+                </ion-avatar>
+                <h2 ion-text item-title margin-top>
+                    Nombre: Cristian Herky
+                </h2>
+                <p ion-text item-subtitle>
+                    Rut: 8.888.888-9
+                </p>
+                <p ion-text item-subtitle padding-bottom>
+                    Mail: JayJayElAvioncito@soyYol.cl
+                </p>
+              </ion-item>
+          </ion-col>
+        </ion-row>
+    <hr>
+              <ion-list  no-margin >
+                  <ion-item class="custom-bb" no-lines>
+                      <h2 text-wrap ion-text color="primary">Horas Semanales</h2>
+                      <p class="customPaddingTop">(1/1/1 al 7/1/1)</p>
+                      <ion-icon name='ios-arrow-forward' item-end color="default" class="icon-lg"></ion-icon>
+                  </ion-item>
+                  <ion-item class="custom-bb" no-lines>
+                      <h2 class="customPaddingTop2" text-wrap ion-text color="primary">Horas Mensuales</h2>
+                      <p  class="customPaddingTop">(Mes Actual: Diciembre)</p>
+                      <ion-icon name='ios-arrow-forward' item-end color="default" class="icon-lg"></ion-icon>
+                  </ion-item>
+                  <ion-item class="custom-bb" no-lines>
+                      <h2 class="customPaddingTop2" text-wrap ion-text color="primary">Horas Historicas</h2>
+                      <p  class="customPaddingTop">(Seleccionar Mes)</p>
+                      <ion-icon name='ios-arrow-forward' item-end color="default" class="icon-lg"></ion-icon>
+                  </ion-item>
+              </ion-list> -->
+    <!--------------------------------------------ESTO YA NO VA PERO LO COMENTE POR SI CAMBIAN DE IDEA---------------------------------->
+
+</ion-content>

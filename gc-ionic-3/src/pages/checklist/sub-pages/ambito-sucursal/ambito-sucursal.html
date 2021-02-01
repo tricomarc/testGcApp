@@ -1,0 +1,72 @@
+<ion-header box-shadow>
+    <ion-navbar>
+        <div buy>
+            <ion-title><span ion-text text-center color="primary"> {{ module }} </span></ion-title>
+        </div>
+    </ion-navbar>
+</ion-header>
+
+
+<ion-content *ngIf="navParams.data">
+	<!-- Refresherrr -->
+	<ion-refresher (ionRefresh)="refreshAmbitos($event)" color="dark">
+		<ion-refresher-content pullingText="Actualizar" refreshingText="Actualizando..."></ion-refresher-content>
+	</ion-refresher>
+
+	<div>
+    	<!-- Nombre checklist -->
+    	<ion-list-header no-margin no-padding class="tamañoCustom2" color="primary" text-center>
+       		{{ navParams.data.checklist_nombre }}
+    	</ion-list-header>
+
+    	<ion-list no-padding-bottom>
+			<ion-row class="tamañoFuenteCustom paddingEspecial stripeColorCustom">
+		   		<ion-col col-6>
+			   		<span ion-text> Fecha de inicio: </span>
+		   		</ion-col>
+		   
+		   		<ion-col col-6>
+			   		<span ion-text> {{ navParams.data.checklist_inicio | date: 'dd-MM-yyyy' }} </span>
+		   		</ion-col>
+	   		</ion-row>
+
+			<ion-row class="tamañoFuenteCustom paddingEspecial stripeColorCustom">
+                <ion-col col-6>
+                    <span ion-text> Fecha de término: </span>
+                </ion-col>
+                
+                <ion-col col-6>
+                    <span ion-text> {{ navParams.data.checklist_termino | date: 'dd-MM-yyyy' }} </span>
+                </ion-col>
+            </ion-row>
+			
+			<!-- Ambitos -->
+			<ion-list-header no-margin class="tamañoCustom2 paddingEspecial" color="stable" style="line-height: 1.5;"> 
+				Ámbitos
+			</ion-list-header>
+
+			<!-- Lista de ambitos -->
+			<ion-list no-border class="noPaddingBottom" *ngIf="ambitoList">
+				<div *ngFor="let ambito of ambitoList" (click)="navigateToDetails(ambito.id)">
+					<ion-item>
+						<h2 class="paddingEspecial" ion-text color="primary"> {{ ambito.ambito }} </h2>
+						
+						<p class="paddingEspecial"> Cantidad de preguntas:
+							<b> <strong ion-text color="primary"> {{ ambito.preguntas.length }} </strong> </b> </p>
+	
+						<ion-icon name='ios-arrow-forward' item-end color="default" class="icon-lg"></ion-icon>
+					</ion-item>
+				</div>
+			</ion-list>
+		</ion-list>
+	</div>
+
+	<!-- error en caso de no haber datos -->
+	<div *ngIf="navParams.data.check_id && ambitoList.length <= 0">
+		<ion-item no-lines icon-left text-center margin-top>
+			<ion-icon name="md-alert" color="energized" class="icon-no-results"></ion-icon>
+			<span class="assertive" text-center text-wrap> No pudimos obtener los datos. <br> Intente nuevamente.</span>
+		</ion-item>
+	</div>
+
+</ion-content>

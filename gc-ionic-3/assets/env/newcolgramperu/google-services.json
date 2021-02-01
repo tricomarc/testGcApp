@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "999330492605",
+    "firebase_url": "https://colgram-peru.firebaseio.com",
+    "project_id": "colgram-peru",
+    "storage_bucket": "colgram-peru.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:999330492605:android:74f70d6152f97307cec7d4",
+        "android_client_info": {
+          "package_name": "cl.clgperu.gcapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "999330492605-v0ea3bfvbpkcvnhlj7694koq9tr3gu65.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABx9WSpILxdwe1jZO-OV4pKtEjLYLFQsA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "999330492605-v0ea3bfvbpkcvnhlj7694koq9tr3gu65.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

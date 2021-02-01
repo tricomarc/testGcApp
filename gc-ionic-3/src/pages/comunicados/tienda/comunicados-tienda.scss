@@ -1,0 +1,73 @@
+page-comunicados-tienda {
+
+	.myCustomSelect{
+        text-align: center;
+    	max-width: 90% !important;
+    	font-size: 1em !important;
+   	}
+
+	ion-searchbar{
+		background: color($colors, primary) !important;
+	}
+
+	.icon-lg{
+        font-size: 2em !important;
+        color: #bbb !important; 
+    }
+
+    .custom-bb{
+        border-bottom: 1px solid color($colors, stable) !important;
+    }
+
+    .custom-bb:last-child{
+        border-bottom: none !important;
+    }
+
+    .fix-text{
+        font-size: 15px;
+    }
+
+    .datetime-text{
+        font-size: 13px !important;
+    }
+
+    .datetime-md {
+        padding: 13px 10px 13px 10px;
+    }
+
+    .fixMT{
+        margin-top: -18px !important;
+    }
+
+    .fixPT{
+        padding-top: 8px !important;
+    }
+
+    .fixPT2{
+        padding-top: 5px !important;
+    }
+    .espaciadoIcono{
+        color: #ccc !important;
+        font-size: 1.5em !important;
+        padding-top: 9px !important;
+    }
+    .customPaddingTop{
+        padding-top: 8px !important;
+    }
+    .tamañoCustomFuente{
+        font-size: 1.2em !important;
+    }
+    .customBorderFiltros{
+        border-bottom: 1px #000 !important
+    }
+      .tamañoCustom2{
+        font-size: 1em;
+    }
+     .paddingEspecial{
+        padding-left: 15px !important;
+    }
+    .customMarginTop{
+        padding-top: 0px !important;
+        margin-top: 0px !important;
+    }
+}

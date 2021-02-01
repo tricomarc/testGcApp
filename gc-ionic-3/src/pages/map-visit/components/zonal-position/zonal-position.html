@@ -1,0 +1,64 @@
+<ion-header box-shadow>
+  <ion-navbar>
+    <ion-title>Ubicación de zonales</ion-title>
+  </ion-navbar>
+  <ion-toolbar>
+      <div *ngIf="loading.getZonals && !loading.getZonalPoints">
+        <ion-item no-lines>
+          <h5 ion-text text-wrap>Buscando usuarios</h5>
+          <ion-spinner item-right color="primary"></ion-spinner>
+        </ion-item>
+      </div>
+
+      <div *ngIf="loading.getZonalPoints && !loading.getZonals">
+        <ion-item no-lines>
+          <h5 ion-text text-wrap>Buscando ubicaciones</h5>
+          <ion-spinner item-right color="primary"></ion-spinner>
+        </ion-item>
+      </div>
+
+      <div *ngIf="!loading.getZonals && !loading.getZonalPoints">
+        <div *ngIf="zonals.length">
+          <ion-item no-lines>
+            <ion-label class="customPadding lh-15">Zonales:</ion-label>
+            <ionic-selectable item-content [(ngModel)]="selectedZonal" [items]="zonals" itemValueField="id"
+              itemTextField="name" closeButtonText="Cancelar" [canSearch]="true"
+              (onChange)="selectZonal()" [isMultiple]="false" [searchFailText]="'No se encontraron zonales.'"
+              [searchPlaceholder]="'Búsqueda'">
+              <ng-template ionicSelectablePlaceholderTemplate>
+                <div class="ionic-selectable-value-item">
+                  Seleccione
+                </div>
+              </ng-template>
+            </ionic-selectable>
+          </ion-item>
+
+          <ion-item no-lines *ngIf="selectedZonal">
+            <ion-label>Ver</ion-label>
+            <ion-select [(ngModel)]="mode" interface="popover" (ngModelChange)="selectZonal()">
+              <ion-option [value]="''">
+                <p>Última ubicación</p>
+              </ion-option>
+              <ion-option [value]="'all'">
+                <p>Ubicaciones de hoy</p>
+              </ion-option>
+            </ion-select>
+          </ion-item>
+
+        </div>
+
+        <ion-item no-lines *ngIf="!zonals.length">
+            <h5 ion-text text-wrap>No hemos encontrado usuarios</h5>
+            <button ion-button icon-only clear item-right (click)="getZonals()">
+              <ion-icon name="md-refresh"></ion-icon>
+            </button>
+        </ion-item>
+      </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content no-lines>
+  <div style="width: 100% !important; height: 100% !important;">
+    <div id="map_canvas_zonal"></div>
+  </div>
+</ion-content>

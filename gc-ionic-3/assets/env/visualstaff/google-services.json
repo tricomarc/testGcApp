@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1052181482681",
+    "firebase_url": "https://gc-estudio-f.firebaseio.com",
+    "project_id": "gc-estudio-f",
+    "storage_bucket": "gc-estudio-f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1052181482681:android:ee501473523815db111f68",
+        "android_client_info": {
+          "package_name": "cl.visualstaff.gcapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1052181482681-euisksl81jl2g07tqnq816iq0tpnof1e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJGx9gZZvgkj4HKWYW6pNfH59zjADtKwA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1052181482681-euisksl81jl2g07tqnq816iq0tpnof1e.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1052181482681-p1gof6qg9jap8apcucsam20k0aobnsoq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "cl.visualstaff.gcapp",
+                "app_store_id": "1491048147"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

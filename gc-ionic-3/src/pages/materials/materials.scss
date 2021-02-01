@@ -1,0 +1,28 @@
+page-materials {
+
+    .list-ios > .item-block:last-child, .list-ios > .item-wrapper:last-child .item-block {
+        border-bottom: 0px;
+    }
+    
+	.select-status .item-inner {
+        border-bottom: 0px !important;
+    }
+
+    .select-status {
+        max-width: 100%;
+    }
+    
+    .icon-lg{
+        font-size: 2em;
+        color: #bbb !important;
+    }
+
+    .custom-bb{
+        border-bottom: 1px solid #ddd !important;
+    }
+
+    .custom-bb:last-child{
+        border-bottom:  none !important;
+    }
+
+}

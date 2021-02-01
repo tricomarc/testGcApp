@@ -1,0 +1,200 @@
+<ion-header box-shadow>
+	<ion-navbar>
+		<div buy>
+			<ion-title>
+				<span ion-text color="primary">{{module}}</span>
+			</ion-title>
+		</div>
+	</ion-navbar>
+</ion-header>
+
+<ion-content class="fondo-bg">
+
+	<ion-row>
+		<ion-col no-padding>
+			<ion-list-header box-shadow no-margin no-lines>
+				<h1 ion-text color="primary" header-title class="lh-15">Estadísticas {{zone}}</h1>
+			</ion-list-header>
+		</ion-col>
+	</ion-row>
+
+	<ion-toolbar>
+		<ion-item no-lines>
+			<ion-label>Periodo</ion-label>
+			<ion-select [(ngModel)]="selectedDate" okText="OK" cancelText="Cancelar" (ngModelChange)="actualizarFecha(selectedDate)">
+				<ion-option *ngFor="let item of selectFecha" [value]="item">{{item.mes}}</ion-option>
+			</ion-select>
+		</ion-item>
+	</ion-toolbar>
+	<ion-row>
+		<ion-col col-6 class="br-1 text-center">
+			<span class="span-block current" >
+				<h1 ion-text color="primary" >
+					<strong class="fs-5em">55%</strong>
+				</h1>
+			</span>
+			<hr style="width:80%">
+			<span class="span-block">
+				<h4 ion-text color="primary" text-uppercase>
+					<b class="lh-15">País</b>
+				</h4>
+			</span>
+		</ion-col>
+		<ion-col col-6 class="br-1 text-center">
+			<span class="span-block current" >
+				<h1 ion-text color="primary" >
+					<strong class="fs-5em">55%</strong>
+				</h1>
+			</span>
+			<hr style="width:80%">
+			<span class="span-block">
+				<h4 ion-text color="primary" text-uppercase>
+					<b>Zona</b>
+				</h4>
+			</span>
+		</ion-col>
+	</ion-row>
+
+
+	<ion-list-header no-margin no-padding class="tamañoCustom2 lh-15" text-center color="primary">
+		Areas
+	</ion-list-header>
+
+	<ion-grid *ngIf="indicadores.length > 0">
+		<ion-row>
+			<ion-col col-6 class="br-1 text-center custom-bb" *ngFor="let area of indicadores" (click)="goToDetails(area, selectedDate)">
+				<div>
+					<span ion-text color="primary">
+						<h1>{{area.ponderado}}</h1>
+					</span>
+					<button ion-button block clear color="dark"  style="height: 3.3em;">
+						<ion-icon color="primary"></ion-icon>&nbsp;
+						<span>{{area.nombre}}</span>
+					</button>
+				</div>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+
+	<ion-grid *ngIf="indicadores.length <= 0">
+		<ion-item text-center>
+			<span>Sin información</span>
+		</ion-item>
+	</ion-grid>
+	<!------------------------------------------PAGINA DETALLE DE CADA AREA-------------------------------------------------------------->
+
+	 <!--<ion-list-header *ngFor="let area of indicadores" no-margin no-padding class="tamañoCustom2" text-center color="primary">
+						Estadisticas {{area.nombre}}
+		</ion-list-header>
+
+		<ion-row>
+			<ion-col col-12 class="br-1 text-center" *ngFor="let area of indicadores">
+				<span class="span-block current" >
+					<h1 ion-text color="primary" >
+						<strong class="fs-5em">{{area.ponderado}}</strong>
+					</h1>
+				</span>
+				<hr style="width:80%">
+				<span class="span-block">
+					<h3 ion-text color="primary" text-uppercase>
+						<b>Actual</b>
+					</h3>
+				</span>
+			</ion-col>
+		</ion-row>
+
+		 <div class="card">
+						<ion-item *ngIf="indicadores.length > 0">
+										<div class="table-striped" *ngFor="let area of indicadores">
+												<div class="customBorderBottom" *ngFor="let indicadorArea of area.indicador">
+														<ion-row>
+																<ion-col col-12 text-center>
+																		<h2>{{indicadorArea.nombre}}</h2>
+																</ion-col>
+														</ion-row>
+														<ion-row>
+																<ion-col col-4 text-center>
+																		<small ion-text class="customTamañoDatoSucursal" color="primary">
+																				{{indicadorArea.valores.acumulado}}
+																		</small>
+																		<br>
+																		<small>Mes</small>
+																</ion-col>
+																<ion-col col-4 text-center>
+																		<small ion-text class="customTamañoDatoSucursal" color="primary">
+																				{{indicadorArea.valores.meta}}
+																		</small>
+																		<br>
+																		<small>Meta</small>
+																</ion-col>
+																 <ion-col col-4 text-center>
+																		<small ion-text class="customTamañoDatoSucursal" color="primary">
+																				{{indicadorArea.valores.cumplimiento}}
+																		</small>
+																		<br>
+																		<small>Cumplimiento</small>
+																</ion-col>
+														</ion-row>
+												</div>
+										</div>
+						</ion-item>
+					</div>-->
+
+					<!-----------------------------------------------NUEVO---------------------------------------------->
+
+					<!-----------------------------------------------ANTIGUO---------------------------------------------->
+	 <!--<div class="card">
+				<div *ngIf="indicadores.length > 0">
+						<div *ngFor="let area of indicadores">
+								<div class="item item-divider item-icon-right">
+										<span class="positive">{{area.nombre}}</span><br><span class="royal">{{fechas}}</span>
+										<i class="icon positive" style="font-size:15pt">{{area.ponderado}}</i>
+								</div>
+								<div class="item item-text-wrap p-xs">
+
+										<ion-scroll scrollX="true" zoom="true" style="overflow-x:visible !important; min-height: 250px;">
+
+
+												<ion-row style="width: 350px;">
+														<ion-col col-3 text-left style="background-color: #d9d9d9; padding-left: 10px">
+																<b> Indicador</b>
+														</ion-col>
+														<ion-col col-3 text-left style="background-color: #d9d9d9; padding-left: 10px">
+																<b> Mes</b>
+														</ion-col>
+														<ion-col col-3 text-left style="background-color: #d9d9d9; padding-left: 10px">
+																<b> Meta</b>
+														</ion-col>
+														<ion-col col-3 text-left style="background-color: #d9d9d9; padding-left: 10px">
+																<b> Cumpl</b>
+														</ion-col>
+												</ion-row>
+
+												<ion-row *ngFor="let indicadorArea of area.indicador" style="width: 350px;">
+														<ion-col col-3 text-left style="background-color: #f7f7f7; padding-left: 10px">
+																{{indicadorArea.nombre}}
+														</ion-col>
+														<ion-col col-3 text-left>
+																{{indicadorArea.valores.acumulado}}
+														</ion-col>
+														<ion-col col-3 text-left>
+																{{indicadorArea.valores.meta}}
+														</ion-col>
+														<ion-col col-3 text-left>
+																{{indicadorArea.valores.cumplimiento}}
+														</ion-col>
+												</ion-row>
+										</ion-scroll>
+								</div>
+						</div>
+				</div>
+
+				<div *ngIf="indicadores.length <= 0">
+						<ion-item class="item-text-wrap p-none">
+								<div class="p-md pt-md">
+										<span>No hay resultados correspondiente al mes seleccionado.</span>
+								</div>
+						</ion-item>
+				</div>
+			</div>-->
+		</ion-content>

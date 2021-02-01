@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "773643524807",
+    "firebase_url": "https://gc-ser-finanza-8a807.firebaseio.com",
+    "project_id": "gc-ser-finanza-8a807",
+    "storage_bucket": "gc-ser-finanza-8a807.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:773643524807:android:9e6a89b4aa616bd10dbce2",
+        "android_client_info": {
+          "package_name": "cl.gcsefin.gcapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "773643524807-21jtp40pff45j9f44g23vrt7us8nr7qq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBrLT1FYTaIWPdTKJQjFFEUi1SQdGCYEsk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "773643524807-21jtp40pff45j9f44g23vrt7us8nr7qq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "773643524807-hhiilnksv4dj0mb21kl83ukf4j4p46ud.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "cl.gcsefin.gcapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

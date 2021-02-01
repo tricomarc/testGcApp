@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "514349831420",
+    "firebase_url": "https://gc-etafashion.firebaseio.com",
+    "project_id": "gc-etafashion",
+    "storage_bucket": "gc-etafashion.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:514349831420:android:6049d6bde9129475247379",
+        "android_client_info": {
+          "package_name": "cl.etafashion.gcapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "514349831420-7b9935oeqd0e5fo2u4od211bn40pu3mc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6pddoD-RaAZqKfgxxr5Pv3U5BK_yGWa0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "514349831420-7b9935oeqd0e5fo2u4od211bn40pu3mc.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "514349831420-idft2qo4bcea1prap2tsi3gufl9bhpe7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "cl.etafashion.gcapp",
+                "app_store_id": "1394272079"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

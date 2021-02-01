@@ -1,0 +1,39 @@
+page-indicator-detail-ripley {
+    .FontSizeCustom2 {
+        font-size: 0.7em !important;
+    }
+    
+	.select-period {
+        max-width: 100%;
+    }
+
+    .fs-5em {
+        font-size:2.3em !important;
+    }
+    .fs {
+        font-size: 1.3em !important
+    }
+    .google-chart-general > div > div {
+        top: 0px;
+    }
+
+    .text-center {
+        text-align: center !important;
+    }
+    
+    .br-1 {
+        border-right:1px solid #ddd;
+    }
+
+    .fixblock {
+        display: inline-block !important;
+    }
+	
+	.custom-bb {
+		border-bottom: 1px solid #ddd !important;
+	}
+
+    .current-date {
+        font-size: 12px;
+    }
+}

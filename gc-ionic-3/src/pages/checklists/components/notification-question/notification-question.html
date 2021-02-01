@@ -1,0 +1,3 @@
+<div *ngIf="question.adicional" text-wrap>
+  <p ion-text text-wrap [ngClass]="(checklist.estado_id === 4 || checklist.fromStatistics) ? 'opaque' : ''">{{question.adicional}}</p>
+</div>

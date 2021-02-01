@@ -1,0 +1,60 @@
+<ion-header box-shadow>
+  <div buy>
+    <ion-navbar>
+      <ion-title>Causas</ion-title>
+    </ion-navbar>
+  </div>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <div class="frame" padding>
+    <label>
+      Para reportar como <strong>No implementada</strong> la campaña, debe seleccionar al menos una 
+      causa de no implementación.
+    </label>
+  </div>
+  <br>
+  <div class="frame-causas">
+
+
+    <ion-list *ngIf="causasModel.causaUnica" radio-group [(ngModel)]="checkedText.id">
+      <div *ngFor="let causa of causasModel.causas; let i=index">
+        <ion-item no-lines>
+          <ion-label color="dark">{{causa.nombre}}</ion-label>
+          <ion-radio mode="md" [value]="causa.id" item-start >{{causa.nombre}}</ion-radio>
+        </ion-item>
+        <div *ngIf="causa.conTexto == 1 && checkedText.id == causa.id">
+          <textarea  class="textbox" [(ngModel)]="causa.texto" placeholder="Ingresa causa de no implementacion"></textarea>
+        </div>
+      </div>
+    </ion-list>
+
+    <ion-list *ngIf="!causasModel.causaUnica" no-lines>
+      <div *ngFor="let causa of causasModel.causas; let i=index">
+        <ion-item no-lines>
+          <ion-label color="dark">{{causa.nombre}}</ion-label>
+          <ion-checkbox  [(ngModel)]="causa.isChecked" color="primary" ></ion-checkbox>
+        </ion-item>
+        <div *ngIf="causa.conTexto && causa.isChecked">
+          <textarea class="textbox" [(ngModel)]="causa.texto" placeholder="Ingresa causa de no implementacion"></textarea>
+        </div>
+  
+      </div>
+    </ion-list>
+
+  </div>
+
+</ion-content>
+<ion-footer>
+  <ion-row>
+    <ion-col col-6>
+      <button ion-button full  (click)="closeModal()">Cancelar</button>
+    </ion-col>
+    <ion-col col-6>
+      <button ion-button full (click)="save()">Guardar</button>
+    </ion-col>
+  </ion-row>
+</ion-footer>

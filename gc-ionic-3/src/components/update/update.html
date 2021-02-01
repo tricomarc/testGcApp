@@ -1,0 +1,35 @@
+<ion-header box-shadow>
+    <ion-navbar>
+        <div buy>
+            <ion-title ion-text text-center><span ion-text color="primary" text-center>Actualizando</span></ion-title>
+        </div>
+    </ion-navbar>
+</ion-header>
+<ion-content text-wrap text-center padding>
+	<div class="div-progress">
+		<h4 class="progress-info">{{current_progress}} %</h4>
+		<round-progress
+    		[current]="current_progress"
+    		[max]="100"
+		    [color]="color_progress"
+		    [background]="'#eaeaea'"
+		    [radius]="80"
+		    [stroke]="13"
+		    [duration]="800"
+		    [rounded]="true"
+		    [animation]="'easeOutCubic'"
+		    [animationDelay]="0" class="update-progress"></round-progress>
+		    <p class="status">
+		    	<strong ion-text class="customFontSize">{{status_label}}</strong>
+		    	<ion-spinner name="dots" class="spinner" color="primary"></ion-spinner>
+		    </p>
+		    <div class="tips">
+		    	<p>La actualización puede tardar algunos minutos si la conexión de datos no es óptima.</p>
+		    	<p>Por favor no cierre la aplicación hasta terminada la actualización.</p>
+		    	<p>La aplicación se reiniciará automaticamente cuando este proceso finalice.</p>
+		    </div>
+		    <ion-item text-center no-lines *ngIf="show_cancel_button">
+		    	<button ion-button round block color="primary" (click)="cancelUpdate()">Cancelar</button>
+		    </ion-item>
+	</div>
+</ion-content>

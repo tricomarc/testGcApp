@@ -1,0 +1,188 @@
+<ion-header box-shadow>
+    <ion-navbar>
+        <div buy>
+            <ion-title><span ion-text color="primary">{{module}}</span></ion-title>
+        </div>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <ion-item no-lines text-wrap>
+        <ion-grid>
+            <ion-row>
+                <ion-col col-6>
+                    <button ion-button block clear color="primary" (click)="changeMode('month')"
+                            [ngClass]="{'selected':calendar.mode == 'month'}"><b>Calendario</b></button>
+                </ion-col>
+                <ion-col col-6>
+                    <button ion-button block clear color="primary" (click)="changeMode('week')"
+                            [ngClass]="{'selected':calendar.mode == 'week'}"><b>Semana</b></button>
+                </ion-col>
+               <!-- <ion-col col-4>
+                    <button ion-button block clear color="primary" (click)="changeMode('day')"
+                            [ngClass]="{'selected':calendar.mode == 'day'}"><b>Día</b></button>
+                </ion-col>-->
+            </ion-row>
+        </ion-grid>
+        <ion-grid>
+            <ion-row>
+                <ion-col col-12 text-center>
+                    <span color="primary">{{viewTitle}}</span>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-item>
+
+    <ng-template #template let-showEventDetail="showEventDetail" let-selectedDate="selectedDate"
+                 let-noEventsLabel="noEventsLabel">
+        <ion-list class="event-detail-container" has-bouncing="false" *ngIf="showEventDetail" overflow-scroll="false">
+            <div *ngFor="let event of selectedDate?.events">
+                <ion-item padding margin-top no-lines text-wrap *ngIf="event.state == 'incompleta'"
+                          color="energized" (click)="onEventSelected(event)">
+                    <span class="event-detail">{{event.title}}</span>
+                </ion-item>
+                <ion-item padding margin-top no-lines text-wrap *ngIf="event.state == 'sin_visitar'"
+                          color="danger" (click)="onEventSelected(event)">
+                    <span class="event-detail">{{event.title}}</span>
+                </ion-item>
+                <ion-item padding margin-top no-lines text-wrap *ngIf="event.state == 'visitada'"
+                          color="primary" (click)="onEventSelected(event)">
+                    <span class="event-detail">{{event.title}}</span>
+                </ion-item>
+            </div>
+
+            <ion-item *ngIf="(selectedDate && selectedDate.date) && selectedDate?.events.length == 0">
+                <div class="no-events-label">No hay visitas para este día.</div>
+            </ion-item>
+            <ion-item *ngIf="(!selectedDate || !selectedDate.date)">
+                <div class="no-events-label">Seleccione una fecha.</div>
+            </ion-item>
+        </ion-list>
+    </ng-template>
+
+    <calendar [eventSource]="eventSource"
+              [calendarMode]="calendar.mode"
+              [currentDate]="calendar.currentDate"
+              [locale]="calendar.locale"
+              [startingDayWeek]="calendar.startingDayWeek"
+              [monthviewEventDetailTemplate]="template"
+              [autoSelect]="false"
+              (onCurrentDateChanged)="onCurrentDateChanged($event)"
+              (onEventSelected)="onEventSelected($event)"
+              (onTitleChanged)="onViewTitleChanged($event)"
+              (onTimeSelected)="onTimeSelected($event)"
+              (onRangeChanged)="onRangeChanged($event)"
+              step="60"
+              allDayLabel="Visita"
+              formatWeekTitle="MMMM yyyy, 'Semana' w"
+              *ngIf="calendar.mode == 'month'">
+    </calendar>
+
+    <ion-slides *ngIf="(calendar.mode == 'week' || calendar.mode == 'day')" #slider loop
+                (ionSlideNextEnd)="loadNextWeek()"
+                (ionSlidePrevEnd)="loadPrevWeek()" [initialSlide]="1">
+        <ion-slide>
+            <ion-item no-lines text-wrap text-center>
+                <p>No se encuentran visitas para la fecha seleccionada.</p>
+            </ion-item>
+        </ion-slide>
+        <ion-slide *ngFor="let n of numbers; let i=index">
+            <!-- <div> current view {{n}} {{i}}</div>-->
+
+            <div *ngIf="i == 1">
+                <ion-item no-lines text-wrap text-center>
+                    <p>No se encuentran visitas para la fecha seleccionada.</p>
+                </ion-item>
+            </div>
+
+            <ion-infinite-scroll *ngIf="calendar.mode == 'week' && i == 0">
+                <ion-item no-lines text-wrap class="border" *ngFor="let day of weekdays">
+                    <div class="caja" item-start>
+                        <p>{{day.date | date: 'EEEE'}}</p>
+                        <p>{{day.date | date: 'dd-MM-yyyy'}}</p>
+                    </div>
+                    <div *ngIf="day.visits && day.visits.length > 0">
+                        <div *ngFor="let event of day.visits" (click)="onEventSelected(event)">
+                            <ion-item padding margin-top no-lines text-wrap *ngIf="event.state == 'incompleta'"
+                                      color="energized">
+                                <p>{{event.title}}</p>
+                            </ion-item>
+                            <ion-item padding margin-top no-lines text-wrap *ngIf="event.state == 'sin_visitar'"
+                                      color="danger">
+                                <p>{{event.title}}</p>
+                            </ion-item>
+                            <ion-item padding margin-top no-lines text-wrap *ngIf="event.state == 'visitada'"
+                                      color="primary">
+                                <p>{{event.title}}</p>
+                            </ion-item>
+                        </div>
+                    </div>
+                    <div *ngIf="day.visits && day.visits.length <= 0">
+                        <ion-item no-lines text-wrap text-center>
+                            <p>No se encuentran visitas para la fecha seleccionada.</p>
+                        </ion-item>
+                    </div>
+                </ion-item>
+            </ion-infinite-scroll>
+
+            <!--<div *ngIf="calendar.mode == 'day' && i == 1">
+                <ion-item no-lines text-wrap text-center>
+                    <p>No se encuentran visitas para la fecha seleccionada.</p>
+                </ion-item>
+            </div>-->
+            <ion-infinite-scroll *ngIf="calendar.mode == 'day' && i == 0">
+
+                <div *ngIf="eventSource.length > 0" (click)="onEventSelected(event)">
+                    <div *ngFor="let event of eventSource" (click)="onEventSelected(event)">
+                        <ion-item padding margin-top no-lines text-wrap *ngIf="event.state == 'incompleta'"
+                                  color="energized">
+                            <p>{{event.title}}</p>
+                        </ion-item>
+                        <ion-item padding margin-top no-lines text-wrap *ngIf="event.state == 'sin_visitar'"
+                                  color="danger">
+                            <p>{{event.title}}</p>
+                        </ion-item>
+                        <ion-item padding margin-top no-lines text-wrap *ngIf="event.state == 'visitada'"
+                                  color="primary">
+                            <p>{{event.title}}</p>
+                        </ion-item>
+                    </div>
+                </div>
+                <div *ngIf="eventSource.length <= 0">
+                    <ion-item no-lines text-wrap text-center>
+                        <p>No se encuentran visitas para la fecha seleccionada.</p>
+                    </ion-item>
+                </div>
+            </ion-infinite-scroll>
+
+
+            <!--<div *ngIf="calendar.mode == 'day'">
+                <div *ngIf="eventSource.length > 0" style="margin-top: -80%;">
+                    <div *ngFor="let event of eventSource" (click)="onEventSelected(event)">
+                        <ion-item padding margin-top no-lines text-wrap *ngIf="event.state == 'incompleta'"
+                                  color="energized">
+                            <p>{{event.title}}</p>
+                        </ion-item>
+                        <ion-item padding margin-top no-lines text-wrap *ngIf="event.state == 'sin_visitar'"
+                                  color="danger">
+                            <p>{{event.title}}</p>
+                        </ion-item>
+                        <ion-item padding margin-top no-lines text-wrap *ngIf="event.state == 'visitada'"
+                                  color="primary">
+                            <p>{{event.title}}</p>
+                        </ion-item>
+                    </div>
+                </div>
+                <div *ngIf="eventSource.length <= 0" style="margin-top: -80%;">
+                    <ion-item no-lines text-wrap text-center>
+                        <p>No se encuentran visitas para este día.</p>
+                    </ion-item>
+                </div>
+            </div>-->
+        </ion-slide>
+
+        <ion-slide>
+            <div> last view</div>
+        </ion-slide>
+    </ion-slides>
+</ion-content>

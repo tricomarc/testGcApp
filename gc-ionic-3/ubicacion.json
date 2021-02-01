@@ -1,0 +1,30 @@
+{
+  "rutas":{
+    "cambiar_password": "src/pages/change_password",
+    "checklist": "src/pages/checklist",
+    "checklist_comparador": "src/pages/checklist/sub-pages/ocacionales",
+    "checklist_detalles": "src/pages/checklist/sub-pages/ambito",
+    "checklist_historico": "src/pages/checklist/sub-pages/historico",
+    "checklist_preguntas": "src/pages/checklist/sub-pages/detalle, src/pages/checklist/component/",
+    "comunicados": "src/pages/comunicados",
+    "comunicados_cuestionario": "src/pages/comunicados/details_modal , src/pages/comunicados/components/cuestionario",
+    "comunicados_detalle": "src/pages/comunicados/details_modal , src/pages/comunicados/components/comunicado",
+    "comunicados_respuesta": "src/pages/comunicados/details_modal , src/pages/comunicados/components/respuestas",
+    "dashboard": "src/pages/dashboard/tienda",
+    "dashboard_zonal": "src/pages/dashboard/zonal",
+    "estadisticas_checklist_zonal": "src/pages/dashboard/zonal/sub-pages/checklist",
+    "estadisticas_checklist_zonal_filtro": "src/pages/dashboard/zonal/sub-pages/checklist/filter-modal",
+    "estadisticas_comunicados_zonal": "src/pages/dashboard/zonal/sub-pages/comunicados",
+    "estadisticas_comunicados_zonal_filtro": "src/pages/dashboard/zonal/sub-pages/comunicados/filter-modal",
+    "estadisticas_kpi_zonal": "src/pages/dashboard/zonal/sub-pages/kpi",
+    "estadisticas_visual_zonal": "src/pages/dashboard/zonal/sub-pages/visual",
+    "estadisticas_visual_zonal_filtro": "src/pages/dashboard/zonal/sub-pages/visual/filter-modal",
+    "index_zonal": "src/pages/index",
+    "rec_password": "src/pages/recover_password",
+    "visual": "src/pages/visual",
+    "visual_detalle": "src/pages/visual/sub-pages/visual-report",
+    "visual_editar": "src/pages/visual/sub-pages/edit-report"
+
+
+  }
+}

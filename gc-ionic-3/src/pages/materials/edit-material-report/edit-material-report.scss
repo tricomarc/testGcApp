@@ -1,0 +1,120 @@
+page-edit-material-report {
+	
+	.custom-bb {
+		border-bottom: 1px solid #ddd !important;
+	}
+
+	.photo {
+		width: 100%;
+	}
+
+	.material-content {
+		margin-bottom: 56px !important;
+	}
+
+	.segment-date-report {
+		margin-top: 15px;
+	}
+
+	.segment-status {
+		height: 90px !important;
+	}
+
+	.segment-balanced {
+		background-color: color($colors, balanced) !important;
+	}
+
+	.segment-assertive {
+		background-color: color($colors, assertive) !important;		
+	}
+
+	.segment-energized {
+		background-color: color($colors, energized) !important;		
+	}
+	.segment-danger {
+		background-color: color($colors, danger) !important;		
+	}
+
+	.segment-secondary {
+		background-color: color($colors, secondary) !important;		
+	}
+	 .select-status {
+        max-width: 100%;
+    }
+    .textLowercase{
+    	text-transform: lowercase !important;
+    }
+    .textLowercase::first-letter{
+    	text-transform: uppercase !important;
+    }
+
+
+	.btn-remove {
+		margin: 0 !important;
+		width: 60px !important;
+		height: 34px !important;
+		border-radius: 10px 0px 0px 10px !important;
+		background-color: #fff !important;
+		color: color($colors, primary) !important;
+		border: 1px solid #ddd !important;
+		border-right: none !important;
+		box-shadow: none !important;
+	}
+
+	.input-material {
+		border: 1px #ddd solid !important;
+		height: 34px !important;
+		margin-left: 0px !important;
+		text-align: center !important;
+	}
+
+	.btn-add {
+		margin: 0 !important;
+		width: 60px !important;
+		height: 34px !important;
+		border-radius: 0px 10px 10px 0px !important;
+		background-color: #fff !important;
+		color: color($colors, primary) !important;
+		border: 1px solid #ddd !important;
+		border-left: none !important;
+		box-shadow: none !important;
+	}
+
+	.input-material {
+		text-align: center !important;
+	}
+
+	.input-material > input {
+		text-align: center !important;
+		font-size: 15px;
+		opacity: 1 !important;
+		margin: 8px 0px 10px 10px !important;
+	}
+
+	.item-quantity {
+		margin-top: 15px;
+	}
+
+	.item-quantity > .item-inner {
+		border-bottom: 0px !important;
+	}
+
+	.btn-photo {
+		margin-top: 15px;
+	}
+
+	.captured-photo {
+		width: 100%;
+		margin-top: 15px;
+	}
+
+	.divider-material {
+		background-color: #f5f5f5;
+		color: #222;
+		border-bottom: 1px solid #ddd;
+	}
+
+	.textarea-commentary {
+		height: 100px;
+	}
+}

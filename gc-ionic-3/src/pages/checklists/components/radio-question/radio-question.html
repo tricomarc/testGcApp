@@ -1,0 +1,18 @@
+<ion-list radio-group class="custom-bb-2" [ngClass]="((question.validations && question.validations.isIncomplete === true) ? 'ch-incomplete-question' : '')">
+	<div *ngFor="let alternative of question.alternativas" [hidden]="alternative.no_aplica === 1">
+		<ion-item no-lines [ngClass]="(checklist.estado_id === 4 || checklist.fromStatistics) ? 'opaque' : ''">
+			<ion-label class="colorCustom" text-wrap>{{ alternative.texto }} </ion-label>
+			
+			<ion-radio (ionSelect)="onSelect(alternative)" [checked]="alternative.respuesta.checked" ngDefaultControl></ion-radio>
+		</ion-item>
+
+		<!-- COMENTARIO-->
+		<textarea *ngIf="(alternative.comentario == 2 || alternative.comentario == 1 ) && alternative.respuesta.checked == true" [(ngModel)]="comentario" (ngModelChange)="onChange(alternative)" cols="30" rows="1"  class="b-stable padding  ta-w" [placeholder]="(checklist.estado_id === 4 || checklist.fromStatistics) ? alternative.respuesta.comentario : 'Escribe tu comentario...'" ></textarea>
+
+		<!-- Para alternativas que son otra pregunta -->
+		<question *ngIf="alternative.respuesta.checked && alternative.codigo_tipo" [question]="alternative" [isSubQuestion]="false" [ambitState]="ambitState" [checklist]="checklist"></question>
+		
+		<!-- Para alternativas que son sub preguntas -->
+		<question *ngIf="alternative.respuesta.checked && ((!alternative.codigo_tipo || alternative.codigo_tipo === 'correo') && alternative.subPregunta && alternative.subPregunta.id)" [question]="alternative.subPregunta" [isSubQuestion]="true" [ambitState]="ambitState" [checklist]="checklist"></question>
+	</div>
+</ion-list>

@@ -1,0 +1,35 @@
+<div>
+	<!-- PAÍS -->
+	<div *ngIf="filters.charge === 'pais'">
+		<span ion-text color="primary">
+			<h1>{{area.ponderado_pais ? (area.ponderado_pais + '%') : '--'}}</h1>
+		</span>
+		<button ion-button block clear color="dark" style="height: 3.3em;">
+			<ion-icon color="primary"
+			[name]="area.icono ? area.icono : 'ios-radio-button-off-outline'"></ion-icon>&nbsp;
+			<span>{{area.nombre}}</span>
+		</button>
+	</div>
+	<!-- ZONA -->
+	<div *ngIf="filters.charge === 'zona'">
+		<span ion-text color="primary"> 
+			<h1>{{area.ponderado_zona ? (area.ponderado_zona + '%') : '--'}}</h1>
+		</span>
+		<button ion-button block clear color="dark" style="height: 3.3em;">
+			<ion-icon color="primary"
+			[name]="area.icono ? area.icono : 'ios-radio-button-off-outline'"></ion-icon>&nbsp;
+			<span>{{area.nombre}}</span>
+		</button>
+	</div>
+	<!-- SUCURSAL -->
+	<div *ngIf="filters.charge === 'sucursal'">
+		<span>
+			<h1 ion-text color="primary"><b>{{area.ponderado_sucursal ? (area.ponderado_sucursal + '%') : '--'}}</b></h1>
+		</span>
+		<button ion-button block clear color="dark" style="height: 3.3em;">
+			<ion-icon color="primary"
+			[name]="area.icono ? area.icono : 'ios-radio-button-off-outline'"></ion-icon>&nbsp;
+			<span>{{area.nombre}}</span>
+		</button>
+	</div>
+</div>

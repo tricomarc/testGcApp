@@ -1,0 +1,108 @@
+page-login {
+  
+  img {
+      max-width: 300px;
+      max-height: 100px;
+      margin: auto;
+      display: block;
+  }
+  
+  .bb-custom{
+    border-bottom: 1px solid color($colors, royal);
+  }
+
+  ion-content {
+
+    ion-card {
+      position: relative;
+      height: 170px;
+      border-radius: $border-radius;
+      box-shadow: none;
+      margin-bottom: 16px;
+
+      [title-block] {
+        position: absolute;
+        background: theme-colors('mainColors', 'accentDark', 0.6);
+        left: 0;
+        bottom: 0;
+        right: 0;
+        padding: 15px;
+      }
+      //Card Title
+      [card-title] {
+        color: color($googleCard, card-title-full-images-cards) !important;
+        white-space:nowrap;
+        z-index: 999;
+        position: relative;
+      }
+      // Card Subtitle
+      [card-body-text] {
+        margin-top: 0px;
+        z-index: 999;
+        color: color($googleCard, card-subtitle-full-images-cards) !important;
+      }
+    }
+    
+    [background-size] {
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    }
+ 
+  ion-grid,
+    ion-row {
+      height: 100%;
+    }
+
+    ion-item {
+      padding-left: 0 !important;
+      padding-bottom: 15px !important;
+
+      [error-field] {
+        margin: 0 !important;
+        position: absolute !important;
+        bottom: 0 !important;
+        right: 5px !important;
+        font-size: $h6-font-size;
+      }
+      
+
+      .item-inner {
+        border-bottom: none !important;
+        box-shadow: none !important;
+        padding-right: 0 !important
+      }
+
+      ion-label {
+        margin: 0 5px !important;
+      }
+    }
+
+    [stacked] {
+      font-size: 15px !important;
+    }
+
+    [description] {
+      font-weight: 300;
+      letter-spacing: 1px;
+
+      a {
+      }
+      p {
+      }
+    }
+    // Settings Button
+    [bottom-form] {
+      margin-bottom: 13px;
+
+      button:nth-child(1) {
+        margin: 12px 0;
+      }
+
+      button:nth-child(2) {
+        color: theme-colors('textColors', 'primary') !important;
+        background: theme-colors('mainColors', 'primary') !important;
+      }
+    }
+  }
+ }

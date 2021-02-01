@@ -1,0 +1,28 @@
+<!-- && question.valor_esperado !== '0' && ( question.pregunta_mueble_id !== null && question.mueble_id !== null && question.valor_esperado !== null ) -->
+<ion-card-content no-margin no-padding
+	[ngClass]="( ( ( question.validations && question.validations.isIncomplete === true )  ) ? 'ch-incomplete-question' : '')">
+	<p ion-text text-wrap> {{ question.adicional ? question.adicional : '' }} </p>
+	
+	<ion-item no-lines [ngClass]="(checklist.estado_id === 4 || checklist.fromStatistics) ? 'opaque' : ''">
+		<button [disabled]="question.valor_esperado === 0 || (question.pregunta_mueble_id !== null && question.mueble_id === null && question.valor_esperado === null)" ion-button item-left icon-only class="btn-remove" (click)="decreaseAnswer()">
+			<ion-icon color="primary" name="remove"></ion-icon>
+		</button>
+
+		<ion-input [disabled]="question.valor_esperado === 0 || (question.pregunta_mueble_id !== null && question.mueble_id === null && question.valor_esperado === null)" text-center class="input-material" type="number" min="0" placeholder="Ingrese un número"
+			[(ngModel)]="question.respuesta.data" (keyup)="keyUp.next($event)"></ion-input>
+
+		<button [disabled]="question.valor_esperado === 0 || (question.pregunta_mueble_id !== null && question.mueble_id === null && question.valor_esperado === null)" ion-button item-right icon-only class="btn-add" (click)="increaseAnswer()">
+			<ion-icon color="primary" name="add"></ion-icon>
+		</button>
+	</ion-item>
+	
+	<span *ngIf="question.valor_esperado === 0 || (question.pregunta_mueble_id !== null && question.mueble_id === null && question.valor_esperado === null)"> No se registran muebles asociados para esta sucursal. </span>
+
+	<div class="item-divider text-center padding" *ngIf="error" text-wrap text-center>
+		<p margin-bottom ion-text color="danger"> *El valor ingresado no debe superar el total.</p>
+	</div>
+
+	<div class="item-divider text-center padding" style="margin-top: 10px;" *ngIf="question.referencia" text-wrap text-center>
+		<p margin-bottom ion-text color="danger"> *La respuesta de esta pregunta debe ser {{question.referencia.operador.mensaje}} a la respuesta de la pregunta "{{question.referencia.pregunta}}".</p>
+	</div>
+</ion-card-content>

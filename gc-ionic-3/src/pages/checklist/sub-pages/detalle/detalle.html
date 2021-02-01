@@ -1,0 +1,193 @@
+<ion-header box-shadow [ngClass]="view === 'CAMERA' ? 'background-color-transparent no-display' : ''">
+    <ion-navbar box shadow>
+        <div buy box shadow>
+            <ion-title><span ion-text color="primary"> {{ module }} </span></ion-title>
+        </div>
+        
+        <ion-buttons end right *ngIf="visita_id">
+            <button ion-button icon-only (click)="showAmbitState()" *ngIf="ambitSaved && (restantes.length > 0)">
+                <ion-icon name="help" color="primary"></ion-icon>
+            </button>
+            
+            <button ion-button icon-only (click)="showVisitActionSheet()">
+                <ion-icon name="more" color="primary"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+    
+    <ion-row *ngIf="!isTask">
+        <ion-col no-padding>
+            <ion-list-header class="tamañoCustom" no-margin no-lines>
+                <ion-label style="font-size: 1em !important"><span ion-text color="primary" style="line-height: 1.5;"> Ámbito </span>
+                </ion-label>
+                
+                <ion-select padding-right style="font-size: 1em !important" multiple="false" [(ngModel)]="ambito"
+                            (ngModelChange)="changeAmbito(ambito)" cancelText="cancelar" okText="ok">
+                    <ion-option style="font-size: 1em !important" *ngFor="let amb of ambitos | orderAmbits" [value]="amb.id">
+                       <p> {{ amb.nombre }} </p>
+                       
+                       <p *ngIf="navParams.data.check_id"> {{ amb.ambito }} </p>
+                    </ion-option>
+                </ion-select>
+            </ion-list-header>
+        </ion-col>
+    </ion-row>
+</ion-header>
+
+<!-- Título ambito -->
+<ion-content [ngClass]="view === 'CAMERA' ? 'background-color-transparent no-display' : ''">
+    <div *ngIf="ready">
+        <ion-list-header no-margin no-padding text-wrap *ngIf="!isTask || navParams.data.check_id" class="tamañoCustom2" color="primary"
+                         text-center>
+            {{ nombreAmbito }}
+        </ion-list-header>
+        
+        <!-- Card de tareas -->
+        <ion-list-header *ngIf="isTask" no-margin no-padding text-center class="tamañoCustom2 paddingEspecial"
+                         color="primary"> {{ task.nombre }}
+        </ion-list-header>
+
+        <ion-list *ngIf="isTask" padding-top no-padding-bottom>
+            <ion-row class="tamañoFuenteCustom paddingEspecial stripeColorCustom">
+                <ion-col col-6>
+                    <span ion-text> Fecha Término: </span>
+                </ion-col>
+                
+                <ion-col col-6>
+                    <span ion-text> {{ task.termino | date: 'dd-MMM-y' }} </span>
+                </ion-col>
+            </ion-row>
+            
+            <ion-row class="tamañoFuenteCustom paddingEspecial stripeColorCustom">
+                <ion-col col-6>
+                    <span ion-text>Hora:</span>
+                </ion-col>
+               
+                <ion-col col-6>
+                    <span ion-text> Desde {{ task.inicio | date: "HH:mm" }} a {{ task.termino | date: "HH:mm" }} </span>
+                </ion-col>
+            </ion-row>
+        </ion-list>
+
+        <!-- Preguntas -->
+        <ion-list-header *ngIf="isTask && task && task.estado != 2 || navParams.data.check_id" no-margin no-padding
+                         class="tamañoCustom2 paddingEspecial" color="stable">
+            Preguntas
+        </ion-list-header>
+
+
+        <div no-padding *ngIf="!isTask || (isTask && task && task.estado != 2)">
+
+            <div *ngIf="global.showQuestionsAsSlides && navParams.data.visita">
+
+                <div class="swiper-pagination bullets-sw"></div>
+
+                <swiper [(index)]="slideIndex" (indexChange)="slideChanged()" #swiperElement style="margin: 10px;">
+                    <div class="swiper-slide" *ngFor="let pregunta of preguntas">
+
+                      <div [style.border-style]="pregunta.incomplete ? 'solid' : 'solid'"
+                                     [style.border-color]="pregunta.incomplete ? 'red' : 'red'"
+                                     [style.border-width]="pregunta.incomplete ? '1px' : '0px'" style="width: 100%; margin: 10px;">
+
+                                    <preguntas-checklist-directive style="border: 0px !important"
+                                                                   [pregunta]="pregunta"
+                                                                   [checklistEnviado]="checklistEnviado"
+                                                                   [fromStats]="fromStats"
+                                                                   [isTask]="isTask"
+                                                                   [limpiarAlternativasRadio]="limpiarAlternativasRadio"
+                                                                   [limpiarAlternativasCheckbox]="limpiarAlternativasCheckbox"
+                                                                   [tomarFoto]="tomarFoto"
+                                                                   [tomarFotoObligatoria]="tomarFotoObligatoria"
+                                                                   [subPregunta]="false"
+                                                                   [ambitState]="ambitState">
+                                    </preguntas-checklist-directive>
+                                </div>
+                    </div>
+                </swiper>
+            </div>
+
+            <div *ngIf="!global.showQuestionsAsSlides || !navParams.data.visita">
+                <div color="light" *ngFor="let pregunta of preguntas">
+                    <div [style.border-style]="pregunta.incomplete ? 'solid' : 'solid'"
+                         [style.border-color]="pregunta.incomplete ? 'red' : 'red'"
+                         [style.border-width]="pregunta.incomplete ? '1px' : '0px'">
+
+                        <preguntas-checklist-directive style="border: 0px !important"
+                                                       [pregunta]="pregunta"
+                                                       [checklistEnviado]="checklistEnviado"
+                                                       [fromStats]="fromStats"
+                                                       [isTask]="isTask"
+                                                       [limpiarAlternativasRadio]="limpiarAlternativasRadio"
+                                                       [limpiarAlternativasCheckbox]="limpiarAlternativasCheckbox"
+                                                       [tomarFoto]="tomarFoto"
+                                                       [tomarFotoObligatoria]="tomarFotoObligatoria"
+                                                       [subPregunta]="false"
+                                                       [ambitState]="ambitState">
+                        </preguntas-checklist-directive>
+                    </div>
+                </div>                
+            </div>
+        </div>
+
+
+        <!-- --------------------esto es de tarea------------------------------ -->
+
+        <ion-list-header *ngIf="isTask && task && task.estado == 2" no-margin no-padding
+                         class="tamañoCustom2 paddingEspecial" color="stable" text-wrap> Motivo por el cual la tarea no
+            fue realizada
+        </ion-list-header>
+
+        <ion-row margin-top no-lines *ngIf="isTask && task && task.estado == 2">
+            <ion-col col-12 text-center>
+                <span ion-text> {{ task.comentario }} </span>
+            </ion-col>
+        </ion-row>
+        <hr>
+
+        <!-- boton siguiente ambito -->
+        <ion-item color="primary" *ngIf="checklistEnviado && !isTask && !lastAmbito">
+            <button ion-button block default color="primary" (click)="changeAmbito(null)"> Siguiente ámbito </button>
+        </ion-item>
+        
+        <ion-item color="primary" *ngIf="navParams.data.check_id && lastAmbito">
+            <button ion-button block default color="primary" (click)="changeAmbito(null)"> Salir </button>
+        </ion-item>
+
+        <ion-grid *ngIf="isTask && !checklistEnviado">
+            <ion-row>
+                <ion-col text-center col-12>
+                    <span class="tamañoCustom2"> ¿Realizó esta tarea? </span>
+                </ion-col>
+            </ion-row>
+            
+            <ion-row>
+                <ion-col col-6>
+                    <button ion-button icon-only block color="danger" (click)="doNotAnswer()">
+                        <ion-icon name="md-close"></ion-icon>
+                    </button>
+                </ion-col>
+                
+                <ion-col col-6>
+                    <button ion-button icon-only block color="secondary" (click)="answer()">
+                        <ion-icon name="md-checkmark"></ion-icon>
+                    </button>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+
+        <!-- --------------------esto es de tarea------------------------------ -->
+    </div>
+</ion-content>
+
+
+<ion-footer 
+    [ngClass]="view === 'CAMERA' ? 'background-color-transparent no-display' : ''"
+    *ngIf="!checklistEnviado && !isTask" color="primary" [hidden]="global.showQuestionsAsSlides && navParams.data.visita && !showSaveBtn">
+    <ion-toolbar color="primary">
+        <ion-buttons text-center>
+            <button ion-button block default color="primary" style="color: #fff;" [disabled]="validSend == false " (click)="guardarPreguntas(preguntas, false)">
+                <p>Guardar ámbito <font *ngIf="visita_id && ambitSaved">({{(preguntas.length - restantes.length)}}/{{preguntas.length}})</font></p>
+            </button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-footer>

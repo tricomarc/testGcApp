@@ -1,0 +1,59 @@
+audio-recorder {
+    .duration-text {
+        text-align: center;
+    }
+    
+    .breathing-icon {
+        -webkit-animation: breathing 2s ease-out infinite normal;
+        animation: breat hing 2s ease-out infinite normal;
+    }
+    
+    
+    @-webkit-keyframes breathing {
+        0% {
+            -webkit-transform: scale(0.9);
+            transform: scale(0.9);
+        }
+        
+        25% {
+            -webkit-transform: scale(1.4);
+            transform: scale(1.4);
+        }
+        
+        60% {
+            -webkit-transform: scale(0.9);
+            transform: scale(0.9);
+        }
+        
+        100% {
+            -webkit-transform: scale(0.9);
+            transform: scale(0.9);
+        }
+    }
+    
+    @keyframes breathing {
+        0% {
+            -webkit-transform: scale(0.9);
+            -ms-transform: scale(0.9);
+            transform: scale(0.9);
+        }
+        
+        25% {
+            -webkit-transform: scale(1.4);
+            -ms-transform: scale(1.4);
+            transform: scale(1.4);
+        }
+        
+        60% {
+            -webkit-transform: scale(0.9);
+            -ms-transform: scale(0.9);
+            transform: scale(0.9);
+        }
+        
+        100% {
+            -webkit-transform: scale(0.9);
+            -ms-transform: scale(0.9);
+            transform: scale(0.8);
+        }
+    }
+}

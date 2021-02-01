@@ -1,0 +1,19 @@
+text-question {
+	textarea{
+		border: none !important;
+		padding-top: 20px;
+		padding-right: 20px;
+		padding-left: 20px;
+		padding-bottom: 20px;
+		line-height: 20px;
+		background: rgba(221, 221, 221, .6);
+		color: color($colors, primary) !important;
+	}
+
+	.ta-w {
+		width: 100% !important;
+	}
+	.ws-n {
+		white-space: normal !important;
+	}
+}

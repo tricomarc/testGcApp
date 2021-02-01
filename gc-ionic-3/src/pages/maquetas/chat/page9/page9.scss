@@ -1,0 +1,58 @@
+page-page9 {
+	#map_canvas{
+		display: block;
+		height: 100%;
+		width: 100%;
+	}
+	.toolbar-background-ios{
+		background-color: transparent !important;
+	}
+	ion-header ion-icon.back-button-icon.icon {
+		color: #fff;
+	}
+	.toolbar-title-ios {
+		text-align: center;
+		font-size: 1.7rem;
+		font-weight: 600;
+		color: #fff;
+		pointer-events: auto;
+	}
+
+	[posicionRow]{
+		left: 0px;
+		bottom: 0px;
+	}
+	[customSeparacionPaddingMargin]{
+		color: #fff;
+		padding: 0px !important;
+		margin: 0px !important;
+	}
+	[customSeparacionPaddingMarginTienda]{
+		color: #fff;
+		top: -30px !important;
+		position: relative;
+		padding-bottom: 0px !important;
+		margin-bottom: 0px !important;
+	}
+	[customSeparacionPaddingMarginDireccion]{
+		color: #fff;
+		top: -42px !important;
+		position: relative;
+		padding-bottom: 0px !important;
+		margin-bottom: 0px !important;
+	}
+	[customFontSizeDireccion]{
+		font-size: 14px !important;
+	}
+	[customSeparacionPaddingMarginBoton]{
+		font-size: 25px !important;
+		text-transform: none !important;
+		height: 40px !important;
+		width: 280px !important;
+		top: -42px !important;
+		position: relative;
+		padding-bottom: 0px !important;
+		margin-bottom: 0px !important;
+	}
+
+}

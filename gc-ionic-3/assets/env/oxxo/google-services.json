@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "89865997916",
+    "firebase_url": "https://oxxo-5478c.firebaseio.com",
+    "project_id": "oxxo-5478c",
+    "storage_bucket": "oxxo-5478c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:89865997916:android:2fc4b6b4c2276af173a099",
+        "android_client_info": {
+          "package_name": "cl.oxxo.gcapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "89865997916-3bufghaqu5k4u8po0jsef7vmkl9cdasa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAyRHTGWky2Ka9u6j2k_D1jUDYHf53fehI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "89865997916-3bufghaqu5k4u8po0jsef7vmkl9cdasa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

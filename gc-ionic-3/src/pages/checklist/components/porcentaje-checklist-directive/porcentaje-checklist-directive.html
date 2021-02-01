@@ -1,0 +1,12 @@
+<ion-list text-center center>
+    <ion-item no-lines>
+      <ion-range min="0" max="100" pin="true" [(ngModel)]="pregunta.respuesta.data" (ngModelChange)="onChange()" color="primary" [disabled]="checklistEnviado">
+        <ion-label range-left>0</ion-label>
+        <ion-label range-right>100</ion-label>
+      </ion-range>
+    </ion-item>
+     <ion-col col-12 text-center center>
+      Porcentaje:
+      <ion-badge item-end color="primary">{{pregunta.respuesta.data}}</ion-badge>
+  </ion-col>
+  </ion-list>

@@ -1,0 +1,30 @@
+<!-- <ion-item no-padding no-margin no-lines>
+    <ion-row no-padding no-margin>
+        <ion-col col-2 no-padding no-margin>
+            <button ion-button icon-only clear (click)="play()" [disabled]="data.loadError" *ngIf="!data.isPlaying">
+                <ion-icon name="md-play"></ion-icon>
+            </button>
+            <button ion-button icon-only clear (click)="pause()" *ngIf="data.isPlaying">
+                <ion-icon name="md-pause"></ion-icon>
+            </button>
+        </ion-col>
+        <ion-col col-10 no-padding no-margin>
+            <ion-range [(ngModel)]="data.progress" max="100" color="white" pin="true" debounce="300"
+                (ionChange)="seek()"></ion-range>
+        </ion-col>
+    </ion-row>
+</ion-item> -->
+
+<ion-item>
+    <ion-range min="0" max="100" [(ngModel)]="data.progress" color="secondary" debounce="300" (ionChange)="seek()">
+        <ion-label range-left>
+            <button ion-button icon-only clear (click)="play()" [disabled]="data.loadError" *ngIf="!data.isPlaying">
+                <ion-icon name="md-play"></ion-icon>
+            </button>
+            <button ion-button icon-only clear (click)="pause()" *ngIf="data.isPlaying">
+                <ion-icon name="md-pause"></ion-icon>
+            </button>
+        </ion-label>
+        <ion-label range-right>{{data.secProgress}}</ion-label>
+    </ion-range>
+</ion-item>

@@ -1,0 +1,23 @@
+custom-toast {
+    .custom-toast-item {
+        z-index: 99999 !important;
+        position: absolute !important;
+        top: 0px !important;
+        width: 98% !important;
+        margin: 0 auto !important;
+        border-radius: 50px !important;
+        -webkit-box-shadow: 0px 0.5px 5px 0px rgba(148,146,148,1);
+        -moz-box-shadow: 0px 0.5px 5px 0px rgba(148,146,148,1);
+        box-shadow: 0px 0.5px 5px 0px rgba(148,146,148,1);
+    }
+
+    .custom-avatar {
+        min-width: 30px !important;
+        min-height: 30px !important;
+    }
+
+    .custom-avatar > img {
+        height: 30px !important;
+        width: 30px !important;
+    }
+}

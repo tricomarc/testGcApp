@@ -1,0 +1,107 @@
+<ion-header box-shadow>
+  	<ion-navbar>
+    	<ion-title>{{module}}</ion-title>
+    	<ion-buttons end *ngIf="requesting">
+    		<ion-spinner color="primary"></ion-spinner>
+		</ion-buttons>
+  	</ion-navbar>
+</ion-header>
+
+<ion-content>
+	<ion-refresher (ionRefresh)="refreshVisualDetail($event)" color="positive">
+	    <ion-refresher-content pullingText="Actualizar" refreshingText="Actualizando..."></ion-refresher-content>
+	</ion-refresher>
+	<ion-row>
+	    <ion-col no-padding>
+	      <ion-list-header box-shadow no-margin no-lines>
+	        <h1 ion-text color="primary" header-title>Detalle de campaña</h1>
+	      </ion-list-header>        
+	    </ion-col>
+  	</ion-row>
+	<div *ngIf="visual && visual.id" text-wrap>
+		<!-- Banner -->
+		<img [src]="visual.banner">
+		<!-- Nombre del visual -->
+		<ion-item no-lines class="custom-bb">
+			<h2 ion-text color="primary"><b>Nombre:</b></h2>
+			<p>{{visual.nombre}}</p>
+		</ion-item>
+		<!-- Descripción -->
+		<ion-row>
+			<ion-col col-12>
+				<h4 ion-text margin color="primary">
+					<b>Descripción:</b>
+				</h4>
+			</ion-col>
+			<ion-col col-12>
+				<div margin-top class="fixInterlineado" [innerHTML]="visual.descripcion | sanitizeHtml"></div>
+			</ion-col>
+		</ion-row>
+		<!-- Fechas -->
+		<ion-item no-lines class="custom-bb">
+			<h2 ion-text color="primary"><b>Fechas:</b></h2>
+		</ion-item>
+		<ion-list class="custom-bb">
+		  	<ion-item no-lines *ngIf="visual.fecha_implementacion">
+				<p>Implementación:</p>
+			   	<ion-badge item-end color="primary">
+			   		{{visual.fecha_implementacion.day.real}} - {{visual.fecha_implementacion.month.string}} - {{visual.fecha_implementacion.year.real}}
+			   	</ion-badge>
+			</ion-item>
+			<ion-item no-lines *ngIf="visual.fecha_lanzamiento">
+			 	<p>Lanzamiento:</p>
+			   	<ion-badge item-end color="primary">
+			   		{{visual.fecha_lanzamiento.day.real}} - {{visual.fecha_lanzamiento.month.string}} - {{visual.fecha_lanzamiento.year.real}}
+			   	</ion-badge>
+		 	</ion-item>
+			<ion-item no-lines *ngIf="visual.fecha_termino">
+			 	<p>Término:</p>
+			    <ion-badge item-end color="primary">
+			    	{{visual.fecha_termino.day.real}} - {{visual.fecha_termino.month.string}} - {{visual.fecha_termino.year.real}}
+			    </ion-badge>
+			</ion-item>
+			<ion-item no-lines *ngIf="visual.fecha_reporte">
+			  	<p>Reporte:</p>
+			    <ion-badge item-end color="primary">
+			    	{{visual.fecha_reporte.day.real}} - {{visual.fecha_reporte.month.string}} - {{visual.fecha_reporte.year.real}} {{ visual.fecha_reporte.time }}
+			    </ion-badge>
+			</ion-item>
+		</ion-list>
+		<!-- Fotos -->
+		<ion-item no-lines class="fix-mt">
+			<h2 ion-text color="primary"><b>Fotos:</b></h2>
+		</ion-item>
+		<ion-item class="custom-bb" no-lines *ngIf="visual.fotos.length < 1">
+			<p>No hay fotos</p>
+		</ion-item>
+		<ion-item class="custom-bb" no-lines *ngIf="visual.fotos.length > 0">
+			<ion-grid>
+				<ion-row>
+					<!-- Referencias -->
+					<ion-col col-6 *ngFor="let photo of visual.fotos">
+						<div class="photo-container">
+							<img [src]="photo.url ? (photo.url | sanitizeImg) : 'assets/img/resources/default-placeholder.png'" class="implementation-container">
+							<button ion-button color="light" class="btn-bottom-left" (click)="openPhotoViewer(photo, 'reference', false, null, false)">
+								<ion-icon name="eye" color="primary"></ion-icon>
+							</button>
+						</div>
+						<p>{{photo.descripcion}}</p>
+					</ion-col>
+				</ion-row>
+			</ion-grid>
+		</ion-item>
+		<!-- Archivos -->
+		<ion-item no-lines>
+			<h2 ion-text color="primary"><b>Archivos:</b></h2>
+		</ion-item>
+		<ion-item class="custom-bb" no-lines *ngIf="visual.archivos.length < 1">
+			<p>Sin archivos.</p>
+		</ion-item>
+		<div *ngIf="visual.archivos.length > 0">
+			<ion-item class="custom-bb" no-lines *ngFor="let file of visual.archivos" (click)="downloadFile(file)">
+				<ion-icon color="primary" name="ios-cloud-download" item-right></ion-icon>
+				<p>{{file.nombre}}</p>
+			</ion-item>
+		</div>
+	</div>
+</ion-content>

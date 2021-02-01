@@ -1,0 +1,82 @@
+<ion-menu [content]="content" persistent="true" (ionOpen)="menuOpened()" (ionClose)="menuClosed()" id="menu">
+    <ion-content>
+        <div padding *ngIf="userData"
+            [ngStyle]="bundleId !== 'cl.gcfcve.gcapp' ? {'background-image': 'url(../assets/img/fondos/fondomenu.jpg)'} : {'background-image': 'url(../assets/fondomenufcv.jpg)'}"
+            class="customMenu">
+            <ion-item no-margin no-lines no-padding class="item-logo" text-center>
+                <!-- <img [src]="bundleId !== 'cl.gcfcve.gcapp' ? 'assets/img/logotipo-menu.png' : 'assets/fondomenufcv.jpg'" class="logo"> -->
+                <img src="assets/img/logotipo-menu.png" class="logo">
+            </ion-item>
+            <img margin-top style="z-index: 900" class="customImg centerImg"
+                [src]="userData.imagen ? userData.imagen : './assets/img/resources/avatar.png'">
+
+            <span ion-text color="white" style="z-index: 900" text-center class="customColor"
+                margin-top>{{userData.name}} {{userData.last_name}}</span>
+
+            <span margin-top ion-text color="white" style="z-index: 900" text-center>{{userData.charge}}</span>
+
+            <span ion-text color="white" style="z-index: 900" text-center class="customBox"
+                *ngIf="userData.charge_label === 'sucursal' && userData.sucursales.length < 3">
+                <span *ngFor="let sucursal of userData.sucursales">{{sucursal.nombre_real}}</span>
+            </span>
+
+            <span ion-text color="white" style="z-index: 900" text-center class="customBox"
+                *ngIf="userData.charge_label === 'sucursal' && userData.sucursales.length >= 3">
+                <span>{{userData.sucursales[0].nombre_real}} y {{(userData.sucursales.length - 1)}} más.</span>
+            </span>
+
+            <!-- visible para gerarquias != 98 -->
+            <span ion-text color="white" style="z-index: 900" text-center class="customBox"
+                *ngIf="userData.charge_label === 'zona' && hierarchy != 98">
+                <span *ngFor="let zona of userData.zonas">Zona {{zona.nombre}}</span>
+            </span>
+
+            <span text-center ion-text color="white" style="z-index: 900">{{userData.email}}</span>
+        </div>
+        <ion-list no-margin>
+
+            <ion-item menuClose ion-item main-menu no-lines class="custom-bb" *ngFor="let item of menuItems"
+                (click)="navigateTo(item)">
+                <ion-icon *ngIf="(clientName !== 'OPERA APP')" item-left [name]="item.icon"></ion-icon>
+                <ion-icon *ngIf="(!item.customIcon && clientName === 'OPERA APP')" item-left [name]="item.icon">
+                </ion-icon>
+                <ion-icon *ngIf="(item.customIcon && clientName === 'OPERA APP')" item-left [name]="item.customIcon"
+                    color="primary" class="custom-icons ion-icon-custom"></ion-icon>
+
+                {{ item.title === 'LEAN_CORONA' ? 'LEAN' : item.title }}
+
+                <ion-icon item-end>
+                    <i class="icon icon-chevron-right"></i>
+                </ion-icon>
+            </ion-item>
+
+            <ion-item *ngIf="!is_active_directory && showPass"
+                [hidden]="!userData || userData.type === 'administrador' || userData.admin == true" menuClose ion-item
+                main-menu no-lines class="custom-bb" (click)="changePassword('CambiarClave')">
+                <ion-icon item-left name="md-key"></ion-icon>
+                Cambio de Clave
+                <ion-icon item-end>
+                    <i class="icon icon-chevron-right"></i>
+                </ion-icon>
+            </ion-item>
+
+
+            <ion-item menuClose ion-item main-menu no-lines class="custom-bb" (click)="logOut()">
+                <ion-icon item-left name="md-log-out"></ion-icon>
+                <span ion-text color="danger">Cerrar Sesión</span>
+            </ion-item>
+            <ion-item>
+                <p class="light">Versión:<b> {{versionNumber}}</b></p>
+            </ion-item>
+        </ion-list>
+
+        <ion-fab right top>
+            <button ion-fab mini color="light" color="primary" (click)="gotoRefresh()">
+                <ion-icon name="md-refresh"></ion-icon>
+            </button>
+        </ion-fab>
+
+    </ion-content>
+</ion-menu>
+<ng-template #customToastElement></ng-template>
+<ion-nav #content [root]="rootPage"></ion-nav>

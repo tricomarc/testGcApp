@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-navbar (click)="closeModal()">
+    <ion-title ion-text color="primary">
+      <ion-icon color="primary" name="md-close"></ion-icon>
+      CERRAR
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <h3>Agregar Nueva Sucursal</h3>
+  <br>
+  <form [formGroup]="formStore" (ngSubmit)="create()">
+    <ion-item>
+      <ion-label stacked>Nombre <span style="color: red">&#42;</span></ion-label> 
+      <ion-input type="text" name="nomber"  formControlName="name"></ion-input>
+    </ion-item>
+  
+    <ion-item>
+      <ion-label stacked>Código</ion-label>
+      <ion-input type="number" name="codigo"  formControlName="code"></ion-input>
+    </ion-item>
+  
+    <ion-item>
+      <ion-label stacked>Calle/Avenida <span style="color: red">&#42;</span></ion-label>
+      <ion-input type="text" name="calle"  formControlName="street"></ion-input>
+    </ion-item>
+  
+    <ion-item>
+      <ion-label stacked>Número <span style="color: red">&#42;</span></ion-label>
+      <ion-input type="number" name="numero"  formControlName="number"></ion-input>
+    </ion-item>
+    
+    <ion-item no-lines>
+      <button ion-button style="height: 35px" block type="submit" [disabled]="!formStore.valid">Guardar</button>
+    </ion-item>
+  
+  </form>
+
+
+</ion-content>

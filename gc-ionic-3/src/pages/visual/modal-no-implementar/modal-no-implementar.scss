@@ -1,0 +1,33 @@
+page-modal-no-implementar {
+
+    .frame{
+        border: 1px solid rgb(204, 204, 204);
+        border-radius: 4px;
+    }
+    .check-textbox{
+        border-radius: 4px;
+        border: 1px solid rgb(175, 175, 175);
+        margin-left: 40px;
+        width: 85%;
+    }
+    .textbox{
+        border-radius: 4px;
+        border: 1px solid rgb(175, 175, 175);
+        margin-left: 15px;
+        height: 45px;
+        width: 95%;
+    }
+    .frame-causas{
+        height: 85%;
+        overflow: auto;
+    }
+    
+}
+
+
+@media only screen and (min-height: 578px) and (min-width: 578px){
+    .modal-wrapper {
+        left: calc(50% - (700px/2)) !important;
+        width: 700px !important;
+    }
+}

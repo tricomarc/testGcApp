@@ -1,0 +1,89 @@
+[main-menu] [class^="icon-"]:before,
+[main-menu] [class*=" icon-"]:before, [sub-menu] [class^="icon-"]:before,
+[sub-menu] [class*=" icon-"]:before {
+ color: color($colors, primary);
+}
+
+
+.customMenu{
+ 	position: relative;
+  	background-size: cover;
+  	background-position: center;
+ 	display: -webkit-box;
+ 	display: -webkit-flex;
+ 	display: -ms-flexbox;
+ 	display: flex;
+ 	-webkit-box-orient: vertical;
+ 	-webkit-box-direction: normal;
+ 	-webkit-flex-direction: column;
+ 	-ms-flex-direction: column;
+ 	flex-direction: column;
+	}
+
+// .customBox{
+// 	white-space: nowrap; 
+//     overflow: hidden;
+//     text-overflow: ellipsis; 
+// }
+.customColor{
+	font-size: 1.2em !important;
+}
+.customImg{
+	width: 55px !important;
+	height: 55px !important;
+	border-radius: 50% !important;
+}
+.centerImg{
+	display: block !important;
+	margin: auto !important;
+}
+.centerImg2{
+	padding-bottom: 15px !important;
+	display: block;
+	margin: auto;
+	z-index: 901;
+	width: 50%;
+	height: 50%;
+	// height: 30px !important;
+	// width: 150px !important;
+
+	// margin-left: -30px !important;
+	
+}
+[header-background-image] img {
+	padding-top: 0px !important;
+}
+.custom-bb {
+	border-bottom: 1px solid #ddd !important;
+}
+
+.logo {
+	width: 110px;
+}
+
+.item-logo {
+	background-color: transparent !important;
+}
+
+.item-logo > .item-inner {
+	padding-right: 0px !important;
+}
+
+.item-logo > .item-inner > .input-wrapper > ion-label {
+	margin: 13px 0px 13px 0 !important;
+}
+
+.custom-icons {
+	width: 40px !important;
+}
+
+
+custom-toast {
+	width: 98% !important;
+    position: absolute !important;
+    left: 0px !important;
+    top: 5px !important;
+    background: transparent !important;
+	text-align: center !important;
+	padding: 1% !important;
+}

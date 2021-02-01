@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>990440472433-qtv91kdrpdn553q94uub4fti4uklklhr.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.990440472433-qtv91kdrpdn553q94uub4fti4uklklhr</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDMgOiwpgPe796sb0xrFKR1V2pahy0lkt0</string>
+	<key>GCM_SENDER_ID</key>
+	<string>990440472433</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>cl.ripley.gcappcv3</string>
+	<key>PROJECT_ID</key>
+	<string>gc-ripley</string>
+	<key>STORAGE_BUCKET</key>
+	<string>gc-ripley.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:990440472433:ios:3b9c8704ce622c9f26c0d0</string>
+	<key>DATABASE_URL</key>
+	<string>https://gc-ripley.firebaseio.com</string>
+</dict>
+</plist>

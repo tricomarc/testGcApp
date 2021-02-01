@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "436336435331",
+    "firebase_url": "https://elige-chile.firebaseio.com",
+    "project_id": "elige-chile",
+    "storage_bucket": "elige-chile.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:436336435331:android:a4318050a27ac9c0",
+        "android_client_info": {
+          "package_name": "cl.ripley.gcapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "436336435331-578nu2phkf7373si71i2corem46mrltu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAvNjLerMptqxAuKh59GPDYr7VKeqZZAM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "436336435331-578nu2phkf7373si71i2corem46mrltu.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "436336435331-u2mjigmcct0edm8uldetpddsfigvp360.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "cl.ripley.gcapp",
+                "app_store_id": "1441682914"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

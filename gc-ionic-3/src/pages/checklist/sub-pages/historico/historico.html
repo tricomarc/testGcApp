@@ -1,0 +1,95 @@
+<ion-header box-shadow>
+    <ion-navbar>
+        <div buy>
+            <ion-title><span ion-text color="primary">{{module}}</span></ion-title>
+        </div>
+        <ion-buttons end right>
+            <button ion-button icon-only (click)="presentActionSheet(data)">
+                <ion-icon name="md-more" color="primary"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <ion-row>
+        <ion-col no-padding>
+            <ion-list-header box-shadow no-margin no-lines>
+                <h1 ion-text color="primary" header-title>Histórico</h1>
+            </ion-list-header>
+        </ion-col>
+    </ion-row>
+    <ion-refresher (ionRefresh)="refreshHistoric($event, 'view')" color="dark">
+        <ion-refresher-content pullingText="Actualizar" refreshingText="Actualizando..."></ion-refresher-content>
+    </ion-refresher>
+    <div padding-top>
+        <ion-row no-lines class="noPaddingBottom">
+            <ion-col no-padding>
+                <ion-item *ngIf="!navParams.data.sucursal" no-lines>
+                    <ion-label style="font-size: 1em !important"><span ion-text color="primary">Tipo</span></ion-label>
+                    <ion-select style="font-size: 0.9em !important" multiple="false" placeholder="Todos" okText="Aceptar" cancelText="Cancelar"
+                                [(ngModel)]="statusFilter.evaluable" (ngModelChange)="filterbyType($event)">
+                        <ion-option style="font-size: 0.9em !important" *ngFor="let filtro of filter"
+                                    [value]="filtro.value">{{filtro.title}}
+                        </ion-option>
+                    </ion-select>
+                </ion-item>
+            </ion-col>
+        </ion-row>
+        <ion-row no-lines class="noPaddingBottom">
+            <ion-col no-padding>
+                <ion-item no-lines>
+                    <ion-label style="font-size: 1em !important"><span ion-text color="primary">Fecha</span></ion-label>
+                    <ion-datetime ion-text text-nowrap item-right item-end end right align-items-end align-self-end
+                                  [(ngModel)]="filtros.hasta" displayFormat="DD/MM/YYYY" placeholder="DD/MM/YYYY"
+                                  cancelText="Cancelar" doneText="Aceptar" (ngModelChange)="getHistorics()">
+                        {{filtros.hasta | date: 'dd/MM/yyyy'}}
+                    </ion-datetime>
+
+
+
+                    <!--<span ion-text color="primary">Fecha</span>
+                    <ion-datetime ion-text text-nowrap item-right item-end end right align-items-end align-self-end
+                                  [(ngModel)]="filtros.hasta" displayFormat="DD/MM/YYYY" placeholder="DD/MM/YYYY"
+                                  cancelText="Cancelar" doneText="Aceptar" (ngModelChange)="getHistorics()">
+                        {{filtros.hasta | date: 'dd/MM/yyyy'}}
+                    </ion-datetime>-->
+
+                    <!--<ion-datetime displayFormat="DD/MM/YYYY" placeholder="DD/MM/YYYY" cancelText="Cancelar"
+                                  doneText="Aceptar" ion-text text-nowrap *ngIf="fechaHasta != null" ion-text item-right
+                                  item-end end right align-items-end align-self-end
+                                  [(ngModel)]="fechaHasta" (ngModelChange)="updateFilters(fechaHasta)">{{fechaHasta | date: 'dd-MM-yyyy'}}
+                    </ion-datetime>-->
+                </ion-item>
+            </ion-col>
+        </ion-row>
+    </div>
+    <div ion-text text-center>
+        <h4 ion-text text-center center color="primary" *ngIf="showChecklists.length < 1">
+            Sin histórico de {{module}}
+        </h4>
+    </div>
+    <ion-list-header no-margin no-padding class="tamañoCustom2 paddingEspecial" color="stable"
+                     *ngIf="showChecklists.length >= 1">Histórico de {{module}}
+    </ion-list-header>
+    <ion-card-content padding-top>
+        <div *ngIf="showChecklists.length > 0">
+            <div *ngFor="let checklist of showChecklists">
+                <ion-item class="item-icon-left item-icon-right item-text-wrap">
+
+                    <span ion-text color="primary" text-wrap><strong>{{checklist.nombre}}</strong></span>
+                    <p>Ambitos: <b>{{checklist.ambitos_cantidad}}</b></p>
+                    <p>Preguntas: <b>({{checklist.preguntas.contestadas}}/{{checklist.preguntas.total}})</b></p>
+                    <p *ngIf="checklist.estado_id">Estado:
+                        <span [ngClass]="{'dark': checklist.estado_id == 1, 'energized': checklist.estado_id == 2, 'balanced': checklist.estado_id == 3, 'calm': checklist.estado_id == 4}">{{checklist.estado_nombre}}</span>
+                    </p>
+                    <p *ngIf="!checklist.estado_id">Estado: <span class="assertive">Visita sin iniciar</span></p>
+                    <p *ngIf="!checklist.estado_id">Estado: <span class="assertive">Fuera de horario</span></p>
+                    <ion-icon (click)="showQuestionnaire(checklist.id)" name='ios-arrow-forward' item-end color="default" class="icon-lg"></ion-icon>
+                </ion-item>
+            </div>
+        </div>
+    </ion-card-content>
+</ion-content>
+
+

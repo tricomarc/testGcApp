@@ -1,0 +1,123 @@
+stats-summary {
+    .round-progress-container {
+        text-align: center !important;
+    }
+
+    .round-progress {
+        margin: 0 auto !important;
+        width: 70px !important;
+        height: 70px !important;
+    }
+
+    .round-progress-dash{
+        margin: 0 auto !important;
+        width: 60px !important;
+        height: 60px !important;
+    }
+
+    .round-percentage-dash{
+        margin-top: -35px;
+        margin-bottom: 30px;
+        font-size: 12px !important;
+    }
+
+    .round-name-dash{
+        font-size: 12px !important;
+    }
+
+
+    .round-percentage {
+        margin-top: -40px;
+        margin-bottom: 40px;
+    }
+
+    .primary {
+        background-color: color($colors, primary) !important;
+        width: 10px;
+        height: 10px;
+    }
+
+    .secondary {
+        background-color: color($colors, secondary) !important;
+        width: 10px;
+        height: 10px;
+    }
+
+    .success {
+        background-color: color($colors, success) !important;
+        width: 10px;
+        height: 10px;
+    }
+
+    .light {
+        background-color: color($colors, light) !important;
+        width: 10px;
+        height: 10px;
+    }
+
+    .white {
+        background-color: color($colors, white) !important;
+        width: 10px;
+        height: 10px;
+    }
+
+    .calm {
+        background-color: color($colors, calm) !important;
+        width: 10px;
+        height: 10px;
+    }
+
+    .balanced {
+        background-color: color($colors, balanced) !important;
+        width: 10px;
+        height: 10px;
+    }
+
+    .dark {
+        background-color: color($colors, dark) !important;
+        width: 10px;
+        height: 10px;
+    }
+
+    .stable {
+        background-color: color($colors, stable) !important;
+        width: 10px;
+        height: 10px;
+    }
+
+    .positive {
+        background-color: color($colors, positive) !important;
+        width: 10px;
+        height: 10px;
+    }
+
+    .energized {
+        background-color: color($colors, energized) !important;
+        width: 10px;
+        height: 10px;
+    }
+
+    .assertive {
+        background-color: color($colors, assertive) !important;
+        width: 10px;
+        height: 10px;
+    }
+
+    .danger {
+        background-color: color($colors, danger) !important;
+        width: 10px;
+        height: 10px;
+    }
+
+    .royal {
+        background-color: color($colors, royal) !important;
+        width: 10px;
+        height: 10px;
+    }
+
+    .default {
+        background-color: color($colors, default) !important;
+        width: 10px;
+        height: 10px;
+    }
+}

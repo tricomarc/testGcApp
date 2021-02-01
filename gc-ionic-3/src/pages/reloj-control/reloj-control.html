@@ -1,0 +1,149 @@
+<ion-header box-shadow>
+    <ion-navbar box shadow>
+        <div buy box shadow>
+            <ion-title><span ion-text color="primary">{{module}}</span></ion-title>
+        </div>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <ion-row>
+        <ion-col no-padding>
+            <ion-list-header box-shadow no-margin no-lines>
+                <h1 ion-text color="primary" header-title>{{month}}</h1>
+            </ion-list-header>
+        </ion-col>
+    </ion-row>
+
+    <ion-row box-shadow>
+        <ion-col class="customBorderFiltros">
+            <ion-item no-lines>
+                <ion-label style="font-size: 1em !important"><span ion-text color="primary">Seleccionar Mes</span>
+                </ion-label>
+                <ion-select style="font-size: 0.9em !important" interface="popover" (ngModelChange)="actualizarFiltro($event)" [(ngModel)]="filtroMeses">
+                    <ion-option style="font-size: 0.9em !important" *ngFor="let month of months" [value]="month.mes">
+                        {{month.nombre}} {{month.ano}}
+                    </ion-option>
+                </ion-select>
+            </ion-item>
+        </ion-col>
+    </ion-row>
+    <ion-row class="fondoColor">
+        <ion-col col-3 text-center>
+            <h2 ion-text class="customColorSeccionHeader">{{workHours}}</h2>
+            <p class="customColorSeccionHeader customSizeHoras">Hrs. Trabajadas</p>
+        </ion-col>
+        <ion-col col-3 text-center>
+            <h2 ion-text class="customColorSeccionHeader">{{extraHours}}</h2>
+            <p class="customColorSeccionHeader customSizeHoras">Hrs. <br> Extras</p>
+        </ion-col>
+        <ion-col col-3 text-center>
+            <h2 ion-text class="customColorSeccionHeader">{{lateHours}}</h2>
+            <p class="customColorSeccionHeader customSizeHoras">Hrs. Atrasadas</p>
+        </ion-col>
+        <ion-col col-3 text-center>
+            <h2 ion-text class="customColorSeccionHeader">{{workDays}}</h2>
+            <p class="customColorSeccionHeader customSizeHoras">Dias Trabajados</p>
+        </ion-col>
+    </ion-row>
+    <ion-list padding-top *ngFor="let week of weeks">
+        <ion-item padding-top (click)="redirectToWeed(week)">
+            <p ion-text color="primary" class="textoDia">
+                Semana 1
+            </p>
+            <ion-badge item-end badge-light [ngClass]="week.estado_semana.codigo == 'aprobada'? 'customColorBadgeAprobada' : week.estado_semana.codigo == 'rechazada'? 'customColorBadgeRechazada' : week.estado_semana.codigo == 'espera'? 'customColorBadgeEspera' : 'customColorBadgeActual'">
+                {{week.estado_semana.nombre}}
+            </ion-badge>
+        </ion-item>
+        <ion-row class="customMarginRow" (click)="redirectToWeed(week)">
+            <ion-col col-4 text-center>
+                <h3 ion-text color="primary">{{week.horas_trabajadas}}</h3>
+                <p>Horas Trabajadas</p>
+            </ion-col>
+            <ion-col col-4 text-center>
+                <h3 ion-text color="primary">{{week.horas_extras}}</h3>
+                <p>Horas Extras</p>
+            </ion-col>
+            <ion-col col-4 text-center>
+                <h3 ion-text color="primary">{{week.horas_atrasadas}}</h3>
+                <p>Atrasos</p>
+            </ion-col>
+        </ion-row>
+        <!--<ion-item padding-top (click)="redirectToWeed()">
+            <p ion-text color="primary" class="textoDia">
+                Semana 2
+            </p>
+            <ion-badge item-end badge-light class="customColorBadgeEspera">
+                En espera
+            </ion-badge>
+        </ion-item>
+        <ion-row class="customMarginRow" (click)="redirectToWeed()">
+            <ion-col col-4 text-center>
+                <h3 ion-text color="primary">34</h3>
+                <p>Horas Trabajadas</p>
+            </ion-col>
+            <ion-col col-4 text-center>
+                <h3 ion-text color="primary">34</h3>
+                <p>Horas Extras</p>
+            </ion-col>
+            <ion-col col-4 text-center>
+                <h3 ion-text color="primary">34</h3>
+                <p>Atrasos</p>
+            </ion-col>
+        </ion-row>
+        <ion-item padding-top (click)="redirectToWeed()">
+            <p ion-text color="primary" class="textoDia">
+                Semana 3
+            </p>
+            <ion-badge item-end badge-light class="customColorBadgeActual">
+                Actual
+            </ion-badge>
+        </ion-item>
+        <ion-row class="customMarginRow" (click)="redirectToWeed()">
+            <ion-col col-4 text-center>
+                <h3 ion-text color="primary">56</h3>
+                <p>Horas Trabajadas</p>
+            </ion-col>
+            <ion-col col-4 text-center>
+                <h3 ion-text color="primary">56</h3>
+                <p>Horas Extras</p>
+            </ion-col>
+            <ion-col col-4 text-center>
+                <h3 ion-text color="primary">56</h3>
+                <p>Atrasos</p>
+            </ion-col>
+        </ion-row>
+        <ion-item padding-top (click)="redirectToWeed()">
+            <p ion-text color="primary" class="textoDia">
+                Semana 4
+            </p>
+            <ion-badge item-end badge-light class="customColorBadgeRechazada">
+                Rechazada
+            </ion-badge>
+        </ion-item>
+        <ion-row class="customMarginRow" (click)="redirectToWeed()">
+            <ion-col col-4 text-center>
+                <h3 ion-text color="primary">200</h3>
+                <p>Horas Trabajadas</p>
+            </ion-col>
+            <ion-col col-4 text-center>
+                <h3 ion-text color="primary">200</h3>
+                <p>Horas Extras</p>
+            </ion-col>
+            <ion-col col-4 text-center>
+                <h3 ion-text color="primary">200</h3>
+                <p>Atrasos</p>
+            </ion-col>
+        </ion-row>-->
+    </ion-list>
+
+    <ion-toolbar>
+        <ion-grid>
+            <ion-row>
+                <ion-col col-12>
+                    <button ion-button block color="primary" (click)="redirectToDetails()">Detalle Mes</button>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-toolbar>
+</ion-content>

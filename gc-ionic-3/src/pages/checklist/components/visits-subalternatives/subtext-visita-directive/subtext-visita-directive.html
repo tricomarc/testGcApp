@@ -1,0 +1,14 @@
+<p ion-text text-center style="white-space: normal">{{alternativa.adicional ? alternativa.adicional : ''}}</p>
+<ion-item class="p-sm" style="background-color: #fff2d6">
+    <ion-textarea [(ngModel)]="alternativa.texto_adicional"
+                  (ngModelChange)="onChange()"
+                  cols="30"
+                  rows="5"
+                  class="b-stable padding item-text-wrap"
+                  style="width:100%;"
+                  placeholder="Escribe tu respuesta...">
+    </ion-textarea>
+    <!-- <button class="button button-clear" style="float: right; margin-top: -45px; font-size: 40px">
+         <ion-icon class="positive" name="checkmark"></ion-icon>
+     </button>-->
+</ion-item>

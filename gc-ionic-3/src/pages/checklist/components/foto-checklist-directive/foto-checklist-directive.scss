@@ -1,0 +1,57 @@
+foto-checklist-directive {
+  .dateCenter {
+    text-align: center;
+  }
+  .coloryTamañoCustom {
+    max-height: 100% !important;
+    max-width: 100% !important;
+    color: color($colors, primary);
+
+  }
+  .posicionCustom {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+  }
+  .tamañoFoto {
+    /*min-height: 100px !important;
+    max-width: 100% !important;*/
+    height: 100%;
+    width: 300px;
+    margin: auto;
+  }
+  .tamañoTextoBoton {
+    font-size: 0.8em !important;
+  }
+  .imgCorrecta {
+    /* height: 450px;
+    width: 300px; */
+    width: 300px;
+    margin: auto;
+  }
+  .izquierda{
+    right: 15px;
+    position: relative;
+    top: 210px;
+    color: #C7B3B3;
+  }
+  /*.izquierda {
+    position: relative;
+    bottom: 210px;
+    color: black;
+    left: -280px;
+    border-radius: 50px;
+  }*/
+  .derecha {
+    position: relative;
+    top: 210px;
+    color: #C7B3B3;
+  }
+
+  /*.derecha {
+    position: relative;
+    bottom: 210px;
+    color: black;
+    left: -72px;
+    border-radius: 50px;
+  }*/
+}

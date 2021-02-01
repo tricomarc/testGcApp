@@ -1,0 +1,151 @@
+<ion-header box-shadow>
+    <ion-navbar box shadow>
+        <div buy box shadow>
+            <ion-title><span ion-text color="primary">{{module}}</span></ion-title>
+        </div>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+	<ion-searchbar padding-top placeholder="Buscar por nombre"></ion-searchbar>
+	<ion-grid padding-right>
+        <ion-row>
+            <ion-col col-3>
+                <ion-label ion-text color="primary" class="tamañoCustomFuente fixMargenPequeño">Fecha:</ion-label>
+            </ion-col>
+            <ion-col class="customPaddingTop" col-4 text-right>
+                <ion-datetime right displayFormat="DD/MM/YYYY" placeholder="Desde" cancelText="Cancelar" doneText="Aceptar"></ion-datetime>
+            </ion-col>
+            <ion-col class="customPaddingTop" col-1 text-right>
+                <ion-icon class="espaciadoIcono" name="ios-arrow-forward"></ion-icon>
+            </ion-col>
+            <ion-col class="customPaddingTop" col-4 text-right>
+                <ion-datetime right displayFormat="DD/MM/YYYY" placeholder="Hasta" cancelText="Cancelar" doneText="Aceptar"></ion-datetime>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+	<ion-item no-lines class="arregloMargen">
+        <ion-label>
+            <span ion-text color="primary">Estado:</span>
+        </ion-label>
+        <ion-select multiple="false" okText="Aceptar" cancelText="Cancelar">
+            <ion-option>Estado 1</ion-option>
+            <ion-option>Estado 2</ion-option>
+            <ion-option>Estado 3</ion-option>
+            <ion-option>Estado 4</ion-option>
+        </ion-select>
+    </ion-item>
+    <ion-item no-lines>
+        <ion-label>
+            <span ion-text color="primary">Zona:</span>
+        </ion-label>
+        <ion-select multiple="false" okText="Aceptar" cancelText="Cancelar">
+            <ion-option *ngFor="let zone of zonas">{{zone.nombre}}</ion-option>
+           <!-- <ion-option>Zona 2</ion-option>
+            <ion-option>Zona 3</ion-option>
+            <ion-option>Zona 4</ion-option>-->
+        </ion-select>
+    </ion-item>
+    <ion-item no-lines>
+        <ion-label>
+            <span ion-text color="primary">Sucursal:</span>
+        </ion-label>
+        <ion-select multiple="false" okText="Aceptar" cancelText="Cancelar">
+            <ion-option>Sucursal 1</ion-option>
+            <ion-option>Sucursal 2</ion-option>
+            <ion-option>Sucursal 3</ion-option>
+            <ion-option>Sucursal 4</ion-option>
+        </ion-select>
+    </ion-item>
+    <ion-item no-lines>
+        <ion-label>
+            <span ion-text color="primary">Asignado:</span>
+        </ion-label>
+        <ion-select multiple="false" okText="Aceptar" cancelText="Cancelar">
+            <ion-option *ngFor="let user of usuarios">{{user.nombre_despliegue}}</ion-option>
+            <!--<ion-option>Asignado 1</ion-option>
+            <ion-option>Asignado 2</ion-option>
+            <ion-option>Asignado 3</ion-option>
+            <ion-option>Asignado 4</ion-option>-->
+        </ion-select>
+    </ion-item>
+    <ion-item no-lines>
+        <ion-label>
+            <span ion-text color="primary">Asignador:</span>
+        </ion-label>
+        <ion-select multiple="false" okText="Aceptar" cancelText="Cancelar">
+            <ion-option *ngFor="let user of usuarios">{{user.nombre_despliegue}}</ion-option>
+           <!-- <ion-option>Asignador 1</ion-option>
+            <ion-option>Asignador 2</ion-option>
+            <ion-option>Asignador 3</ion-option>
+            <ion-option>Asignador 4</ion-option>-->
+        </ion-select>
+    </ion-item>
+
+    <ion-item no-lines>
+        <ion-label>
+            <span ion-text color="primary">Cargo:</span>
+        </ion-label>
+        <ion-select multiple="false" okText="Aceptar" cancelText="Cancelar">
+            <ion-option *ngFor="let cargo of cargos">{{cargo.nombre}}</ion-option>
+            <!--<ion-option>Asignado 1</ion-option>
+            <ion-option>Asignado 2</ion-option>
+            <ion-option>Asignado 3</ion-option>
+            <ion-option>Asignado 4</ion-option>-->
+        </ion-select>
+    </ion-item>
+
+    <ion-item no-lines text-wrap text-center color="primary">
+    	<h3>Listado de tareas asignadas por mi</h3>
+    </ion-item>
+    <ion-item margin-top no-lines text-wrap class="custom-bb" (click)="toDetails()">
+    	<p ion-text color="primary">Nombre tarea 1</p>
+    	<p><b>Estado:</b> Respondido</p>
+    	<ion-icon name="ios-arrow-forward" color="stable" item-right></ion-icon>
+    </ion-item>
+    <ion-item no-lines text-wrap class="custom-bb" (click)="toDetails()">
+    	<p ion-text color="primary">Nombre tarea 2</p>
+    	<p><b>Estado:</b> No respondido</p>
+    	<ion-icon name="ios-arrow-forward" color="stable" item-right></ion-icon>
+    </ion-item>
+    <ion-item no-lines text-wrap class="custom-bb" (click)="toDetails()">
+    	<p ion-text color="primary">Nombre tarea 3</p>
+    	<p><b>Estado:</b> Respondido</p>
+    	<ion-icon name="ios-arrow-forward" color="stable" item-right></ion-icon>
+    </ion-item>
+    <ion-item no-lines text-wrap class="custom-bb" (click)="toDetails()">
+    	<p ion-text color="primary">Nombre tarea 4</p>
+    	<p><b>Estado:</b> No respondido</p>
+    	<ion-icon name="ios-arrow-forward" color="stable" item-right></ion-icon>
+    </ion-item>
+    <ion-item no-lines text-wrap class="custom-bb" (click)="toDetails()">
+    	<p ion-text color="primary">Nombre tarea 5</p>
+    	<p><b>Estado:</b> Respondido</p>
+    	<ion-icon name="ios-arrow-forward" color="stable" item-right></ion-icon>
+    </ion-item>
+    <ion-item no-lines text-wrap class="custom-bb" (click)="toDetails()">
+    	<p ion-text color="primary">Nombre tarea 6</p>
+    	<p><b>Estado:</b> No respondido</p>
+    	<ion-icon name="ios-arrow-forward" color="stable" item-right></ion-icon>
+    </ion-item>
+    <ion-item no-lines text-wrap class="custom-bb" (click)="toDetails()">
+    	<p ion-text color="primary">Nombre tarea 7</p>
+    	<p><b>Estado:</b> Respondido</p>
+    	<ion-icon name="ios-arrow-forward" color="stable" item-right></ion-icon>
+    </ion-item>
+    <ion-item no-lines text-wrap class="custom-bb" (click)="toDetails()">
+    	<p ion-text color="primary">Nombre tarea 8</p>
+    	<p><b>Estado:</b> No respondido</p>
+    	<ion-icon name="ios-arrow-forward" color="stable" item-right></ion-icon>
+    </ion-item>
+    <ion-item no-lines text-wrap class="custom-bb" (click)="toDetails()">
+    	<p ion-text color="primary">Nombre tarea 9</p>
+    	<p><b>Estado:</b> Respondido</p>
+    	<ion-icon name="ios-arrow-forward" color="stable" item-right></ion-icon>
+    </ion-item>
+    <ion-item no-lines text-wrap class="custom-bb" (click)="toDetails()">
+    	<p ion-text color="primary">Nombre tarea 10</p>
+    	<p><b>Estado:</b> No respondido</p>
+    	<ion-icon name="ios-arrow-forward" color="stable" item-right></ion-icon>
+    </ion-item>
+</ion-content>

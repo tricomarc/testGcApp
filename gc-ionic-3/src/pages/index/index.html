@@ -1,0 +1,28 @@
+<ion-header box-shadow>
+    <ion-navbar>
+        <button ion-button menuToggle>
+            <ion-icon class="icon-menu" name="menu" color="primary"></ion-icon>
+        </button>
+        <div buy>
+            <ion-title><span ion-text color="primary" class="lh-15">{{title}}</span></ion-title>
+        </div>
+        <ion-buttons end>
+            <div ion-button icon-only (click)="presentPopover($event)">
+                <span item-start class="counter" *ngIf="!leidas && counterNotif > 0">{{counterNotif}}</span>
+                <ion-icon item-end name="notifications" color="primary"></ion-icon>
+            </div>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <ion-row margin-top>
+        <ion-col no-padding no-margin col-6 *ngFor="let modulo of modulosActivos" text-center class="col-module">
+            <div class="img-box-wrapper" *ngIf="modulo.page" (click)="redirectTo(modulo)">
+                <img *ngIf="modulo.title !== 'Visita tienda'" [src]="'assets/img/iconos/' + modulo.image">
+                <img *ngIf="modulo.title === 'Visita tienda'" [src]="'assets/img/iconos/info.png'">
+            </div>
+            <h4 ion-text text-center color="primary">{{modulo.title}}</h4>
+        </ion-col>
+    </ion-row>
+</ion-content>

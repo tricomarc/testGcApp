@@ -1,0 +1,142 @@
+<ion-header box-shadow>
+    <ion-navbar>
+        <div buy>
+            <ion-title><span ion-text color="primary">{{module}}</span></ion-title>
+        </div>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+    <ion-refresher (ionRefresh)="refreshChecklist($event)" color="dark">
+        <ion-refresher-content pullingText="Actualizar" refreshingText="Actualizando..."></ion-refresher-content>
+    </ion-refresher>
+    
+    <ion-row>
+        <ion-col no-padding no-margin>
+            <ion-list-header box-shadow no-margin no-lines no-padding>
+                <h4 ion-text color="primary" class="title">Historial</h4>
+            </ion-list-header>
+        </ion-col>
+    </ion-row>
+
+    <ion-row padding-left padding-top>
+        <ion-col col-12>
+            <ion-item no-lines>
+                <ion-label class="fs-1em"><span ion-text color="primary">Tipo</span></ion-label>
+                
+                <ion-select class="fs-09em" multiple="false" placeholder="Todos" okText="Aceptar" interface="popover"
+                    cancelText="Cancelar" [(ngModel)]="filters.type" (ngModelChange)="filterByType()">
+                    <ion-option class="fs-09em" *ngFor="let type of types" [value]="type.value">
+                        {{type.label}}
+                    </ion-option>
+                </ion-select>
+            </ion-item>
+        </ion-col>
+    </ion-row>
+
+    <!-- FILTRO FECHA -->
+    <ion-row padding-left>
+        <ion-col col-3>
+            <ion-label ion-text color="primary" class="tamañoCustomFuente">Fecha:</ion-label>
+        </ion-col>
+        <ion-col class="customPaddingTop" col-4 text-right>
+            <ion-datetime right [(ngModel)]="filters.from" displayFormat="DD/MM/YYYY" pickerFormat="DD-MM-YYYY"
+                placeholder="Desde" (ngModelChange)="filterByDateRange()" doneText="ok" cancelText="cancelar"
+                [max]="filters.to">
+                {{filters.from | date: 'dd/MM/yyyy' }}
+            </ion-datetime>
+        </ion-col>
+        
+        <ion-col class="customPaddingTop" col-1 text-right>
+            <ion-icon class="espaciadoIcono" name="ios-arrow-forward"></ion-icon>
+        </ion-col>
+        
+        <ion-col class="customPaddingTop" col-4 text-right>
+            <ion-datetime right [(ngModel)]="filters.to" displayFormat="DD/MM/YYYY" pickerFormat="DD-MM-YYYY"
+                placeholder="Hasta" (ngModelChange)="filterByDateRange()" doneText="ok" cancelText="cancelar"
+                [min]="filters.from">
+                {{filters.to | date: 'dd/MM/yyyy' }}
+            </ion-datetime>
+        </ion-col>
+    </ion-row>
+
+    <ion-item no-lines text-center *ngIf="loading">
+        <ion-spinner></ion-spinner>
+        <p ion-text text-wrap margin-top>Obteniendo historial...</p>
+    </ion-item>
+
+    
+    <ion-item no-lines text-center *ngIf="!loading" >
+        <p *ngIf="!checklists.length" ion-text text-wrap margin-top>No hemos encontrado {{ diccChecklist }}.</p>
+        <div *ngIf="checklists.length">
+            <ion-item class="item-icon-left item-icon-right item-text-wrap" *ngFor="let checklist of checklists | orderChecklist"
+                (click)="showChecklistAmbits(checklist.id)">
+                <ion-icon [ngClass]="'estado'+ checklist.estado_id + ' ' + 'icolor'" [name]="checklist.statusData.icon" item-start> </ion-icon>
+                
+                <span ion-text color="primary" text-wrap><strong>{{checklist.nombre}}</strong></span>
+                
+                <p> {{ 'Ambitos' | synonymous }}: <b>{{checklist.ambitos_cantidad}}</b></p>
+                
+                <p>Preguntas: <b>({{checklist.preguntas.contestadas}}/{{checklist.preguntas.total}})</b></p>
+                
+                <p>Fecha: <b>{{checklist.fecha | date : 'dd/MM/yyyy'}}</b></p>
+                
+                <p> {{ 'Tienda' | synonymous }} : <b>{{checklist.sucursal_nombre}}</b></p>
+                
+                <p>
+                    <b> Estado: </b> <span ion-text [ngClass]="'subE' + checklist.estado_id" [color]="checklist.statusData.color"> {{ checklist.estado_nombre }} </span>
+                </p>
+                
+                <ion-icon name='ios-arrow-forward' item-end color="default" class="icon-lg"></ion-icon>
+            </ion-item>
+        </div>
+    </ion-item>
+</ion-content>
+
+<ion-footer>
+    <ion-list>
+        <ion-item text-center align-self-center>
+            <p> Filtro de {{ diccChecklists }} </p>
+        </ion-item>
+        <ion-item class="text-center" class="customPaddingTop">
+            <div class="row">
+                <div class="col" text-center [ngClass]="filterSelected === 4 ? 'selected-bottom-filter' : ''" (click)="filterStatus(4)">
+                    <ion-icon [style.color]="statusColors.enviado ? statusColors.enviado : '#a9bf04' "   
+                       name="checkmark-circle"></ion-icon>
+                    <p>
+                        <small [style.color]="statusColors.enviado ? statusColors.enviado : '#a9bf04' " > Enviado </small>
+                    </p>
+                </div>
+
+                <div class="col" text-center [ngClass]="filterSelected === 3 ? 'selected-bottom-filter' : ''" (click)="filterStatus(3)">
+                    <ion-icon [style.color]="statusColors.completo ? statusColors.completo : '#048abf' " name="checkmark-circle-outline"></ion-icon>
+                    <p>
+                        <small [style.color]="statusColors.completo ? statusColors.completo : '#048abf' " > Completo </small>
+                    </p>
+                </div>
+
+                <div class="col" text-center [ngClass]="filterSelected === 2 ? 'selected-bottom-filter' : ''" (click)="filterStatus(2)">
+                    <ion-icon [style.color]="statusColors.incompleto ? statusColors.incompleto : '#f2b705' " name="ios-radio-button-on"></ion-icon>
+                    <p>
+                        <small [style.color]="statusColors.incompleto ? statusColors.incompleto : '#f2b705' "> Incompleto </small>
+                    </p>
+                </div>
+
+                <div class="col" text-center [ngClass]="filterSelected === 1 ? 'selected-bottom-filter' : ''" (click)="filterStatus(1)" >
+                    <ion-icon [style.color]="statusColors.sin_contestar ? statusColors.sin_contestar : '#bfbfbf' " name="ios-radio-button-off"></ion-icon>
+                    <p>
+                        <small [style.color]="statusColors.sin_contestar ? statusColors.sin_contestar : '#bfbfbf' "> Sin contestar </small>
+                    </p>
+                </div>
+
+                <div class="col" text-center [ngClass]="filterSelected === 5 ? 'selected-bottom-filter' : ''" (click)="filterStatus(5)">
+                    <ion-icon [style.color]="statusColors.fuera_horario ? statusColors.fuera_horario : '#8c030e' " name="ios-close-circle"></ion-icon>
+                    <p>
+                        <small [style.color]="statusColors.fuera_horario ? statusColors.fuera_horario : '#8c030e' " > Fuera de horario </small>
+                    </p>
+                </div>
+            </div>
+        </ion-item>
+    </ion-list>
+</ion-footer>

@@ -1,0 +1,55 @@
+<ion-item-sliding>
+	<ion-item border no-lines (click)="openRoomDetail()" class="main-item">
+		<!-- Avatar de la sala -->
+		<ion-avatar item-start class="avatar-class" style="margin: 8px 10px 8px 0 !important;">
+			<img [defaultImage]="'assets/img/resources/avatar.png'" [lazyLoad]="room.avatar" class="contact-avatar" alt="">
+		</ion-avatar>
+		<!-- Nombre de la sala -->
+		<h4 item-title text-nowrap class="room-name">
+			{{room.name}}
+		</h4>
+		<!-- Actividad de escritura -->
+		<ion-row no-padding no-margin *ngIf="room.typing && room.typing.value === 2">
+			<ion-col no-padding no-margin>
+				<b *ngIf="room.isGroup && room.typing.user" class="sender-name">{{room.typing.user}}:</b>
+				<br *ngIf="room.isGroup && room.typing.user">
+				<p ion-text color="success">Escribiendo...</p>
+			</ion-col>
+		</ion-row>
+		<!-- Info de la sala -->
+		<ion-row no-padding no-margin *ngIf="!room.typing || room.typing.value !== 2">
+			<ion-col col-12 no-padding no-margin>
+				<!-- Tiempo transcurrido desde el último mensaje -->
+				<ion-note item-end class="note note-ios last-message-date">{{ room.message ? (room.message.time | elapsedTime) : ''}}</ion-note>
+				<!-- Nombre del usuario que envió el último mensaje (solo para grupos) -->
+				<b *ngIf="room.isGroup && room.message && room.message.isIncoming && room.message.sender" class="sender-name">{{room.message.owner.name}}:</b>
+				<ion-row no-padding no-margin no-lines>
+					<!-- Ícono para indicar el estado del mensaje -->
+					<ion-col col-1 *ngIf="(room.message && !room.message.isIncoming && room.message.status)" class="icon-col">
+						<ion-icon [name]="room.message.status.icon"  [ngClass]="room.message.status.cssClass" class="status-message-icon"></ion-icon>
+					</ion-col>
+					<!-- Preview del mensaje  -->
+					<ion-col col no-padding>
+						<p class="lh-15" [innerHTML]="room.message | messagePreview" [ngStyle]="(room.message ? (room.message.isIncoming ? {'margin': '0 0 2px', 'padding-top': '3px'} : {'margin': '9px 5px 2px',  'padding-top': '0px'}) : {'padding-left': '0px'})" class="message-content"></p>
+					</ion-col>
+					<!-- Ícono para indicar que hay mensajes sin leer -->
+					<ion-col col-3 class="col-p0">
+						<ion-row>
+							<ion-col col-6 class="col-p0">
+								<ion-icon color="primary" item-right class="muted-message-icon" name="md-volume-off" *ngIf="room.muted"></ion-icon>
+							</ion-col>
+							<ion-col col-6 class="col-p0">
+								<ion-icon color="primary" item-right class="new-message-icon" name="ios-text" *ngIf="(room.message && room.message.isIncoming && room.message.status && room.message.status.value === 18)"></ion-icon>
+							</ion-col>
+						</ion-row>
+					</ion-col>
+				</ion-row>
+			</ion-col>
+		</ion-row>
+	</ion-item>
+	<ion-item-options side="right">
+		<button ion-button icon-only color="danger" (click)="deleteRoom()">
+			<ion-icon name="trash"></ion-icon>
+		</button>
+	</ion-item-options>
+</ion-item-sliding>

@@ -1,0 +1,34 @@
+<!--<ion-header>
+  <ion-navbar color="positive">
+    <ion-title>ELIGE</ion-title>
+  </ion-navbar>
+  <ion-item color="dark" class="title-visual-report" text-center>
+    <h3>CHECKLIST</h3>
+  </ion-item>
+</ion-header>-->
+
+<ion-header>
+  <ion-navbar color="positive">
+    <ion-title class="lh-15">{{title}}</ion-title>
+  </ion-navbar>
+  <ion-toolbar color="dark">
+    <ion-title><p class="sub-title">Control</p></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class = "fondo-bg">
+
+  <ion-grid>
+    <ion-row>
+      <ion-col col-6 *ngFor="let modulo of modulosActivos">
+        <div class = "img-box-wrapper bg-positive" (click)="redirectTo(modulo.nombre)">
+          <div class = "image-padding">
+            <img src= "assets/img/iconos/{{modulo.imagen}}" class = "full-image" width = "100%">
+          </div>
+          <div class = "opacity-box"></div>
+          <span class = "text-uppercase">{{modulo.nombre}}</span>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

@@ -1,0 +1,78 @@
+<div *ngIf="pregunta.multi_foto === 0">
+    <ion-item text-center center no-lines *ngIf="pregunta.respuesta && pregunta.respuesta.obligatorio">
+        <div class="tamañoFoto" *ngIf="pregunta.respuesta.obligatorio.foto">
+            <img [src]="pregunta.respuesta.obligatorio.foto | sanitizeImg">
+        </div>
+    </ion-item>
+
+    <ion-row>
+        <ion-col col-12 text-center padding-top>
+            <button ion-button text-center center round outline *ngIf="!checklistEnviado || fromStats" [disabled]="fromStats" (click)="tomarFoto(pregunta);">
+                <ion-icon name="camera"></ion-icon>
+                <span ion-text class="tamañoTextoBoton">Capturar Fotografía Obligatoria</span>
+            </button>
+        </ion-col>
+    </ion-row>
+</div>
+
+<div *ngIf="pregunta.multi_foto === 1">
+    <ion-item>
+        <ion-slides (ionSlideDidChange)="slideChanged()" *ngIf="pregunta.respuesta.foto">
+            <ion-slide *ngFor="let photo of pregunta.respuesta.foto">
+                <ion-grid>
+                    <ion-row>
+                        <ion-col col-1>
+                            <ion-icon class="izquierda pull-left" name="ios-arrow-back"
+                            (click)="goToLeftSlide();"></ion-icon>
+                        </ion-col>
+                        <ion-col col-10>
+                            <div style="height: 300px !important;">
+                                <img class="imgCorrecta" [src]="photo.foto | sanitizeImg">
+                            </div>
+                        </ion-col>
+                        <ion-col col-1>
+                            <ion-icon class="derecha" name="ios-arrow-forward" (click)="goToRightSlide();"></ion-icon>
+                        </ion-col>
+                        <ion-col col-6>
+                            <button text-center block ion-button (click)="deletePhoto(pregunta, photo.foto);">
+                                <ion-icon name="close"></ion-icon>
+                                Eliminar
+                            </button>
+                        </ion-col>
+                        <ion-col col-6>
+                            <button text-center block ion-button (click)="returnPhoto(pregunta, photo.foto);">
+                                <ion-icon name="camera"></ion-icon>
+                                Recapturar
+                            </button>
+                        </ion-col>
+                        <ion-col col-12>
+                            <button text-center block ion-button (click)="tomarFotoMultiple(pregunta);">
+                                <ion-icon name="add"></ion-icon>
+                                Agregar otra foto
+                            </button>
+                        </ion-col>
+                        <!-- <ion-col col-12>
+                            <textarea
+                            cols="30"
+                            rows="3"
+                            class="padding b-stable"
+                            placeholder="Escribe tu comentario..."
+                            style="width:100%"
+                            [(ngModel)]="photo.texto_respuesta"
+                            [disabled]="checklistEnviado">
+                        </textarea>
+                    </ion-col> -->
+                </ion-row>
+            </ion-grid>
+        </ion-slide>
+    </ion-slides>
+    <button ion-button
+    *ngIf="(!checklistEnviado && (!pregunta.respuesta.foto || pregunta.respuesta.foto.length <= 0)) || fromStats"
+    class="button button-accion m-none button-full"
+    style="min-height: 40px;"
+    (click)="tomarFotoMultiple(pregunta);"
+    [disabled]="fromStats">
+    <i class="icon ion-camera"></i> Capturar Fotografía
+</button>
+</ion-item>
+</div>

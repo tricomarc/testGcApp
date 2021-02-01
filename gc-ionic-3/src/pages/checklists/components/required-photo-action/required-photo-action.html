@@ -1,0 +1,15 @@
+<ion-item text-center center no-lines *ngIf="question.respuesta && question.respuesta.obligatorio">
+    <div class="tamañoFoto" *ngIf="question.respuesta.obligatorio && question.respuesta.obligatorio.foto">
+        <img [src]="question.respuesta.obligatorio.foto | sanitizeImg">
+    </div>
+</ion-item>
+
+<ion-row *ngIf="checklist && (checklist.estado_id !== 4 && !checklist.fromStatistics)" [ngClass]="((question.validations && question.validations.missingRequiredPhoto === true) ? 'ch-incomplete-question' : '')">
+    <ion-col text-center padding>
+        <button ion-button text-center round block outline (click)="takePhoto()" class="mxw-80">
+            <ion-icon name="camera"></ion-icon>
+            
+            <span ion-text class="tamañoTextoBoton"> {{ ( question.respuesta.obligatorio && question.respuesta.obligatorio.foto ) ? 'Recapturar fotografía obligatoria' : 'Capturar fotografía obligatoria' }}</span>
+        </button>
+    </ion-col>
+</ion-row>

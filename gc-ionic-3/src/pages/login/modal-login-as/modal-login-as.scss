@@ -1,0 +1,72 @@
+page-modal-login-as {
+    @media screen and (max-width: 1024px) {
+        modal-wrapper {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+        }
+        @media not all and (min-height: 600px) and (min-width: 768px) {
+          ion-modal ion-backdrop {
+            visibility: hidden;
+          }
+          .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            opacity: .5;
+            background-color: transparent !important;
+          }
+          .modal_content {
+            display: block;
+            width: 70% !important;
+            height: 55% !important;
+
+          }
+        }
+        @media only screen and (min-height: 0px) and (min-width: 0px) {
+          .modal-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+          }
+        }
+        .main-view{
+          background: transparent;
+        }
+        .overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: 1;
+          opacity: .5;
+          background-color: rgb(17, 17, 17);
+        }
+        .modal_content {
+          display: block;
+          position: relative;
+          left: 0;
+          right: 0;
+          top: 15%;
+          width: 98%;
+          height: 45%;
+          z-index: 1;
+          margin: 0 auto;
+          background: #ffffff;
+          border-radius: 15px !important;
+          //overflow: hidden;
+        }
+    }
+    .sombra-vb {
+      // border-bottom: 1px solid rgba(0,0,0,0.2)
+      -webkit-box-shadow: 0px 6px 10px 0px rgba(0,0,0,0.2);
+      -moz-box-shadow: 0px 6px 10px 0px rgba(0,0,0,0.2);
+      box-shadow: 0px 6px 10px 0px rgba(0,0,0,0.2);
+    }
+}

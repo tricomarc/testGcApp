@@ -1,0 +1,11 @@
+<ion-header class="bar-dark" no-tap-scroll="true">
+    <h1 (click)="closeModal()" class="title right">
+        <i class="icon ion-close-round"></i> CERRAR
+    </h1>
+</ion-header>
+<ion-content>
+    <ion-scroll zooming="true" direction="xy" delegate-handle="zoom-pane" class="zoom-pane" min-zoom="1"
+                scrollbar-x="false" scrollbar-y="false" overflow-scroll="false">
+        <img check-image-directive="img/resources/default-placeholder.png" [src]="imgUrl" class="full-image">
+    </ion-scroll>
+</ion-content>

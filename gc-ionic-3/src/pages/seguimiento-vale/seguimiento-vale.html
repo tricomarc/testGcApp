@@ -1,0 +1,74 @@
+<ion-header class="sombra-vb">
+  <ion-toolbar>
+    <ion-navbar>
+      <button ion-button menuToggle>
+        <ion-icon icon-menu name="menu" color="primary"></ion-icon>
+      </button>
+      <ion-title>Seguimiento Vale</ion-title>
+    </ion-navbar>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+  <!-- REFRESHER PAGE -->
+  <ion-refresher (ionRefresh)="refresh($event)" color="dark">
+    <ion-refresher-content pullingText="Actualizar" refreshingText="Actualizando..."></ion-refresher-content>
+  </ion-refresher>
+
+  <!-- SUBHEADER -->
+  <ion-item-divider text-wrap class="sombra-vb">
+    <h2 ion-text text-center color="primary">PERIODOS DE SEGUIMIENTO</h2>
+  </ion-item-divider>
+
+  <!-- CARD CONTENT -->
+    <ion-card-content margin-top class="sombra-vb" *ngFor="let vale of seguimientoVale.vales" (click)="localesAsociados(vale.periodo_id)">
+      <ion-grid>
+        <ion-row>
+          <ion-col col-10>
+              <ion-row>
+                  <ion-col text-left col-6 text-center>
+                      <label ion-text color="primary">Periodo:</label>
+                  </ion-col>
+                  <ion-col text-right col-6 text-center class="center-col">
+                      <label ion-text color="grey1">{{vale.periodo}}</label>
+                  </ion-col>
+              </ion-row>
+              <ion-row>
+                  <ion-col text-left col-6 text-center>
+                      <label ion-text color="primary">Fecha inicio:</label>
+                  </ion-col>
+                  <ion-col text-right col-6 class="center-col">
+                      <label ion-text color="grey1">{{vale.fecha_inicio}}</label>
+                  </ion-col>
+              </ion-row>
+              <ion-row>
+                  <ion-col text-left col-6 text-center>
+                      <label ion-text color="primary">Fecha Termino:</label>
+                  </ion-col>
+                  <ion-col text-right col-6 class="center-col">
+                      <label ion-text color="grey1">{{vale.fecha_termino}}</label>
+                  </ion-col>
+              </ion-row>
+              <ion-row>
+                  <ion-col text-left col-6 text-center>
+                      <label ion-text color="primary">Boletas mínimas:</label>
+                  </ion-col>
+                  <ion-col text-right col-6 class="center-col">
+                      <label ion-text color="grey1">{{vale.total_boletas}} de {{vale.boletas_minimas}}</label>
+                  </ion-col>
+              </ion-row>
+          </ion-col>
+
+          <!-- ARROW RIGHT -->
+          <ion-col col-1 class="center-col">
+              <h1 ion-text color="primary">
+                  <ion-icon name="ios-arrow-forward"></ion-icon>
+              </h1>
+            </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+    <br>
+    
+</ion-content>

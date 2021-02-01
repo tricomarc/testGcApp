@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1076523116962",
+    "firebase_url": "https://gc-grupo-julio.firebaseio.com",
+    "project_id": "gc-grupo-julio",
+    "storage_bucket": "gc-grupo-julio.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1076523116962:android:599c91641a357051856afb",
+        "android_client_info": {
+          "package_name": "cl.gcgrupju.gcapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1076523116962-epbth4idpq5hgn2afp6k5mfsqqca8cuh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDaDgHO5bLdfmDTRLdbn4bi8HnVjImJa_I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1076523116962-epbth4idpq5hgn2afp6k5mfsqqca8cuh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

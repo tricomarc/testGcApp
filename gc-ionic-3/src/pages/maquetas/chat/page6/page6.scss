@@ -1,0 +1,114 @@
+page-page6 {
+	.range-md .range-knob-handle .range-pin {
+		transform: translate3d(0, 0, 0) scale(1) !important; 
+	}
+
+	.range-md:not(.range-has-pin) .range-knob-handle .range-knob {
+		transform: scale(1) !important; 
+	}
+
+	.range-ios .range-knob-handle .range-pin {
+		transform: translate3d(0, 0, 0) scale(1) !important; 
+	}
+	[br-1]{
+		border-right: 1px solid #E8E8E8;
+	}
+	[br-2]{
+		border-top: 1px solid #E8E8E8;
+		border-bottom: 1px solid #E8E8E8;
+		border-right: 1px solid #E8E8E8;
+	}
+	[br-3]{
+		margin-top: 10px !important;
+		border-top: 1px solid #E8E8E8;
+	}
+
+	[customBorderBoxes]{
+		border: 10px solid #FFFFFF !important;
+	}
+	[customEspacio1]{
+		font-size: 1.3em !important;
+		margin-top: 3px !important;
+		margin-bottom: 0px !important;
+		padding-bottom: 0px !important;
+		padding-top: 0px !important;
+		
+	}
+	[customEspacio2]{
+		font-size: 0.9em !important;
+		margin-top: 5px !important;
+		margin-bottom: 0px !important;
+		padding-bottom: 0px !important;
+		padding-top: 0px !important;
+	}
+	[customEspacio3]{
+		margin-top: 5px !important;
+		margin-bottom: 10px !important;
+		padding-bottom: 0px !important;
+		padding-top: 0px !important;
+
+	}
+	[customColor1]{
+		background-color: #CCF4DB !important;
+	}
+	[customColor2]{
+		background-color: #FDDEDE !important;
+	}
+	[customColor3]{
+		background-color: #EFF0BA !important;
+	}
+	.borderdato1{
+		border-right: 1px solid #C0C0C0;
+	}
+	.borderdato2{
+		border-right: 1px solid #C0C0C0;
+	}
+	.TamañoAños{
+		padding-top: 5px !important;
+		color: #C2C2C2 !important;
+		font-size: 1.6em !important;
+	}
+	.TamañoAños2{
+		padding-top: 5px !important;
+		font-size: 1.6em !important;
+	}
+	.tamañoSecciones{
+		font-size: 1.3em !important;
+	}
+	.tamañoSecciones2{
+		font-size: 1em !important;
+	}
+	.tamañoresultadosecciones{
+		font-size: 1em !important;
+	}
+	
+	.tamañoTitulo{
+		font-size: 1.3em !important;
+	}
+	.tamañoSeccion{
+		padding-bottom: 0px !important;
+		margin-bottom: 0px !important;
+		font-size: 1.5em !important;
+	}
+
+    .text-center {
+        text-align: center !important;
+        item-align: center !important;
+    }
+
+    .fs-5em {
+        font-size:2.5em !important;
+    }
+
+    .google-chart-general > div > div {
+        top: -18px;
+    }
+    
+    .fix-mt {
+        margin-top: -13px;
+    }
+
+    .current-date {
+        font-size: 12px;
+    }
+}

@@ -1,0 +1,280 @@
+<ion-header box-shadow>
+	<ion-navbar>
+		<ion-title>{{module}}</ion-title>
+		<ion-buttons end *ngIf="requesting">
+			<ion-spinner color="primary"></ion-spinner>
+		</ion-buttons>
+	</ion-navbar>
+</ion-header>
+
+<ion-content>
+	<ion-row>
+		<ion-col no-padding>
+			<ion-list-header box-shadow no-margin no-lines>
+				<h1 ion-text color="primary" header-title>Ver reporte</h1>
+			</ion-list-header>
+		</ion-col>
+	</ion-row>
+	<div *ngIf="visual && visual.id" text-wrap>
+		<!-- Nombre de la campaña -->
+		<ion-item no-lines class="custom-bb">
+			<h4 ion-text color="primary"><b>Nombre de la campaña:</b></h4>
+			<p>{{visual.nombre}}</p>
+		</ion-item>
+		<!-- Descripción -->
+		<ion-row>
+			<ion-col col-12>
+				<h4 ion-text margin color="primary">
+					<b>Descripción:</b>
+				</h4>
+			</ion-col>
+			<ion-col col-12>
+				<div margin-top class="fixInterlineado" [innerHTML]="visual.descripcion | sanitizeHtml"></div>
+			</ion-col>
+		</ion-row>
+		<!-- Estado -->
+		<ion-item no-lines class="custom-bb">
+			<h4 ion-text color="primary"><b>Estado:</b></h4>
+			<p>{{visual.visualestado.nombre}}</p>
+		</ion-item>
+		<!-- Nota -->
+		<ion-item no-lines class="custom-bb" *ngIf="visual.evaluable">
+			<h4 ion-text color="primary"><b>Nota:</b></h4>
+			<p>{{(visual.reportable === 0 || visual.reportable === 2) ? 'No aplica' : (visual.nota ? visual.nota : 'No evaluado')}}
+			</p>
+		</ion-item>
+		<!-- Fechas -->
+		<ion-item no-lines>
+			<h4 ion-text color="primary"><b>Fechas:</b></h4>
+		</ion-item>
+		<ion-list>
+			<ion-item no-lines *ngIf="visual.fecha_envio_reporte">
+				<p>Envío de reporte:</p>
+				<ion-badge item-end color="primary">
+					{{visual.fecha_envio_reporte.day.real}} - {{visual.fecha_envio_reporte.month.string}} -
+					{{visual.fecha_envio_reporte.year.real}}
+				</ion-badge>
+			</ion-item>
+			<ion-item no-lines *ngIf="visual.fecha_implementacion">
+				<p>Implementación:</p>
+				<ion-badge item-end color="primary">
+					{{visual.fecha_implementacion.day.real}} - {{visual.fecha_implementacion.month.string}} -
+					{{visual.fecha_implementacion.year.real}}
+				</ion-badge>
+			</ion-item>
+			<ion-item no-lines *ngIf="visual.fecha_lanzamiento">
+				<p>Lanzamiento:</p>
+				<ion-badge item-end color="primary">
+					{{visual.fecha_lanzamiento.day.real}} - {{visual.fecha_lanzamiento.month.string}} -
+					{{visual.fecha_lanzamiento.year.real}}
+				</ion-badge>
+			</ion-item>
+			<ion-item no-lines *ngIf="visual.fecha_termino">
+				<p>Término:</p>
+				<ion-badge item-end color="primary">
+					{{visual.fecha_termino.day.real}} - {{visual.fecha_termino.month.string}} -
+					{{visual.fecha_termino.year.real}}
+				</ion-badge>
+			</ion-item>
+			<ion-item class="custom-bb" no-lines *ngIf="cliente != 'cl.foco.gcapp' && visual.fecha_reporte">
+				<p>Reporte:</p>
+				<ion-badge item-end color="primary">
+					{{visual.fecha_reporte.day.real}} - {{visual.fecha_reporte.month.string}} -
+					{{visual.fecha_reporte.year.real}} {{ visual.fecha_reporte.time }}
+				</ion-badge>
+			</ion-item>
+		</ion-list>
+		<div *ngIf="!visual.evaluable">
+			<ion-item no-lines>
+				<h4 ion-text color="primary"><b>Implementaciones</b></h4>
+			</ion-item>
+			<ion-item class="custom-bb" no-lines *ngIf="visual.classified_photos.required.pending.length < 1">
+				<p>No hay implementaciones.</p>
+			</ion-item>
+			<ion-item class="custom-bb" no-lines *ngIf="visual.classified_photos.required.pending.length > 0">
+				<ion-grid>
+					<ion-row>
+						<ion-col col-6 *ngFor="let photo of visual.classified_photos.required.pending">
+							<!-- Implementación -->
+							<div class="photo-container">
+								<!-- Si la implementación es foto -->
+								<img *ngIf="!photo.solicitar_video"
+									[src]="photo.implementation.url ? (photo.implementation.url | sanitizeImg) : 'assets/img/resources/default-placeholder.png'"
+									class="implementation-container">
+								<!-- Si la implementación es video pero no se grabó uno -->
+								<img *ngIf="photo.solicitar_video && (photo.implementation.motivo && photo.implementation.motivo.id)"
+									[src]="photo.implementation.url ? (photo.implementation.url | sanitizeImg) : 'assets/img/resources/default-placeholder.png'"
+									class="implementation-container">
+								<!-- Si la implementación es video -->
+								<img *ngIf="photo.solicitar_video && photo.implementation.url && (!photo.implementation.motivo || !photo.implementation.motivo.id)"
+									class="implementation-container locked" [src]="'assets/img/resources/play-btn.png'">
+								<button ion-button color="light" class="btn-bottom-left"
+									(click)="openPhotoViewer(photo.implementation, 'implementation', photo.solicitar_video, photo.url, true)">
+									<ion-icon name="eye" color="primary"></ion-icon>
+								</button>
+								<button ion-button color="light" class="btn-qualification-photo"
+									*ngIf="photo.implementation && photo.implementation.nota">
+									<span ion-text color="primary"><b>{{photo.implementation.nota}}</b></span>
+								</button>
+								<button ion-button color="light" class="btn-top-right"
+									*ngIf="photo.implementation && photo.implementation.motivo && photo.implementation.motivo.id"
+									(click)="showNoImplementationReason(photo.implementation.motivo)">
+									<ion-icon name="ios-information-circle" color="primary"></ion-icon>
+								</button>
+							</div>
+							<textarea #area rows="5" disabled="true" class="commentary-field"
+								[value]="photo.implementation.comentario ? photo.implementation.comentario : 'No se ha comentado la foto.'"
+								style="max-width: 100%;"></textarea>
+							<ion-icon name="ios-arrow-dropdown-circle"
+								*ngIf="photo.implementation.comentario && photo.implementation.comentario.length > 75"
+								class="icon-scroll" color="dark" ion-long-press [interval]="400"
+								(onPressStart)="scrollTextArea(area)" (onPressing)="scrollTextArea(area)"></ion-icon>
+						</ion-col>
+					</ion-row>
+				</ion-grid>
+			</ion-item>
+		</div>
+		<div *ngIf="visual.evaluable">
+			<ion-item no-lines>
+				<h4 ion-text color="primary"><b>Fotos aprobadas:</b></h4>
+			</ion-item>
+			<ion-item class="custom-bb" no-lines *ngIf="visual.classified_photos.required.accepted.length < 1">
+				<p>No hay fotos.</p>
+			</ion-item>
+			<ion-item class="custom-bb" no-lines *ngIf="visual.classified_photos.required.accepted.length > 0">
+				<ion-grid>
+					<ion-row>
+						<ion-col col-6 *ngFor="let photo of visual.classified_photos.required.accepted">
+							<!-- Implementación -->
+							<div class="photo-container">
+								<!-- Si la implementación es foto -->
+								<img *ngIf="!photo.solicitar_video"
+									[src]="photo.implementation.url ? (photo.implementation.url | sanitizeImg) : 'assets/img/resources/default-placeholder.png'"
+									class="implementation-container">
+								<!-- Si la implementación es video pero no se grabó uno -->
+								<img *ngIf="photo.solicitar_video && (photo.implementation.motivo && photo.implementation.motivo.id)"
+									[src]="photo.implementation.url ? (photo.implementation.url | sanitizeImg) : 'assets/img/resources/default-placeholder.png'"
+									class="implementation-container">
+								<!-- Si la implementación es video -->
+								<img *ngIf="photo.solicitar_video && photo.implementation.url && (!photo.implementation.motivo || !photo.implementation.motivo.id)"
+									class="implementation-container locked" [src]="'assets/img/resources/play-btn.png'">
+								<button ion-button color="light" class="btn-bottom-left"
+									(click)="openPhotoViewer(photo.implementation, 'implementation', photo.solicitar_video, photo.url, true)">
+									<ion-icon name="eye" color="primary"></ion-icon>
+								</button>
+								<button ion-button color="light" class="btn-qualification-photo"
+									*ngIf="photo.implementation && photo.implementation.nota">
+									<span ion-text color="primary"><b>{{photo.implementation.nota}}</b></span>
+								</button>
+								<button ion-button color="light" class="btn-top-right"
+									*ngIf="photo.implementation && photo.implementation.motivo && photo.implementation.motivo.id"
+									(click)="showNoImplementationReason(photo.implementation.motivo)">
+									<ion-icon name="ios-information-circle" color="primary"></ion-icon>
+								</button>
+							</div>
+							<textarea #area rows="5" disabled="true" class="commentary-field"
+								[value]="photo.implementation.comentario ? photo.implementation.comentario : 'No se ha comentado la foto.'"
+								style="max-width: 100%;"></textarea>
+							<ion-icon name="ios-arrow-dropdown-circle"
+								*ngIf="photo.implementation.comentario && photo.implementation.comentario.length > 75"
+								class="icon-scroll" color="dark" ion-long-press [interval]="400"
+								(onPressStart)="scrollTextArea(area)" (onPressing)="scrollTextArea(area)"></ion-icon>
+						</ion-col>
+					</ion-row>
+				</ion-grid>
+			</ion-item>
+			<ion-item no-lines>
+				<h4 ion-text color="primary"><b>Fotos rechazadas:</b></h4>
+			</ion-item>
+			<ion-item class="custom-bb" no-lines *ngIf="visual.classified_photos.required.rejected.length < 1">
+				<p>No hay fotos.</p>
+			</ion-item>
+			<ion-item class="custom-bb" no-lines *ngIf="visual.classified_photos.required.rejected.length > 0">
+				<ion-grid>
+					<ion-row>
+						<ion-col col-6 *ngFor="let photo of visual.classified_photos.required.rejected">
+							<!-- Implementación -->
+							<div class="photo-container">
+								<!-- Si la implementación es foto -->
+								<img *ngIf="!photo.solicitar_video"
+									[src]="photo.implementation.url ? (photo.implementation.url | sanitizeImg) : 'assets/img/resources/default-placeholder.png'"
+									class="implementation-container">
+								<!-- Si la implementación es video pero no se grabó uno -->
+								<img *ngIf="photo.solicitar_video && (photo.implementation.motivo && photo.implementation.motivo.id)"
+									[src]="photo.implementation.url ? (photo.implementation.url | sanitizeImg) : 'assets/img/resources/default-placeholder.png'"
+									class="implementation-container">
+								<!-- Si la implementación es video -->
+								<img *ngIf="photo.solicitar_video && photo.implementation.url && (!photo.implementation.motivo || !photo.implementation.motivo.id)"
+									class="implementation-container locked" [src]="'assets/img/resources/play-btn.png'">
+								<button ion-button color="light" class="btn-bottom-left"
+									(click)="openPhotoViewer(photo.implementation, 'implementation', photo.solicitar_video, photo.url, true)">
+									<ion-icon name="eye" color="primary"></ion-icon>
+								</button>
+								<button ion-button color="light" class="btn-qualification-photo"
+									*ngIf="photo.implementation && photo.implementation.nota">
+									<span ion-text color="primary"><b>{{photo.implementation.nota}}</b></span>
+								</button>
+								<button ion-button color="light" class="btn-top-right"
+									*ngIf="photo.implementation && photo.implementation.motivo && photo.implementation.motivo.id"
+									(click)="showNoImplementationReason(photo.implementation.motivo)">
+									<ion-icon name="ios-information-circle" color="primary"></ion-icon>
+								</button>
+								<!-- si permite la toma de una foto correctiva-->
+								<button *ngIf="puede_corregir" ion-button color="light" class="btn-bottom-right"
+									(click)="takeCorectivePhoto(photo)">
+									<ion-icon name="ios-camera" color="primary"></ion-icon>
+								</button>
+							</div>
+							<textarea #area rows="5" disabled="true" class="commentary-field"
+								[value]="photo.implementation.comentario ? photo.implementation.comentario : 'No se ha comentado la foto.'"
+								style="max-width: 100%;"></textarea>
+							<ion-icon name="ios-arrow-dropdown-circle"
+								*ngIf="photo.implementation.comentario && photo.implementation.comentario.length > 75"
+								class="icon-scroll" color="dark" ion-long-press [interval]="400"
+								(onPressStart)="scrollTextArea(area)" (onPressing)="scrollTextArea(area)"></ion-icon>
+						</ion-col>
+					</ion-row>
+				</ion-grid>
+			</ion-item>
+		</div>
+		<ion-item no-lines>
+			<h4 ion-text color="primary"><b>Fotos adicionales:</b></h4>
+		</ion-item>
+		<ion-item class="custom-bb" no-lines *ngIf="visual.classified_photos.optional.length < 1">
+			<p>No hay fotos adicionales.</p>
+		</ion-item>
+		<ion-item class="custom-bb" no-lines *ngIf="visual.classified_photos.optional.length > 0">
+			<ion-grid>
+				<ion-row>
+					<ion-col col-6 *ngFor="let photo of visual.classified_photos.optional" text-center>
+						<!-- Implementación -->
+						<div class="photo-container">
+							<img [src]="photo.url ? (photo.url | sanitizeImg) : 'assets/img/resources/default-placeholder.png'"
+								class="implementation-container">
+							<button ion-button color="light" class="btn-bottom-left"
+								(click)="openPhotoViewer(photo, 'implementation', photo.solicitar_video, photo.url, false)">
+								<ion-icon name="eye" color="primary"></ion-icon>
+							</button>
+						</div>
+						<textarea #area rows="5" disabled="true" class="commentary-field"
+							[value]="photo.comentario ? photo.comentario : 'No se ha comentado la foto.'"
+							style="max-width: 100%;"></textarea>
+						<ion-icon name="ios-arrow-dropdown-circle"
+							*ngIf="photo.comentario && photo.comentario.length > 75" class="icon-scroll" color="dark"
+							ion-long-press [interval]="400" (onPressStart)="scrollTextArea(area)"
+							(onPressing)="scrollTextArea(area)"></ion-icon>
+					</ion-col>
+				</ion-row>
+			</ion-grid>
+		</ion-item>
+		<ion-item no-lines>
+			<h4 ion-text color="primary"><b>Comentario del reporte:</b></h4>
+		</ion-item>
+		<ion-item no-lines *ngIf="visual.observaciones" margin-bottom>
+			<p>{{visual.observaciones}}</p>
+		</ion-item>
+		<ion-item no-lines *ngIf="!visual.observaciones" margin-bottom>
+			<p>No se ha comentado el reporte.</p>
+		</ion-item>
+	</div>
+</ion-content>

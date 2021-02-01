@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1074763681267",
+    "firebase_url": "https://gc-lounge.firebaseio.com",
+    "project_id": "gc-lounge",
+    "storage_bucket": "gc-lounge.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1074763681267:android:372d95e5b55c6182d11686",
+        "android_client_info": {
+          "package_name": "cl.lounge.gcapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1074763681267-7cpikordt01uvt3t2253j9ra4rm1gi5l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAScdYg_ucqlsS0aob8czWqKPARBmAYmow"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1074763681267-7cpikordt01uvt3t2253j9ra4rm1gi5l.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1074763681267-o0tuk6p8ebe2uia1lin3d17nkf04244r.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "cl.lounge.gcapp",
+                "app_store_id": "1457331988"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,122 @@
+<ion-header box-shadow>
+	<ion-navbar>
+		<div buy>
+			<ion-title>
+				<span ion-text color="primary">Ranking</span>
+			</ion-title>
+		</div>
+	</ion-navbar>
+</ion-header>
+
+<ion-content no-padding>
+	<ion-refresher (ionRefresh)="refreshRanking($event)" color="primary">
+		<ion-refresher-content pullingText="Actualizar" refreshingText="Actualizando datos..."></ion-refresher-content> 
+	</ion-refresher>
+	<ion-grid no-padding>
+		<ion-row>
+			<ion-col no-padding>
+				<ion-list-header box-shadow no-margin no-lines>
+					<h1 ion-text color="primary" header-title>Ranking KPI</h1>
+				</ion-list-header>        
+			</ion-col>
+		</ion-row>
+		<ion-item no-lines text-wrap color="royal" (click)="showFilters()">
+			<h2 text-center>{{selected_filter ? selected_filter.nombre : 'General'}}</h2>
+			<ion-icon item-end name="ios-funnel"></ion-icon>
+		</ion-item>
+		<div *ngIf="ranking && !requesting">
+			<!-- ENCABEZADOS -->
+			<ion-row class="border-b bg-primary">
+				<ion-col text-center col-5 class="border-r">
+					<h5 ion-text color="white">
+						{{charge === 'pais' ? 'Cumplimiento' : 'Tu posición'}}
+					</h5>
+				</ion-col>
+				<ion-col text-center col-7>
+					<h5 ion-text color="white">Posición Zonas</h5>
+				</ion-col>
+			</ion-row>
+			<ion-row class="border-b">
+				<!-- POSICIONES -->
+				<ion-col text-center col-5 class="border-r">
+					<div *ngIf="charge !== 'pais'">
+						<ion-icon *ngIf="ranking.data.posicion === 1" name="md-trophy" class="main-trophy gold"></ion-icon>
+						<ion-icon *ngIf="ranking.data.posicion === 2" name="md-trophy" class="main-trophy silver"></ion-icon>
+						<ion-icon *ngIf="ranking.data.posicion === 3" name="md-trophy" class="main-trophy bronze"></ion-icon>
+					</div>
+					<h1 ion-text *ngIf="charge === 'pais'" color="primary" class="fixMT">
+						<b>{{ranking.data.cumplimiento ? (ranking.data.cumplimiento + '%') : '--'}}</b>
+					</h1>
+					<div *ngIf="charge !== 'pais'" [ngStyle]="ranking.data.posicion > 3 ? {'margin-top': '50px'} : {}">
+						<h2 class="mt-none">
+							<b [ngStyle]="ranking.data.posicion > 3 ? {'font-size': '40px'} : {}">#{{ranking.data.posicion ? ranking.data.posicion : ' --'}}</b>
+						</h2>
+						<div *ngIf="ranking.data.cumplimiento">
+							<p ion-text color="primary" textonivelpais><b>Nivel País</b></p>
+							<p ion-text color="primary" textocumplimientopais><b>Cumplimiento</b></p>
+							<p ion-text color="primary" indicadorpais><b>{{ranking.data.cumplimiento}}%</b></p>
+						</div>
+					</div>
+				</ion-col>
+				<ion-col text-center col-7>
+					<ion-item no-lines class="custom-bb" *ngFor="let zone of ranking.data.rankingZonas.data">
+						<p>
+							<ion-icon [name]="zone.posicion < 4 ? 'md-trophy' : 'ios-radio-button-on'" [ngClass]="(zone.posicion === 1 ? 'gold' : (zone.posicion === 2 ? 'silver' : (zone.posicion === 3 ? 'bronze' : 'dark')))"></ion-icon>
+							<b>{{zone.posicion ? zone.posicion : '--'}}.</b> {{zone.nombre}}
+						</p>
+						<p item-end>{{zone.ponderado ? (zone.ponderado + '%') : '--'}}</p>
+					</ion-item>
+				</ion-col>
+			</ion-row>
+			<ion-item color="primary" text-center no-lines text-wrap>
+				<ion-row>
+					<ion-col col-2>
+						<p ion-text color="white"><b>Pos.</b></p>
+					</ion-col>
+					<ion-col col-4>
+						<p ion-text color="white"><b>Nombre sucursal</b></p>
+					</ion-col>
+					<ion-col col-3>
+						<p ion-text color="white"><b>Gerente</b></p>
+					</ion-col>
+					<ion-col col-3>
+						<p ion-text color="white"><b>Cumpl.</b></p>
+					</ion-col>
+				</ion-row>
+			</ion-item>
+			<ion-item text-center no-lines text-wrap *ngFor="let branch_office of ranking.data.rankingSucursales.data" [ngStyle]="branch_office.show_line ? {'border-top': '2px dotted red'} : {}" style="padding-left: 0 !important;">
+				<ion-row>
+					<ion-col col-2 style="padding-right: 0 !important;">
+						<p ion-text color="primary">
+							<ion-icon *ngIf="branch_office.posicion === 1" name="md-trophy" class="gold" float-left></ion-icon>
+							<ion-icon *ngIf="branch_office.posicion === 2" name="md-trophy" class="silver" float-left></ion-icon>
+							<ion-icon *ngIf="branch_office.posicion === 3" name="md-trophy" class="bronze" float-left></ion-icon>
+							<b>#{{branch_office.posicion ? branch_office.posicion : '--'}}.</b>
+						</p>
+					</ion-col>
+					<ion-col col-4>
+						<p [ngStyle]="branch_office.posicion < 4 ? {'font-weight': '700'} : {}">
+							{{branch_office.nombre}}
+						</p>
+					</ion-col>
+					<ion-col col-3>
+						<p [ngStyle]="branch_office.posicion < 4 ? {'font-weight': '700'} : {}">
+							{{branch_office.usuario ? branch_office.usuario : 'No informado'}}
+						</p>
+					</ion-col>
+					<ion-col col-3>
+						<p [ngStyle]="branch_office.ponderado2 < ranking.rojo ? {'color': 'red'} : {}" [ngClass]="branch_office.posicion < 4 ? 'fw-700' : ''">
+							{{branch_office.ponderado ? (branch_office.ponderado + '%') : '--'}}
+						</p>
+					</ion-col>
+				</ion-row>
+			</ion-item>
+		</div>
+	</ion-grid>
+	<ion-item *ngIf="requesting" text-center no-lines margin-top>
+		<ion-spinner color="primary"></ion-spinner>
+	</ion-item>
+	<ion-item *ngIf="!requesting && !ranking" no-lines text-center text-wrap margin-top>
+		<p>No hay información para mostrar <br> con el filtro seleccionado.</p>
+	</ion-item>
+</ion-content>

@@ -1,0 +1,38 @@
+page-notifications {
+
+    $primary: #1d1d1b;
+    $danger: #f53d3d;
+    $default: #E2E3DF;
+    
+    .unread {
+        color: $danger !important;
+    }
+
+    .read {
+        color: $default;
+    }
+
+    .icon-chevron-right{
+    	font-size: 2rem !important; 
+    }
+
+    [icon-small] {
+        font-size: 1.2rem !important;
+    }
+    ion-item {
+        strong {
+            font-size: 1.5rem;
+            color: $primary;
+        }
+
+        p {
+            font-size: 1.2rem !important;
+        }
+
+        ion-note {
+            font-size: 1.2rem !important;
+            font-weight: bold !important;
+            color: $primary !important;
+        }
+    }
+}

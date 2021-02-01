@@ -1,0 +1,78 @@
+indicator-detail-tricot {
+    .FontSizeCustom2 {
+        font-size: 0.7em !important;
+    }
+    
+	.select-period {
+        max-width: 100%;
+    }
+
+    .fs-5em {
+        font-size:2.3em !important;
+    }
+    .fs {
+        font-size: 1.3em !important
+    }
+    .google-chart-general > div > div {
+        top: 0px;
+    }
+
+    .text-center {
+        text-align: center !important;
+    }
+    
+    .br-1 {
+        border-right:1px solid #ddd;
+    }
+
+    .fixblock {
+        display: inline-block !important;
+    }
+	
+	.custom-bb {
+		border-bottom: 1px solid #ddd !important;
+	}
+
+    .current-date {
+        font-size: 12px;
+    }
+
+    .br-tl {
+        border: solid #d4d4d4;
+        border-width: 1px 0px 0px 1px;
+        border-radius: 5px 0px 0px 0px;
+    }
+
+    .br-t {
+        border: solid #d4d4d4; 
+        border-width: 1px 0px 0px 0px;
+    }
+
+    .br-tr {
+        border: solid #d4d4d4;
+        border-width: 1px 1px 0px 0px;
+        border-radius: 0px 5px 0px 0px;
+    }
+
+    .bg-day {
+        background-color: #c8e6c9 !important;
+        border: #a5d6a7 1px solid;
+        border-width: 0px 1px 1px 1px;
+        border-radius: 0px 0px 5px 5px;
+    }
+
+    .bg-month {
+        background-color: #ffecb3 !important;
+        border: #ffcc80 1px solid;
+        border-width: 0px 1px 1px 1px;
+        border-radius: 0px 0px 5px 5px;
+    }
+
+    .google-chart-general > div > div > div {
+        margin: 0 auto !important;
+    }
+
+    .pd-15 {
+        padding: 15px;
+    }
+}

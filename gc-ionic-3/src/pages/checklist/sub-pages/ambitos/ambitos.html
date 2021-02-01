@@ -1,0 +1,171 @@
+<ion-header box-shadow>
+    <ion-navbar>
+        <div buy>
+            <ion-title><span ion-text color="primary">{{module}}</span></ion-title>
+        </div>
+         <ion-buttons end right>
+            <button ion-button icon-only (click)="presentActionSheet(data)">
+                <ion-icon name="md-more" color="primary"></ion-icon>
+                <!-- <ion-icon name="ios-more" color="primary"></ion-icon>-->
+            </button>
+    </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+<ion-row>
+    <ion-col no-padding>
+      <ion-list-header box-shadow no-margin no-lines>
+        <h1 ion-text color="primary" header-title> Comparador </h1>
+    </ion-list-header>        
+</ion-col>
+</ion-row>
+
+<ion-list>
+    <ion-row margin-top padding-left>
+        <ion-col col-3>
+            <ion-label ion-text color="primary" class="tamañoCustomFuente">Fecha:</ion-label>
+        </ion-col>
+        <ion-col class="customPaddingTop" col-4 text-right>
+            <ion-datetime right [(ngModel)]="filtros.desde" displayFormat="DD/MM/YYYY" placeholder="Desde"
+                          cancelText="Cancelar" doneText="Aceptar" (ngModelChange)="getInfo()">
+                {{filtros.desde| date: 'dd/MM/yyyy'}}
+            </ion-datetime>
+        </ion-col>
+        <ion-col class="customPaddingTop" col-1 text-right>
+            <ion-icon class="espaciadoIcono" name="ios-arrow-forward"></ion-icon>
+        </ion-col>
+        <ion-col class="customPaddingTop" col-4 text-right>
+            <ion-datetime right [(ngModel)]="filtros.hasta" displayFormat="DD/MM/YYYY" placeholder="Hasta"
+                          cancelText="Cancelar" doneText="Aceptar" (ngModelChange)="getInfo()">
+                {{filtros.hasta | date: 'dd/MM/yyyy'}}
+            </ion-datetime>
+        </ion-col>
+    </ion-row>
+<!-- 
+  <ion-row class="noPaddingBottom">
+        <ion-col col-6 no-padding text-nowrap>
+            <ion-item no-lines >
+                <span  no-padding  ion-text color="primary">Filtrar Fecha:</span>
+            </ion-item>
+        </ion-col>
+        <ion-col col-3 no-padding text-nowrap>
+            <ion-item no-lines >
+                <ion-datetime  no-padding displayFormat="DD/MM/YYYY" placeholder="DD/MM/YYYY" ion-text text-nowrap  *ngIf="fechaDesde">{{fechaDesde| date: 'dd-MM-yyyy'}}</ion-datetime>
+            </ion-item>
+        </ion-col>
+         <ion-col col-3 no-padding text-nowrap>
+            <ion-item no-lines >
+                <ion-datetime no-padding displayFormat="DD/MM/YYYY" placeholder="DD/MM/YYYY" ion-text text-nowrap *ngIf="fechaHasta">{{fechaHasta | date: 'dd-MM-yyyy'}}</ion-datetime>
+            </ion-item>
+        </ion-col>
+  </ion-row> -->
+    <ion-row class="noPaddingBottom">
+        <ion-col class="customBorderFiltros">
+           <div padding-bottom (click)="borrarFecha()">
+            <div style="text-align: center;">
+             <ion-icon class="customSizeIcon" ion-text color="primary" name="refresh"></ion-icon>
+             <span class="customSize" ion-text ><i></i>Limpiar filtro de fechas</span>
+           </div>
+         </div>
+        </ion-col>  
+  </ion-row>
+
+   <!--  <div padding-top>
+          <ion-row padding-left margin-left (click)="showCalendarModal()">
+           <ion-col col-5>
+             <ion-label ion-text color="primary">Filtrar Fecha:</ion-label>
+           </ion-col>
+           <ion-col col-33>
+             <p *ngIf="fechaDesde">{{fechaDesde| date: 'dd-MM-yyyy'}}</p>
+             <p *ngIf="!fechaDesde">dd-mm-aaaa</p>
+           </ion-col>
+           <ion-col col-33>
+             <p *ngIf="fechaHasta">{{fechaHasta | date: 'dd-MM-yyyy'}}</p>
+             <p *ngIf="!fechaHasta">dd-mm-aaaa</p>
+           </ion-col>
+         </ion-row>
+          <div padding-bottom (click)="borrarFecha()" *ngIf="fechaDesde && fechaHasta">
+            <div style="text-align: center;">
+             <ion-icon class="customSizeIcon" ion-text color="primary" name="refresh"></ion-icon>
+             <span class="customSize" ion-text ><i></i>Limpiar filtro de fechas</span>
+           </div>
+         </div>
+   </div>
+ -->
+        <!-- <ion-item-divider no-lines no-padding class="customBorder2">
+            <div  no-padding class="customBorder"></div>
+        </ion-item-divider> -->
+
+        <ion-list-header no-margin no-padding class="tamañoCustom2 paddingEspecial lh-15" color="stable">Ámbitos</ion-list-header>
+
+
+    <ion-card-content>
+      <ion-grid *ngFor="let promedio of promedios">
+        <ion-card-title style="font-size: 1.1em !important" >
+          <span ion-text color="primary">{{promedio.nombre}}</span>
+        </ion-card-title>
+        <ion-row  justify-content-around  style="border-top: 1px solid #d5d5d5;">
+          <ion-col col-4 class=" text-center">                
+            <span class="span-block"><h1 ion-text class="fs-5em pb-xs" [color]="promedio.colorSucursal" >{{promedio.promedio_sucursal}}</h1></span>           
+            <span ion-text style="font-size: 0.9em !important" [color]="promedio.colorSucursal">Tu nota</span>              
+
+          </ion-col>
+          <ion-col col-4 class=" text-center">
+            <span class="span-block"><h1 ion-text class="fs-5em" [color]="promedio.colorZona">{{promedio.promedio_zona}}</h1></span>
+
+            <span ion-text style="font-size: 0.9em !important" [color]="promedio.colorZona">Zona</span>              
+
+          </ion-col>
+          <ion-col col-4 class=" text-center">
+            <span class="span-block"><h1 ion-text class="fs-5em" [color]="promedio.colorPais">{{promedio.promedio_pais}}</h1></span>
+
+            <span ion-text style="font-size: 0.9em !important" [color]="promedio.colorPais">País</span>              
+
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+
+     <ion-item-divider no-lines no-padding class="customBorder2">
+            <div  no-padding class="customBorder"></div>
+        </ion-item-divider>    
+
+   <ion-card-content>
+     <ion-grid>
+      <ion-row  no-padding justify-content-around>
+       <ion-col col-3 class=" text-center">                
+         <ion-icon name="square" color="balanced"></ion-icon>
+       </ion-col>
+       <ion-col col-3 class=" text-center">                
+         <ion-icon name="square" color="energized"></ion-icon>
+       </ion-col>
+       <ion-col col-3 class=" text-center">                
+         <ion-icon name="square" color="danger"></ion-icon>
+       </ion-col>
+       <ion-col col-3 class=" text-center">                
+        <ion-icon name="square"></ion-icon>
+      </ion-col>
+    </ion-row>
+    <ion-row  justify-content-around>
+      <ion-col col-3 class=" text-center">                
+       <span text-center>Mayor o Igual a 90</span>
+     </ion-col>
+     <ion-col col-3 class=" text-center">
+      <span>Mayor o Igual a 51</span>
+    </ion-col>
+    <ion-col col-3 class=" text-center">
+     <span>Mayor o Igual a 0</span>
+   </ion-col>
+   <ion-col col-3 class="text-center">
+    <span>No Aplica</span>
+  </ion-col>
+</ion-row>
+
+</ion-grid>
+</ion-card-content>
+
+</ion-list> 
+
+</ion-content>

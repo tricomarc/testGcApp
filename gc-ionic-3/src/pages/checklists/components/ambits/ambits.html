@@ -1,0 +1,250 @@
+<ion-header box-shadow>
+    <ion-navbar>
+        <div buy>
+            <ion-title><span ion-text color="primary"> {{ moduleName }} </span></ion-title>
+        </div>
+        <!-- <ion-buttons end right>
+			<button ion-button icon-only (click)="showVisitActionSheet()">
+				<ion-icon name="more" color="primary"></ion-icon>
+			</button>
+		</ion-buttons> -->
+    </ion-navbar>
+</ion-header>
+<ion-content>
+    <ion-refresher (ionRefresh)="refreshChecklist($event)" color="dark">
+        <ion-refresher-content pullingText="Actualizar" refreshingText="Actualizando..."></ion-refresher-content>
+    </ion-refresher>
+    <div *ngIf="!requesting">
+        <div *ngIf="checklist">
+            <ion-list-header no-margin class="tamañoCustom2" color="primary" text-center text-wrap>
+                {{checklist.nombre}}
+            </ion-list-header>
+            <ion-list no-padding-bottom>
+                <ion-row *ngIf="!historicDates" class="tamañoFuenteCustom paddingEspecial stripeColorCustom" margin-top>
+                    <ion-col col-6>
+                        <span ion-text>Fecha de creación:</span>
+                    </ion-col>
+                    <ion-col col-6>
+                        <span ion-text>{{checklist.fecha | date:'dd-MM-yyyy'}}</span>
+                    </ion-col>
+                </ion-row>
+                <ion-row *ngIf="checklist.vencimiento && !historicDates" class="tamañoFuenteCustom paddingEspecial stripeColorCustom">
+                    <ion-col col-6>
+                        <span ion-text> Fecha de término: </span>
+                    </ion-col>
+                    <ion-col col-6>
+                        <span ion-text> {{ checklist.vencimiento | date:'dd-MM-yyyy' }} </span>
+                    </ion-col>
+                </ion-row>
+                <ion-row *ngIf="historicDates && historicDates.start" class="tamañoFuenteCustom paddingEspecial stripeColorCustom" margin-top>
+                    <ion-col col-6>
+                        <span ion-text text-wrap> Inicio del checklist: </span>
+                    </ion-col>
+                    <ion-col col-6>
+                        <span ion-text text-wrap> {{historicDates.start | date: 'dd-MM-yyyy HH:mm:ss'}} </span>
+                    </ion-col>
+                </ion-row>
+                <ion-row *ngIf="historicDates" class="tamañoFuenteCustom paddingEspecial stripeColorCustom">
+                    <ion-col col-6>
+                        <span ion-text text-wrap> Fin del checklist: </span>
+                    </ion-col>
+                    <ion-col col-6>
+                        <span ion-text text-wrap *ngIf="historicDates.end && checklist.estado_id === 4"> {{historicDates.end | date: 'dd-MM-yyyy HH:mm:ss'}} </span>
+                        <span ion-text text-wrap *ngIf="checklist.estado_id < 4"> No finalizado </span>
+                    </ion-col>
+                </ion-row>
+                <ion-row *ngIf="checklist.periocidad_id" class="tamañoFuenteCustom paddingEspecial stripeColorCustom">
+                    <ion-col col-6>
+                        <span ion-text>Periodicidad:</span>
+                    </ion-col>
+                    <ion-col col-6>
+                        <span ion-text>{{checklist.periodicity}}</span>
+                    </ion-col>
+                </ion-row>
+                <ion-row *ngIf="checklist.estado_nombre" class="tamañoFuenteCustom paddingEspecial stripeColorCustom">
+                    <ion-col col-6>
+                        <span ion-text>Estado:</span>
+                    </ion-col>
+                    <ion-col col-6 [ngClass]="{'assertive': checklist.estado_id == 1, 'energized': checklist.estado_id == 2}">
+                        <span ion-text>{{checklist.estado_nombre}}</span>
+                    </ion-col>
+                </ion-row>
+                <ion-row class="tamañoFuenteCustom paddingEspecial stripeColorCustom" *ngIf="!checklist.showTemplate && !historicDates">
+                    <ion-col col-6>
+                        <span ion-text>Fecha último estado:</span>
+                    </ion-col>
+                    <ion-col col-6>
+                        <span ion-text>
+                            {{checklist.modified | date:'dd-MM-yyyy'}} a las {{checklist.modified | date:'HH:mm'}} hrs.
+                        </span>
+                    </ion-col>
+                </ion-row>
+                <ion-row *ngIf="checklist.sucursal" class="tamañoFuenteCustom paddingEspecial stripeColorCustom">
+                    <ion-col col-6>
+                        <span ion-text> {{ 'Sucursal' | synonymous }}: </span>
+                    </ion-col>
+                    <ion-col col-6>
+                        <span ion-text>{{checklist.sucursal}}</span>
+                    </ion-col>
+                </ion-row>
+            </ion-list>
+            <div *ngIf="fromCheckStore && settings.showCommentVisit">
+                <ion-list-header no-margin no-padding color="stable" class="lh-15 tamañoCustom2 paddingEspecial">Comentarios visita anterior</ion-list-header>
+                <p ion-text margin-top>{{(visitCommentary && visitCommentary.comentario) ? visitCommentary.comentario : 'Sin comentarios.' }}</p>
+            </div>
+            <div *ngIf="checklist.archivo && checklist.archivo.url">
+                <ion-list-header no-margin no-padding color="stable" class="lh-15 tamañoCustom2 paddingEspecial">Archivo adjunto</ion-list-header>
+                <ion-item no-padding (click)="downloadFile(checklist.archivo.url)">
+                    <h2 class="paddingEspecial" ion-text color="primary">{{checklist.archivo.nombre}}</h2>
+                    <ion-icon name="download" item-right></ion-icon>
+                </ion-item>
+            </div>
+
+            <ion-list-header no-margin no-padding color="stable" class="lh-15 tamañoCustom2 paddingEspecial">
+                Ámbitos
+            </ion-list-header>
+            
+            <ion-list no-border class="noPaddingBottom">
+                <ion-item no-padding *ngFor="let ambit of checklist.ambitos | orderAmbits" (click)="showQuestionnaire(ambit)">
+                    <!-- ICONO -->
+                    <!-- enviado -->
+                    <ion-icon *ngIf="checklist.estado_id === 4" 
+                        class="estado icolor" 
+                        [style.background-color]="statusColors.enviado ? statusColors.enviado : '#a9bf04' " name="checkmark-circle-outline"
+                        name="checkmark-circle-outline" item-start></ion-icon>
+
+                    <!-- completo -->
+                    <ion-icon *ngIf="ambit.pendientes === 0  && ambit.contestadas >= ambit.total && checklist.estado_id !== 4" 
+                        class="estado icolor" 
+                        [style.background-color]="statusColors.completo ? statusColors.completo : '#048abf' "
+                        name="checkmark-circle-outline" item-start></ion-icon>
+                    
+                    <!-- incomleto -->
+                    <ion-icon *ngIf="ambit.pendientes > 0 && ambit.contestadas < ambit.total && ambit.contestadas > 0 && checklist.estado_id !== 4"
+                         class="estado icolor" 
+                         [style.background-color]="statusColors.incompleto ? statusColors.incompleto : '#f2b705' "
+                         name="ios-radio-button-on" item-start></ion-icon>
+
+                    <!-- sin contestar -->
+                    <ion-icon *ngIf="ambit.pendientes > 0 && ambit.contestadas === 0 && checklist.estado_id !== 4" 
+                        class="estado icolor"
+                        [style.background-color]="statusColors.sin_contestar ? statusColors.sin_contestar : '#bfbfbf' " 
+                        name="ios-radio-button-off" item-start></ion-icon>
+                    
+                    <h2 class="paddingEspecial" ion-text text-wrap color="primary">
+                        {{ambit.nombre}}
+                    </h2>
+                    <div *ngIf="!checklist.showTemplate">
+                        <p class="paddingEspecial">
+                            Estado:
+                            <!-- enviado -->
+                            <b *ngIf="checklist.estado_id === 4"><strong ion-text color="primary">Enviado</strong></b>
+                            
+                            <!-- completo -->
+                            <b *ngIf="ambit.pendientes === 0  && ambit.contestadas >= ambit.total && checklist.estado_id !== 4">
+                                <strong ion-text color="primary">Completo</strong>
+                            </b>
+
+                            <!-- incompleto -->
+                            <b *ngIf="ambit.pendientes > 0 && ambit.contestadas < ambit.total && ambit.contestadas > 0 && checklist.estado_id !== 4">
+                                <strong ion-text color="primary">Incompleto</strong>
+                            </b>
+
+                            <!-- sin contestar -->
+                            <b *ngIf="ambit.pendientes > 0 && ambit.contestadas === 0 && checklist.estado_id !== 4">
+                                <strong ion-text color="primary">Sin Contestar</strong>
+                            </b>
+                        </p>
+                            
+                        <p class="paddingEspecial">
+                            Preguntas:
+                            <b><strong ion-text color="primary">({{ambit.contestadas}}/{{ambit.total}})</strong></b>
+                        </p>
+                    </div>
+                    <ion-icon name='ios-arrow-forward' item-end color="default"></ion-icon>
+                </ion-item>
+            </ion-list>
+
+			<div class="item-divider text-center padding" *ngIf="checklist.estado_id < 3 && !checklist.showTemplate && !checklist.fromStatistics" text-wrap text-center>
+				<p margin-bottom ion-text color="primary">*Para poder enviar el checklist debe completar todos los ámbitos</p>
+			</div>
+
+			<!-- disclaimer cuando checklist esta completo, para agregar la firma -->
+			<div class="item-divider text-center padding"
+				*ngIf="checklist.estado_id === 3 && !signature && checklist.requiere_firma === 1"
+				text-wrap text-center>
+				<p margin-bottom ion-text color="primary"> *Para enviar el checklist debe agregar una firma. De contrario, no podrá
+					enviarlo. </p>
+			</div>
+			
+			<!-- vista firma ejemplo 300x300-->
+			<div text-center>
+				<img *ngIf="signature" [src]="(signature | sanitizeImg)" #signatureImg width="300" height="200" (click)="openImage(signatureImg)">
+			</div>
+
+			<ion-item no-lines class="no-padding-bottom" 
+			*ngIf="checklist.estado_id === 3 && ((checklist.requiere_firma === 1 && signature) || !checklist.requiere_firma) && !checklist.showTemplate && !checklist.fromStatistics">
+				<button ion-button block default color="primary" (click)="confirmSendChecklist()">Finalizar checklist</button>
+			</ion-item>
+
+			<!-- botón para firmar: cuando el checklist viene completo -->
+			<ion-item no-lines class="no-padding-bottom"
+				*ngIf="checklist.estado_id === 3 && checklist.requiere_firma === 1 && !signature">
+				<button ion-button block default color="primary" (click)="openSignatureDrawer()"> Firmar checklist </button>
+			</ion-item>
+
+		</div>
+		<ion-item *ngIf="!checklist" no-lines text-center margin-top>
+			<p>Sin información del checklist, por favor actualice esta vista.</p>
+		</ion-item>
+	</div>
+	<ion-item *ngIf="requesting" no-lines text-center margin-top>
+		<ion-spinner></ion-spinner>
+		<p ion-text margin-top>Obteniendo checklist...</p>
+    </ion-item>
+</ion-content>
+
+<ion-footer>
+    <ion-list>
+        <ion-item text-center align-self-center>
+            <p> Filtro de {{ ambitos }} </p>
+        </ion-item>
+        
+        <ion-item class="text-center" class="customPaddingTop">
+            <div class="row">
+                <!-- ENVIADO -->
+                <div class="col" text-center>
+                    <ion-icon [style.color]="statusColors.enviado ? statusColors.enviado : '#a9bf04' "   
+                       name="checkmark-circle"></ion-icon>
+                    <p>
+                        <small [style.color]="statusColors.enviado ? statusColors.enviado : '#a9bf04' " > Enviado </small>
+                    </p>
+                </div>
+
+                <!-- COMPLETO -->
+                <div class="col" text-center [ngClass]="filterSelected === 3 ? 'selected-bottom-filter' : ''" (click)="filterStatus(3)">
+                    <ion-icon [style.color]="statusColors.completo ? statusColors.completo : '#048abf' " name="checkmark-circle-outline"></ion-icon>
+                    <p>
+                        <small [style.color]="statusColors.completo ? statusColors.completo : '#048abf' " > Completo </small>
+                    </p>
+                </div>
+
+                <!-- INCOMPLETO -->
+                <div class="col" text-center [ngClass]="filterSelected === 2 ? 'selected-bottom-filter' : ''" (click)="filterStatus(2)">
+                    <ion-icon [style.color]="statusColors.incompleto ? statusColors.incompleto : '#f2b705' " name="ios-radio-button-on"></ion-icon>
+                    <p>
+                        <small [style.color]="statusColors.incompleto ? statusColors.incompleto : '#f2b705' "> Incompleto </small>
+                    </p>
+                </div>
+
+                <!-- SIN CONTESTAR -->
+                <div class="col" text-center [ngClass]="filterSelected === 1 ? 'selected-bottom-filter' : ''" (click)="filterStatus(1)">
+                    <ion-icon [style.color]="statusColors.sin_contestar ? statusColors.sin_contestar : '#bfbfbf' " name="ios-radio-button-off"></ion-icon>
+                    <p>
+                        <small [style.color]="statusColors.sin_contestar ? statusColors.sin_contestar : '#bfbfbf' "> Sin contestar </small>
+                    </p>
+                </div>
+            </div>
+        </ion-item>
+    </ion-list>
+</ion-footer>

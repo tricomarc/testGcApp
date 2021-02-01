@@ -1,0 +1,43 @@
+radio-question {
+	.custom-bb{
+		/*border-bottom: 1px solid #fff !important;*/
+		margin: 0px !important;
+	}
+
+	.custom-bb-2{
+		margin: 0px !important;
+	}
+	
+	.custom-fix{
+		margin-top: -16px;
+	}
+	
+	.custom-fix2{
+		margin-top: -32px;
+	}
+
+	ion-list{
+		margin: 0px 0px 0px!important
+	}
+	.colorCustom{
+		color: #000 !important;
+	}
+
+	textarea{
+		border: none !important;
+		padding-top: 20px;
+		padding-right: 20px;
+		padding-left: 20px;
+		padding-bottom: 20px;
+		line-height: 20px;
+		background: rgba(221, 221, 221, .6);
+		color: color($colors, primary) !important;
+	}
+
+	.ta-w {
+		width: 100% !important;
+	}
+	.ws-n {
+		white-space: normal !important;
+	}
+}

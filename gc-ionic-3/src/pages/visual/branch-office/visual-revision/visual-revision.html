@@ -1,0 +1,51 @@
+<ion-header box-shadow>
+  	<ion-navbar>
+    	<ion-title class="lh-15">{{title}}</ion-title>
+    	<ion-buttons end *ngIf="requesting">
+    		<ion-spinner color="primary"></ion-spinner>
+		</ion-buttons>
+  	</ion-navbar>
+</ion-header>
+
+<ion-content>
+	<ion-refresher (ionRefresh)="refreshVisuals($event)" color="primary">
+	    <ion-refresher-content pullingText="Actualizar" refreshingText="Actualizando..."></ion-refresher-content>
+	</ion-refresher>
+	<ion-toolbar box-shadow>
+        <ion-list no-margin>
+            <ion-item no-lines class="select-branch-office">
+			  	<ion-label>
+		      		<ion-icon name="ios-funnel" color="primary"></ion-icon>
+		      		Sucursales
+		    	</ion-label>
+				<ion-select [(ngModel)]="filters.branch_office" class="select-branch-office" (ngModelChange)="applyFilters()">
+					<ion-option [value]="'Todas'">
+				    	<p>Todas</p>
+				    </ion-option>
+				    <ion-option *ngFor="let branch_office of branch_offices" [value]="branch_office">
+				    	<p>{{branch_office}}</p>
+				    </ion-option>
+				</ion-select>
+			</ion-item>
+        </ion-list>
+    </ion-toolbar>
+	<ion-item no-lines *ngIf="!visuals_view || (visuals_view && visuals_view.length < 1)" text-center text-wrap class="no-visuals-message">
+		<p>No hay campañas para revisar</p>
+	</ion-item>
+	<ion-list margin-top>
+		<ion-item no-lines *ngFor="let visual of visuals_view" (click)="showRevisionDetail(visual)">
+			<ion-thumbnail item-start>
+	      		<img [src]="visual.banner || 'assets/img/resources/default-placeholder.png'">
+	    	</ion-thumbnail>
+	    	<h2 ion-text color="primary"><b>{{visual.nombre}}</b></h2>
+	    	<p><b ion-text color="primary">Sucursal:</b> {{visual.nombre_sucursal}}</p>
+	    	<p><b ion-text color="primary">Implementación:</b> {{visual.fecha_implementacion.day.real}} - {{visual.fecha_implementacion.month.string}}</p>
+	    	<p><b ion-text color="primary">Lanzamiento:</b> {{visual.fecha_lanzamiento.day.real}} - {{visual.fecha_lanzamiento.month.string}}</p>
+	    	<p><b ion-text color="primary">Término:</b> {{visual.fecha_termino.day.real}} - {{visual.fecha_termino.month.string}}</p>
+	    	<p><b ion-text color="primary">Reporte:</b> {{visual.fecha_reporte.day.real}} - {{visual.fecha_reporte.month.string}} {{visual.fecha_reporte.time}}</p>
+	    	<button icon-only ion-button clear item-end>
+	    		<ion-icon name="ios-arrow-forward-outline" color="stable" class="icon-lg"></ion-icon>
+	    	</button>
+		</ion-item>
+	</ion-list>
+</ion-content>

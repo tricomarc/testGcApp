@@ -1,0 +1,90 @@
+<ion-list color="light" *ngFor="let alternativa of pregunta.alternativas">
+
+    <!--CHECKLIST-->
+    <!--
+                <ion-list radio-group class="custom-bb" no-margin>
+                    <ion-item *ngIf="alternativa.respuesta && !isTask" no-lines>
+                       <ion-radio  (ionSelect)="limpiarAlternativasRadio2(pregunta.alternativas, alternativa, 'checklist')"  [(ngModel)]="alternativa.respuesta.checked" checked="{{alternativa.respuesta.alternativa_id == alternativa.id}}" [disabled]="checklistEnviado" ngDefaultControl></ion-radio>
+                        <ion-label class="colorCustom" ion-text>{{alternativa.texto}}</ion-label>
+                    </ion-item>
+                </ion-list> -->
+
+    <ion-list radio-group class="custom-bb">
+        <ion-item *ngIf="alternativa.respuesta && !isTask" class="custom-bb">
+            <ion-label class="colorCustom" text-wrap>
+                {{alternativa.texto}}
+            </ion-label>
+            <ion-radio (ionSelect)="limpiarAlternativasRadio2(pregunta.alternativas, alternativa, 'checklist')"
+                       [(ngModel)]="alternativa.respuesta.checked"
+                       checked="{{alternativa.respuesta.alternativa_id == alternativa.id}}"
+                       [disabled]="checklistEnviado" ngDefaultControl>
+            </ion-radio>
+        </ion-item>
+    </ion-list>
+
+    <!--   <ion-col col-12  color="dark" *ngIf="alternativa.respuesta && !isTask">
+      <ion-radio (ionSelect)="limpiarAlternativasRadio2(pregunta.alternativas, alternativa, 'checklist')"
+                 [(ngModel)]="alternativa.respuesta.checked"
+                 checked="{{alternativa.respuesta.alternativa_id == alternativa.id}}"
+                 [disabled]="checklistEnviado"
+                 ngDefaultControl></ion-radio>
+                  <ion-label>{{alternativa.texto}}</ion-label>
+      </ion-col> -->
+
+    <preguntas-checklist-directive
+            *ngIf="alternativa.respuesta && alternativa.respuesta.alternativa_id && alternativa.codigo_tipo && !isTask"
+            [pregunta]="alternativa"
+            [checklistEnviado]="checklistEnviado"
+            [fromStats]="fromStats"
+            [subPregunta]="true">
+
+    </preguntas-checklist-directive>
+
+    <preguntas-checklist-directive
+            *ngIf="alternativa.respuesta && alternativa.respuesta.alternativa_id && !alternativa.codigo_tipo && alternativa.subPregunta && !isTask"
+            [pregunta]="alternativa.subPregunta"
+            [checklistEnviado]="checklistEnviado"
+            [fromStats]="fromStats"
+            [subPregunta]="true">
+
+    </preguntas-checklist-directive>
+
+
+    <!--VISITAS-->
+    <ion-item *ngIf="pregunta.visita && !isTask">
+        <ion-label ion-text text-wrap>{{alternativa.nombre}}</ion-label>
+        <ion-radio (ionSelect)="limpiarAlternativasRadio2(pregunta.alternativas, alternativa, 'visita')"
+                   [(ngModel)]="alternativa.checked"
+                   [checked]="alternativa.checked"
+                   [disabled]="checklistEnviado"
+                   class="item-text-wrap"
+                   ngDefaultControl>
+        </ion-radio>
+    </ion-item>
+
+    <subradio-visita-directive
+            *ngIf="alternativa.tipo_id == 1 && alternativa.checked == true && !isTask" [ambitState]="ambitState"></subradio-visita-directive>
+    <subcheckbox-visita-directive
+            *ngIf="alternativa.tipo_id == 2 && alternativa.checked == true && !isTask" [ambitState]="ambitState"></subcheckbox-visita-directive>
+
+    <commentary-visita-directive *ngIf="alternativa.checked == true && alternativa.comentario > 0 && !isTask" [alternativa]="alternativa" [ambitState]="ambitState"></commentary-visita-directive>
+
+    <subtext-visita-directive *ngIf="alternativa.tipo_id == 3 && alternativa.checked == true && !isTask" [alternativa]="alternativa" [pregunta]="pregunta" [ambitState]="ambitState"></subtext-visita-directive>
+
+    <subfoto-visita-directive *ngIf="(alternativa.tipo_id == 4 || alternativa.tipo_id == '4') && alternativa.checked == true && !isTask"
+                              [alternativa]="alternativa" [ambitState]="ambitState"></subfoto-visita-directive>
+    <subalert-visita-directive *ngIf="alternativa.tipo_id == 5 && alternativa.checked == true && !isTask"
+                               [alternativa]="alternativa"></subalert-visita-directive>
+
+    <!-- TAREAS-->
+    <ion-item *ngIf="isTask">
+        <ion-label>{{alternativa.texto}}</ion-label>
+        <ion-radio (ionSelect)="limpiarAlternativasRadio2(pregunta.alternativas, alternativa, 'task')"
+                   [(ngModel)]="alternativa.checked"
+                   checked="{{alternativa.checked}}"
+                   [disabled]="checklistEnviado"
+                   class="item-text-wrap"
+                   ngDefaultControl></ion-radio>
+    </ion-item>
+
+</ion-list>

@@ -1,0 +1,142 @@
+<ion-header box-shadow [ngClass]="view === 'CAMERA' ? 'background-color-transparent no-display' : ''">
+	<ion-navbar>
+		<ion-title>Resolución de tarea</ion-title>
+	</ion-navbar>
+</ion-header>
+
+<ion-content [ngClass]="view === 'CAMERA' ? 'background-color-transparent no-display' : ''">
+	<div padding *ngIf="task && detail">
+		<ion-row *ngIf="detail.estadoAlias === 'sin_contestar'">
+			<ion-col>
+				<div class="task view border-radius box-shadow ">
+				<h3 ion-text color="danger" text-center text-wrap>
+					<ion-icon name="warning"></ion-icon> Esta tarea se habilita el
+				</h3>
+				<h3 text-center no-margin><b>{{task.inicioTarea}}</b></h3>
+				</div>
+			</ion-col>
+		</ion-row>
+
+		<ion-row>
+			<ion-col>
+				<div class="task view border-radius box-shadow">
+					<ion-badge [color]="detail.estadoColor">{{detail.estadoNombre}}</ion-badge>
+					<ion-badge color="light" *ngIf="detail.finTarea">Vencimiento: <b ion-text
+						text-capitalize>{{detail.finTarea | date: 'MMM dd - HH:mm'}}</b></ion-badge>
+						
+					<ion-icon *ngIf="numeric && detail.estadoAlias === 'en_proceso' " name="bookmark" class="saveIcon" (click)="saveTask()"></ion-icon>
+
+					<h6 ion-text color="primary" class="titulo">
+						{{task.nombre}}
+					</h6>
+
+					<div class="creador">
+						<img class="avatar" [src]="detail.usuarioImage ? detail.usuarioImage : 'assets/img/resources/avatar.png'" />
+						<span>Asignada por: <b>{{ detail.usuarioNombre }} {{ detail.usuarioApellidos }}</b></span>
+					</div>
+
+					<h6 ion-text color="primary" class="subtitulo">
+						Descripción de la tarea
+					</h6>
+
+					<p text-left>
+						{{detail.descripcion ? detail.descripcion : 'Sin descripción'}}
+					</p>
+
+					<h6 ion-text color="primary" class="subtitulo">Comentario</h6>
+
+					<p text-left>
+						{{detail.comentarioAsignacion ? detail.comentarioAsignacion : 'Sin comentario'}}
+					</p>
+
+					<h6 ion-text color="primary" class="subtitulo" *ngIf="timeLeft">
+						Tiempo restante: <b>{{timeLeft.hours}}</b> hrs <b *ngIf="timeLeft.minutes">{{timeLeft.minutes}}</b> min.
+					</h6>
+
+					<div class="barra-progreso-fuera">
+						<span [ngStyle]="{'width': percentage + '%'}" class="danger"></span>
+					</div>
+
+					<ion-item no-lines *ngIf="img && detail.requiereEvidencia" class="img-container">
+						<img [src]="img" class="img">
+					</ion-item>
+
+					<ion-item no-lines text-center margin-top *ngIf="!readOnly && detail.requiereEvidencia && !numeric">
+						<button ion-button padding round color="balanced" (click)="addImg()" *ngIf="!img"
+							[disabled]="detail.estadoAlias !== 'en_proceso'">
+								Adjuntar fotografía
+							<ion-icon name="camera" item-right></ion-icon>
+						</button>
+
+						<button ion-button padding round color="balanced" (click)="rmvImg()" *ngIf="img"
+							[disabled]="detail.estadoAlias !== 'en_proceso'">
+								Descartar fotografía
+							<ion-icon name="close" item-right></ion-icon>
+						</button>
+					</ion-item>
+
+					<div padding *ngIf="numeric">
+						<div *ngFor="let question of detail.preguntas">
+							<ion-row>
+								<ion-col>
+									<ion-label  color="primary" fixed> 
+										<b text-wrap> {{ question.nombre }}: </b>
+									</ion-label>
+								</ion-col>
+	
+								<ion-col>
+									<img *ngIf="question.fotoReferencia && question.fotoReferencia != 'null'" [src]="question.fotoReferencia" #refImg class="refImg" (click)="openImage(refImg)">
+								</ion-col>
+	
+								<ion-col col-5>
+									<ion-input [disabled]="detail.estadoAlias !== 'en_proceso'" text-center type="number" min="0" placeholder="Cantidad"
+									[(ngModel)]="question.respuesta" (ngModelChange)="numericChange(question)"></ion-input>
+								</ion-col>
+							</ion-row>
+							
+							<ion-item no-lines *ngIf="question.fotoAdjunta"  class="img-container">
+								<img [src]="question.fotoAdjunta" class="img" #adImg (click)="openImage(adImg)">
+							</ion-item>
+
+							<ion-item text-center margin-top *ngIf="!readOnly">
+								<button ion-button padding round color="balanced" (click)="addNumericImg(question)" *ngIf="!question.fotoAdjunta"
+									[disabled]="detail.estadoAlias !== 'en_proceso'">
+										Adjuntar fotografía
+									<ion-icon name="camera" item-right></ion-icon>
+								</button>
+		
+								<button ion-button padding round color="balanced" (click)="removeNumericImg(question)" *ngIf="question.fotoAdjunta"
+									[disabled]="detail.estadoAlias !== 'en_proceso'">
+										Descartar fotografía
+									<ion-icon name="close" item-right></ion-icon>
+								</button>
+							</ion-item>
+						</div>
+					</div>
+				</div>
+			</ion-col>
+		</ion-row>
+	</div>
+</ion-content>
+
+<ion-footer 
+	[ngClass]="view === 'CAMERA' ? 'background-color-transparent no-display' : ''"
+	*ngIf="!readOnly && detail && (detail.estadoAlias === 'en_proceso' || detail.estadoAlias === 'sin_contestar')">
+	<ion-toolbar>
+		<ion-row>
+			<ion-col>
+				<button [disabled]="detail.estadoAlias === 'sin_contestar'" ion-button full round color="danger"
+					(click)="changeStatus('no_realizado')">
+					<ion-icon name="thumbs-down"></ion-icon>
+				</button>
+			</ion-col>
+
+			<ion-col>
+				<button [disabled]="numeric ? !complete : (detail.estadoAlias === 'sin_contestar')" ion-button full round color="balanced"
+					(click)="changeStatus('realizado')">
+					<ion-icon name="thumbs-up"></ion-icon>
+				</button>
+			</ion-col>
+		</ion-row>
+	</ion-toolbar>
+</ion-footer>

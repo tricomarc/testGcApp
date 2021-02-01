@@ -1,0 +1,208 @@
+<ion-header box-shadow>
+	<ion-navbar>
+		<div buy>
+			<ion-title>
+				<span ion-text text-center color="primary">Kpi</span>
+			</ion-title>
+		</div>
+		 <ion-buttons end right>
+		 	<button ion-button icon-only>
+		 		<ion-icon name="md-trophy" color="primary"></ion-icon>
+		 	</button>
+		 </ion-buttons>
+	</ion-navbar>
+</ion-header>
+
+<ion-content>
+
+	<ion-toolbar box-shadow>
+		<p ion-text text-center class="tamañoTitulo">Tienda Ventas 2019</p>
+	</ion-toolbar>
+
+	<ion-row>
+		<ion-col col-12 text-center>
+			<h2 margin-top ion-text text-center color="primary" class="tamañoSeccion">
+				Cumplimiento
+			</h2>
+			<h1 no-padding no-margin ion-text color="balanced">
+				<strong class="fs-5em" >150%</strong>
+			</h1>
+			<!-- <ion-range min="0" max="160" [(ngModel)]="saturation" color="secondary">
+				<ion-label range-left>0M</ion-label>
+				<ion-label range-right>160M</ion-label>
+			</ion-range> -->
+		</ion-col>
+	</ion-row>
+	<ion-item>
+		<div> 
+			<span>20%</span> 
+			<span>40%</span>
+			<span>80%</span>
+			<span>100%</span>
+		</div>
+		<ion-range [min]="0" [max]="50" [step]="10" snaps="true" pin="true" >
+			<ion-label range-left span-medium>0</ion-label>
+			<ion-label range-right span-medium>50</ion-label>
+		</ion-range>
+	</ion-item>
+
+
+
+
+
+	<ion-item no-lines text-wrap>
+		<ion-grid>
+			<ion-row>
+				<ion-col col-6>
+					<button ion-button block clear><b class="TamañoAños">2018</b></button>
+				</ion-col>
+				<ion-col col-6>
+					<button ion-button block color="primary"><b class="TamañoAños2">2019</b></button>
+				</ion-col>
+			</ion-row>
+		</ion-grid><br>
+		<ion-grid no-padding no-margin>
+			<!-- <ion-row>
+				<ion-col text-center col-4 br-1>
+					<h4 ion-text color="primary" text-uppercase class="tamañoSecciones">Venta</h4>
+					<h3 ion-text color="danger" class="tamañoresultadosecciones"><strong>$47.960</strong></h3>
+				</ion-col>
+				<ion-col text-center col-4 br-1>
+					<h4 ion-text color="primary" text-uppercase class="tamañoSecciones">Meta</h4>
+					<h3 ion-text color="primary" class="tamañoresultadosecciones"><strong>$25.568.758</strong></h3>
+				</ion-col>
+				<ion-col text-center col-4>
+					<h4 ion-text color="primary" text-uppercase class="tamañoSecciones">Cumpl</h4>
+					<h3 ion-text color="primary" class="tamañoresultadosecciones"><strong>35%</strong></h3>
+				</ion-col>
+			</ion-row> -->
+			<ion-row padding-top>
+				<ion-col text-center col-4 br-1>
+					<h4 ion-text color="primary" class="tamañoSecciones">Tráfico</h4>
+					<h3 ion-text color="danger" class="tamañoresultadosecciones"><strong>4.450</strong></h3>
+				</ion-col>
+				<ion-col text-center col-4 br-1>
+					<h4 ion-text color="primary" class="tamañoSecciones">Conv</h4>
+					<h3 ion-text color="balanced" class="tamañoresultadosecciones"><strong>21,5%</strong></h3>
+				</ion-col>
+				<ion-col text-center col-4>
+					<h4 ion-text color="primary" class="tamañoSecciones">U x B</h4>
+					<h3 ion-text color="balanced" class="tamañoresultadosecciones"><strong>2,5</strong></h3>
+				</ion-col>
+			</ion-row>
+			<ion-row padding-top br-3>
+				<ion-col text-center col-4 br-1>
+					<h3 ion-text color="balanced" class="tamañoresultadosecciones">105%</h3>
+					<h4 ion-text color="primary" class="tamañoSecciones2">Variación Venta</h4>
+				</ion-col>
+				<ion-col text-center col-4 br-1>
+					<h3 ion-text color="danger" class="tamañoresultadosecciones">98%</h3>
+					<h4 ion-text color="primary" class="tamañoSecciones2">Variación Conversión</h4>
+				</ion-col>
+				<ion-col text-center col-4>
+					<h3 ion-text color="Balanced" class="tamañoresultadosecciones">106%</h3>
+					<h4 ion-text color="primary" class="tamañoSecciones2">Variación <br> U x B</h4>
+				</ion-col>
+			</ion-row>
+		</ion-grid>
+	</ion-item><br>
+
+<!-- 	<ion-toolbar box-shadow>
+		<ion-item no-lines>
+			<ion-label>Selecciona una hora</ion-label>
+			<ion-select class="select-status" cancelText="CANCELAR" interface="popover">
+				<ion-option [value]="0">
+					<p>Todos</p>
+				</ion-option>
+				<ion-option>
+					<p>10 a</p>
+					<p>11 am</p>
+				</ion-option>
+			</ion-select>
+		</ion-item>
+	</ion-toolbar> -->
+
+
+	<ion-item no-lines>
+		<h2 padding-top ion-text color="primary">
+			<b>Departamento</b>
+		</h2>
+		<p>Ultima actualización 14:20hrs.</p>
+	</ion-item>
+
+	<ion-grid>
+		<ion-row>
+			<ion-col col-6 class="text-center" customColor1 customBorderBoxes>
+				<span ion-text color="primary">
+					<h1 customEspacioNumber>$54.541</h1>
+				</span>
+				<span ion-text color="primary">
+					<h4 customEspacio text-uppercase><strong>Belleza</strong></h4>
+				</span>
+				<span ion-text color="primary">
+					<h5 customEspacio1><strong>105%</strong></h5>
+				</span>
+				<span ion-text color="primary">
+					<h5 customEspacio2 text-uppercase>Cumplimiento</h5>
+				</span>
+				<span ion-text color="primary">
+					<h6 customEspacio3 text-uppercase>Ver Detalle</h6>
+				</span>
+			</ion-col>
+
+			<ion-col col-6 class="text-center" customColor2 customBorderBoxes>
+				<span ion-text color="primary">
+					<h1 customEspacioNumber>$54.541</h1>
+				</span>
+				<span ion-text color="primary">
+					<h4 customEspacio text-uppercase><strong>Belleza</strong></h4>
+				</span>
+				<span ion-text color="primary">
+					<h5 customEspacio1><strong>105%</strong></h5>
+				</span>
+				<span ion-text color="primary">
+					<h5 customEspacio2 text-uppercase>Cumplimiento</h5>
+				</span>
+				<span ion-text color="primary">
+					<h6 customEspacio3 text-uppercase>Ver Detalle</h6>
+				</span>
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col col-6 class="text-center" customColor3 customBorderBoxes>
+				<span ion-text color="primary">
+					<h1 customEspacioNumber>$54.541</h1>
+				</span>
+				<span ion-text color="primary">
+					<h4 customEspacio text-uppercase><strong>Belleza</strong></h4>
+				</span>
+				<span ion-text color="primary">
+					<h5 customEspacio1><strong>105%</strong></h5>
+				</span>
+				<span ion-text color="primary">
+					<h5 customEspacio2 text-uppercase>Cumplimiento</h5>
+				</span>
+				<span ion-text color="primary">
+					<h6 customEspacio3 text-uppercase>Ver sDetalle</h6>
+				</span>
+			</ion-col>
+			<ion-col col-6 class="text-center" customColor2 customBorderBoxes>
+				<span ion-text color="primary">
+					<h1 customEspacioNumber>$54.541</h1>
+				</span>
+				<span ion-text color="primary">
+					<h4 customEspacio text-uppercase><strong>Belleza</strong></h4>
+				</span>
+				<span ion-text color="primary">
+					<h5 customEspacio1><strong>105%</strong></h5>
+				</span>
+				<span ion-text color="primary">
+					<h5 customEspacio2 text-uppercase>Cumplimiento</h5>
+				</span>
+				<span ion-text color="primary">
+					<h6 customEspacio3 text-uppercase>Ver Detalle</h6>
+				</span>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+</ion-content>

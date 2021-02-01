@@ -1,0 +1,226 @@
+<ion-header box-shadow>
+    <ion-navbar>
+        <button ion-button menuToggle *ngIf="!branchOfficeId">
+            <ion-icon class="icon-menu" name="menu" color="primary"></ion-icon>
+        </button>
+        
+        <div buy>
+            <ion-title> <span ion-text text-center color="primary"> {{ moduleName }} </span> </ion-title>
+        </div>
+        
+        <ion-buttons end right>
+            <button ion-button icon-only (click)="presentActionSheet()">
+                <ion-icon name="md-more" color="primary"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+<ion-content>
+    <ion-refresher (ionRefresh)="refreshChecklists($event)" color="dark">
+        <ion-refresher-content pullingText="Actualizar" refreshingText="Actualizando..."></ion-refresher-content>
+    </ion-refresher>
+    <ion-row>
+        <ion-col no-padding>
+            <ion-list-header box-shadow no-margin no-lines>
+                <h1 ion-text color="primary" header-title> Listado </h1>
+            </ion-list-header>
+        </ion-col>
+    </ion-row>
+    
+    <ion-row class="noPaddingBottom">
+        <ion-col class="customBorderFiltros">
+            <ion-item *ngIf="currentDate">
+                <span ion-text color="primary"> Fecha Actual </span>
+                <span ion-text color="royal" item-right item-end end right align-items-end align-self-end> {{ currentDate }} </span>
+            </ion-item>
+            
+            <ion-item no-lines>
+                <ion-label class="fs-1em"><span ion-text color="primary" class="lh-15"> Filtro de Áreas </span>
+                </ion-label>
+                <ion-select class="fs-09em" multiple="false" interface="popover" [(ngModel)]="areaFilter" (ngModelChange)="filterChecklistsByArea()" okText="Aceptar" cancelText="Cancelar">
+                    <ion-option class="fs-1em" *ngFor="let area of areas" [value]="area.id"> {{ area.nombre }} </ion-option>
+                </ion-select>
+            </ion-item>
+        </ion-col>
+    </ion-row>
+    
+    <div *ngIf="!requesting">
+        <!-- CHECKLISTS OCASIONALES -->
+        <ion-list-header *ngIf="checklists.occasionals.length" no-margin no-padding class="tamañoCustom2 paddingEspecial" color="stable" (click)="showOccasionals = !showOccasionals">
+            Listado de {{ diccChecklists }} ocasionales
+            <button color="white" ion-button clear icon-only item-right>
+                <ion-icon *ngIf="showOccasionals" name="remove"></ion-icon>
+                <ion-icon *ngIf="!showOccasionals" name="add"></ion-icon>
+            </button>
+        </ion-list-header>
+        <ion-list [hidden]="!showOccasionals" no-border *ngIf="checklists.occasionals.length" class="noPaddingBottom">
+            <ion-item *ngFor="let checklist of checklists.occasionals" (click)="assignChecklist(checklist)">
+                <h5 ion-text text-wrap color="primary"> {{ checklist.nombre }} </h5>
+                <ion-icon item-right name="ios-arrow-forward-outline" color="default"></ion-icon>
+            </ion-item>
+        </ion-list>
+		
+		<!-- CHECKLISTS NORMALES -->
+        <ion-list-header no-margin no-padding class="tamañoCustom2 paddingEspecial" color="stable" (click)="showNormals = !showNormals">
+            Listado de {{ diccChecklists }}
+            
+            <button color="white" ion-button clear icon-only item-right>
+                <ion-icon *ngIf="showNormals" name="remove"></ion-icon>
+                <ion-icon *ngIf="!showNormals" name="add"></ion-icon>
+            </button>
+        </ion-list-header>
+       
+        <div [hidden]="!showNormals" *ngFor="let checklist of checklists.list | orderChecklist">
+            <!-- No disponibles -->
+            <ion-item class="border-bottom-1" *ngIf="checklist.activo && checklist.tiene_alternativa_incidencia">
+                <ion-icon name="close" item-start> </ion-icon>
+                {{ checklist.nombre }}
+                <p>
+                    <b class="assertive"> Este {{diccChecklist }} solo puede ser respondido desde el sitio web (front) </b>
+                </p>
+            </ion-item>
+            <!-- [ngClass]="'estado'+ checklist.estado_id + ' ' + 'icolor'"  -->
+			<!--Activos-->
+            <ion-item class="border-bottom-1" *ngIf="checklist.activo && !checklist.tiene_alternativa_incidencia" (click)="showChecklistAmbits(checklist.id)">
+                <ion-icon *ngIf="checklist.estado_id == 1" class="estado icolor" 
+                [style.background-color]="statusColors.sin_contestar ? statusColors.sin_contestar : '#bfbfbf' "
+                [name]="checklist.statusData.icon" item-start> </ion-icon>
+        
+                <ion-icon  *ngIf="checklist.estado_id == 2" class="estado icolor" 
+                [style.background-color]="statusColors.incompleto ? statusColors.incompleto : '#f2b705' "
+                [name]="checklist.statusData.icon" item-start> </ion-icon>
+
+                <ion-icon *ngIf="checklist.estado_id == 3" class="estado icolor" 
+                [style.background-color]="statusColors.completo ? statusColors.completo : '#048abf' "
+                [name]="checklist.statusData.icon" item-start> </ion-icon>
+        
+                <ion-icon *ngIf="checklist.estado_id == 4" class="estado icolor"
+                [style.background-color]="statusColors.enviado ? statusColors.enviado : '#a9bf04' "
+                [name]="checklist.statusData.icon" item-start> </ion-icon>
+                <!-- <ion-icon 
+                [ngClass]="'estado'+ checklist.estado_id + ' ' + 'icolor'" 
+                [name]="checklist.statusData.icon" item-start> </ion-icon> -->
+  
+				<span ion-text color="primary" text-wrap> {{ checklist.nombre }} </span>
+                <p>
+                    <b class="lh-15"> Ámbitos: </b> {{ checklist.ambitos_cantidad }}
+                </p>
+                <p>
+                    <b> Preguntas: </b> ( {{ checklist.preguntas.contestadas }} / {{ checklist.preguntas.total }} )
+				</p>
+                
+                <p>
+                    <b> Estado: </b> <span ion-text [ngClass]="'subE' + checklist.estado_id" [color]="checklist.statusData.color"> {{ checklist.estado_nombre }} </span>
+                </p>
+                
+                <p *ngIf="checklist.area_nombre">
+                    <b class="lh-15"> Área: </b> {{ checklist.area_nombre }}
+                </p>
+                
+                <p *ngIf="!checklist.area_nombre">
+                    <b class="lh-15"> Área: </b> Sin Área
+                </p>
+                
+                <p *ngIf="checklist.remainingTime">
+                    <b> Tiempo restante: </b> <span color="danger"> {{ checklist.remainingTime }} </span>
+                </p>
+                <ion-icon name='ios-arrow-forward' item-end color="default" class="icon-lg"></ion-icon>
+			</ion-item>
+			
+            <!--Inactivos-->
+            <ion-item class="border-bottom-1" disabled *ngIf="!checklist.activo && !checklist.tiene_alternativa_incidencia">
+                <ion-icon 
+                    [style.background-color]="statusColors.fuera_horario ? statusColors.fuera_horario : '#8c030e' "
+                    class="estado icolor" name="ios-close-circle" item-start></ion-icon>
+				
+				<span ion-text color="primary" text-wrap> {{ checklist.nombre }} </span>
+				
+				<p>
+                    <b class="lh-15"> Ámbitos: </b> {{ checklist.ambitos_cantidad }}
+                </p>
+                
+                <p>
+                    <b> Preguntas: </b> ( {{ checklist.preguntas.contestadas }} / {{ checklist.preguntas.total }} )
+                </p>
+                
+                <p>
+                    <b> Estado: </b> <span ion-text [color]="checklist.statusData.color"> {{ checklist.estado_nombre }} </span>
+                </p>
+               
+                
+                <p *ngIf="checklist.area_nombre">
+                    <b class="lh-15"> Área: </b> {{ checklist.area_nombre }}
+                </p>
+                
+                <p *ngIf="!checklist.area_nombre">
+                    <b class="lh-15"> Área: </b> Sin Área
+                </p>
+                
+                <p class="assertive">
+                    <span ion-text color="danger"> Fuera de horario </span>
+                </p>
+            </ion-item>
+        </div>
+        <ion-item no-lines margin-top text-center *ngIf="!checklists.list || !checklists.list.length">
+            <p> No hemos encontrado {{ diccChecklists }}. </p>
+        </ion-item>
+    </div>
+    <ion-item *ngIf="requesting" no-lines margin-top text-center>
+        <ion-spinner> </ion-spinner>
+        <p ion-text margin-top> Obteniendo {{ diccChecklists }}...</p>
+    </ion-item>
+</ion-content>
+
+<ion-footer>
+    <ion-list>
+        <ion-item text-center align-self-center>
+            <p> Filtro de {{ diccChecklists }} </p>
+        </ion-item>
+
+        <ion-item class="text-center" class="customPaddingTop">
+            <div class="row">
+                <!-- se implementa esto asi en vista del tiempo, se optimizará en la posteridad -->
+                <!-- enviado -->
+                <div class="col" text-center [ngClass]="filterSelected === 4? 'selected-bottom-filter' : ''" (click)="filterStatus(4)">
+                    <ion-icon [style.color]="statusColors.enviado ? statusColors.enviado : '#a9bf04' "   
+                       name="checkmark-circle"></ion-icon>
+                    <p>
+                        <small [style.color]="statusColors.enviado ? statusColors.enviado : '#a9bf04' "> Enviado </small>
+                    </p>
+                </div>
+
+                <!-- COMPLETO -->
+                <div class="col" text-center [ngClass]="filterSelected === 3 ? 'selected-bottom-filter' : ''" (click)="filterStatus(3)">
+                    <ion-icon [style.color]="statusColors.completo ? statusColors.completo : '#048abf' " name="checkmark-circle-outline"></ion-icon>
+                    <p>
+                        <small [style.color]="statusColors.completo ? statusColors.completo : '#048abf' " > Completo </small>
+                    </p>
+                </div>
+
+                <!-- INCOMPLETO -->
+                <div class="col" text-center [ngClass]="filterSelected === 2 ? 'selected-bottom-filter' : ''" (click)="filterStatus(2)">
+                    <ion-icon [style.color]="statusColors.incompleto ? statusColors.incompleto : '#f2b705' " name="ios-radio-button-on"></ion-icon>
+                    <p>
+                        <small [style.color]="statusColors.incompleto ? statusColors.incompleto : '#f2b705' "> Incompleto </small>
+                    </p>
+                </div>
+
+                <!-- SIN CONTESTAR -->
+                <div class="col" text-center [ngClass]="filterSelected === 1 ? 'selected-bottom-filter' : ''" (click)="filterStatus(1)">
+                    <ion-icon [style.color]="statusColors.sin_contestar ? statusColors.sin_contestar : '#bfbfbf' " name="ios-radio-button-off"></ion-icon>
+                    <p>
+                        <small [style.color]="statusColors.sin_contestar ? statusColors.sin_contestar : '#bfbfbf' "> Sin contestar </small>
+                    </p>
+                </div>
+
+                <!-- FUERA DE HORARIO -->
+                <div class="col" text-center [ngClass]="filterSelected === 5 ? 'selected-bottom-filter' : ''" (click)="filterStatus(5)">
+                    <ion-icon [style.color]="statusColors.fuera_horario ? statusColors.fuera_horario : '#8c030e' " name="ios-close-circle"></ion-icon>
+                    <p>
+                        <small [style.color]="statusColors.fuera_horario ? statusColors.fuera_horario : '#8c030e' " > Fuera de horario </small>
+                    </p>
+                </div>
+            </div>
+        </ion-item>
+    </ion-list>
+</ion-footer>

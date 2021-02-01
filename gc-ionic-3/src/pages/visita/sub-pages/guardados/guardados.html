@@ -1,0 +1,35 @@
+<ion-header box-shadow>
+    <ion-navbar>
+    <div buy>
+        <ion-title><span ion-text color="primary">{{module}}</span></ion-title>
+    </div>
+    <ion-buttons end right>
+            <button ion-button icon-only (click)="showVisitActionSheet()">
+                <ion-icon name="more" color="primary"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-row>
+    <ion-col no-padding>
+      <ion-list-header box-shadow no-margin no-lines>
+        <h1 ion-text color="primary" header-title>Visitas guardadas</h1>
+      </ion-list-header>
+    </ion-col>
+  </ion-row>
+  <ion-list>
+    <ion-item margin-top text-center text-wrap no-lines *ngIf="guardados.length == 0">
+      <p>No tienes visitas guardadas.</p>
+    </ion-item>
+    <ion-item no-lines class="custom-bb" *ngFor="let guardado of guardados">
+      <ion-item no-lines class="custom-bb" *ngIf="guardado.visita_id != 0 && guardado.estado_id != 4 && guardado.estado_id" (click)="navigateToAmbito(sucursalSeleccionada, guardado)">
+        <h2 ion-text color="primary"><b>{{guardado.nombre}}</b></h2>
+        <p><b>Estado: </b> {{guardado.nombre_estado}}</p>
+        <p *ngIf="userSettingsView"><b>Última fecha de guardado: </b>{{guardado.fecha | date: "dd-MM-yyyy"}} a las {{guardado.fecha | date: "HH:mm"}} hrs.</p>
+        <ion-icon name='ios-arrow-forward' item-end color="default" class="icon-lg" ></ion-icon>
+      </ion-item>
+    </ion-item>
+  </ion-list>
+</ion-content>

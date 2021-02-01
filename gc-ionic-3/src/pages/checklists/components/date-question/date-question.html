@@ -1,0 +1,7 @@
+<ion-item no-lines [ngClass]="((question.validations && question.validations.isIncomplete === true) ? 'ch-incomplete-question' : '')">
+	<p ion-text text-wrap>{{question.adicional ? question.adicional : ''}}</p>
+	
+	<span>Fecha: </span>
+	
+	<ion-datetime color="royal" displayFormat="DD-MM-YYYY" pickerFormat="DD-MM-YYYY" [(ngModel)]="question.respuesta.data" (ngModelChange)="onChange()" placeholder="DD-MM-YYYY" cancelText="Cancelar" doneText="Aceptar" [ngClass]="(checklist.estado_id === 4 || checklist.fromStatistics) ? 'opaque' : ''"></ion-datetime>
+</ion-item>

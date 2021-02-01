@@ -1,0 +1,142 @@
+<ion-header box-shadow>
+  <ion-navbar>
+    <ion-title>Nueva asignación</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <div box-shadow>
+    <ion-list>
+      <ion-item text-wrap>
+        <h3 ion-text color="primary">En este lugar podrás <br>asignar tareas a tu equipo.</h3>
+        <ion-icon name="clipboard" item-start color="primary"></ion-icon>
+        <p> Selecciona las tareas que deseas asignar y luego los usuarios que deseas que realicen esas tareas. <b>Es así
+            de fácil!</b></p>
+      </ion-item>
+    </ion-list>
+  </div>
+  <div class="task view">
+    <ion-row>
+      <ion-col col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 *ngIf="showStores">
+        <ion-item text-wrap no-lines no-margin class="task-add-store">
+          <ion-label>Sucursal</ion-label>
+          <ionic-selectable
+            *ngIf="showStores"
+            item-content
+            [(ngModel)]="storesModel"
+            [items]="stores"
+            itemValueField="id"
+            closeButtonText="Cancelar"
+            [canSearch]="true"
+            (onSearch)="onSearchStores($event)"
+            (onChange)="storesSelected()"
+            [isMultiple]="false"
+            [searchFailText]="'No se encontraron sucursales.'"
+            [searchPlaceholder]="'Búsqueda'">
+            <ng-template ionicSelectableValueTemplate let-ports="value">
+              <div class="ionic-selectable-value-item">
+                  {{storesModel.nombre}}
+              </div>
+          </ng-template>
+          <ng-template ionicSelectablePlaceholderTemplate>
+              <div class="ionic-selectable-value-item">
+                  Todas
+              </div>
+          </ng-template>
+          <ng-template ionicSelectableItemTemplate let-port="item" let-isPortSelected="isItemSelected" text-wrap>
+              <h3 ion-text text-wrap>{{port.nombre}}</h3>
+          </ng-template>
+
+          </ionic-selectable>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6>
+        <ion-item text-wrap no-lines no-margin>
+          <span ion-text color="primary" class="subtitulo">Tareas</span>
+          <ion-icon item-end name="add-circle" color="primary" (click)="openTaskSelection()"></ion-icon>
+        </ion-item>
+
+        <ion-item no-lines text-wrap text-center *ngIf="!tasks.length">
+          <div class="task-add" (click)="openTaskSelection()">
+            <p ion-text color="dark">Actualmente no tienes ni una tarea seleccionada,<br> puedes agregar una aquí o bien
+              en el icono <ion-icon item-end name="add-circle" color="default"></ion-icon>
+            </p>
+          </div>
+        </ion-item>
+
+        <ion-list no-lines style="padding-right: 10px;" *ngIf="tasks.length">
+          <ion-item text-wrap *ngFor="let task of tasks" class="task-seleccion">
+            <ion-label>
+              <h2 ion-text color="primary">{{task.Tarea_nombre}}</h2>
+              <p margin-bottom *ngIf="task.requiereEvidencia"><small ion-text color="danger">Requiere evidencia
+                  fotográfica</small></p>
+              <p margin-bottom>{{task.descripcion}}</p>
+              <!-- <small ion-text color="dark">Fecha y hora de la tarea:</small> -->
+              <ion-row no-padding no-margin text-center>
+                <ion-col col-6>
+                  <ion-datetime no-padding no-margin displayFormat="DD/MM/YYYY" pickerFormat="DD/MM/YYYY"
+                    placeholder="Fecha" [(ngModel)]="task.fechaInicio" cancelText="Cancelar" doneText="OK" [min]="minDate">
+                  </ion-datetime>
+                </ion-col>
+                <ion-col col-3>
+                  <ion-datetime no-padding no-margin displayFormat="HH:mm" pickerFormat="HH:mm A" placeholder="Inicio"
+                    [(ngModel)]="task.horaInicio" cancelText="Cancelar" doneText="OK" (ngModelChange)="onMinStartTimeChange($event, task)">
+                  </ion-datetime>
+                </ion-col>
+                <ion-col col-3>
+                  <ion-datetime no-padding no-margin displayFormat="HH:mm" pickerFormat="HH:mm A" placeholder="Fin"
+                    [(ngModel)]="task.horaTermino" cancelText="Cancelar" doneText="OK" [min]="task.minEndTime">
+                  </ion-datetime>
+                </ion-col>
+              </ion-row>
+            </ion-label>
+            <ion-icon name="trash" item-start color="danger" (click)="removeTask(task)"></ion-icon>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+      <ion-col col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6>
+        <ion-item text-wrap no-lines no-margin>
+          <span ion-text color="primary" class="subtitulo">Usuarios</span>
+          <ion-icon item-end name="add-circle" color="primary" (click)="openUserSelection()"></ion-icon>
+        </ion-item>
+
+        <ion-item no-lines text-wrap text-center *ngIf="!users.length">
+          <div class="task-add" (click)="openUserSelection()">
+            <p ion-text color="dark">Actualmente no tienes ni un usuario seleccionado,<br> puedes agregar uno aquí o
+              bien en el icono <ion-icon item-end name="add-circle" color="default"></ion-icon>
+            </p>
+          </div>
+        </ion-item>
+
+        <ion-item no-lines text-wrap *ngIf="users.length">
+          <ion-row>
+            <ion-col col-3 col-sm-3 col-md-4 col-lg-2 col-xl-2 *ngFor="let user of users">
+              <div class="asignados-xl" text-center>
+                <img [src]="user.imagen ? user.imagen : 'assets/img/resources/avatar.png'" />
+                <p ion-text color="primary" no-margin>{{user.nombre}} {{user.apellidos}}</p>
+                <ion-badge color="light" margin-bottom>{{user.CargoNombre}}</ion-badge>
+                <div class="icono-estado-sm">
+                  <ion-icon name="trash" color="danger" (click)="removeUser(user)"></ion-icon>
+                </div>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </div>
+
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+      <ion-row>
+      <ion-col col-8 offset-2 text-center>
+        <button color="balanced" full padding ion-button round (click)="create()">
+          Asignar
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>

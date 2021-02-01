@@ -1,0 +1,126 @@
+<ion-content no-padding>
+    <ion-refresher (ionRefresh)="refreshChecklist($event)" color="dark">
+        <ion-refresher-content pullingText="Actualizar" refreshingText="Actualizando..."></ion-refresher-content>
+    </ion-refresher>
+
+    <ion-row *ngIf="occasionalChecklists.length">
+        <ion-col no-padding>
+            <!-- CHECKLISTS OCASIONALES -->
+            <ion-col no-padding>
+                <ion-list-header box-shadow no-margin no-lines (click)="showOccasionalChecklists = !showOccasionalChecklists">
+                    <h1 ion-text color="primary" header-title>Listado de {{module}} ocasional</h1>
+                    <button color="primary" ion-button clear icon-only item-right>
+                        <ion-icon *ngIf="showOccasionalChecklists" name="remove"></ion-icon>
+                        <ion-icon *ngIf="!showOccasionalChecklists" name="add"></ion-icon>
+                    </button>
+                </ion-list-header>
+            </ion-col>
+
+            <ion-list [hidden]="!showOccasionalChecklists" no-border *ngIf="occasionalChecklists.length" class="noPaddingBottom">
+                <ion-item *ngFor="let checklist of occasionalChecklists" (click)="assignChecklist(checklist)">
+                    <h5 ion-text color="primary">{{checklist.nombre}}</h5>
+                    <ion-icon item-right name="ios-arrow-forward-outline" color="default"></ion-icon>
+                </ion-item>
+            </ion-list>
+            <!-- CHECKLISTS OCASIONALES -->
+        </ion-col>
+    </ion-row>
+
+
+    <ion-row>
+        <ion-col no-padding>
+            <ion-list-header box-shadow no-margin no-lines>
+                <h1 ion-text color="primary" header-title>Listado de {{module}} Propios</h1>
+            </ion-list-header>
+        </ion-col>
+    </ion-row>
+    <ion-list no-border padding-top>
+
+
+
+
+        <ion-item text-center class="item-energized text-center"
+                  *ngIf="!checklists_propios || checklists_propios.length < 1">
+            <p>Sin {{module}}</p>
+        </ion-item>
+        <ion-item no-lines class="border-bottom-1" *ngFor="let checklist of checklists_propios">
+            <ion-item no-lines (click)="navigateToAmbito(checklist)">
+
+                <ion-icon *ngIf="(checklist.estado_id && checklist.estado_id == 1) || !checklist.estado_id" [name]="checklist.icon" color="dark"
+                          item-start></ion-icon>
+                <ion-icon *ngIf="checklist.estado_id && checklist.estado_id == 2" [name]="checklist.icon" color="energized"
+                          item-start></ion-icon>
+                <ion-icon *ngIf="checklist.estado_id && checklist.estado_id == 3" [name]="checklist.icon" color="balanced"
+                          item-start></ion-icon>
+                <ion-icon *ngIf="checklist.estado_id && checklist.estado_id == 4" [name]="checklist.icon" color="calm"
+                          item-start></ion-icon>
+
+                <h2 ion-text color="primary" text-wrap> {{checklist.cuestionario_nombre}}</h2>
+
+                <p *ngIf="checklist.estado_id && checklist.estado_id == 1">
+                    <b>Estado:</b> <span ion-text color="dark">{{checklist.estado_nombre}}</span>
+                </p>
+                <p *ngIf="checklist.estado_id && checklist.estado_id == 2">
+                    <b>Estado:</b> <span ion-text color="energized">{{checklist.estado_nombre}}</span>
+                </p>
+                <p *ngIf="checklist.estado_id && checklist.estado_id == 3">
+                    <b>Estado:</b> <span ion-text color="balanced">{{checklist.estado_nombre}}</span>
+                </p>
+                <p *ngIf="checklist.estado_id && checklist.estado_id == 4">
+                    <b>Estado:</b> <span ion-text color="calm">{{checklist.estado_nombre}}</span>
+                </p>
+
+               <!-- <p *ngIf="checklist.estado_id">Estado: <span
+                        [ngClass]="{'dark': checklist.estado_id == 1, 'energized': checklist.estado_id == 2, 'balanced': checklist.estado_id == 3, 'calm': checklist.estado_id == 4}">{{checklist.estado_nombre}}</span>
+                </p>-->
+                <p *ngIf="!checklist.estado_id">Estado: Visita sin iniciar</p>
+                <p><b>Periodicidad: </b> {{checklist.periocidad_nombre}}</p>
+                <p><b>Fecha Inicio: </b> {{checklist.fecha_inicio | date: 'dd-MM-yyyy' }}</p>
+                <p><b>Fecha Término: </b> {{checklist.fecha_termino | date: 'dd-MM-yyyy' }}</p>
+                <p *ngIf="checklist.sucursal"><b>Sucursal: </b> {{checklist.sucursal}}</p>
+                <ion-icon name='ios-arrow-forward' item-end color="default" class="icon-lg"></ion-icon>
+            </ion-item>
+        </ion-item>
+    </ion-list>
+
+    <ion-list>
+        <ion-item text-center align-self-center>
+            <p>Estado de {{module}}</p>
+        </ion-item>
+        <ion-item class="text-center" class="customPaddingTop">
+            <div class="row">
+                <div class="col" text-center>
+                    <ion-icon color="secondary" name="checkmark-circle"></ion-icon>
+                    <p>
+                        <small color="secondary">Enviado</small>
+                    </p>
+                </div>
+                <div class="col" text-center>
+                    <ion-icon color="balanced" name="checkmark-circle-outline"></ion-icon>
+                    <p>
+                        <small color="balanced">Completo</small>
+                    </p>
+                </div>
+                <div class="col" text-center>
+                    <ion-icon color="energized" name="ios-radio-button-on"></ion-icon>
+                    <p>
+                        <small color="energized">Incompleto</small>
+                    </p>
+                </div>
+                <div class="col" text-center>
+                    <ion-icon color="dark" name="ios-radio-button-off"></ion-icon>
+                    <p>
+                        <small color="dark">Sin contestar</small>
+                    </p>
+                </div>
+                <div class="col" text-center>
+                    <ion-icon color="danger" name="ios-close-circle"></ion-icon>
+                    <p>
+                        <small color="danger">Fuera de horario</small>
+                    </p>
+                </div>
+            </div>
+        </ion-item>
+    </ion-list>
+
+</ion-content>

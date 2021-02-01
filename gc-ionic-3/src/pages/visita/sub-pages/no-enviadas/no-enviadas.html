@@ -1,0 +1,96 @@
+<ion-header box-shadow>
+    <ion-navbar>
+        <div buy>
+            <ion-title><span ion-text color="primary">{{module}}</span></ion-title>
+        </div>
+        <ion-buttons end right>
+            <button ion-button icon-only (click)="showVisitActionSheet()">
+                <ion-icon name="more" color="primary"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <ion-row>
+        <ion-col no-padding>
+            <ion-list-header box-shadow no-margin no-lines>
+                <h1 ion-text color="primary" header-title>No enviados</h1>
+            </ion-list-header>
+        </ion-col>
+    </ion-row>
+    <!-- <ion-item no-lines text-center margin-top *ngIf="completed_visits.length > 0"> -->
+    <ion-item no-lines text-center margin-top>
+        <!-- <p color="primary" ion-text text-wrap>Tienes <strong>{{completed_visits.length}}</strong> {{completed_visits.length === 1 ? ' checklist finalizado ' : ' checklists finalizados '}} sin enviar.</p> -->
+        <!-- <p color="primary" ion-text text-wrap>Tiene <strong>{{arreglo_respuestas.length}}</strong> respuesta(s) sin enviar en <strong>{{arreglo_visitas.length}}</strong> checklist(s).</p> -->
+        <p color="primary" ion-text text-wrap *ngIf="arreglo_respuestas.length || completed_visits.length">Tienes cambios para enviar</p>
+        <button margin-top ion-button class="botonAnimado" (click)="sendOfflineData(visitas, respuestas, 'todas', null)" [disabled]="(!arreglo_respuestas.length || arreglo_respuestas.length < 1) && (!completed_visits.length || completed_visits.length < 1)">
+            <ion-icon name="paper-plane" style="font-size: 30px; position: relative; left: -3px"></ion-icon>
+            Enviar checklists
+        </button>
+    </ion-item>
+    <!-- <ion-item no-lines text-wrap margin-top *ngIf="historicosGuardados.length == 0">
+        <p text-center>No tienes checklists sin enviar</p>
+    </ion-item> -->
+
+    <ion-list-header>Checklists finalizados</ion-list-header>
+    <ion-item no-lines text-center *ngIf="completed_visits.length < 1">
+        <p ion-text text-wrap margin-bottom>Todos tus checklists finalizados están sincronizados.</p>
+    </ion-item>
+    <div *ngIf="completed_visits.length > 0">
+        <ion-item class="custom-bb" no-lines *ngFor="let historico of completed_visits">
+            <ion-row class="custom-bb" no-lines text-wrap>
+                <ion-col col-10 (click)="redirectToChecklist(historico)">
+                    <!-- <ion-col col-10> -->
+                    <h2 ion-text color="primary">{{historico.sucursal_nombre}}</h2>
+                    <h2 ion-text color="primary">{{historico.checklist.nombre}}</h2>
+                    <!-- <p><b>Estado: </b>{{historico.nombre_estado}}</p> -->
+                    <p><b>Fecha de visita: </b> {{historico.fecha | date: "dd-MM-yyyy"}} a las {{historico.fecha | date:
+                        "HH:mm"}} hrs.</p>
+                </ion-col>
+                <ion-col col-2 text-right>
+                    <!-- <button ion-button icon-only (click)="refreshIndividualVisit(historico)" text-center> -->
+                        <ion-icon name="arrow-round-up" color="primary" (click)="refreshIndividualVisit(historico)" style="font-size: 25px;"></ion-icon>
+                    <!-- </button> -->
+                </ion-col>
+            </ion-row>
+        </ion-item>
+    </div>
+    <div *ngIf="incomplete_visits.length > 0">
+        <ion-list-header>Checklists sin finalizar</ion-list-header>
+        <ion-item class="custom-bb" no-lines *ngFor="let historico of incomplete_visits" (click)="redirectToChecklist(historico)">
+            <!-- <ion-item class="custom-bb" no-lines *ngFor="let historico of incomplete_visits"> -->
+            <ion-row class="custom-bb" no-lines text-wrap>
+                <ion-col col-12>
+                    <h2 ion-text color="primary">{{historico.sucursal_nombre}}</h2>
+                    <h2 ion-text color="primary">{{historico.checklist.nombre}}</h2>
+                    <!-- <p><b>Estado: </b>{{historico.nombre_estado}}</p> -->
+                    <p><b>Fecha de visita: </b> {{historico.fecha | date: "dd-MM-yyyy"}} a las {{historico.fecha | date:
+                        "HH:mm"}} hrs.</p>
+                </ion-col>
+            </ion-row>
+        </ion-item>
+    </div>
+
+
+    <!-- <div *ngIf="historicosGuardados.length > 0">
+        <ion-item class="custom-bb" no-lines *ngFor="let historico of historicosGuardados">
+            <ion-row class="custom-bb" no-lines text-wrap>
+                <ion-col col-10>
+                    <h2 ion-text color="primary">{{historico.sucursal_nombre}}</h2>
+                    <h2 ion-text color="primary">{{historico.checklist.nombre}}</h2>
+                    <p><b>Estado: </b>{{historico.nombre_estado}}</p>
+                    <p><b>Fecha de visita: </b> {{historico.fecha | date: "dd-MM-yyyy"}} a las {{historico.fecha | date:
+                        "HH:mm"}} hrs.</p>
+                </ion-col>
+                <ion-col col-2>
+                    <button *ngIf="historico.estado_id == 4"
+                            style="text-align: center; height: 30px; width: 30px; top: 50%;"
+                            (click)="refreshIndividualVisit(historico)">
+                        <ion-icon name="arrow-round-up"></ion-icon>
+                    </button>
+                </ion-col>
+            </ion-row>
+        </ion-item>
+    </div> -->
+</ion-content>

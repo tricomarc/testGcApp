@@ -1,0 +1,59 @@
+visitas-historicas-sucursal {
+  ion-item-divider{
+    border-bottom: 0px !important;
+  }
+  .margin-top-1px{
+    margin-top: 1px;
+  }
+  .no-padding-bottom{
+    padding-bottom: 0px !important;
+  }
+  .icon-lg{
+    font-size:3em !important;
+    color: #bbb !important;
+  }
+  .customBorder{
+    padding-right: 100px !important;
+    padding-left: 100px !important;
+    border-bottom: 1px solid #CFCFCF !important;
+    padding-bottom: 0px !important;
+    margin-bottom: 0px !important;
+  }
+  .customBorder2{
+    padding-right: 20px !important;
+    padding-left: 20px !important;
+    padding-bottom: 0px !important;
+    margin-bottom: 0px !important;
+  }
+  .tamañoFuenteCustomCaracteristica{
+    font-size: 0.9em !important;
+  }
+  .tamañoFuenteCustom{
+    font-size: 0.9em !important;
+  }
+  .paddingEspecial{
+    padding-left: 15px !important;
+  }
+  .separadorEspecialTitulo{
+    padding: 0px !important;
+    margin-top: 7px !important;
+    margin-bottom: 0px !important;
+  }
+  .separadorEspecialTexto{
+    padding: 0px !important;
+    margin: 0px !important;
+  }
+  .border-bottom-1{
+    border-bottom:1px solid #ddd !important;
+  }
+  .noPaddingBottom{
+    padding-bottom: 0px !important;
+  }
+  .stripeColorCustom:nth-child(odd){
+    background-color: lighten(color($colors, royal), 30);
+  }
+
+  .tamañoCustom2{
+    font-size: 1em;
+  }
+}

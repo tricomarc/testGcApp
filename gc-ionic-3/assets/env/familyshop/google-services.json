@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "496712457103",
+    "firebase_url": "https://dinamo-a9505.firebaseio.com",
+    "project_id": "dinamo-a9505",
+    "storage_bucket": "dinamo-a9505.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:496712457103:android:e6c0f0e0d5a1209c7c09fa",
+        "android_client_info": {
+          "package_name": "cl.dinamo.gcapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "496712457103-dghgbdipqn4p55fnl8233lib7km2cs23.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAF4VzqKEso0NB2i0ce752QXquikuE7Zo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "496712457103-dghgbdipqn4p55fnl8233lib7km2cs23.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "496712457103-at0vb3t92j3oudu96k29deju8rf29gj0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "cl.dinamo.gcapp",
+                "app_store_id": "1452590867"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

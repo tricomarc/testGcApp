@@ -1,0 +1,90 @@
+<ion-header box-shadow>
+    <ion-navbar>
+        <button ion-button menuToggle *ngIf="!branchOfficeId">
+            <ion-icon class="icon-menu" name="menu" color="primary"></ion-icon>
+        </button>
+        <div buy>
+            <ion-title> <span ion-text text-center color="primary"> {{ moduleName }} </span> </ion-title>
+        </div>
+	</ion-navbar>
+	
+	
+</ion-header>
+
+<ion-content>
+    <!-- titulo -->
+    <ion-row>
+        <ion-col no-padding>
+            <ion-list-header box-shadow no-margin no-lines>
+                <h1 ion-text color="primary" header-title text-wrap> Reporte diario de indicadores de checklist Lean </h1>
+            </ion-list-header>
+        </ion-col>
+    </ion-row>
+
+    <ion-row class="noPaddingBottom">
+        <ion-col class="customBorderFiltros">
+            <!-- FILTRO DE FECHAS -->
+            <ion-item no-lines>
+                <ion-label ion-text color="primary" class="tamañoCustomFuente"> Filtro de fecha </ion-label>
+                
+                <ion-datetime color="royal" [(ngModel)]="senderBody.fecha" 
+                                displayFormat="DD/MM/YYYY" 
+                                pickerFormat="DD-MM-YYYY"
+                                placeholder="Hoy"
+                                (ngModelChange)="filterByDateRange()" 
+                                doneText="ok" 
+                                cancelText="cancelar">
+                    {{ senderBody.fecha | date: 'dd/MM/yyyy' }}
+                </ion-datetime>
+            </ion-item>
+            
+            <!-- FILTRO POR REPORTE SEGUN TIPO DE MUEBLE -->
+            <ion-item no-lines>
+                <ion-label class="fs-1em"><span ion-text color="primary"> Reporte </span></ion-label>
+                
+                <ion-select class="fs-09em" multiple="false" 
+                                            interface="popover" 
+                                            placeholder="Mueble"
+                                            [(ngModel)]="senderBody.mueble_id" 
+                                            (ngModelChange)="filterReportByMueble( senderBody.mueble_id )" 
+                                            okText="Aceptar" 
+                                            cancelText="Cancelar">
+                    <ion-option class="fs-1em" *ngFor="let mueble of tipoMueble" [value]="mueble.id"> 
+                        {{ mueble.nombre }} 
+                    </ion-option>
+                </ion-select>
+            </ion-item>
+        </ion-col>
+    </ion-row>
+
+    <!-- TITULO SEPARADOR -->
+    <ion-list-header no-margin no-padding class="tamañoCustom2 paddingEspecial" color="stable">
+        Reporte diario
+    </ion-list-header>
+   
+    <p *ngIf="noReport" ion-text text-wrap margin-top text-center padding> No hemos encontrado indicadores asociados para la configuración seleccionada. </p>
+
+    <!-- TABLA DINAMICA -->
+    <ion-grid *ngIf="!noReport">
+        <ion-row>
+            <ion-col>
+                <table>
+                    <thead>
+                        <tr>
+                            <!-- areas -->
+                            <th></th>
+                            <th *ngFor="let area of areas"> {{ area.nombre }} </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let cu of cuadro">
+                            <!-- categoria -->
+                            <th> {{ cu.nombre }} </th>
+                            <td *ngFor="let valor of cu.valores" text-center> {{ valor ? valor : '--' }} </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

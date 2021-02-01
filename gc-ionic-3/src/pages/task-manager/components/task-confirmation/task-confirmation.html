@@ -1,0 +1,52 @@
+<ion-header box-shadow>
+
+  <ion-navbar>
+
+    <ion-title>Tarea nueva</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-row>
+		<ion-col no-padding>
+			<ion-list-header box-shadow no-margin no-lines>
+				<h1 ion-text color="primary" header-title>Confirmación (4/4)</h1>
+			</ion-list-header>
+		</ion-col>
+	</ion-row>
+  <ion-list style="padding-top: 0px;" padding>
+    <ion-list-header text-wrap no-padding>
+      <p padding ion-text color="primary" text-center>Tareas y asiganaciones por confirmar</p>
+  </ion-list-header>
+  <ion-item-group>
+    <ion-item-divider no-lines color="light">Tareas:</ion-item-divider>
+    <ion-item text-wrap *ngFor="let task of tasks">
+      <ion-label ion-text color="primary">{{task.Tarea_nombre}}</ion-label>
+      <p>Día: </p>
+      <p>Hora inicio: </p>
+      <p>Hora término: </p>
+    </ion-item>
+    <ion-item-divider color="light" no-lines>Usuarios:</ion-item-divider>
+    <ion-item text-wrap *ngFor="let user of users">
+      <ion-label>
+        <h2 ion-text color="primary">{{user.nombre}} {{user.apellidos}}</h2>
+      </ion-label>
+    </ion-item>
+  </ion-item-group>
+    
+   
+  </ion-list>
+
+</ion-content>
+
+<ion-footer>
+  <ion-row padding>
+    <ion-col col-6 offset-3 text-center>
+      <button color="primary" full ion-button (click)="next()">
+        Siguiente
+      </button>
+    </ion-col>
+  </ion-row>
+</ion-footer>

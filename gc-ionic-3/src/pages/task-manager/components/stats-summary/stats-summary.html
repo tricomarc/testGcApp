@@ -1,0 +1,78 @@
+<div class="task-estdados" text-center>
+
+  <!-- Cargando -->
+  <ion-row *ngIf="loading">
+    <ion-col *ngFor="let i of [0,1,2,3]">
+      <ion-item no-lines text-center>
+        <ion-spinner></ion-spinner>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+
+  <!-- Datos -->
+  <ion-row *ngIf="!loading">
+    <ng-container *ngIf="!fromDash">
+      <ion-col *ngFor="let summary of summaries" style="position: relative;" (click)="onClick(summary)">
+        <div class="round-progress-container" text-center>
+          <round-progress [current]="summary.quantity" [max]="total" [color]="summary.color" [background]="'#eaeaea'"
+            [radius]="100" [stroke]="15" [duration]="800" [rounded]="true" [animation]="'easeOutCubic'"
+            [animationDelay]="0" class="round-progress"></round-progress>
+            <p ion-text class="round-percentage" >{{summary.percentage}}</p>
+        </div>
+        <p text-center ion-text color="primary">{{summary.name}} <br>{{summary.quantity}}/{{total}}</p>
+      </ion-col>
+    </ng-container>
+
+
+    <ng-container *ngIf="fromDash">
+      <ion-col *ngFor="let summary of summaries" style="position: relative;">
+        <div class="round-progress-container" text-center>
+          <round-progress 
+            [current]="summary.quantity" 
+            [max]="total" 
+            [color]="summary.color" 
+            [background]="'#eaeaea'"
+            [radius]="100" 
+            [stroke]="15" 
+            [duration]="800" 
+            [rounded]="true" 
+            [animation]="'easeOutCubic'"
+            [animationDelay]="0" 
+            class="round-progress-dash"></round-progress>
+            <p ion-text class="round-percentage-dash">{{summary.percentage}}</p>
+        </div>
+        <p text-center ion-text color="primary" class="round-name-dash">{{summary.name}} <br>{{summary.quantity}}/{{total}}</p>
+      </ion-col>
+    </ng-container>
+
+    <ion-item no-lines text-wrap text-center *ngIf="!summaries || !summaries.length">
+      <div class="task-add">
+        <p ion-text color="dark">No hay estadísticas para mostrar.</p>
+      </div>
+    </ion-item>
+
+  </ion-row>
+</div>
+
+
+<!-- El color no viene en hexadecimal. viene el nombre 
+de la clase la cual define el color, entonces para acceder al hexadecimal
+en el código vamos a acceder a estos elemntos ocultos  -->
+<div [hidden]="true">
+  <div #primary class="primary"></div>
+  <div #secondary class="secondary"></div>
+  <div #success class="success"></div>
+  <div #light class="light"></div>
+  <div #white class="white"></div>
+  <div #calm class="calm"></div>
+  <div #balanced class="balanced"></div>
+  <div #dark class="dark"></div>
+  <div #stable class="stable"></div>
+  <div #positive class="positive"></div>
+  <div #energized class="energized"></div>
+  <div #assertive class="assertive"></div>
+  <div #royal class="royal"></div>
+  <div #default class="default"></div>
+  <div #warning class="warning"></div>
+  <div #danger class="danger"></div>
+</div>

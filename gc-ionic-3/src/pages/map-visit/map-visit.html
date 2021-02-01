@@ -1,0 +1,209 @@
+<ion-header box-shadow *ngIf="mapStatus === 2"  class="background-color-transparent">
+	<ion-navbar>
+		<button ion-button menuToggle>
+			<ion-icon icon-menu name="menu" color="primary"></ion-icon>
+		</button>
+
+		<div buy>
+			<ion-title>
+				<span ion-text color="primary"> {{ module }} </span>
+			</ion-title>
+		</div>
+
+		<ion-buttons end right>
+			<button ion-button icon-only *ngIf="markers.branchOffices.length > 50" (click)="showLengthInfo()">
+				<ion-icon name="md-help" color="primary"></ion-icon>
+			</button>
+			<button ion-button icon-only *ngIf="requesting">
+				<ion-spinner color="primary" mini></ion-spinner>
+			</button>
+
+			<button ion-button icon-only (click)="updateData()" *ngIf="!requesting">
+				<ion-icon name="refresh" color="primary"></ion-icon>
+			</button>
+
+			<button ion-button icon-only (click)="presentActionSheet()">
+				<ion-icon name="more" color="primary"></ion-icon>
+			</button>
+		</ion-buttons>
+	</ion-navbar>
+
+	<!-- Buscador -->
+	<ion-toolbar>
+		<div header-section>
+			<ion-searchbar [disabled]="currentCheckin ? true : false" [formControl]="searchControl"
+				placeholder="Filtrar {{ sucursales }}"></ion-searchbar>
+		</div>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content [ngStyle]="mapStatus === 2 ? {} : {'position': 'absolute', 'z-index': '9999'}" class="background-color-transparent">
+	<!-- SI EL MAPA CARGA EXITOSAMENTE -->
+	<div *ngIf="mapStatus !== 2" style="width: 100%; height: 100%;">
+		<ion-header gradienteTop>
+			<ion-navbar [ngStyle]="(platformType === 'ios') ? {'margin-top': '30px'} : {}">
+				<button ion-button icon-only menuToggle>
+					<ion-icon name="menu" style="color: #fff"></ion-icon>
+				</button>
+
+				<ion-title nombremodulo> {{ module }} </ion-title>
+
+				<ion-buttons end right>
+					<button ion-button icon-only *ngIf="requesting">
+						<ion-spinner color="white" mini></ion-spinner>
+					</button>
+
+					<button ion-button icon-only (click)="updateData()" *ngIf="!requesting">
+						<ion-icon name="refresh" color="white"></ion-icon>
+					</button>
+
+					<button ion-button icon-only (click)="presentActionSheet()">
+						<ion-icon name="more" color="white"></ion-icon>
+					</button>
+				</ion-buttons>
+			</ion-navbar>
+		</ion-header>
+
+		<!-- boton target -->
+		<ion-fab right bottom [ngStyle]="selectedBranchOffice ? {'bottom': '120px'} : {'bottom': '70px'}"
+			style="z-index: 99999 !important;">
+			<button ion-fab mini color="primary" [disabled]="!map" (click)="setUserCenter()">
+				<ion-icon name="locate"></ion-icon>
+			</button>
+		</ion-fab>
+
+		<ion-row gradiente posicionRow style="position: absolute; z-index: 9999; width: 100%;"
+			*ngIf="selectedBranchOffice && selectedBranchOffice.branchOfficeData && mapStatus === 1">
+			<ion-col col-12 text-center>
+				<h3 ion-text customSeparacionPaddingMargin>
+					{{ 'Tienda' | synonymous }}
+				</h3>
+
+				<h1 strong ion-text customSeparacionPaddingMarginTienda>
+					{{ selectedBranchOffice.branchOfficeData.nombre_real ? selectedBranchOffice.branchOfficeData.nombre_real : 'Desconocida' }}
+				</h1>
+			</ion-col>
+
+			<ion-col col-12 text-center *ngIf="!currentCheckin">
+				<button box-shadow ion-button customSeparacionPaddingMarginBoton (click)="doCheckIn()"> Check in
+				</button>
+
+				<h6 ion-text text-center *ngIf="markers.user && markers.user.currentAccuracy"
+					customSeparacionPaddingMarginDistancia>
+					Precisión: {{ markers.user.currentAccuracy }} metros. {{ markers.user.elapsedTimeMessage }}
+				</h6>
+			</ion-col>
+
+			<ion-col col-6 text-center *ngIf="currentCheckin">
+				<button box-shadow ion-button round color="danger" (click)="confirmCheckOut()"
+					[disabled]="!checkoutAvailable"> Check out </button>
+			</ion-col>
+
+			<ion-col col-6 text-center *ngIf="currentCheckin">
+				<button box-shadow ion-button round (click)="navigateToBranchOffice()"> Ir a checklist </button>
+			</ion-col>
+		</ion-row>
+		<div id="map_canvas"></div>
+	</div>
+
+	<!---->
+	<!-- FLUJO ALTERNO PARA CUANDO EL MAPA FALLE -->
+	<div *ngIf="mapStatus === 2">
+		<div id="map_curtain"></div>
+		<div id="map_canvas_hidden" class="mapCanvasHidden"></div>
+		<ion-list>
+			<ion-item no-lines no-margin text-center
+				*ngIf="markers.user && markers.user.currentAccuracy && !isDefaultPositionUsed && params.showPrecision"
+				class="precision-item no-map-alert">
+				<p ion-text color="white">
+					Precisión: {{ markers.user.currentAccuracy }} metros. {{ markers.user.elapsedTimeMessage }}
+				</p>
+			</ion-item>
+
+			<ion-item *ngIf="currentCheckin" text-center no-lines margin-top margin-bottom no-padding
+				class="selectedBranchOfficeItem" reorder="true">
+				<h1 strong ion-text margin-bottom text-wrap>
+					{{ selectedBranchOffice.branchOfficeData.nombre_real ? selectedBranchOffice.branchOfficeData.nombre_real : 'Desconocida' }}
+				</h1>
+				<ion-row>
+					<ion-col col-6 text-center>
+						<button ion-button block round color="danger" (click)="confirmCheckOut()"
+							[disabled]="!checkoutAvailable">Check out</button>
+					</ion-col>
+					<ion-col col-6 text-center>
+						<button ion-button block round (click)="navigateToBranchOffice()">Ir a checklist</button>
+					</ion-col>
+				</ion-row>
+			</ion-item>
+
+			<ion-item *ngIf="!searching && (!branchOfficesList || !branchOfficesList.length)" no-lines text-center>
+				<p ion-text>No se encontraron sucursales.</p>
+			</ion-item>
+
+			<ion-item *ngIf="searching" no-lines text-center margin-top>
+				<ion-spinner></ion-spinner>
+			</ion-item>
+
+			<div *ngIf="!searching">
+				<!-- Lista de -->
+				<ion-item *ngFor="let marker of branchOfficesList"
+					[ngClass]="(params.stopFlow && (!marker.branchOfficeData.userProximity || !marker.branchOfficeData.userProximity.checkin)) ? 'opaque' : ''">
+					<ion-avatar item-start class="status-avatar">
+						<img [src]="marker.branchOfficeData.iconUrl">
+					</ion-avatar>
+					<h3 ion-text text-wrap>{{marker.branchOfficeData.nombre}}</h3>
+					<p ion-text text-wrap *ngIf="params.showDistance">
+						{{
+						(marker.branchOfficeData.userProximity && (marker.branchOfficeData.userProximity.distance || marker.branchOfficeData.userProximity.distance === 0)) 
+						? (marker.branchOfficeData.userProximity.distance + ' mts') : '--'
+					}}
+					</p>
+
+					<!-- Boton checkin -->
+					<button *ngIf="session.usuario && session.usuario.jerarquia !== 100 || !params.showRevision"
+						[disabled]="( currentCheckin || ( params.stopFlow && ( !marker.branchOfficeData.userProximity || !marker.branchOfficeData.userProximity.checkin ) ) )"
+						ion-button item-right round outline (click)="setCheckinFromList(marker)">
+						Check in
+					</button>
+
+					<!-- Menu para perfil general: check in / revisar -->
+					<button *ngIf="session.usuario && session.usuario.jerarquia === 100 && params.showRevision"
+						ion-button icon-only item-right clear (click)="presentActionSheet2(marker)">
+						<ion-icon name="more" color="primary"></ion-icon>
+					</button>
+				</ion-item>
+			</div>
+
+			<!-- <ion-item *ngIf="markers.branchOffices.length > 50 && (getSearchTermLenght < 3 && getSearchTermLenght > 0)" text-center no-lines padding no-margin padding-top>
+				<p ion-text text-wrap>Necesitamos más detalle! <br> La búsqueda debe contener al menos 3 caracteres.</p>
+			</ion-item>
+			<ion-item *ngIf="!branchOfficesList.length && getSearchTermLenght >= 3" text-center no-lines padding no-margin padding-top>
+				<p ion-text text-wrap>No encontramos {{ sucursales }}.</p>
+			</ion-item> -->
+		</ion-list>
+	</div>
+
+	<ion-fab right bottom style="z-index: 99999 !important;" *ngIf="activeCreateStore">
+		<button ion-fab mini color="primary" (click)="createStore()">
+			<ion-icon name="md-add"></ion-icon>
+		</button>
+		<!-- <ion-fab-list side="left">
+			<button ion-fab> <ion-icon name="locate"></ion-icon></button>
+			<ion-label class="fablabelfriend">Agregar Sucursal</ion-label>
+		</ion-fab-list> -->
+	</ion-fab>
+
+</ion-content>
+
+<ion-footer
+	*ngIf="(!selectedBranchOffice || !selectedBranchOffice.branchOfficeData) && (markers.user && markers.user.currentAccuracy) && mapStatus === 1"
+	text-center class="gradientBot"
+	style="background-image: linear-gradient(to bottom, rgba(36,71,63,0), rgba(36,71,63,1)) !important; height: 70px !important;">
+	<h3 ion-text customSeparacionPaddingMarginBottom>
+		Seleccione una {{ 'Tienda' | synonymous }}
+	</h3>
+
+	<h6 ion-text style="background-color: transparent;" customSeparacionPaddingMarginDistancia>
+		Precisión: {{ markers.user.currentAccuracy }} metros. {{ markers.user.elapsedTimeMessage }}
+	</h6>
+</ion-footer>

@@ -1,0 +1,33 @@
+<ion-header>
+
+	<ion-navbar>
+		<ion-title> Firmar </ion-title>
+	</ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+	<div ion-fixed class="fixed-content"> 
+		<!-- 500 -->
+		<canvas height="150"></canvas>
+	</div>
+</ion-content>
+
+<ion-footer>
+	<ion-grid>
+		<ion-row>
+			<ion-col col-4>
+				<button ion-button full color="danger" (click)="drawCancel()"> Cancelar </button> 
+			</ion-col>
+			
+			<ion-col col-4>
+				<button ion-button full color="light" (click)="drawClear()"> Limpiar </button> 
+			</ion-col>
+			
+			<ion-col col-4>
+				<button [disabled]="disabled" ion-button full color="success" (click)="drawComplete()"> Listo </button> 
+			</ion-col>
+		</ion-row>
+	</ion-grid>	
+</ion-footer>

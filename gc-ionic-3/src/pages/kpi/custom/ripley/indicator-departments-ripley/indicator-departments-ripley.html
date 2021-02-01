@@ -1,0 +1,291 @@
+<ion-header box-shadow>
+    <ion-navbar>
+
+        <button ion-button menuToggle *ngIf="divisiones === 'Divisiones'">
+            <ion-icon icon-menu name="menu" color="primary"></ion-icon>
+        </button>
+        <div buy>
+            <ion-title>
+                <span ion-text color="primary">Tacómetro</span>
+            </ion-title>
+        </div>
+
+        <!--<ion-buttons end right>
+            <button ion-button icon-only>
+                <ion-icon name="md-trophy" color="primary"></ion-icon>
+            </button>
+        </ion-buttons>-->
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+    <ion-toolbar box-shadow>
+        <p *ngIf="divisiones !== 'Divisiones'" ion-text text-center class="tamañoTitulo" no-padding>
+            {{indicators.nombre ? indicators.nombre : ''}} <br *ngIf="selectedBranchOffice && divisiones !== 'Divisiones'"> 
+            {{(selectedBranchOffice && divisiones !== 'Divisiones') ? selectedBranchOffice.nombre : ''}}
+        </p>
+
+        <ion-item no-lines>
+            <ion-label class="customPadding">Filtrar por sucursales </ion-label>
+            <ionic-selectable
+                *ngIf="divisiones === 'Divisiones'"
+                #branchOfficeSearch
+                item-content
+                [(ngModel)]="selectedBranchOffice"
+                [items]="branchOffices"
+                itemValueField="id"
+                itemTextField="nombre"
+                closeButtonText="Cancelar"
+                [canSearch]="true"
+                (onSearch)="onBranchOfficeSearch($event)"
+                (onChange)="onBranchOfficeChange()"
+                [isMultiple]="false"
+                [searchFailText]="'No se encontraron sucursales'"
+                [searchPlaceholder]="'Búsqueda'"
+                label="Sin sucursales">
+
+                <ng-template ionicSelectableTitleTemplate>
+                    Sucursales
+                </ng-template>
+
+                <ng-template ionicSelectableValueTemplate let-ports="value">
+                    <div class="ionic-selectable-value-item">
+                        <p>{{selectedBranchOffice ? selectedBranchOffice.nombre : 'Selecciona una sucursal'}}</p>
+                    </div>
+                </ng-template>
+            </ionic-selectable>
+        </ion-item>
+    </ion-toolbar>
+
+    <div *ngIf="!requesting">
+
+    <ion-row>
+        <ion-col col-12 text-center>
+            <h2 margin-top ion-text text-center color="primary" class="tamañoSeccion">
+                Cumplimiento
+            </h2>
+            <h1 no-padding no-margin ion-text
+                [ngClass]="{'customText1': indicators.cumplimiento >= 100, 'customText2': (indicators.cumplimiento < 100 && indicators.cumplimiento >= 95), 'customText3': indicators.cumplimiento < 95}">
+                <strong class="fs-5em">{{(indicators.cumplimiento != null && indicators.cumplimiento >= 0) ?
+                    indicators.cumplimiento + "%" : "--"}}</strong>
+            </h1>
+        </ion-col>
+    </ion-row>
+
+    <ion-item [style.visibility]="indicators.meta_dia ? 'visible' : 'hidden'">
+
+        <ion-range *ngIf="divisiones === 'Divisiones'" id="moneyRange1" dualKnobs="true" [min]="0"
+                   [max]="indicators.meta_dia" [(ngModel)]="rangeObject"
+                   color="secondary" disabled>
+            <ion-label range-left>$0</ion-label>
+            <ion-label range-right>{{'$' + (indicators.meta_dia | number:'.':'es-CL')}}</ion-label>
+        </ion-range>
+
+        <ion-range *ngIf="divisiones === 'Departamentos'" id="moneyRange2" dualKnobs="true" [min]="0"
+                   [max]="indicators.meta_dia" [(ngModel)]="rangeObject"
+                   color="secondary" disabled>
+            <ion-label range-left>$0</ion-label>
+            <ion-label range-right>{{'$' + (indicators.meta_dia | number:'.':'es-CL')}}</ion-label>
+        </ion-range>
+
+        <ion-range *ngIf="divisiones === 'End'" id="moneyRange3" dualKnobs="true" [min]="0" [max]="indicators.meta_dia"
+                   [(ngModel)]="rangeObject"
+                   color="secondary" disabled>
+            <ion-label range-left>$0</ion-label>
+            <ion-label range-right>{{'$' + (indicators.meta_dia | number:'.':'es-CL')}}</ion-label>
+        </ion-range>
+    </ion-item>
+
+    <div *ngIf="divisiones === 'Divisiones' && indicators.meta_dia">
+        <ion-item *ngIf="rangeObject.lower <= rangeObject.upper">
+            <ion-badge
+                    [ngClass]="{'customBadge1': indicators.cumplimiento >= 100, 'customBadge2': (indicators.cumplimiento < 100 && indicators.cumplimiento >= 95), 'customBadge3': indicators.cumplimiento <= 95}"
+                    item-end class="badge badge-ios badge-ios-dark"> Venta: {{(rangeObject.lower != null &&
+                rangeObject.lower != undefined) ? '$' + (rangeObject.lower | number:'.':'es-CL') : '--'}}
+            </ion-badge>
+            <ion-badge color="primary" item-end class="badge badge-ios badge-ios-dark"> Meta Hora: {{(rangeObject.upper
+                != null && rangeObject.upper != undefined) ? '$' + (rangeObject.upper | number:'.':'es-CL') : '--'}}
+            </ion-badge>
+        </ion-item>
+
+        <ion-item *ngIf="rangeObject.upper < rangeObject.lower">
+            <ion-badge color="primary" item-end class="badge badge-ios badge-ios-dark"> Meta Hora: {{(rangeObject.upper
+                != null && rangeObject.upper != undefined) ? '$' + (rangeObject.upper | number:'.':'es-CL') : '--'}}
+            </ion-badge>
+            <ion-badge
+                    [ngClass]="{'customBadge1': indicators.cumplimiento >= 100, 'customBadge2': (indicators.cumplimiento < 100 && indicators.cumplimiento >= 95), 'customBadge3': indicators.cumplimiento <= 95}"
+                    item-end class="badge badge-ios badge-ios-dark"> Venta: {{(rangeObject.lower != null &&
+                rangeObject.lower != undefined) ? '$' + (rangeObject.lower | number:'.':'es-CL') : '--'}}
+            </ion-badge>
+        </ion-item>
+    </div>
+
+    <div *ngIf="divisiones === 'Departamentos'">
+        <ion-item *ngIf="rangeObject.lower <= rangeObject.upper">
+            <ion-badge id="venta3"
+                       [ngClass]="{'customBadge1': indicators.cumplimiento >= 100, 'customBadge2': (indicators.cumplimiento < 100 && indicators.cumplimiento >= 95), 'customBadge3': indicators.cumplimiento <= 95}"
+                       item-end class="badge badge-ios badge-ios-dark"> Venta: {{(rangeObject.lower != null &&
+                rangeObject.lower != undefined) ? '$' + (rangeObject.lower | number:'.':'es-CL') : '--'}}
+            </ion-badge>
+            <ion-badge id="meta3" color="primary" item-end class="badge badge-ios badge-ios-dark"> Meta Hora:
+                {{(rangeObject.upper != null && rangeObject.upper != undefined) ? '$' + (rangeObject.upper |
+                number:'.':'es-CL') : '--'}}
+            </ion-badge>
+        </ion-item>
+
+        <ion-item *ngIf="rangeObject.upper < rangeObject.lower">
+            <ion-badge color="primary" item-end class="badge badge-ios badge-ios-dark"> Meta Hora: {{(rangeObject.upper
+                != null && rangeObject.upper != undefined) ? '$' + (rangeObject.upper | number:'.':'es-CL') : '--'}}
+            </ion-badge>
+            <ion-badge
+                    [ngClass]="{'customBadge1': indicators.cumplimiento >= 100, 'customBadge2': (indicators.cumplimiento < 100 && indicators.cumplimiento >= 95), 'customBadge3': indicators.cumplimiento <= 95}"
+                    item-end class="badge badge-ios badge-ios-dark"> Venta: {{(rangeObject.lower != null &&
+                rangeObject.lower != undefined) ? '$' + (rangeObject.lower | number:'.':'es-CL') : '--'}}
+            </ion-badge>
+        </ion-item>
+    </div>
+
+    <div *ngIf="divisiones === 'End'">
+        <ion-item *ngIf="rangeObject.lower <= rangeObject.upper">
+            <ion-badge
+                    [ngClass]="{'customBadge1': indicators.cumplimiento >= 100, 'customBadge2': (indicators.cumplimiento < 100 && indicators.cumplimiento >= 95), 'customBadge3': indicators.cumplimiento <= 95}"
+                    item-end class="badge badge-ios badge-ios-dark"> Venta: {{(rangeObject.lower != null &&
+                rangeObject.lower != undefined) ? '$' + (rangeObject.lower | number:'.':'es-CL') : '--'}}
+            </ion-badge>
+            <ion-badge color="primary" item-end class="badge badge-ios badge-ios-dark"> Meta Hora: {{(rangeObject.upper
+                != null && rangeObject.upper != undefined) ? '$' + (rangeObject.upper | number:'.':'es-CL') : '--'}}
+            </ion-badge>
+        </ion-item>
+
+        <ion-item *ngIf="rangeObject.upper < rangeObject.lower">
+            <ion-badge color="primary" item-end class="badge badge-ios badge-ios-dark"> Meta Hora: {{(rangeObject.upper
+                != null && rangeObject.upper != undefined) ? '$' + (rangeObject.upper | number:'.':'es-CL') : '--'}}
+            </ion-badge>
+            <ion-badge
+                    [ngClass]="{'customBadge1': indicators.cumplimiento >= 100, 'customBadge2': (indicators.cumplimiento < 100 && indicators.cumplimiento >= 95), 'customBadge3': indicators.cumplimiento <= 95}"
+                    item-end class="badge badge-ios badge-ios-dark"> Venta: {{rangeObject.lower != null ? '$' +
+                (rangeObject.lower | number:'.':'es-CL') : '--'}}
+            </ion-badge>
+        </ion-item>
+    </div>
+
+    <ion-item no-lines text-wrap *ngIf="divisiones === 'Divisiones'">
+        <ion-grid no-padding no-margin>
+            <ion-row padding-top>
+                <ion-col text-center col-4 br-1>
+                    <h4 ion-text color="primary" class="tamañoSecciones">Tráfico</h4>
+                    <h3 ion-text class="tamañoresultadosecciones">
+                        <strong>{{indicators.trafico ? (indicators.trafico | number:'.':'es-CL') : "--"}}</strong>
+                    </h3>
+                </ion-col>
+                <ion-col text-center col-4 br-1>
+                    <h4 ion-text color="primary" class="tamañoSecciones">Conv</h4>
+                    <h3 ion-text class="tamañoresultadosecciones">
+                        <strong>{{indicators.conversion ? indicators.conversion + "%" : "--"}}</strong></h3>
+                </ion-col>
+                <ion-col text-center col-4>
+                    <h4 ion-text color="primary" class="tamañoSecciones">U x B</h4>
+                    <h3 ion-text class="tamañoresultadosecciones">
+                        <strong>{{indicators.unidad_boleta ? indicators.unidad_boleta : "--"}}</strong></h3>
+                </ion-col>
+            </ion-row>
+            <ion-row padding-top br-3>
+                <ion-col text-center col-4 br-1>
+                    <h3 ion-text class="tamañoresultadosecciones">
+                        {{indicators.trafico_variacion ? indicators.trafico_variacion + "%" : "--"}}</h3>
+                    <h4 ion-text color="primary" class="tamañoSecciones2">Variación Tráfico</h4>
+                </ion-col>
+                <ion-col text-center col-4 br-1>
+                    <h3 ion-text class="tamañoresultadosecciones">
+                        {{indicators.conversion_variacion ? indicators.conversion_variacion + "%" : "--"}}</h3>
+                    <h4 ion-text color="primary" class="tamañoSecciones2">Variación Conversión</h4>
+                </ion-col>
+                <ion-col text-center col-4>
+                    <h3 ion-text class="tamañoresultadosecciones">
+                        {{indicators.unidad_boleta_variacion ? indicators.unidad_boleta_variacion + "%" : "--"}}</h3>
+                    <h4 ion-text color="primary" class="tamañoSecciones2">Variación <br> U x B</h4>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-item>
+    <br>
+
+    <ion-item no-lines>
+        <h2 padding-top ion-text color="primary" *ngIf="divisiones !== 'End'">
+            <b>{{divisiones}}</b>
+        </h2>
+
+        <p text-wrap *ngIf="indicators.fecha">Última actualización {{indicators.fecha | date:'dd-MM-yyyy HH:mm' }} hrs.</p>
+
+    </ion-item>
+
+    <ion-grid *ngIf="divisiones !== 'End'">
+        <ion-row
+                *ngIf="indicators.divisiones !== null && indicators.divisiones !== undefined && indicators.divisiones.length > 0 && divisiones == 'Divisiones'">
+            <ion-col col-6 class="text-center" customColor1 customBorderBoxes *ngFor="let div of indicators.divisiones"
+                     [ngClass]="{'customColor1': div.cumplimiento >= 100, 'customColor2': (div.cumplimiento < 100 && div.cumplimiento >= 95), 'customColor3': div.cumplimiento < 95}"
+                     (click)="goToDetail(div, 'Departamentos')">
+                <span ion-text color="primary">
+                    <!--<h1 customEspacioNumber>{{div.venta ? ("$" + div.venta | thousandSuff) : "N/A"}}</h1>-->
+                    <h1 customEspacioNumber>{{div.venta ? "$" + (div.venta | number:'.':'es-CL') : "--"}}</h1>
+                    <!--<h1 customEspacioNumber>{{div.venta | thousandSuff}}</h1>-->
+                </span>
+                <span ion-text color="primary">
+                    <h4 customEspacio text-uppercase><strong>{{div.nombre ? div.nombre : "--"}}</strong></h4>
+                </span>
+                <span ion-text color="primary">
+                    <h5 customEspacio1><strong>{{div.cumplimiento ? div.cumplimiento + "%" : "--"}}</strong></h5>
+                </span>
+                <span ion-text color="primary">
+                    <h5 customEspacio2 text-uppercase>Cumplimiento</h5>
+                </span>
+                <span ion-text color="primary">
+                    <h6 customEspacio3 text-uppercase>Ver Detalle</h6>
+                </span>
+            </ion-col>
+        </ion-row>
+
+
+        <ion-item no-lines
+                  *ngIf="(indicators.divisiones == null || indicators.divisiones == undefined || indicators.divisiones.length <= 0) && divisiones == 'Divisiones'">
+            <h4 ion-text text-center color="primary">No se encontraron divisiones</h4>
+        </ion-item>
+
+        <ion-row
+                *ngIf="indicators.departamentos !== null && indicators.departamentos !== undefined && indicators.departamentos.length > 0 && divisiones == 'Departamentos'">
+            <ion-col col-6 class="text-center" customBorderBoxes
+                     *ngFor="let div of indicators.departamentos"
+                     [ngClass]="{'customColor1': div.cumplimiento >= 100, 'customColor2': (div.cumplimiento < 100 && div.cumplimiento >= 95), 'customColor3': div.cumplimiento < 95}"
+                     (click)="goToDetail(div, 'End')">
+                    <span ion-text color="primary">
+                        <h1 customEspacioNumber>{{div.venta ? "$" + (div.venta | number:'.':'es-CL') : "--"}}</h1>
+                    </span>
+                    <span ion-text color="primary">
+                        <h4 customEspacio text-uppercase><strong>{{div.nombre ? div.nombre : "--"}}</strong></h4>
+                    </span>
+                    <span ion-text color="primary">
+                        <h5 customEspacio1><strong>{{div.cumplimiento ? div.cumplimiento + "%" : "--"}}</strong></h5>
+                    </span>
+                    <span ion-text color="primary">
+                        <h5 customEspacio2 text-uppercase>Cumplimiento</h5>
+                    </span>
+                    <span ion-text color="primary">
+                        <h6 customEspacio3 text-uppercase>Ver Detalle</h6>
+                    </span>
+            </ion-col>
+        </ion-row>
+
+        <ion-item no-line
+                  *ngIf="(indicators.departamentos == null || indicators.departamentos == undefined || indicators.departamentos.length <= 0) && divisiones == 'Departamentos'">
+            <h4 ion-text text-center color="primary">No se encontraron departamentos</h4>
+        </ion-item>
+    </ion-grid>
+
+    </div>
+
+    <ion-item no-lines text-center margin-top *ngIf="requesting">
+        <ion-spinner></ion-spinner>
+    </ion-item>
+
+</ion-content>

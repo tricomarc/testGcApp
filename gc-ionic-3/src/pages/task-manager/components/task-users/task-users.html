@@ -1,0 +1,53 @@
+<ion-header box-shadow>
+  <ion-navbar>
+    <ion-title>Usuarios</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="close()" color="primary">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+  <ion-toolbar>
+    <div header-section>
+      <ion-searchbar [formControl]="searchControl" placeholder="Buscar usuario"></ion-searchbar>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher (ionRefresh)="refreshUsers($event)" color="primary">
+    <ion-refresher-content pullingText="Actualizar usuarios" refreshingText="Actualizando usuarios...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <ion-list padding>
+    <ion-item text-wrap *ngFor="let user of users">
+      <ion-label>
+        <h2 ion-text color="primary">{{user.nombre}} {{user.apellidos}}</h2>
+      </ion-label>
+      <ion-badge color="light" item-end margin-bottom>{{user.CargoNombre}}</ion-badge>
+      <ion-checkbox color="primary" [(ngModel)]="user.selected"></ion-checkbox>
+    </ion-item>
+
+    <ion-item no-lines text-wrap text-center *ngIf="!users || !users.length">
+      <div class="task-add">
+        <p ion-text color="dark">No hay usuarios para seleccionar.</p>
+      </div>
+    </ion-item>
+  </ion-list>
+
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+ <ion-row>
+    <ion-col col-8 offset-2 text-center>
+      <button color="balanced" full round padding ion-button (click)="next()">
+        Seleccionar usuario
+      </button>
+    </ion-col>
+  </ion-row>
+  </ion-toolbar>
+ 
+</ion-footer>

@@ -1,0 +1,149 @@
+<ion-header box-shadow>
+  <ion-navbar>
+    <ion-title>Tarea nueva</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+    <div box-shadow>
+        <ion-list>
+          <ion-item text-wrap>
+            <h3 ion-text color="primary">Acá podrás generar una tarea nueva.</h3>
+            <ion-icon name="clipboard" item-start color="primary"></ion-icon>
+            <p> Recuerda que una tarea debe ser <b>precisa y concisa</b>.</p>
+          </ion-item>
+        </ion-list>
+  </div>
+
+
+
+  <div class="task view" *ngIf="typeTask === 'SIMPLE'">
+    <ion-item>
+      <ion-label>Tipo Tarea</ion-label>
+      <ion-select [(ngModel)]="typeTask">
+        <ion-option value="SIMPLE">Simple</ion-option>
+        <ion-option value="NUMERICA">Numerica</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-list>
+
+      <ion-item>
+        <ion-textarea rows="3" class="text-input-nombre" [(ngModel)]="form.nombre"
+          placeholder="Ingresa el nombre de la tarea"></ion-textarea>
+      </ion-item>
+      <ion-item>
+        <ion-textarea rows="3" class="text-input-descripcion" [(ngModel)]="form.descripcion"
+          placeholder="Ingresa los detalles de la tarea acá"></ion-textarea>
+      </ion-item>
+      <ion-item margin-bottom>
+        <ion-textarea rows="3" class="text-input-comentario" [(ngModel)]="form.comentario"
+          placeholder="¿Algún comentario o mensaje?"></ion-textarea>
+      </ion-item>
+
+       <ion-item text-center no-lines *ngIf="loading">
+        <ion-spinner></ion-spinner>
+      </ion-item>
+
+      <ion-list *ngIf="!loading" radio-group style="padding-right: 10px;" [(ngModel)]="form.periodicidad_id">
+        <ion-item text-wrap *ngFor="let periodicity of periodicities">
+          <ion-label>
+            <p><b>{{periodicity.name}}</b></p>
+            <ion-note>{{periodicity.help}}</ion-note>
+          </ion-label>
+          <ion-radio color="primary" [value]="periodicity.id"></ion-radio>
+        </ion-item>
+      </ion-list>
+
+
+      <ion-item text-wrap no-lines>
+        <ion-label>
+          <p>¿Requiere evidencia fotográfica?</p>
+        </ion-label>
+        <ion-checkbox color="primary" [(ngModel)]="form.evidencia"></ion-checkbox>
+      </ion-item>
+    </ion-list>
+  </div>
+
+
+  <div class="task view" *ngIf="typeTask === 'NUMERICA'">
+
+    <ion-item no-lines>
+      <ion-label>Tipo Tarea</ion-label>
+      <ion-select [(ngModel)]="typeTask">
+        <ion-option value="SIMPLE">Simple</ion-option>
+        <ion-option value="NUMERICA">Numerica</ion-option>
+      </ion-select>
+    </ion-item>
+    <br>
+
+    <ion-item>
+      <ion-textarea rows="3" class="text-input-nombre" [(ngModel)]="form.nombre"
+        placeholder="Ingresa el nombre de la tarea"></ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-textarea rows="3" class="text-input-descripcion" [(ngModel)]="form.descripcion"
+        placeholder="Ingresa los detalles de la tarea acá"></ion-textarea>
+    </ion-item>
+
+    <br>
+    <ion-item no-lines>
+      <ion-label color="primary"> Preguntas </ion-label>
+      <ion-icon color="primary" item-right name="md-add-circle" (click)="addQuestion()"></ion-icon>
+    </ion-item>
+
+    <ion-item align="center" no-lines *ngIf="questions.length === 0" (click)="addQuestion()">
+      <p>Aun no has agregado preguntas</p>
+    </ion-item>
+
+    <ion-list no-lines>
+      <div *ngFor="let question of questions; let i = index" style="border-bottom: 1px solid #ccc;">
+        <ion-item no-lines >
+          <ion-input class="text-input-nombre" [(ngModel)]="question.text"
+            placeholder="Ingresa la pregunta"></ion-input>
+          
+            <ion-spinner 
+              item-right
+              *ngIf="question.isDisabled"
+              color="primary"
+              name="crescent"></ion-spinner>
+
+            <button ion-button clear icon-only item-right
+              *ngIf="!question.isDisabled && !question.image"
+             (click)="addImage(question.id)">
+              <ion-icon name="md-image"></ion-icon>
+            </button>
+
+            <button ion-button clear icon-only item-right
+              *ngIf="!question.isDisabled && question.image" 
+              (click)="removeImage(question.id)">
+              <ion-icon name="md-close-circle"></ion-icon>
+            </button>
+
+
+          <button ion-button clear icon-only item-right [disabled]="question.isDisabled" (click)="remove(question.id)">
+            <ion-icon color="danger" name="md-remove-circle"></ion-icon>
+          </button>
+        </ion-item>
+        <ion-item no-lines *ngIf="question.image" style="text-align: center;">
+          <p>Imagen de referencia</p>
+          <img  style="width: 90px; height:90px; border-radius: 5px;" [src]="question.image" item-right/>
+        </ion-item>
+      </div>
+    </ion-list>
+
+
+    
+  </div>
+
+
+
+  <ion-toolbar>
+    <ion-row >
+      <ion-col col-8 offset-2 text-center>
+        <button color="balanced" full padding ion-button round (click)="create()">
+          Crear tarea
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-content>

@@ -1,0 +1,55 @@
+page-visual{
+    
+	.textoCentrado {
+		text-align: center !important;
+	}
+
+	.col-centered {
+		display:inline-block;
+		float:none;
+		text-align: center;
+	}
+	
+	.icon-lg {
+        font-size: 2em !important;
+        color: #bbb !important; 
+    }
+
+    .custom-bb {
+    	border-bottom: 1px solid #ddd !important;
+    }
+
+    .custom-bb:last-child {
+        border-bottom: none !important;
+    }
+
+    .fix-icon {
+    	background: #fff;
+    	border: 1px solid #ddd;
+    	padding: 5px 2px;
+    	border-radius: 70px;
+    	top: 40px !important;
+		z-index: 9999 !important;
+		position: absolute;
+    }
+
+    .bg-white {
+        background-color: #fff;
+    }
+
+    .qualification-row {
+        border-bottom: 2px solid #f1f1f1;
+    }
+
+    .qualification-text {
+        font-size: 20px;
+    }
+
+    .qualification-update {
+        font-size: 10px;
+    }
+
+    .qualification-value {
+        font-size: 60px;
+    }
+}

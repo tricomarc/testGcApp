@@ -1,0 +1,46 @@
+page-page10 {
+	  // Estilos 
+    
+    .br-1 {
+        border-right:1px solid #ddd;
+    }
+
+    .br-1:nth-child(even) {
+        border-right: none !important;
+    }
+
+    .text-center {
+        text-align: center !important;
+        item-align: center !important;
+    }
+
+    .fs-5em {
+        font-size:1.3em !important;
+    }
+
+    .google-chart-general > div > div {
+        top: -18px;
+    }
+    
+    .custom-bb {
+        border-bottom: 1px solid #ddd !important;
+    }
+
+    .custom-bb:last-child {
+        border-bottom: none !important;
+    }
+
+    .custom-bb:nth-last-child(2) {
+        border-bottom: none !important;
+    }
+
+    .fix-mt {
+        margin-top: -15px;
+    }
+
+    .current-date {
+        font-size: 12px;
+    }
+
+    // fin estilos
+}

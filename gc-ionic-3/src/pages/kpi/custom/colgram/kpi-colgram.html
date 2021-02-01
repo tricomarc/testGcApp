@@ -1,0 +1,167 @@
+<ion-header box-shadow>
+	<ion-navbar>
+		<button ion-button menuToggle>
+			<ion-icon icon-menu name="menu" color="primary"></ion-icon>
+		</button>
+		<div buy>
+			<ion-title>
+				<span ion-text color="primary">{{module}}</span>
+			</ion-title>
+		</div>
+	</ion-navbar>
+</ion-header>
+
+<ion-content>
+	<ion-refresher (ionRefresh)="refreshKpi($event)" color="primary">
+		<ion-refresher-content pullingText="Actualizar" refreshingText="Actualizando datos..."></ion-refresher-content> 
+	</ion-refresher>
+
+	<ion-row class="noPaddingBottom" padding-top>
+		<ion-col class="customBorderFiltros">
+			<ion-item no-lines *ngIf="hierarchy === 98 && (zones && zones.length)">
+				<ion-label style="font-size: 1em !important"><span ion-text color="primary" style="line-height: 1.5;">Zonas</span>
+				</ion-label>
+				<ion-select style="font-size: 0.9em !important" multiple="false" [(ngModel)]="selected_zone" okText="ok" cancelText="cancelar" interface="popover" (ngModelChange)="onZoneChange(null)">
+					<ion-option style="font-size: 1em !important" *ngFor="let zone of zones" [value]="zone.id">
+						{{zone.nombre}}
+					</ion-option>
+				</ion-select>
+			</ion-item>
+			<ion-item no-lines>
+				<ion-label style="font-size: 1em !important"><span ion-text color="primary" style="line-height: 1.5;">Cadenas</span>
+				</ion-label>
+				<ion-select style="font-size: 0.9em !important" multiple="false" [(ngModel)]="selected_group" (ngModelChange)="onGroupChange()" okText="ok" cancelText="cancelar" interface="popover">
+					<ion-option style="font-size: 1em !important" *ngFor="let group of groups" [value]="group" [disabled]="((!group.sucursales || !group.sucursales.length) && group.nombre !== 'Todas')">
+						{{group.nombre}}
+					</ion-option>
+				</ion-select>
+			</ion-item>
+			<ion-item no-lines *ngIf="branch_offices && branch_offices.length && (selected_group && selected_group.nombre !== 'Todas')">
+				<ion-label style="font-size: 1em !important"><span ion-text color="primary" style="line-height: 1.5;">Sucursales</span></ion-label>
+				<ion-select style="font-size: 0.9em !important" multiple="false" [(ngModel)]="selected_branch_office" (ngModelChange)="onBranchOfficeChange()" okText="ok" cancelText="cancelar" interface="popover">
+					<ion-option style="font-size: 1em !important" *ngFor="let branch_office of branch_offices" [value]="branch_office.id">
+						{{branch_office.nombre}}
+					</ion-option>
+				</ion-select>
+			</ion-item>
+		</ion-col>
+	</ion-row>
+
+	<!-- SI SOLO SE HA CARGADO 1 SEMANA -->
+	<div *ngIf="fulfillment.length === 1 && !requesting">
+		<ion-row>
+			<ion-col col-12 text-center>
+				<h2 pt-0 numeroPrincipal>{{fulfillment[0].venta.variacion_anual ? fulfillment[0].venta.variacion_anual : '--'}}</h2>
+				<h3 textoPrincipal>{{data_name ? data_name : '--'}}</h3>
+			</ion-col> 
+		</ion-row>
+		<ion-row no-padding no-margin>
+			<!-- <ion-col col-5 offset-1 text-center>
+				<p no-padding no-margin numeroSecundario>{{fulfillment[0].venta.dia ? fulfillment[0].venta.dia : '--'}}</p>
+				<p textoSecundario>Venta</p>
+			</ion-col> -->
+			<ion-col col-12 text-center>
+				<p no-padding no-margin numeroSecundario>{{fulfillment[0].venta.meta_dia ? fulfillment[0].venta.meta_dia : '--'}}</p>
+				<p textoSecundario>Meta semanal actual</p>
+			</ion-col>
+		</ion-row>
+	</div>
+
+	<!-- SI SE HAN CARGADO 2 SEMANAS O MÁS -->
+	<div *ngIf="fulfillment.length > 1 && !requesting">
+		<ion-row>
+			<ion-col col-12 text-center>
+				<h2 pt-0 numeroPrincipal>{{fulfillment[1].venta.variacion_anual ? fulfillment[1].venta.variacion_anual : '--'}}</h2>
+				<h3 textoPrincipal>{{data_name ? data_name : '--'}}</h3>
+			</ion-col> 
+		</ion-row>
+		<ion-row no-padding no-margin>
+			<!-- <ion-col col-5 offset-1 text-center>
+				<p no-padding no-margin numeroSecundario>{{fulfillment[1].venta.dia ? fulfillment[1].venta.dia : '--'}}</p>
+				<p textoSecundario>Venta</p>
+			</ion-col> -->
+			<ion-col col-12 text-center>
+				<p no-padding no-margin numeroSecundario>{{fulfillment[1].venta.meta_dia ? fulfillment[1].venta.meta_dia : '--'}}</p>
+				<p textoSecundario>Meta semanal actual</p>
+			</ion-col>
+		</ion-row>
+
+		<ion-grid class="customFontSize">
+			<ion-row borderBottom>
+				<ion-col col-2>
+					Sem.
+				</ion-col>
+				<ion-col>
+					Venta
+				</ion-col>
+				<ion-col>
+					Meta
+				</ion-col>
+				<ion-col col-2>
+					Cumpl.
+				</ion-col>
+				<ion-col>
+					Dif.
+				</ion-col>
+			</ion-row>
+			<ion-row borderBottom *ngFor="let week of fulfillment | slice:1">
+				<ion-col col-2>
+					<p CustomNumerosSize>{{week.semana_string ? week.semana_string : '--'}}</p>
+				</ion-col>
+				<ion-col>
+					<p CustomNumerosSize>{{(week.venta.acumulado || week.venta.acumulado === 0) ? week.venta.acumulado : '--'}}</p>
+				</ion-col>
+				<ion-col>
+					<p CustomNumerosSize>{{(week.venta.acumulado_anterior || week.venta.acumulado_anterior === 0) ? week.venta.acumulado_anterior : '--'}}</p>
+				</ion-col>
+				<ion-col col-2>
+					<p CustomNumerosSize>{{(week.venta.variacion_anual || week.venta.variacion_anual === 0) ? week.venta.variacion_anual : '--'}}</p>
+				</ion-col>
+				<ion-col>
+					<p CustomNumerosSize>{{(week.venta.diferencia_acumulada || week.venta.diferencia_acumulada === 0) ? week.venta.diferencia_acumulada : '--'}}</p>
+				</ion-col>
+			</ion-row>
+		</ion-grid>
+	</div>
+
+	<ion-item *ngIf="!requesting && (!fulfillment.length || fulfillment.length < 1)" text-center no-lines>
+		<span>Sin información</span>
+	</ion-item>
+
+	<div *ngIf="ranking">
+		<ion-item color="primary" no-lines no-padding margin-top text-center>
+			<ion-label>
+				Ranking de la cadena
+			</ion-label>
+		</ion-item>
+		<ion-list text-center>
+			<ion-row borderBottom>
+				<ion-col col-4>
+					Semana
+				</ion-col>
+				<ion-col col-4>
+					Sucursal
+				</ion-col>
+				<ion-col col-4>
+					Posición
+				</ion-col>
+			</ion-row>
+
+			<ion-row *ngFor="let branch_office of ranking" style="padding-top: 5px;">
+				<ion-col col-4>
+					{{branch_office.semana_string ? branch_office.semana_string : '--'}}
+				</ion-col>
+				<ion-col col-4>
+					{{branch_office.nombre ? branch_office.nombre : 'No informado'}}
+				</ion-col>
+				<ion-col col-4>
+					{{branch_office.ranking ? branch_office.ranking : '--'}}
+				</ion-col>
+			</ion-row>
+		</ion-list>
+	</div>
+
+	<ion-item *ngIf="requesting" text-center no-lines>
+		<ion-spinner color="primary"></ion-spinner>
+	</ion-item>
+</ion-content>

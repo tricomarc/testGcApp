@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "198393374109",
+    "firebase_url": "https://gc-limonada.firebaseio.com",
+    "project_id": "gc-limonada",
+    "storage_bucket": "gc-limonada.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:198393374109:android:1c1ef249eeba2469983b74",
+        "android_client_info": {
+          "package_name": "cl.gclim.gcapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "198393374109-ldb5opgs0slkvfu65hpe4dcc3mghhrjl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCM0YpJdHkfE35xM6cxflhybrZ4CZtPR_g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "198393374109-ldb5opgs0slkvfu65hpe4dcc3mghhrjl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

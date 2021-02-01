@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "195233948490",
+    "firebase_url": "https://gc-johnsons.firebaseio.com",
+    "project_id": "gc-johnsons",
+    "storage_bucket": "gc-johnsons.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:195233948490:android:2bc8ba96196bd7cb34d7b3",
+        "android_client_info": {
+          "package_name": "cl.gcjohn.gcapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "195233948490-uq8lg6qbmb3rt3h751i1ia1n1spcqqic.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyByh7VWCZb1bmfI3V5Reh15UD2IScidPbk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "195233948490-uq8lg6qbmb3rt3h751i1ia1n1spcqqic.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "195233948490-qor83h350jsdk16m8fmg8lplh0l5afvb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "cl.gcjoh.gcapp",
+                "app_store_id": "1496359132"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

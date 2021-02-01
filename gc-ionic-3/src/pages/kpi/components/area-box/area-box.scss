@@ -1,0 +1,26 @@
+area-box {
+    .br-1 {
+        border-right:1px solid #ddd;
+    }
+
+    .br-1:nth-child(even) {
+        border-right: none !important;
+    }
+
+    .text-center {
+        text-align: center !important;
+        item-align: center !important;
+    }
+
+    .custom-bb {
+        border-bottom: 1px solid #ddd !important;
+    }
+
+    .custom-bb:last-child {
+        border-bottom: none !important;
+    }
+
+    .custom-bb:nth-last-child(2) {
+        border-bottom: none !important;
+    }
+}

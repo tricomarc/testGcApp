@@ -1,0 +1,61 @@
+page-add-incident {
+	
+    .child-item {
+        background: #fff;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid color($colors, royal) !important;
+    }
+
+    .child-item:last-child{
+        border-bottom: none !important;
+    }
+
+    .photo-incident {
+        max-width: 50px !important;
+        max-height: 50px !important;
+    }
+
+    .textarea-commentary {
+        height: 100px;
+    }
+
+    .text-desc{
+        font-size: 17px !important;
+    }
+
+    .custom-bb{
+        border-bottom: 1px solid #ddd !important;
+    }
+
+    .customb > .item-inner > .input-wrapper > .label-md, .customb > .item-inner > .input-wrapper > .label-ios {
+        margin: 0 !important;
+    }
+
+    .customb > .item-inner {
+        padding-right: 0px !important;
+    }
+
+    .b-t{
+        border-top: 1px solid #ddd !important;
+    }
+
+    .lh-15 {
+        line-height: 1.5 !important; 
+    }
+
+    .w100{
+        width: 100% !important;
+        white-space: initial !important;
+    }
+}
+
+.alert-md{
+    div.alert-wrapper{
+        max-width: 97% !important;
+    }
+    
+    div.alert-radio-label{
+        white-space: initial !important;
+    }
+} 

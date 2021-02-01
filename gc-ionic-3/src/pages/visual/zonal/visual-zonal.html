@@ -1,0 +1,61 @@
+<ion-header box-shadow>
+  	<ion-navbar>
+  		<button ion-button icon-only menuToggle>
+  			<ion-icon name="menu" color="primary"></ion-icon>
+  		</button>
+    	<ion-title>{{module}}</ion-title>
+    	<ion-buttons end right>
+			<button ion-button icon-only *ngIf="requesting">
+				<ion-spinner color="primary" small></ion-spinner>
+			</button>
+    		<button ion-button icon-only (click)="showRanking()" *ngIf="show_ranking">
+                <ion-icon name="md-trophy" color="primary"></ion-icon>
+            </button>
+    		<button ion-button icon-only (click)="showActionSheet()" *ngIf="reporte">
+                <ion-icon name="md-more" color="primary"></ion-icon>
+            </button>
+		</ion-buttons>
+  	</ion-navbar>
+</ion-header>
+
+<ion-content>
+	<ion-refresher (ionRefresh)="refreshVisuals($event)" color="positive">
+	    <ion-refresher-content pullingText="Actualizar" refreshingText="Actualizando..."></ion-refresher-content>
+	</ion-refresher>
+	<ion-item *ngIf="revision && revision.total > 0" color="assertive" text-center text-wrap (click)="showRevisions()">
+        Revisiones a realizar <b>({{revision.total}})</b>
+    </ion-item>
+	<ion-row>
+	    <ion-col no-padding>
+	      <ion-list-header box-shadow no-margin no-lines>
+	        <h1 ion-text color="primary" header-title>Listado de campañas</h1>
+	      </ion-list-header>        
+	    </ion-col>
+  	</ion-row>
+	<div *ngIf="visuals">
+		<!-- Sin visuales -->
+		<div *ngIf="visuals.tiendas && visuals.tiendas.length < 1">
+	        <ion-item no-lines text-center text-wrap>
+				<h2 ion-text color="royal"><ion-icon color="energized" name="md-information-circle" item-start></ion-icon><b>Información</b></h2>
+				<p>No tienes campañas asociadas</p>
+			</ion-item>
+		</div>
+		<!-- Lista de visuales -->
+		<div *ngFor="let visual of visuals.tiendas">
+		  	<ion-item no-lines class="custom-bb">
+		  		<ion-item no-lines (click)="showVisualDetail(visual)">
+	  				<h2 ion-text color="primary" text-wrap><b>{{visual.visual_nombre}}</b></h2>
+	  				<p><b>Implementados:</b> {{visual.implementados}}</p>
+	  				<p><b>Leídos:</b> {{visual.leidos}}</p>
+	  				<p><b>Total:</b> {{visual.total}}</p>
+	  				<ion-icon name='ios-arrow-forward' item-end color="default" class="icon-lg"></ion-icon>
+		  		</ion-item>
+		  		<div text-center no-margin no-padding>
+			  		<button small ion-button outline round color="primary" (click)="showVisualStats(visual)">
+			  			Ver estadística
+			  		</button>	
+		  		</div>
+		  	</ion-item>
+		</div>
+	</div>
+</ion-content>

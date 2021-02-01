@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "280239452413",
+    "firebase_url": "https://gc-barcelo.firebaseio.com",
+    "project_id": "gc-barcelo",
+    "storage_bucket": "gc-barcelo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:280239452413:android:b7c9b108fd0dfdccfd0e94",
+        "android_client_info": {
+          "package_name": "cl.gcbarc.gcapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "280239452413-sjmpv21u5avn1p8b03olqj4pqpv222c2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSCMGCAvOIqOxsj9fKlowrsGX-x5WPxYs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "280239452413-sjmpv21u5avn1p8b03olqj4pqpv222c2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

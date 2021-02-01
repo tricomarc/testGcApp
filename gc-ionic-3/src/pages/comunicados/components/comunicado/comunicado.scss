@@ -1,0 +1,32 @@
+comunicado {
+	.img-fix{
+		display: block;
+		margin: auto;
+		width: 100%;
+	}
+	.custom-bb{
+		border-bottom: 1px solid color($colors, stable) !important;
+		padding-bottom: 2vw;
+	}
+	.fixInterlineado{
+		line-height: 1.6em;
+		overflow-x:auto;
+	}
+	.scroll-content {
+		margin-bottom: 56px !important;
+	}
+
+	table {
+        width: 95%;
+    }
+
+	h1,h2,h3,h4,h5,h6,strong{
+		font-weight: bold;
+		color: color($colors, primary);
+	}
+
+	.swiper-pagination {
+		bottom: 0px !important;
+	}
+
+}

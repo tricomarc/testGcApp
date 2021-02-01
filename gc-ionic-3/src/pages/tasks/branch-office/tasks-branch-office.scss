@@ -1,0 +1,44 @@
+page-tasks-branch-office {
+
+	.sub-header-tasks .item-inner {
+        border-bottom: 0px !important;
+    }
+
+    .sub-header-tasks {
+        max-width: 100%;
+    }
+
+    ion-item > .item-inner {
+    	border-bottom: none !important;
+    }
+	
+	//Estilos para las nuevas vistas
+
+    .customPaddingTop{
+        padding-top: 8px !important;
+    }
+    .tamañoCustomFuente{
+        font-size: 1.2em !important;
+    }
+
+    .espaciadoIcono{
+        color: #ccc !important;
+        font-size: 1.5em !important;
+        padding-top: 9px !important;
+    }
+
+    .fixMargenPequeño{
+		margin-left: 6px;
+    }
+
+    .arregloMargen{
+    	margin-top: -12px !important;
+    }
+
+    .customTextArea{
+    	padding: 10px;
+    	margin-top: 10px;
+    	border: 1px solid color($colors, primary);
+    }
+    
+}

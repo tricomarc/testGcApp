@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>689877696227-cfgelm4bssj6foui0hd81vg0n72haqjl.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.689877696227-cfgelm4bssj6foui0hd81vg0n72haqjl</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBGIhGDdy1ztExTp8SVtfT4Ks5QuDsMypw</string>
+	<key>GCM_SENDER_ID</key>
+	<string>689877696227</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>cl.gcsen.gcapp</string>
+	<key>PROJECT_ID</key>
+	<string>gc-sensacion</string>
+	<key>STORAGE_BUCKET</key>
+	<string>gc-sensacion.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:689877696227:ios:990228121b153b8b720fd6</string>
+	<key>DATABASE_URL</key>
+	<string>https://gc-sensacion.firebaseio.com</string>
+</dict>
+</plist>

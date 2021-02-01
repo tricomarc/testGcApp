@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>109358555407-9ggj798phn8ltl5n0dc0b453gp93nsg9.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.109358555407-9ggj798phn8ltl5n0dc0b453gp93nsg9</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCYo0P3dv6sqHNf7sNEz094s8w_PpeAfo4</string>
+	<key>GCM_SENDER_ID</key>
+	<string>109358555407</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>cl.newcolgram.gcapp</string>
+	<key>PROJECT_ID</key>
+	<string>colgram-50f89</string>
+	<key>STORAGE_BUCKET</key>
+	<string>colgram-50f89.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:109358555407:ios:c461a193a98f41fb189e7a</string>
+	<key>DATABASE_URL</key>
+	<string>https://colgram-50f89.firebaseio.com</string>
+</dict>
+</plist>

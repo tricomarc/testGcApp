@@ -1,0 +1,67 @@
+<ion-header box-shadow *ngIf="!navParams.data.sucursal">
+    <ion-navbar>
+        <div buy>
+            <ion-title><span ion-text text-center color="primary">{{module}}</span></ion-title>
+        </div>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <ion-row>
+        <ion-col no-padding>
+            <ion-list-header box-shadow no-margin no-lines>
+                <h1 ion-text color="primary" header-title>Detalle {{module}} Usuario</h1>
+            </ion-list-header>
+        </ion-col>
+    </ion-row>
+
+    <ion-list-header no-margin no-padding class="tamañoCustom2" color="primary" text-center>{{userName}}
+    </ion-list-header>
+
+    <div *ngIf="requesting">
+        <ion-item  no-lines text-center>
+            <ion-spinner></ion-spinner>
+        </ion-item>
+    </div>
+    
+        <ion-item no-padding text-center no-lines>
+            <ion-row>
+                <ion-col col-6>
+                    <canvas #doughnutCanvas></canvas>
+                    <h1 ion-text color="primary"><strong>{{promLectura | number : '1.0-0'}}%</strong></h1>
+                    <small>Lectura</small>
+                </ion-col>
+                <ion-col col-6>
+                    <canvas #doughnutCanvas2 [ngStyle]="{'display':detailsInfo2.donaData[1] == 0 ? 'none' : 'inline' }"></canvas>
+                    <h1 ion-text color="primary" *ngIf="detailsInfo2.donaData[1] != 0"><strong>{{promComprension | number : '1.0-0'}}%</strong></h1>
+                    <h1 ion-text color="primary" *ngIf="detailsInfo2.donaData[1] == 0"><strong>N/A</strong></h1>
+                    <small>Comprensión</small>
+                </ion-col>
+            </ion-row>
+        </ion-item>
+
+        <div *ngIf="!requesting && datos">
+
+            <ion-list-header no-margin no-padding *ngIf="datos.length > 0" class="tamañoCustom2 fuenteColor" color="stable"
+                             text-center>Lista de Comunicados
+            </ion-list-header>
+
+            <ion-list no-border class="noPaddingBottom" *ngIf="datos.length > 0">
+                <div *ngFor="let botData of datos">
+                    <ion-item no-padding>
+                        <h2 class="paddingEspecial" text-wrap ion-text color="primary">{{botData.comunicado.nombre}}</h2>
+                        <p class="paddingEspecial">Leido: <b><strong ion-text color="primary"> {{botData.leido ? "Si" :
+                            "No"}}</strong></b></p>
+                        <p class="paddingEspecial">Respondido: <b><strong ion-text color="primary"> {{botData.comprendido ==
+                            null ? "No" : "Si"}}</strong></b></p>
+                        <p class="paddingEspecial">Comprendido: <b><strong ion-text color="primary"> {{botData.comprendido == 2
+                            ? "Si" : "No"}}</strong></b></p>
+                    </ion-item>
+                </div>
+            </ion-list>
+        </div>
+    <ion-item no-lines text-center margin-top *ngIf="!requesting && !datos">
+        <p>No se encontraron evaluaciones.</p>
+    </ion-item>
+
+</ion-content>

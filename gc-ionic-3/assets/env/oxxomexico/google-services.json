@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "843822457482",
+    "firebase_url": "https://gc-oxxo-mexico.firebaseio.com",
+    "project_id": "gc-oxxo-mexico",
+    "storage_bucket": "gc-oxxo-mexico.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:843822457482:android:6821268a339621e66f4373",
+        "android_client_info": {
+          "package_name": "cl.oxmex.gcapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "843822457482-kmh0d60gje3mju3plkg04oqthqgq9mlh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFHM3bOu2bl7NDRGcI7tAukFfF-kDh3N4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "843822457482-kmh0d60gje3mju3plkg04oqthqgq9mlh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

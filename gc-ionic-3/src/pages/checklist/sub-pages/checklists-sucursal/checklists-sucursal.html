@@ -1,0 +1,48 @@
+<ion-header box-shadow *ngIf="navParams.data.sucursal">
+    <ion-navbar>
+        <div buy>
+            <ion-title><span ion-text text-center color="primary"> {{ module }} </span></ion-title>
+        </div>
+    </ion-navbar>
+
+    <!-- Buscador/filtro -->
+    <ion-toolbar>
+		<div header-section>
+			<ion-searchbar [formControl]="searchControl" placeholder="Filtrar checklists"></ion-searchbar>
+		</div>
+    </ion-toolbar>
+</ion-header>
+
+<!-- Lista de checklist -->
+<ion-content>
+     <!-- Refresherrr -->
+     <ion-refresher (ionRefresh)="refreshChecklists($event)" color="dark">
+            <ion-refresher-content pullingText="Actualizar" refreshingText="Actualizando..."></ion-refresher-content>
+    </ion-refresher>
+
+    <ion-list no-border *ngIf="checklists.length > 0 && navParams.data.sucursal">
+        <ion-item no-lines color="stable">
+            <h3> Listado de checklist </h3>
+        </ion-item>
+
+        <div *ngFor="let checklist of checklists">
+            <ion-item margin-top class="border-bottom-1" no-lines text-wrap (click)="navigateToAmbito(checklist.id, checklist.nombre, checklist.fecha_inicio, checklist.fecha_termino)">
+                <span ion-text color="primary" text-wrap> {{ checklist.nombre }} </span>
+
+                <p> <b> Fecha de inicio: </b> {{ checklist.fecha_inicio | date: 'dd-MM-yyyy'}} </p>
+
+                <p> <b> Fecha de término: </b> {{ checklist.fecha_termino | date: 'dd-MM-yyyy'}} </p>
+
+                <ion-icon name='ios-arrow-forward' item-end color="default" class="icon-lg"></ion-icon>
+            </ion-item>
+        </div>
+    </ion-list>
+    
+     <!-- error en caso de no haber datos -->
+    <div *ngIf="checklists.length <= 0">
+        <ion-item no-lines icon-left text-center margin-top>
+            <ion-icon name="md-alert" color="energized" class="icon-no-results"></ion-icon>
+            <span class="assertive" text-center text-wrap> No pudimos obtener los datos. <br> Intente nuevamente.</span>
+        </ion-item>
+    </div>
+</ion-content>

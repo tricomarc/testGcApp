@@ -1,0 +1,133 @@
+<ion-header box-shadow>
+  <ion-navbar>
+    <ion-buttons left>
+      <button ion-button icon-only menuToggle>
+        <ion-icon name="menu" color="primary"></ion-icon>
+      </button>
+    </ion-buttons>
+
+    <ion-title> Incidencias </ion-title>
+
+    <ion-buttons right>
+      <button ion-button icon-only clear *ngIf="requesting">
+        <ion-spinner color="primary"></ion-spinner>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+	<ion-grid no-padding no-margin>
+		<ion-row>
+		  <ion-col col-12>
+			<ion-list-header box-shadow no-margin no-lines>
+			  <h1 header-title> Listado de incidencias vencidas </h1>
+			</ion-list-header>    
+		  </ion-col>
+		</ion-row>
+	</ion-grid>
+
+	<ion-item padding-top no-lines>
+		<ion-label> Sucursales: </ion-label>
+		
+		<ion-select [(ngModel)]="filters.branch_office" (ngModelChange)="applyFilters(false)" cancelText="cancelar" interface="popover">
+			<ion-option [value]="0"><p> Todas </p></ion-option>
+			
+			<ion-option *ngFor="let branch_office of branch_offices" [value]="branch_office.id">
+				<p> {{ branch_office.nombre }} </p>
+			</ion-option>
+		</ion-select>
+	</ion-item>
+	
+	<!-- <ion-item no-lines>
+		<ion-label> Servicio: </ion-label>
+		
+		<ion-select [(ngModel)]="filters.service" (ngModelChange)="applyFilters(true)" cancelText="cancelar" interface="popover">
+		  <ion-option [value]="0"><p> Todas </p></ion-option>
+		  
+		  <ion-option *ngFor="let service of services" [value]="service.id">
+			<p> {{ service.nombre }} </p>
+		  </ion-option>
+		</ion-select>
+	</ion-item> -->
+	
+	<ion-item no-lines *ngIf="service_selected && service_selected.submotivo.length > 0">
+		<ion-label> Sub Servicio: </ion-label>
+		
+		<ion-select [(ngModel)]="filters.sub_service" (ngModelChange)="applyFilters(false)" cancelText="cancelar" interface="popover">
+		  <ion-option [value]="0"><p> Todas </p></ion-option>
+		  
+		  <ion-option *ngFor="let sub_service of service_selected.submotivo" [value]="sub_service.id">
+			<p> {{ sub_service.nombre }} </p>
+		  </ion-option>
+		</ion-select>
+	</ion-item>
+	
+	<ion-item no-lines>
+		<ion-label>Prioridades:</ion-label>
+		
+		<ion-select [(ngModel)]="filters.priority" (ngModelChange)="applyFilters(false)" cancelText="cancelar" interface="popover">
+		  <ion-option [value]="0"><p> Todas </p></ion-option>
+		  
+		  <ion-option *ngFor="let priority of priorities" [value]="priority.id">
+			<p> {{ priority.nombre }} </p>
+		  </ion-option>
+		</ion-select>
+	</ion-item>
+	
+	<!-- <ion-item padding-bottom no-lines class="custom-bb">
+		<ion-label> Estados: </ion-label>
+		
+		<ion-select [(ngModel)]="filters.status" (ngModelChange)="applyFilters(false)" cancelText="cancelar" interface="popover">
+		  <ion-option [value]="0"><p> Todas </p></ion-option>
+		  
+		  <ion-option *ngFor="let status of statuses" [value]="status.id">
+			<p> {{ status.nombre }} </p>
+		  </ion-option>
+		</ion-select>
+	</ion-item> -->
+
+	<ion-list class="b-t" *ngIf="incidentsFilter.length > 0">
+		<ion-item text-center *ngIf="incidents.length < 1">
+		  <ion-icon name="md-alert" color="energized" class="icon-no-results"></ion-icon>
+		  
+		  <span class="assertive"> Sin incidencias </span>
+		</ion-item>
+		
+		<ion-item class="custom-bb" *ngFor="let incident of incidentsFilter" no-lines>
+			<ion-item (click)="showIncident(incident)" no-lines>
+				<p class="tamañoyColor">
+					<b >N°</b>{{incident.id}}
+				</p>
+
+				<p>
+					<b> Estado: </b> {{ incident.estado.nombre }} 
+				</p>
+
+				<p>
+					<b> Sucursal: </b> {{ incident.sucursal.nombre }}
+				</p>
+
+				<p *ngIf="incident.fecha_estimada">
+					<b> Servicio: </b>{{ incident.cuentas.nombre }}
+				</p>
+
+				<p *ngIf="!incident.fecha_estimada">
+					<b> Fecha Creación: </b>  {{ incident.created | cleanDate | date: 'dd/MM/yyyy' }}
+				</p>
+
+				<ion-icon name='ios-arrow-forward' item-end color="default" class="icon-lg" ></ion-icon>
+			</ion-item>
+
+			<div start class="customPosition">
+				<ion-badge [color]="incident.status_info.color"> {{ incident.estado.nombre }} </ion-badge>
+			</div>
+		</ion-item>
+	</ion-list>
+
+	<ion-item no-lines icon-left text-center *ngIf="!incidentsFilter || incidentsFilter.length < 1">
+		<ion-icon name="md-alert" color="energized" class="icon-no-results"></ion-icon>
+		
+		<span class="assertive"> No se encontraron resultados </span>
+	</ion-item>
+</ion-content>

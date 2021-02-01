@@ -1,0 +1,11 @@
+<ion-content padding>
+
+  <ion-item *ngFor="let item of items" no-padding no-lines text-wrap>
+    <ion-label>{{item.nombre}}</ion-label>
+    <ion-checkbox [(ngModel)]="item.isCheck" ></ion-checkbox>
+  </ion-item>
+
+</ion-content>
+<ion-footer>
+  <button ion-button full color="primary" (click)="dismiss()">Aceptar</button>
+</ion-footer>

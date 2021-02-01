@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1039465839998",
+    "firebase_url": "https://miniso-e76df.firebaseio.com",
+    "project_id": "miniso-e76df",
+    "storage_bucket": "miniso-e76df.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1039465839998:android:e3ef1122ceefd60f92472f",
+        "android_client_info": {
+          "package_name": "cl.gcmin.gcapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1039465839998-tnojovv1rle9esps631l4l601l61nor1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSY1tl2FkzgU9rphfsrixF22b4YvFXqOQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1039465839998-tnojovv1rle9esps631l4l601l61nor1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

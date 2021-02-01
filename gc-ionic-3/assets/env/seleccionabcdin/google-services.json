@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1048857991641",
+    "firebase_url": "https://adretail-9dd74.firebaseio.com",
+    "project_id": "adretail-9dd74",
+    "storage_bucket": "adretail-9dd74.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1048857991641:android:60fb9d9e0a61d9c20ce1c8",
+        "android_client_info": {
+          "package_name": "cl.clseleccionabc.gcapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1048857991641-o2trjser02gmaefhbborlh02p1gkphg7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDssDtoLdBmE44accqgf4NUi4GvsKZbDxw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1048857991641-o2trjser02gmaefhbborlh02p1gkphg7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1048857991641-22ehqepnjd8l3tdggabpvj2qpgc6buu3.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "cl.clseleccionabc.gcapp",
+                "app_store_id": "1488630765"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

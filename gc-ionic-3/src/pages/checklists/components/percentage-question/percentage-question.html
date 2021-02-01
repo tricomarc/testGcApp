@@ -1,0 +1,14 @@
+<ion-list text-center center [ngClass]="((question.validations && question.validations.isIncomplete === true) ? 'ch-incomplete-question' : '')">
+	<ion-item no-lines [ngClass]="(checklist.estado_id === 4 || checklist.fromStatistics) ? 'opaque' : ''">
+		<ion-range min="0" max="100" pin="true" [(ngModel)]="question.respuesta.data" (ngModelChange)="onChange()" color="primary">
+			<ion-label range-left>0</ion-label>
+			
+			<ion-label range-right>100</ion-label>
+		</ion-range>
+	</ion-item>
+	
+	<ion-col col-12 text-center center *ngIf="question.respuesta.data || question.respuesta.data === 0">
+		Porcentaje:
+		<ion-badge item-end color="primary">{{question.respuesta.data}}</ion-badge>
+	</ion-col>
+</ion-list>

@@ -1,0 +1,176 @@
+<ion-header box-shadow>
+    <ion-navbar box shadow>
+        <div buy box shadow>
+            <ion-title><span ion-text color="primary">{{module}}</span></ion-title>
+        </div>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <ion-item no-lines padding-top>
+        <ion-label>
+            <span ion-text color="primary">Usuario:</span>
+        </ion-label>
+        <ion-select [(ngModel)]="task.usuarios_id" multiple="true" okText="Aceptar" cancelText="Cancelar">
+            <ion-option *ngFor="let user of usuarios" [value]="user.id">{{user.nombre_despliegue}}</ion-option>
+
+            <!-- <ion-option>Usuario 1</ion-option>
+             <ion-option>Usuario 2</ion-option>
+             <ion-option>Usuario 3</ion-option>
+             <ion-option>Usuario 4</ion-option>-->
+        </ion-select>
+    </ion-item>
+    <!-- <ion-item no-lines>
+         <ion-label>
+             <span ion-text color="primary">Seleccionar usuario:</span>
+         </ion-label>
+         <ion-input type="text"></ion-input>
+     </ion-item>-->
+    <ion-item no-lines>
+        <ion-label>
+            <span ion-text color="primary">Área tarea:</span>
+        </ion-label>
+        <ion-select [(ngModel)]="task.area_id" multiple="false" okText="Aceptar" cancelText="Cancelar">
+            <ion-option *ngFor="let area of areas" [value]="area.id">{{area.nombre}}</ion-option>
+
+            <!--<ion-option>Área 1</ion-option>
+            <ion-option>Área 2</ion-option>
+            <ion-option>Área 3</ion-option>
+            <ion-option>Área 4</ion-option>-->
+        </ion-select>
+    </ion-item>
+    <ion-grid padding-right class="arregloMargen">
+        <ion-row>
+            <ion-col col-3>
+                <ion-label ion-text color="primary" class="tamañoCustomFuente fixMargenPequeño">Fecha:</ion-label>
+            </ion-col>
+            <ion-col class="customPaddingTop" col-4 text-right>
+                <ion-datetime right displayFormat="DD/MM/YYYY" placeholder="Desde" cancelText="Cancelar"
+                              (ngModelChange)="filterDate($event, 'index')" [(ngModel)]="task.inicio"
+                              doneText="Aceptar">{{task.inicio | date: 'dd/MM/yyyy' }}
+                </ion-datetime>
+            </ion-col>
+            <ion-col class="customPaddingTop" col-1 text-right>
+                <ion-icon class="espaciadoIcono" name="ios-arrow-forward"></ion-icon>
+            </ion-col>
+            <ion-col class="customPaddingTop" col-4 text-right>
+                <ion-datetime right displayFormat="DD/MM/YYYY" placeholder="Hasta" cancelText="Cancelar"
+                              (ngModelChange)="filterDate($event, 'end')" [(ngModel)]="task.termino"
+                              doneText="Aceptar">{{task.termino | date: 'dd/MM/yyyy' }}
+                </ion-datetime>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+    <ion-item no-lines>
+        <ion-label>
+            <span ion-text color="primary">Nombre Tarea:</span>
+        </ion-label>
+        <ion-input type="text" [(ngModel)]="task.nombre"></ion-input>
+    </ion-item>
+
+    <ion-item no-lines>
+        <h2 ion-text color="primary">Detalle Área:</h2>
+        <textarea placeholder="Describa la tarea" class="customTextArea" rows="5" style="width: 100%;"
+                  [(ngModel)]="task.descripcion"></textarea>
+    </ion-item>
+    <ion-grid>
+        <ion-row>
+            <button ion-button block color="primary" (click)="tomarFoto();">
+                Agregar foto
+            </button>
+        </ion-row>
+
+        <ion-row>
+            <button ion-button block color="primary" (click)="tomarVideo();">
+                Agregar video
+            </button>
+        </ion-row>
+
+        <!--<ion-row>
+            <button ion-button block color="primary" (click)="tomarAudio();">
+                Agregar audio
+            </button>
+        </ion-row>-->
+        <ion-row>
+            <ion-col col-12 *ngIf="task.image">
+                <img class="tamañoImagen" [src]="task.image | sanitizeImg">
+            </ion-col>
+        </ion-row>
+
+        <ion-row>
+            <ion-col col-12 *ngIf="task.video">
+                <vg-player [vgMedia]="media" #media class="video-container">
+                    <video *ngIf="isAndroid == false && !is_temporal_url" class="video-player" controls
+                           controlsList="nodownload"
+                           poster="''">
+                        <source [src]="(task.video | sanitizeImg)">
+                    </video>
+
+                    <video *ngIf="isAndroid == true && temporal_video_url" class="video-player" controls
+                           controlsList="nodownload"
+                           poster="''">
+                        <source [src]="(temporal_video_url | sanitizeImg)">
+                    </video>
+                </vg-player>
+            </ion-col>
+
+            <ion-card>
+                <ion-card-content>
+                    <ion-card-title>
+                        <button ion-button primary (click)="stopRecord()" *ngIf="recording">
+                            <ion-icon name="mic-off"></ion-icon>&nbsp;&nbsp;Stop Record
+                        </button>
+                        <button ion-button primary (click)="startRecord()" *ngIf="!recording">
+                            <ion-icon name="mic"></ion-icon>&nbsp;&nbsp;Start Record
+                        </button>
+                    </ion-card-title>
+                </ion-card-content>
+            </ion-card>
+            <ion-list>
+                <ion-item *ngFor="let audio of audioList; index as i;">
+                    <p>{{audio.filename}}</p>
+                    <button ion-button clear item-end large (click)="playAudio(audio.filename, i)">
+                        <ion-icon name="play"></ion-icon>
+                    </button>
+
+                    <!--<vg-player *ngIf="isAndroid == true" class="video-player">
+                        <audio controls [vgMedia]="audio" #audio class="audio-player" controlsList="nodownload"
+                               (playing)="onPlaying(task.audio)" (pause)="onPause(i)">
+                            <source [src]="audio" type="audio/mp3">
+                        </audio>
+                    </vg-player>-->
+                </ion-item>
+
+                <ion-item *ngFor="let audio of audioList; index as i;">
+                    <p>{{audio.filename}}</p>
+
+                    <vg-player *ngIf="isAndroid == true" class="video-player">
+                        <audio controls [vgMedia]="audio" #audio class="audio-player" controlsList="nodownload">
+                            <source [src]="audio._objectInstance.src" type="audio/mp3">
+                        </audio>
+                    </vg-player>
+                </ion-item>
+            </ion-list>
+
+            <!--<ion-col col-12 *ngIf="task.audio">
+                <vg-player *ngIf="isAndroid == true" class="video-player">
+                    <audio controls [vgMedia]="audio" #audio class="audio-player" controlsList="nodownload" (playing)="onPlaying(task.audio)" (pause)="onPause(task.audio)">
+                        <source [src]="task.audio" type="audio/mp3">
+                    </audio>
+                </vg-player>
+            </ion-col>-->
+        </ion-row>
+
+    </ion-grid>
+</ion-content>
+
+<ion-footer>
+    <ion-toolbar color="primary">
+        <ion-buttons>
+            <button ion-button block clear class="btn-footer" (click)="sendTask();">
+                Generar tarea
+            </button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-footer>

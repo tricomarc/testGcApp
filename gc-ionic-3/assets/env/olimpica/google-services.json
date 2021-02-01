@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "943478037267",
+    "firebase_url": "https://gestiolimpica.firebaseio.com",
+    "project_id": "gestiolimpica",
+    "storage_bucket": "gestiolimpica.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:943478037267:android:56da4d452959af538e58e6",
+        "android_client_info": {
+          "package_name": "cl.olimpica.gcapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "943478037267-k9nqu6a9usvr1kkp5vjetvusj002v16t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcou3aQvb4NSl5lVEb8rtJur_yQ9kapOU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "943478037267-k9nqu6a9usvr1kkp5vjetvusj002v16t.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "943478037267-v5hsgbi1htj5ov912f2b8gmoaaufi9uc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "cl.olimpica.gcapp",
+                "app_store_id": "1465627706"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

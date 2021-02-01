@@ -1,0 +1,23 @@
+<div (click)="showIndicatorDetail()">
+	<span ion-text [color]="((redColorValue && (indicator.valores.cumplimiento2 || indicator.valores.cumplimiento2 === 0)) ? ((indicator.valores.cumplimiento2 < redColorValue) ? 'danger' : 'primary') : 'primary')">
+		<h1>{{indicator.valores.cumplimiento}}</h1>
+	</span>
+	<ion-row class="fixMarginTop" *ngIf="filters.charge !== 'pais'">
+		<ion-col col-6 *ngIf="filters.charge === 'sucursal'">
+			<span class="customFontSize" ion-text color="primary">
+				<h4>{{indicator.valores.cumplimiento_zona}}</h4>
+				<h5 class="customMarginTopFix">Zona</h5>
+			</span>
+		</ion-col>
+		<ion-col class="customFontSize" [attr.width-100]="filters.charge === 'zona'" [attr.width-50]="filters.charge === 'sucursal'">
+			<span ion-text color="primary">
+				<h4>{{indicator.valores.cumplimiento_pais}}</h4>
+				<h5 class="customMarginTopFix">País</h5>
+			</span>
+		</ion-col>
+	</ion-row>
+	<button class="fixMarginTop" ion-button block clear color="dark" style="height: 3.5em;">
+		<ion-icon color="primary" [name]="indicator.icono ? indicator.icono : 'ios-radio-button-off-outline'"></ion-icon>&nbsp;
+		<span class="FontSizeCustom2" ion-text text-nowrap>{{indicator.nombre}}</span>              
+	</button>
+</div>

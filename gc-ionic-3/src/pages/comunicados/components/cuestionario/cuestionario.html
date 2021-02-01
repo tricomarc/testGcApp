@@ -1,0 +1,24 @@
+<ion-content>
+    <ion-item text-wrap no-lines padding-bottom color="primary">
+        <h2 ion-text text-center>{{details.data.comunicado.comunicado_nombre}}</h2>
+    </ion-item>
+    <form (ngSubmit)="sendQuestions(questions)" *ngIf="questions.length > 0">
+        <div *ngFor="let pregunta of questions">
+            <ion-item class="custom-fix" >
+                <h3 text-wrap><b>{{pregunta.pregunta_nombre}}:</b></h3>
+            </ion-item>
+            <ion-list radio-group class="custom-bb" padding-bottom>
+                <ion-item *ngFor="let alternativa of pregunta.alternativas" no-lines>
+                    <ion-label>{{alternativa.nombre}}</ion-label>
+                    <ion-radio [value]="alternativa.alternativa_id"
+                        [disabled]="onlyWatch"
+                        (ionSelect)="selectedOption(pregunta, alternativa.alternativa_id)"
+                        ngDefaultControl></ion-radio>
+                </ion-item>
+            </ion-list>
+        </div>
+        <ion-item no-lines class="custom-fix2">
+            <button ion-button block default color="primary" href="#" *ngIf="!onlyWatch" [disabled]="!valid(questions) || !validSend" type="submit">Responder</button>
+        </ion-item>
+    </form>
+</ion-content>

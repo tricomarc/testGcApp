@@ -1,0 +1,55 @@
+
+    <ion-header>
+      <ion-navbar class="sombra-vb">
+        <ion-title>Ingresar Boleta</ion-title>
+      </ion-navbar>
+    </ion-header>
+
+    <ion-content>
+      <br>
+      <!-- <ion-list no-lines> -->
+        <form [formGroup]="formBoleta" (ngSubmit)="saveData()" >
+
+          <ion-item mode="ios">
+            <ion-label color="primary" stacked>N° de Boleta</ion-label>
+            <ion-input formControlName="nBoleta" [attr.maxLength]="maxLen" type="tel"  placeholder="Ingrese número de boleta"></ion-input>
+          </ion-item>
+        
+          <ion-item mode="ios">
+            <ion-label color="primary" stacked>Cantidad de POS</ion-label>
+            <ion-input formControlName="nPos"  maxLength="3" type="tel" placeholder="N° de POS contando de izquierda a derecha"></ion-input>
+          </ion-item>
+        
+          <ion-item mode="ios">
+            <ion-label color="primary" stacked>Cantidad de Cajas</ion-label>
+            <ion-input formControlName="nCaja" maxLength="3" type="tel" placeholder="Ingrese total de cajas disponibles para vender"></ion-input>
+          </ion-item>
+        
+          <ion-item mode="ios">
+            <ion-label color="primary" stacked>Fecha Boleta</ion-label>
+            <ion-datetime formControlName="fecha" displayFormat="DD/MMMM/YYYY" placeholder="Ingrese fecha de boleta"
+              monthNames="Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre"
+              cancelText="Cancelar" doneText="Aceptar" >
+            </ion-datetime>
+            <!-- <ion-input formControlName="fecha" type="date" placeholder="Ingrese fecha de boleta"></ion-input> -->
+          </ion-item>
+
+        </form>
+      
+
+    </ion-content>
+
+    <ion-footer>
+      <ion-toolbar>
+        <ion-grid>
+          <ion-row>
+            <ion-col col-6>
+              <button ion-button full (click)="dismiss()">Cerrar</button>
+            </ion-col>
+            <ion-col col-6>
+              <button ion-button full (click)="saveData()">Guardar</button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-toolbar>
+    </ion-footer>

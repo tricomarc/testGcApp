@@ -1,0 +1,34 @@
+<ion-content padding class="main-view">
+  <div class="overlay" (click)="dismiss(null)"></div>
+  <div class="modal_content" align="center">
+    <ion-header>
+      <ion-navbar class="sombra-vb">
+        <ion-buttons end>
+          <button ion-button clear icon-only (click)="dismiss(null)">
+            <ion-icon name="close"></ion-icon>
+          </button>
+        </ion-buttons>
+        <ion-title>Iniciar como</ion-title>
+      </ion-navbar>
+    </ion-header>
+    <ion-content>
+      <p>Su cuenta se encuentra asociada a un Administrador y Usuario, favor seleccione como desea ingresar.</p>    
+      <br>
+      <ion-grid padding>
+        <ion-row>
+          <ion-col col-12>
+            <button ion-button full (click)="dismiss('admin')"> Iniciar como Administrador</button>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-12>
+            <button ion-button full (click)="dismiss('usuario')"> Iniciar como Usuario</button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+    </ion-content>
+
+
+  </div>
+</ion-content>

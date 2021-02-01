@@ -1,0 +1,90 @@
+<ion-header box-shadow>
+	<ion-navbar>
+		<div buy>
+			<ion-title ion-text color="primary"> {{ module }} </ion-title>
+		</div>
+		
+		<ion-buttons end *ngIf="requesting">
+			<ion-spinner color="primary"></ion-spinner>
+		</ion-buttons>
+	</ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher (ionRefresh)="refreshMaterial($event)" color="positive">
+    <ion-refresher-content pullingText="Actualizar" refreshingText="Actualizando..."></ion-refresher-content>
+  </ion-refresher>
+  <ion-grid no-padding no-margin>
+    <ion-row *ngIf="material">
+      <ion-col col-12>
+        <ion-list-header box-shadow no-margin no-lines>
+          <h1 header-title>{{material.campania.nombre}}</h1>
+        </ion-list-header>    
+      </ion-col>
+      <ion-toolbar no-padding no-margin *ngIf="material && material.campania.visual_reporte_id">
+        <ion-item no-padding no-margin no-lines color="primary" text-center (click)="showVisual()">
+          <h2>Ver campaña asociada</h2>
+        </ion-item>
+      </ion-toolbar>
+    </ion-row>
+  </ion-grid>
+  <div *ngIf="material" class="custom-bb">
+<!--     <ion-item margin-top no-lines>   
+      <h2 ion-text color="primary"><b>{{material.campania.nombre}}</b></h2>
+    </ion-item> -->
+    <ion-item margin-top no-lines>
+      <h4 ion-text color="primary"><b>Descripción:</b></h4>
+      <p>{{material.campania.descripcion}}</p>
+    </ion-item>
+    <ion-item no-lines *ngIf="!material.campania.reporte_id">
+      <h4 ion-text color="primary"><b>Estado: </b></h4>
+      <p>Sin reportar</p>
+    </ion-item>
+    <ion-item no-lines>
+      <h4 ion-text color="primary"><b>Número de reporte: </b></h4>
+      <p>#{{material.campania.reporte_id}}</p>
+    </ion-item>
+    <ion-item no-lines>
+      <h4 ion-text color="primary"><b>Fecha inicio: </b></h4>
+      <p>{{material.campania.fecha_inicio}}</p>
+    </ion-item>
+    <ion-item no-lines>
+      <h4 ion-text color="primary"><b>Fecha Término: </b></h4>
+      <p>{{material.campania.fecha_termino}}</p>
+    </ion-item>
+  </div>
+  <!-- Comentarios -->
+  <div *ngIf="material">
+    <div *ngIf="material.comentarios.length > 0">
+      <ion-item no-lines>   
+        <h2 ion-text color="primary"><b>Comentarios:</b></h2>
+      </ion-item>
+      <ion-item class="custom-bb" no-lines *ngFor="let commentary of material.comentarios">
+        <ion-avatar item-start>
+          <img src="assets/img/resources/avatar.png">
+        </ion-avatar>
+        <h3 ion-text color="primary"><b>{{commentary.nombre_usuario}}</b></h3>
+        <p ion-text text-wrap>{{commentary.comentario}}</p>
+        <small class="commentary-date"><p>{{commentary.created}}</p></small>
+      </ion-item>
+    </div>
+  </div>
+  <!-- Agregar comentario -->
+  <ion-item no-lines>
+    <h2 ion-text color="primary"><b>Agregar comentario</b></h2>
+  </ion-item>
+  <ion-item no-lines>
+    <ion-textarea type="text" placeholder="Escribe tu comentario aquí" [(ngModel)]="form.commentary" class="textarea-commentary"></ion-textarea>
+  </ion-item>
+  <ion-item no-lines text-center>
+    <button ion-button default block (click)="addCommentary()" color="primary">Enviar comentario</button>
+  </ion-item>
+</ion-content>
+
+<!-- Reportar material -->
+<ion-footer>
+  <ion-toolbar text-center color="primary">
+    <ion-buttons>
+    	<button ion-button block clear class="btn-footer" (click)="navigateToReportMaterial()"> Reportar material </button> </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

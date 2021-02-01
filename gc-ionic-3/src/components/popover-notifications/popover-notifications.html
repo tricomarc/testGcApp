@@ -1,0 +1,111 @@
+<!-- Generated template for the PopoverNotificationsComponent component -->
+<ion-grid no-padding>
+    <ion-row>
+      <ion-col col-12>
+        <ng-template #noNotif>
+          <div style="width: 100% !important; text-align: center;">
+              <p>No hay nuevas notificaciones</p>
+              <button ion-button color="light" (click)="viewAll()" full>Ver todas</button>
+          </div>
+        </ng-template>
+
+        <ion-list no-margin *ngIf="!leidas; else noNotif">
+
+          <!-- Hoy -->
+          <ng-container *ngIf="notificaciones.hoy.length > 0">
+            <ion-item-divider text-capitalize no-margin no-lines header-title ion-affix>
+              <ion-label color="primary">Hoy</ion-label>
+            </ion-item-divider>
+          
+            <ng-container *ngFor="let item of notificaciones.hoy; let i=index;">
+              <ion-item border no-lines text-wrap (click)="openPage(item)"
+                *ngIf="i < 4 && item._matchingData && !item._matchingData.NotificacionUsuario.leida">
+                <strong text-uppercase>{{item.titulo}}</strong>
+                <p>{{item.mensaje | truncatetext: 30}}</p>
+                <ion-icon icon-small item-right class="unread">
+                  <i class="icon icon-checkbox-blank-circle"></i>
+                </ion-icon>
+                <ion-icon icon-small item-right>
+                  <i class="icon icon-chevron-right"></i>
+                </ion-icon>
+                <ion-note>{{item.created | date: 'hh:mm'}}</ion-note>
+              </ion-item>
+            </ng-container>
+          </ng-container>
+
+
+          <!-- Ultima semana -->
+          <ng-container *ngIf="notificaciones.lastWeek.length > 0">
+            <ion-item-divider text-capitalize no-margin no-lines header-title ion-affix>
+              <ion-label color="primary">Última semana</ion-label>
+            </ion-item-divider>
+          
+          
+            <ng-container *ngFor="let item of notificaciones.lastWeek; let i=index;">
+              <ion-item border no-lines text-wrap (click)="openPage(item)"
+                *ngIf="i < 2 && item._matchingData && !item._matchingData.NotificacionUsuario.leida">
+                <strong text-uppercase>{{item.titulo}}</strong>
+                <p>{{item.mensaje | truncatetext: 30}}</p>
+                <ion-icon icon-small item-right class="unread">
+                  <i class="icon icon-checkbox-blank-circle"></i>
+                </ion-icon>
+                <ion-icon icon-small item-right>
+                  <i class="icon icon-chevron-right"></i>
+                </ion-icon>
+                <ion-note>{{item.created | date: 'dd/MM/yyyy hh:mm'}}</ion-note>
+              </ion-item>
+            </ng-container>
+          </ng-container>
+
+          <!-- Ultimo mes -->
+          <ng-container *ngIf="notificaciones.lastMonth.length > 0">
+            <ion-item-divider text-capitalize no-margin no-lines header-title ion-affix>
+              <ion-label color="primary">Último mes</ion-label>
+            </ion-item-divider>
+          
+            <ng-container *ngFor="let item of notificaciones.lastMonth; let i=index;">
+              <ion-item border no-lines text-wrap (click)="openPage(item)"
+                *ngIf="i < 2 && item._matchingData && !item._matchingData.NotificacionUsuario.leida">
+                <strong text-uppercase>{{item.titulo}}</strong>
+                <p>{{item.mensaje | truncatetext: 30}}</p>
+                <ion-icon icon-small item-right class="unread">
+                  <i class="icon icon-checkbox-blank-circle"></i>
+                </ion-icon>
+                <ion-icon icon-small item-right>
+                  <i class="icon icon-chevron-right"></i>
+                </ion-icon>
+                <ion-note>{{item.created | date: 'dd/MM/yyyy hh:mm'}}</ion-note>
+              </ion-item>
+            </ng-container>
+          </ng-container>
+          
+
+          <!-- Ultimo año -->
+          <ng-container *ngIf="notificaciones.lastYear.length > 0">
+            <ion-item-divider text-capitalize no-margin no-lines header-title ion-affix>
+              <ion-label color="primary">Último año</ion-label>
+            </ion-item-divider>
+          
+            <ng-container *ngFor="let item of notificaciones.lastYear; let i=index;">
+              <ion-item border no-lines text-wrap (click)="openPage(item)"
+                *ngIf="i < 2 && item._matchingData && !item._matchingData.NotificacionUsuario.leida">
+                <strong text-uppercase>{{item.titulo}}</strong>
+                <p>{{item.mensaje | truncatetext: 30}}</p>
+                <ion-icon icon-small item-right class="unread">
+                  <i class="icon icon-checkbox-blank-circle"></i>
+                </ion-icon>
+                <ion-icon icon-small item-right>
+                  <i class="icon icon-chevron-right"></i>
+                </ion-icon>
+                <ion-note>{{item.created | date: 'hh:mm'}}</ion-note>
+              </ion-item>
+            </ng-container>
+          </ng-container>
+
+
+
+          <button ion-button color="light" (click)="viewAll()" full>Ver todas</button>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>

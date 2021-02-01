@@ -1,0 +1,107 @@
+<ion-header box-shadow>
+  <ion-navbar>
+<!--     <button  *ngIf="!sub_directory_id" ion-button menuToggle>
+      <ion-icon icon-menu name="menu" color="primary"></ion-icon>
+    </button> -->
+    <div buy>
+      <ion-title>
+        <span ion-text color="primary">CHAT</span>
+      </ion-title>
+    </div>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <!------------------------------------ESTOS TIENEN QUE SER TABS----------------------------------->
+    <ion-row>
+        <button ion-button block style="width: 33%; background-color: #a3a3a3">Chat</button>
+        <button ion-button block style="width: 33%; background-color: #dddddd">Llamadas</button>
+        <button ion-button block style="width: 33%; background-color: #dddddd">Contactos</button>
+    </ion-row>
+    <!------------------------------------ESTOS TIENEN QUE SER TABS----------------------------------->
+    
+    <div padding-top>
+        <ion-list no-margin>
+            <!--------------------------1-------------------------------------->
+            <ion-item border no-lines>
+                <ion-avatar item-start class="fotoPosicion">
+                    <img src="https://video-images.vice.com/articles/5a0390c629d2680bfcf09b3e/lede/1516399524621-barneygettyccwcrop.jpeg" />
+                </ion-avatar>
+                <ion-grid class="customPaddingGrid">
+                    <ion-row class="customPaddingBottom">
+                        <ion-col col-9 class="customPaddingBottom">
+                            <h2 item-title text-wrap text-capitalize class="text-overflow">Barney el Dinosaurio</h2>
+                        </ion-col>
+                        <ion-col col-3 class="pr-0 mr-0 ml-0 pl-0">
+                            <p ion-text style="padding-top: 3px;">13-3-2018</p>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row class="customPaddingTop">
+                        <ion-col col-9  class="customPaddingTop">
+                            <p item-subtitle text-wrap class="text-overflow" style="padding-top: 5px;">Acuerdate que ayer te dije que fueramos a comer papas</p>
+                        </ion-col>
+                        <ion-col col-3>
+                            <ion-badge badge-light class="redondeado"><span style="font-size: 15px">2</span></ion-badge>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ion-item>
+            <!--------------------------1-------------------------------------->
+            <ion-item border no-lines>
+                <ion-avatar item-start class="fotoPosicion">
+                    <img src="https://video-images.vice.com/articles/5a0390c629d2680bfcf09b3e/lede/1516399524621-barneygettyccwcrop.jpeg" />
+                </ion-avatar>
+                <ion-grid class="customPaddingGrid">
+                    <ion-row class="customPaddingBottom">
+                        <ion-col col-9 class="customPaddingBottom">
+                            <h2 item-title text-wrap text-capitalize class="text-overflow">Barney el Dinosaurio</h2>
+                        </ion-col>
+                        <ion-col col-3 class="pr-0 mr-0 ml-0 pl-0">
+                            <p ion-text style="padding-top: 3px;">13-3-2018</p>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row class="customPaddingTop">
+                        <ion-col col-9  class="customPaddingTop">
+                            <p item-subtitle text-wrap class="text-overflow" style="padding-top: 5px;">Acuerdate que ayer te dije que fueramos a comer papas</p>
+                        </ion-col>
+                    <!-- <ion-col col-3>
+                        <ion-badge badge-light class="redondeado"><span style="font-size: 15px">2</span></ion-badge>
+                    </ion-col> -->
+                </ion-row>
+            </ion-grid>
+        </ion-item>
+        <!--------------------------1-------------------------------------->
+        <ion-item border no-lines>
+            <ion-avatar item-start class="fotoPosicion">
+                <img src="https://video-images.vice.com/articles/5a0390c629d2680bfcf09b3e/lede/1516399524621-barneygettyccwcrop.jpeg" />
+            </ion-avatar>
+            <ion-grid class="customPaddingGrid">
+                <ion-row class="customPaddingBottom">
+                    <ion-col col-9 class="customPaddingBottom">
+                        <h2 item-title text-wrap text-capitalize class="text-overflow">Barney el Dinosaurio</h2>
+                    </ion-col>
+                    <ion-col col-3 class="pr-0 mr-0 ml-0 pl-0">
+                        <p ion-text style="padding-top: 3px;">13-3-2018</p>
+                    </ion-col>
+                </ion-row>
+                <ion-row class="customPaddingTop">
+                    <ion-col col-9  class="customPaddingTop">
+                        <p item-subtitle text-wrap class="text-overflow" style="padding-top: 5px;">Acuerdate que ayer te dije que fueramos a comer papas</p>
+                    </ion-col>
+                    <!-- <ion-col col-3>
+                        <ion-badge badge-light class="redondeado"><span style="font-size: 15px">2</span></ion-badge>
+                    </ion-col> -->
+                </ion-row>
+            </ion-grid>
+        </ion-item>
+    </ion-list>
+
+</div>
+</ion-content>
+<ion-footer>
+    <ion-row>
+        <ion-col col-4 push-9 class="cusontPosicionFooter">
+            <button ion-button class="botonNuevoMensaje"><ion-icon name="ios-add" style="font-size: 40px;"></ion-icon></button>
+        </ion-col>
+    </ion-row>
+</ion-footer>

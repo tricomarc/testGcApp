@@ -1,0 +1,563 @@
+<ion-header box-shadow>
+	<ion-navbar>
+		<button ion-button menuToggle>
+			<ion-icon icon-menu name="menu" color="primary"></ion-icon>
+		</button>
+		<div buy>
+			<ion-title>
+				<span ion-text color="primary">{{module}}</span>
+			</ion-title>
+		</div>
+	</ion-navbar>
+</ion-header>
+
+<ion-content>
+	<ion-refresher (ionRefresh)="refresh($event)" color="dark">
+		<ion-refresher-content pullingText="Actualizar" refreshingText="Actualizando..."></ion-refresher-content>
+	</ion-refresher>
+	<ion-grid no-margin no-padding>
+		<ion-row>
+			<ion-col col-12>
+				<ion-list-header box-shadow no-margin no-lines>
+					<h1 header-title ion-text color="primary"> Listado de estadísticas </h1>
+				</ion-list-header>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+
+	<!-- Filtro por rango de fechas -->
+	<date-filter *ngIf="filters" [filters]="filters" (onDateChange)="changeDateFilters($event)"></date-filter>
+
+	<!-- Filtro por subgerencia -->
+	<!-- 	[disabled]="subgerencias.length === 1" -->
+	<ion-item no-lines *ngIf="showFilterSub && (activeFilter.active && activeFilter.isManagerZonal === false)">
+		<ion-label class="customPadding lh-15">Subgerencias:</ion-label>
+		<ionic-selectable item-content [(ngModel)]="filters.subgerencias" [items]="subgerencias"
+			placeholder="Seleccione" itemValueField="id" itemTextField="nombre"
+			(onSearch)="onSearchSubgerencias($event)" (onChange)="getStatisticsFilter('subgerencias')"
+			closeButtonText="Cancelar" [canSearch]="true" [isMultiple]="false"
+			[searchFailText]="'No se encontraron subgerencias'" [searchPlaceholder]="'Búsqueda'">
+			<ng-template ionicSelectableValueTemplate let-ports="value" *ngIf="filters.subgerencias?.length > 1">
+				<div class="ionic-selectable-value-item">
+					{{filters.subgerencias.length}} seleccionadas
+				</div>
+			</ng-template>
+		</ionic-selectable>
+	</ion-item>
+
+
+
+	<!-- Filtro por cadenas -->
+	<!-- [disabled]="cadenas?.length === 1" -->
+	<ion-item no-lines *ngIf="showFilterCadenas">
+		<ion-label class="customPadding lh-15">Cadenas:</ion-label>
+		<ionic-selectable item-content [(ngModel)]="filters.cadenas" [items]="cadenas" placeholder="Seleccione"
+			itemValueField="id" itemTextField="nombre" (onSearch)="onSearchCadenas($event)"
+			(onChange)="getStatisticsFilter('cadena')" closeButtonText="Cancelar" [canSearch]="true"
+			[isMultiple]="false" [searchFailText]="'No se encontraron cadenas'" [searchPlaceholder]="'Búsqueda'">
+			<ng-template ionicSelectableValueTemplate let-ports="value" *ngIf="filters.cadenas?.length > 1">
+				<div class="ionic-selectable-value-item">
+					{{filters.cadenas.length}} seleccionadas
+				</div>
+			</ng-template>
+		</ionic-selectable>
+	</ion-item>
+
+	<div class='expand-wrapper' [class.collapsed]="!expanded" *ngIf="activeFilter.active && filters ">
+		<ng-container >
+			<ion-item no-lines *ngIf="activeFilter.isManagerRegion">
+				<ion-label class="customPadding lh-15">{{ 'Ger. Operaciones' | synonymous }}:</ion-label>
+				<ionic-selectable item-content 
+					*ngIf="gerentes"
+					[disabled]="!filters.subgerencias || (filters.subgerencias && !filters.subgerencias.id) || isLoadingFilter"
+					[(ngModel)]="filters.gerentes" 
+					[items]="gerentes"
+					 placeholder="Seleccione"
+					itemValueField="id" 
+					itemTextField="nombre" 
+					(onSearch)="onSearchGerentes($event)"
+					(onChange)="getStatisticsFilter('gerentes')" 
+					closeButtonText="Cancelar" 
+					[canSearch]="true"
+					[isMultiple]="false" 
+					[searchFailText]="'No se encontraron resultados'" 
+					[searchPlaceholder]="'Búsqueda'">
+					<ng-template ionicSelectableValueTemplate let-ports="value" *ngIf="filters.gerentes?.length > 1">
+						<div class="ionic-selectable-value-item">
+							{{filters.gerentes.length}} seleccionadas
+						</div>
+					</ng-template>
+				</ionic-selectable>
+			</ion-item>
+		
+			<ion-item no-lines *ngIf="activeFilter.isManagerRegion || activeFilter.isManagerZonal">
+				<ion-label class="customPadding lh-15">{{ 'Zonas' | synonymous }}:</ion-label>
+				<ionic-selectable item-content 
+					*ngIf="zonas"
+					[disabled]="
+					((activeFilter.isManagerRegion && (!filters.gerentes || !filters.gerentes.id)) ) || 
+						isLoadingFilter"
+					[(ngModel)]="filters.zonas" 
+					[items]="zonas"
+					 placeholder="Seleccione"
+					itemValueField="id" 
+					itemTextField="nombre" 
+					(onSearch)="onSearchZonas($event)"
+					(onChange)="getStatisticsFilter('zonas')" 
+					closeButtonText="Cancelar" 
+					[canSearch]="true"
+					[isMultiple]="false" 
+					[searchFailText]="'No se encontraron resultados'" 
+					[searchPlaceholder]="'Búsqueda'">
+					<ng-template ionicSelectableValueTemplate let-ports="value" *ngIf="filters.zonas?.length > 1">
+						<div class="ionic-selectable-value-item">
+							{{filters.zonas.length}} seleccionadas
+						</div>
+					</ng-template>
+				</ionic-selectable>
+			</ion-item>
+		</ng-container>
+	</div>
+
+	<!-- Filtro por sucursales -->
+	<ion-item no-lines>
+		<ion-label class="customPadding lh-15"> {{ 'Sucursales' | synonymous }}:</ion-label>
+		<ionic-selectable *ngIf="showBranchOfficeFilter && rawBranchOffices.length" item-content
+			[(ngModel)]="filters.branchOffice" [items]="branchOffices" itemValueField="id" itemTextField="nombre_real"
+			closeButtonText="Cancelar" [canSearch]="true" (onSearch)="onSearchBranchOffices($event)"
+			(onChange)="getStatistics()" [isMultiple]="false" [searchFailText]="'No se encontraron sucursales'"
+			[searchPlaceholder]="'Búsqueda'">
+		</ionic-selectable>
+	</ion-item>
+	<ion-item *ngIf="activeFilter.active">
+		<button ion-button full clear  (click)="expand();$event.stopPropagation();">{{ expanded ? 'Ocultar Filtros' : 'Mas Filtros'}}</button>
+	</ion-item>
+
+	<!-- KPI -->
+	<div *ngFor="let dashboard of dashboards">
+		<ion-row *ngIf="dashboard.url_prefix == 'kpi'">
+			<ion-col no-padding no-margin>
+				<ion-item color="primary" no-lines>
+					{{dashboard.nombre}}
+				</ion-item>
+				<button class="button button-notificacion button-full" style="min-height: 30px;" *ngIf="!dashboard.info"
+					(click)="loadSession()">Refrescar
+				</button>
+				<div text-center class="center-spinner" *ngIf="dashboard.requesting">
+					<ion-spinner></ion-spinner>
+				</div>
+				<div *ngIf="dashboard.info && !dashboard.requesting">
+					<ion-item padding text-center no-lines class="row-no-padding">
+
+						<!-- Gerente País -->
+						<ion-grid>
+							<ion-row *ngIf="dashboard.info && jerarquia >= 100">
+								<ion-col *ngIf="dashboard.info.zonas"
+									[ngClass]="dashboard.info.zonas ? 'col-6' : 'col-12'">
+									<small>Zonas</small>
+								</ion-col>
+								<ion-col *ngIf="dashboard.info.pais"
+									[ngClass]="dashboard.info.zonas ? 'col-6' : 'col-12'">
+									<small>País</small>
+								</ion-col>
+							</ion-row>
+							<ion-row *ngIf="dashboard.info && jerarquia >= 100">
+								<ion-col *ngIf="dashboard.info.zonas"
+									[ngClass]="dashboard.info.zonas ? 'col-6' : 'col-12'">
+									<ion-row no-padding *ngFor="let zona of dashboard.info.zonas">
+										<ion-col col-6 text-left>
+											{{zona.nombre}}
+										</ion-col>
+										<ion-col col-6 text-right nowrap>
+											{{zona.cumplimiento ? zona.cumplimiento + '%' : '--'}}
+										</ion-col>
+									</ion-row>
+								</ion-col>
+								<ion-col *ngIf="dashboard.info.pais"
+									[ngClass]="dashboard.info.zonas ? 'col-6': 'col-12'">
+									<h1 ion-text color="primary" style="margin-top: 30px;">
+										<strong>{{dashboard.info.pais ? dashboard.info.pais + '%' : '--'}}</strong></h1>
+								</ion-col>
+							</ion-row>
+						</ion-grid>
+
+						<!-- Gerente Zonal -->
+						<ion-grid>
+							<ion-row *ngIf="dashboard.info && (jerarquia <= 99 && jerarquia >= 97)">
+								<ion-col *ngIf="dashboard.info.zona">
+									<h1 ion-text color="primary">
+										<strong>{{dashboard.info.zona ? dashboard.info.zona : 0}}%</strong></h1>
+									<small>Zona</small>
+								</ion-col>
+								<ion-col *ngIf="dashboard.info.pais">
+									<h1 ion-text color="primary">
+										<strong>{{dashboard.info.pais ? dashboard.info.pais : 0}}%</strong></h1>
+									<small>País</small>
+								</ion-col>
+							</ion-row>
+						</ion-grid>
+					</ion-item>
+
+					<ion-item no-lines>
+						<button ion-button clear color="primary" item-right
+							(click)="redirect('KPI', dashboard.nombre, zonalVerificacion, dashboard.info.pais, dashboard.info.zona)">Ver
+							más
+							<ion-icon item-right class="icon ml-xs" name="ios-arrow-forward"></ion-icon>
+						</button>
+					</ion-item>
+				</div>
+				<div *ngIf="!dashboard.info && !dashboard.requesting">
+					<ion-item text-center no-lines>
+						<span color="primary">No tiene kpis asociados</span>
+					</ion-item>
+				</div>
+			</ion-col>
+		</ion-row>
+
+		<ion-row *ngIf="dashboard.url_prefix == 'checklist'">
+			<ion-col no-padding no-margin>
+				<ion-item color="primary" no-lines>{{dashboard.nombre}}</ion-item>
+				<button class="button button-notificacion button-full" style="min-height: 30px;" *ngIf="!dashboard.info"
+					(click)="loadSession()">
+					Refrescar
+				</button>
+				<div text-center class="center-spinner" *ngIf="dashboard.requesting">
+					<ion-spinner></ion-spinner>
+				</div>
+				<div *ngIf="dashboard.info && !dashboard.requesting">
+					<ion-item padding text-center no-lines class="row-no-padding">
+						<ion-row>
+							<ion-col col-6>
+								<h1 ion-text color="primary">
+									<strong>{{dashboard.info.promedio_enviados ?
+								dashboard.info.promedio_enviados : 0}}%</strong>
+								</h1>
+								<small>Enviados</small>
+							</ion-col>
+							<ion-col col-6>
+								<h1 ion-text color="primary">
+									<strong>{{dashboard.info.nota ? dashboard.info.nota :
+								0}}%</strong>
+								</h1>
+								<small>{{'Nota' | synonymous}}:</small>
+							</ion-col>
+						</ion-row>
+						<ion-row text-center>
+							<ion-col col-6>
+								<p>
+									<b>{{dashboard.info.cantidad_enviados ? dashboard.info.cantidad_enviados : 0
+								}} de {{dashboard.info.total_enviados ? dashboard.info.total_enviados : 0}}</b>
+								</p>
+							</ion-col>
+						</ion-row>
+					</ion-item>
+					<ion-item no-lines>
+						<button ion-button item-right clear color="primary"
+							(click)="redirect('ChecklistDetailsPage',dashboard.info.nombre,zonalVerificacion,dashboard.nombre,null)">
+							Ver más
+							<ion-icon item-right class="icon ml-xs" name="ios-arrow-forward"></ion-icon>
+						</button>
+					</ion-item>
+				</div>
+				<div *ngIf="!dashboard.info && !dashboard.requesting">
+					<ion-item text-center no-lines>
+						<span ion-text color="primary">No tiene checklists asociados</span>
+					</ion-item>
+				</div>
+			</ion-col>
+		</ion-row>
+
+		<ion-row *ngIf="dashboard.url_prefix == 'visual'">
+			<ion-col no-margin no-padding>
+				<ion-item color="primary" no-lines>{{dashboard.nombre}}</ion-item>
+				<button class="button button-notificacion button-full" style="min-height: 30px;" *ngIf="!dashboard.info"
+					(click)="loadSession()">
+					Refrescar
+				</button>
+				<div text-center class="center-spinner" *ngIf="dashboard.requesting">
+					<ion-spinner></ion-spinner>
+				</div>
+				<div *ngIf="dashboard.info && !dashboard.requesting">
+
+					<ion-item ion-item padding text-center no-lines text-wrap class="row-no-padding"
+						*ngIf="dashboard.info.estados && dashboard.info.estados.length">
+						<ion-row>
+							<ion-col text-center *ngFor="let status of dashboard.info.estados"
+								[ngClass]="((!dashboard.info.nota && dashboard.info.nota !== 0) && dashboard.info.estados.length < 3) ? 'w-50' : 'w-33'">
+								<div>
+									<h2 ion-text [style.color]="status.color">
+										{{(status.porcentaje || status.porcentaje === 0) ? status.porcentaje + ' %' : '--'}}
+									</h2>
+									<div text-nowrap>
+										<small>{{status.nombre}}</small>
+									</div>
+								</div>
+							</ion-col>
+							<ion-col col-4 text-center *ngIf="(dashboard.info.nota || dashboard.info.nota === 0)">
+								<div>
+									<h2 ion-text><b>{{dashboard.info.nota}}</b></h2>
+									<div text-nowrap>
+										<small notatext>Nota promedio</small>
+									</div>
+								</div>
+							</ion-col>
+						</ion-row>
+					</ion-item>
+
+					<ion-item
+						*ngIf="!dashboard.info.estados && ((dashboard.info.promedio_lectura || dashboard.info.promedio_lectura === 0) && (dashboard.info.promedio_implementacion || dashboard.info.promedio_implementacion === 0))"
+						no-lines>
+						<ion-row>
+							<ion-col col-6 text-center>
+								<h4 class="progress-info">{{dashboard.info.promedio_lectura}} %</h4>
+								<round-progress [current]="dashboard.info.promedio_lectura" [max]="100"
+									[color]="progressColor" [background]="'#eaeaea'" [radius]="50" [stroke]="13"
+									[duration]="800" [rounded]="true" [animation]="'easeOutCubic'" [animationDelay]="0"
+									class="update-progress">
+								</round-progress>
+								<p margin-top ion-text text-wrap>Lectura</p>
+							</ion-col>
+							<ion-col col-6 text-center>
+								<h4 class="progress-info">{{dashboard.info.promedio_implementacion}} %</h4>
+								<round-progress [current]="dashboard.info.promedio_implementacion" [max]="100"
+									[color]="progressColor" [background]="'#eaeaea'" [radius]="50" [stroke]="13"
+									[duration]="800" [rounded]="true" [animation]="'easeOutCubic'" [animationDelay]="0"
+									class="update-progress">
+								</round-progress>
+								<p margin-top ion-text text-wrap>Implementación</p>
+							</ion-col>
+						</ion-row>
+					</ion-item>
+
+					<ion-item no-lines>
+						<button item-right ion-button clear color="primary"
+							(click)="redirect('VisualDetailsPage', dashboard.info.nombre, zonalVerificacion, dashboard.nombre, null)">
+							Ver más
+							<ion-icon item-right class="icon ml-xs" name="ios-arrow-forward"></ion-icon>
+						</button>
+					</ion-item>
+				</div>
+				<div *ngIf="!dashboard.info && !dashboard.requesting">
+					<ion-item text-center no-lines>
+						<span color="primary">No tiene campañas asociadas</span>
+					</ion-item>
+				</div>
+			</ion-col>
+		</ion-row>
+
+	<ion-row padding-top *ngIf="dashboard.url_prefix == 'com'">
+		<ion-col no-margin no-padding>
+			<ion-item color="primary" no-lines>{{dashboard.nombre}}</ion-item>
+			<button class="button button-notificacion button-full" style="min-height: 30px;" *ngIf="!dashboard.info" (click)="loadSession()">
+				Refrescar
+			</button>
+			<div text-center class="center-spinner" *ngIf="dashboard.requesting">
+				<ion-spinner></ion-spinner>
+			</div>
+			<div *ngIf="dashboard.info && !dashboard.requesting">
+				<ion-item padding text-center no-lines>
+					<ion-row>
+						<ion-col>
+							<h2 ion-text color="primary">
+								<strong>{{dashboard.info.promedio_lectura ? dashboard.info.promedio_lectura : 0}}%</strong>
+							</h2>
+							<small>Lectura</small>
+						</ion-col>
+
+						<ion-col>
+							<h2 ion-text color="primary" *ngIf="dashboard.info.promedio_comprension">
+								<strong>{{dashboard.info.promedio_comprension}}%</strong>
+							</h2>
+							<h2 ion-text color="primary" *ngIf="!dashboard.info.promedio_comprension">
+								<strong>No Aplica</strong>
+							</h2>
+							<small>Comprensión</small>
+						</ion-col>
+
+						<ion-col *ngIf="dashboard.info.preguntas && (dashboard.info.preguntas.promedio || dashboard.info.preguntas.promedio == 0)">
+							<h2 ion-text color="primary">
+								<strong>{{dashboard.info.preguntas.promedio}}%</strong>
+							</h2>
+							<small>Promedio <br>de respuestas</small>
+						</ion-col>
+
+					</ion-row>
+					<ion-row text-center>
+						<ion-col text-center>
+							<p>
+								<b>{{dashboard.info.cantidad_lectura ? dashboard.info.cantidad_lectura: 0}} de
+								{{dashboard.info.total_lectura ? dashboard.info.total_lectura : 0}}</b>
+							</p>
+						</ion-col>
+
+						<ion-col text-center>
+							<p>
+								<b>{{dashboard.info.cantidad_comprension ? dashboard.info.cantidad_comprension : 0}} de
+								{{dashboard.info.total_comprension ? dashboard.info.total_comprension : 0}}</b>
+							</p>
+						</ion-col>
+
+						<ion-col text-center *ngIf="dashboard.info.preguntas && (dashboard.info.preguntas.promedio || dashboard.info.preguntas.promedio == 0)">
+						</ion-col>
+					</ion-row>
+				</ion-item>
+				<ion-item no-lines>
+					<button color="primary" clear ion-button item-right (click)="redirect('ComunicadosDetailsPage', dashboard.info.nombre, zonalVerificacion, dashboard.nombre, null)">
+						Ver más
+						<ion-icon item-right class="icon ml-xs" name="ios-arrow-forward"></ion-icon>
+					</button>
+				</ion-item>
+			</div>
+
+				<div *ngIf="!dashboard.info && !dashboard.requesting">
+					<ion-item text-center no-lines>
+						<span color="primary">No tiene comunicados asociados</span>
+					</ion-item>
+				</div>
+
+			</ion-col>
+		</ion-row>
+
+		<ion-row *ngIf="dashboard.url_prefix == 'premios'">
+			<ion-col no-padding no-margin>
+				<ion-item color="primary" no-lines>{{ premios }}</ion-item>
+				<button class="button button-notificacion button-full" style="min-height: 30px;" *ngIf="!dashboard.info"
+					(click)="loadSession()">
+					Refrescar
+				</button>
+				<div text-center class="center-spinner" *ngIf="dashboard.info && dashboard.requesting">
+					<ion-spinner></ion-spinner>
+				</div>
+				<div *ngIf="dashboard.info && !dashboard.requesting">
+					<ion-item padding text-center no-lines class="row-no-padding">
+						<ion-row>
+							<ion-col col-6>
+								<h1 ion-text color="primary">
+									<strong>{{dashboard.info.promedio_lectura}}%</strong>
+								</h1>
+								<small>Lectura</small>
+							</ion-col>
+							<ion-col col-6>
+								<h1 ion-text color="primary" *ngIf="dashboard.info.promedio_comprension">
+									<strong>{{dashboard.info.promedio_comprension}}%</strong>
+								</h1>
+								<h1 ion-text color="primary" *ngIf="!dashboard.info.promedio_comprension">
+									<strong>No Aplica</strong>
+								</h1>
+								<small>Comprensión</small>
+							</ion-col>
+						</ion-row>
+						<ion-row text-center>
+							<ion-col col-6>
+								<p>
+									<b>{{dashboard.info.cantidad_lectura}} de {{dashboard.info.total_lectura}}</b>
+								</p>
+							</ion-col>
+							<ion-col col-6>
+								<p>
+									<b>{{dashboard.info.cantidad_comprension}} de
+										{{dashboard.info.total_comprension}}</b>
+								</p>
+							</ion-col>
+						</ion-row>
+					</ion-item>
+					<ion-item no-lines>
+						<button ion-button color="primary" clear item-right
+							(click)="redirect('PremiosDetailsPage', dashboard.nombre, zonalVerificacion, null, null)">
+							Ver más
+							<ion-icon item-right class="icon ml-xs" name="ios-arrow-forward"></ion-icon>
+						</button>
+					</ion-item>
+				</div>
+
+				<div *ngIf="!dashboard.info && !dashboard.requesting">
+					<ion-item text-center no-lines>
+						<span color="primary">No tiene premios asociadas</span>
+					</ion-item>
+				</div>
+
+			</ion-col>
+		</ion-row>
+
+		<ion-row *ngIf="dashboard.url_prefix == 'incidencia'">
+			<ion-col no-margin no-padding>
+				<ion-item no-lines color="primary">
+					{{dashboard.nombre}}
+				</ion-item>
+				<button class="button button-notificacion button-full" style="min-height: 30px;" *ngIf="!dashboard.info"
+					(click)="loadSession()">
+					Refrescar
+				</button>
+				<div text-center class="center-spinner" *ngIf="dashboard.requesting">
+					<ion-spinner></ion-spinner>
+				</div>
+				<div *ngIf="dashboard.info && !dashboard.requesting">
+					<ion-item padding text-center no-lines class="row-no-padding">
+						<ion-row>
+							<ion-col col-4>
+								<h1 ion-text color="primary">
+									<strong>{{(dashboard.info.proceso || dashboard.info.proceso === 0) ? dashboard.info.proceso : '-- '}}</strong>
+								</h1>
+								<small>En Proceso</small>
+							</ion-col>
+							<ion-col col-4>
+								<h1 ion-text color="primary">
+									<strong>{{(dashboard.info.anuladas || dashboard.info.anuladas === 0) ? dashboard.info.anuladas : '-- '}}</strong>
+								</h1>
+								<small>Anuladas</small>
+							</ion-col>
+							<ion-col col-4>
+								<h1 ion-text color="primary">
+									<strong>{{(dashboard.info.rechazadas || dashboard.info.rechazadas === 0) ? dashboard.info.rechazadas : '-- '}}</strong>
+								</h1>
+								<small>Rechazadas</small>
+							</ion-col>
+						</ion-row>
+					</ion-item>
+					<ion-item padding text-center no-lines>
+						<ion-row>
+							<ion-col ion-text col-3>
+								<h1 ion-text color="primary">
+									<strong>{{(dashboard.info.solicitadas || dashboard.info.solicitadas === 0) ? dashboard.info.solicitadas : '-- '}}</strong>
+								</h1>
+								<small>Solicitadas</small>
+							</ion-col>
+							<ion-col col-3>
+								<h1 ion-text color="primary">
+									<strong>{{(dashboard.info.resueltas || dashboard.info.resueltas === 0) ? dashboard.info.resueltas : '-- '}}</strong>
+								</h1>
+								<small>Resueltas</small>
+							</ion-col>
+							<ion-col ion-text col-3>
+								<h1 ion-text color="primary">
+									<strong>{{(dashboard.info.vencidas || dashboard.info.vencidas === 0) ? dashboard.info.vencidas : '-- '}}</strong>
+								</h1>
+								<small>Vencidas</small>
+							</ion-col>
+							<ion-col col-3>
+								<h1 ion-text color="primary">
+									<strong>{{(dashboard.info.total || dashboard.info.total === 0) ? dashboard.info.total : '-- '}}</strong>
+								</h1>
+								<small>Total</small>
+							</ion-col>
+						</ion-row>
+					</ion-item>
+					<ion-item no-lines>
+						<button ion-button color="primary" clear item-right
+							(click)="redirect('IncidenciasDetailsPage', dashboard.nombre, zonalVerificacion, null, null)">
+							Ver más
+							<ion-icon item-right name="ios-arrow-forward"></ion-icon>
+						</button>
+					</ion-item>
+				</div>
+
+				<div *ngIf="!dashboard.info && !dashboard.requesting">
+					<ion-item text-center no-lines>
+						<span color="primary">No tiene incidencias asociadas</span>
+					</ion-item>
+				</div>
+
+			</ion-col>
+		</ion-row>
+	</div>
+</ion-content>

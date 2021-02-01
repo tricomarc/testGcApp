@@ -1,0 +1,99 @@
+<ion-header box-shadow>
+    <ion-navbar box shadow>
+        <div buy box shadow>
+            <ion-title><span ion-text color="primary">{{module}}</span></ion-title>
+        </div>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <ion-row>
+        <ion-col no-padding>
+            <ion-list-header box-shadow no-margin no-lines>
+                <h1 ion-text color="primary" header-title>Detalle {{monthName}}</h1>
+            </ion-list-header>
+        </ion-col>
+    </ion-row>
+
+    <ion-list padding-top *ngFor="let day of days">
+        <ion-item><p ion-text color="primary" class="textoDia">{{day.dia_nombre}} {{day.fecha_entrada | date: 'dd'}}</p></ion-item>
+        <ion-row class="customMarginRow">
+            <ion-col col-4>
+                <p class="customFontSize1">Entrada</p>
+                <p class="customFontSize2">{{day.hora_entrada | date: 'hh:mm'}}</p>
+            </ion-col>
+            <ion-col col-4>
+                <p class="customFontSize1">Salida</p>
+                <p class="customFontSize2">{{day.hora_salida | date: 'hh:mm'}}</p>
+            </ion-col>
+            <ion-col col-4>
+                <p class="customFontSize1">Total</p>
+                <p class="customFontSize2">{{day.horas_trabajadas}} horas</p>
+            </ion-col>
+        </ion-row>
+
+        <!--<ion-item><p ion-text color="primary" class="textoDia">Martes 2</p></ion-item>
+        <ion-row class="customMarginRow">
+            <ion-col col-4>
+                <p class="customFontSize1">Entrada</p>
+                <p class="customFontSize2">12:00</p>
+            </ion-col>
+            <ion-col col-4>
+                <p class="customFontSize1">Salida</p>
+                <p class="customFontSize2">12:00s</p>
+            </ion-col>
+            <ion-col col-4>
+                <p class="customFontSize1">Total</p>
+                <p class="customFontSize2">150</p>
+            </ion-col>
+        </ion-row>
+
+        <ion-item><p ion-text color="primary" class="textoDia">Miercoles 3</p></ion-item>
+        <ion-row class="customMarginRow">
+            <ion-col col-4>
+                <p class="customFontSize1">Entrada</p>
+                <p class="customFontSize2">12:00</p>
+            </ion-col>
+            <ion-col col-4>
+                <p class="customFontSize1">Salida</p>
+                <p class="customFontSize2">12:00s</p>
+            </ion-col>
+            <ion-col col-4>
+                <p class="customFontSize1">Total</p>
+                <p class="customFontSize2">150</p>
+            </ion-col>
+        </ion-row>
+
+        <ion-item><p ion-text color="primary" class="textoDia">Jueves 4</p></ion-item>
+        <ion-row class="customMarginRow">
+            <ion-col col-4>
+                <p class="customFontSize1">Entrada</p>
+                <p class="customFontSize2">12:00</p>
+            </ion-col>
+            <ion-col col-4>
+                <p class="customFontSize1">Salida</p>
+                <p class="customFontSize2">12:00s</p>
+            </ion-col>
+            <ion-col col-4>
+                <p class="customFontSize1">Total</p>
+                <p class="customFontSize2">150</p>
+            </ion-col>
+        </ion-row>
+
+        <ion-item><p ion-text color="primary" class="textoDia">Viernes 5</p></ion-item>
+        <ion-row class="customMarginRow">
+            <ion-col col-4>
+                <p class="customFontSize1">Entrada</p>
+                <p class="customFontSize2">12:00</p>
+            </ion-col>
+            <ion-col col-4>
+                <p class="customFontSize1">Salida</p>
+                <p class="customFontSize2">12:00s</p>
+            </ion-col>
+            <ion-col col-4>
+                <p class="customFontSize1">Total</p>
+                <p class="customFontSize2">150</p>
+            </ion-col>
+        </ion-row>-->
+    </ion-list>
+</ion-content>

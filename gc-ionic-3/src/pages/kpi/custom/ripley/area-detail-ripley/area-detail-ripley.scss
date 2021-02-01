@@ -1,0 +1,66 @@
+area-detail-ripley {
+    .FontSizeCustom2 {
+        font-size: 0.7em !important;
+    }
+    
+	.select-period {
+        max-width: 100%;
+    }
+
+    .fs-5em {
+        font-size: 3em !important;
+    }
+
+    .google-chart-general > div > div {
+        top: 0px;
+    }
+
+    .text-center {
+        text-align: center !important;
+    }
+    
+    .br-1 {
+        border-right: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .fixblock {
+        display: inline-block !important;
+    }
+
+    .fixicon {
+        position: relative;
+        top: -9px;
+    }
+
+    .custom-bb {
+        border-bottom: 1px solid #ddd !important;
+    }
+
+    .custom-bb:last-child {
+        border-bottom: none !important;
+    }
+
+    .custom-bb:nth-last-child(2) {
+        border-bottom: none !important;
+    }
+
+    .br-1:nth-child(even) {
+        border-right: none !important;
+    }
+
+    .customFontSize h4, .customFontSize h5 {
+        font-size: 15px;
+    }
+
+    .fixMarginTop {
+        margin-top: -15px;
+    }
+    .customMarginTopFix{
+        margin-top: -10px;
+    }
+
+    .current-date {
+        font-size: 12px;
+    }
+}

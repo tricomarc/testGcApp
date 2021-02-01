@@ -1,0 +1,421 @@
+<ion-header box-shadow *ngIf="!navParams.data.sucursal">
+    <ion-navbar>
+        <button ion-button menuToggle>
+            <ion-icon class="icon-menu" name="menu" color="primary"></ion-icon>
+        </button>
+        
+        <div buy>
+            <ion-title><span ion-text text-center color="primary"> {{ module }} </span></ion-title>
+        </div>
+        
+        <ion-buttons end right>
+            <button ion-button icon-only (click)="presentActionSheet(data)">
+                <ion-icon name="md-more" color="primary"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-header box-shadow *ngIf="navParams.data.sucursal">
+    <ion-navbar>
+        <div buy>
+            <ion-title><span ion-text text-center color="primary"> {{ module }} </span></ion-title>
+        </div>
+        
+        <ion-buttons [hidden]="navParams.data.revisar" end right>
+            <button ion-button icon-only (click)="showVisitActionSheet()">
+                <ion-icon name="more" color="primary"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <ion-row *ngIf="!navParams.data.sucursal">
+        <ion-col no-padding>
+            <ion-list-header box-shadow no-margin no-lines>
+                <h1 ion-text color="primary" header-title *ngIf="!navParams.data.sucursal"> Listado </h1>
+            </ion-list-header>
+        </ion-col>
+    </ion-row>
+
+    <ion-refresher (ionRefresh)="refreshChecklist($event)" color="dark">
+        <ion-refresher-content pullingText="Actualizar" refreshingText="Actualizando..."></ion-refresher-content>
+    </ion-refresher>
+
+    <ion-row *ngIf="!navParams.data.sucursal" class="noPaddingBottom">
+        <ion-col class="customBorderFiltros">
+            <ion-item>
+                <span ion-text color="primary"> Fecha Actual </span>
+                
+                <span ion-text color="royal" item-right item-end end right align-items-end
+                      align-self-end> {{ actualDate }} </span>
+            </ion-item>
+            
+            <ion-item *ngIf="!navParams.data.sucursal" no-lines>
+                <ion-label style="font-size: 1em !important"><span ion-text color="primary" style="line-height: 1.5;"> Filtro de Áreas </span>
+                </ion-label>
+
+                <ion-select style="font-size: 0.9em !important" multiple="false" [(ngModel)]="areaFilter"
+                            (ngModelChange)="filterByArea(areaFilter)"
+                            okText="Aceptar" cancelText="Cancelar">
+                    <ion-option style="font-size: 1em !important" *ngFor="let area of areas" [value]="area.id">
+                        {{ area.name }}
+                    </ion-option>
+                </ion-select>
+            </ion-item>
+        </ion-col>
+    </ion-row>
+
+    <!-- CHECKLISTS OCASIONALES -->
+    <ion-list-header *ngIf="!navParams.data.sucursal && occasionalChecklists.length" no-margin no-padding class="tamañoCustom2 paddingEspecial" color="stable" (click)="showOccasionalChecklists = !showOccasionalChecklists">
+        Listado de {{ module }} ocasional
+        
+        <button color="white" ion-button clear icon-only item-right>
+            <ion-icon *ngIf="showOccasionalChecklists" name="remove"></ion-icon>
+            
+            <ion-icon *ngIf="!showOccasionalChecklists" name="add"></ion-icon>
+        </button>
+    </ion-list-header>
+
+    <ion-list [hidden]="!showOccasionalChecklists" no-border *ngIf="occasionalChecklists.length" class="noPaddingBottom">
+        <ion-item *ngFor="let checklist of occasionalChecklists" (click)="assignChecklist(checklist)">
+            <h5 ion-text color="primary"> {{ checklist.nombre }} </h5>
+           
+            <ion-icon item-right name="ios-arrow-forward-outline" color="default"></ion-icon>
+        </ion-item>
+    </ion-list>
+
+    <!-- CHECKLISTS OCASIONALES -->
+    <ion-list-header *ngIf="!navParams.data.sucursal" no-margin no-padding class="tamañoCustom2 paddingEspecial"
+                     color="stable">Listado de {{ module }}
+    </ion-list-header>
+
+    <ion-item color="primary" *ngIf="navParams.data.sucursal" no-padding>
+        <h3 ion-text text-center> Tienda: {{ sucursal.nombre }} </h3>
+    </ion-item>
+
+    <ion-item text-center class="item-energized text-center"
+              *ngIf="!showChecklists || showChecklists.length < 1">
+        <p>Sin Checklist</p>
+    </ion-item>
+
+    <!-- ---------------------------------CHECKLIST---------------------------------------- -->
+    <ion-list no-border *ngIf="showChecklists.length > 0 && !navParams.data.sucursal" class="noPaddingBottom">
+        <div *ngFor="let checklist of showChecklists">
+            <ion-item class="border-bottom-1" *ngIf="checklist.activo && checklist.tiene_alternativa_incidencia">
+                <ion-icon name="close" item-start></ion-icon>
+                {{ checklist.nombre }}
+                <p>
+                    <b class="assertive"> Este {{ module }} solo puede ser respondido desde el sitio web (front) </b>
+                </p>
+            </ion-item>
+
+            <!--Activos-->
+            <!-- Estado -->
+            <ion-item class="border-bottom-1"
+                      *ngIf="checklist.activo && !checklist.tiene_alternativa_incidencia"
+                      (click)="navigateToAmbito(checklist, false)">
+                <ion-icon *ngIf="(checklist.estado_id && checklist.estado_id == 1) || !checklist.estado_id"
+                          [name]="checklist.icon" color="dark"
+                          item-start></ion-icon>
+
+                <ion-icon *ngIf="checklist.estado_id && checklist.estado_id == 2" [name]="checklist.icon"
+                          color="energized"
+                          item-start></ion-icon>
+
+                <ion-icon *ngIf="checklist.estado_id && checklist.estado_id == 3" [name]="checklist.icon"
+                          color="balanced"
+                          item-start></ion-icon>
+
+                <ion-icon *ngIf="checklist.estado_id && checklist.estado_id == 4" [name]="checklist.icon" color="calm"
+                          item-start></ion-icon>
+
+                <span ion-text color="primary" text-wrap> {{ checklist.nombre }} </span>
+                
+                <p>
+                    <b style="line-height: 1.5;"> Ámbitos: </b> {{ checklist.ambitos_cantidad }}
+                </p>
+                
+                <p>
+                    <b>Preguntas:</b> ( {{ checklist.preguntas.contestadas }} / {{ checklist.preguntas.total }} )
+                </p>
+                
+                <p *ngIf="checklist.estado_id && checklist.estado_id == 1">
+                    <b> Estado: </b> <span ion-text color="dark"> {{ checklist.estado_nombre }} </span>
+                </p>
+                
+                <p *ngIf="checklist.estado_id && checklist.estado_id == 2">
+                    <b> Estado: </b> <span ion-text color="energized"> {{ checklist.estado_nombre }} </span>
+                </p>
+                
+                <p *ngIf="checklist.estado_id && checklist.estado_id == 3">
+                    <b> Estado: </b> <span ion-text color="balanced"> {{ checklist.estado_nombre }} </span>
+                </p>
+                
+                <p *ngIf="checklist.estado_id && checklist.estado_id == 4">
+                    <b> Estado: </b> <span ion-text color="calm"> {{ checklist.estado_nombre }} </span>
+                </p>
+                
+                <p *ngIf="!checklist.estado_id">
+                    <b> Estado: </b> <span ion-text color="dark"> Visita sin iniciar </span>
+                </p>
+                
+                <p *ngIf="checklist.area_nombre">
+                    <b style="line-height: 1.5;"> Área: </b> {{ checklist.area_nombre }}
+                </p>
+                
+                <p *ngIf="!checklist.area_nombre">
+                    <b style="line-height: 1.5;"> Área: </b> Sin Área
+                </p>
+                
+                <p *ngIf="checklist.countDown">
+                    <b> Tiempo restante: </b> <span color="danger"> {{ checklist.countDown }} </span>
+                </p>
+                
+                <ion-icon name='ios-arrow-forward' item-end color="default" class="icon-lg"></ion-icon>
+            </ion-item>
+
+            <!--Inactivos-->
+            <ion-item class="border-bottom-1" *ngIf="!checklist.activo && !checklist.tiene_alternativa_incidencia" (click)="navigateToAmbito(checklist, ( (checklist.estado_id && checklist.estado_id != 4) ? true : false) )">
+
+                <ion-icon *ngIf="checklist.estado_id && checklist.estado_id == 4" [name]="checklist.icon" color="calm" item-start></ion-icon>
+                
+                <ion-icon *ngIf="checklist.estado_id && checklist.estado_id != 4" name="ios-close-circle" item-start color="danger"></ion-icon>
+                
+                <span ion-text color="primary" text-wrap> {{ checklist.nombre }} </span>
+                
+                <p>
+                    <b style="line-height: 1.5;">Ámbitos:</b> {{ checklist.ambitos_cantidad }}
+                </p>
+                
+                <p>
+                    <b> Preguntas: </b> ( {{ checklist.preguntas.contestadas }} / {{ checklist.preguntas.total }} )
+                </p>
+                
+                <p *ngIf="checklist.estado_id && checklist.estado_id == 4">
+                    <b> Estado: </b> <span ion-text color="dark"> {{ checklist.estado_nombre }} </span>
+                </p>
+                
+                <p *ngIf="checklist.estado_id && checklist.estado_id != 4">
+                    <b> Estado: </b> <span ion-text color="danger"> Fuera de horario </span>
+                </p>
+                
+                <p *ngIf="checklist.area_nombre">
+                    <b style="line-height: 1.5;"> Área: </b> {{ checklist.area_nombre }}
+                </p>
+                
+                <p *ngIf="!checklist.area_nombre">
+                    <b style="line-height: 1.5;"> Área: </b> Sin Área
+                </p>
+            </ion-item>
+        </div>
+    </ion-list>
+
+    <!-- -----------------------------------------------------VISITAS--------------------------------------------------- -->
+    <ion-list *ngIf="showChecklists.length > 0 && navParams.data.sucursal && isReady">
+        <ion-item no-lines color="stable">
+            <h3>Listado de {{ module }}</h3>
+        </ion-item>
+        
+        <!-- Listado de checklist -->
+        <div *ngFor="let checklist of showChecklists">
+            <ion-item margin-top class="border-bottom-1" no-lines (click)="navigateToAmbito(checklist, false)">
+
+                <ion-icon *ngIf="(checklist.estado_id && checklist.estado_id == 1) || !checklist.estado_id"
+                          [name]="checklist.icon" color="danger"
+                          item-start></ion-icon>
+
+                <ion-icon *ngIf="checklist.estado_id && checklist.estado_id == 2" [name]="checklist.icon"
+                          color="energized"
+                          item-start></ion-icon>
+                          
+                <ion-icon *ngIf="checklist.estado_id && checklist.estado_id == 3" [name]="checklist.icon"
+                          color="balanced"
+                          item-start></ion-icon>
+
+                <ion-icon *ngIf="checklist.estado_id && checklist.estado_id == 4" [name]="checklist.icon" color="calm"
+                          item-start></ion-icon>
+
+                <span ion-text color="primary" text-wrap> {{ checklist.nombre }} </span>
+                <!-- <h3 ion-text color="primary"><b>{{checklist.nombre}}</b></h3> -->
+                
+                <p> <b> Ámbitos: </b> {{ checklist.ambitos_cantidad }} </p>
+                
+                <p *ngIf="checklist.total"><b> Preguntas: </b> {{ checklist.total }}</p>
+
+                <p *ngIf="checklist.estado_id && checklist.estado_id == 1">
+                    <b> Estado: </b> <span ion-text color="danger"> {{ checklist.nombre_estado }} </span>
+                </p>
+                
+                <p *ngIf="checklist.estado_id && checklist.estado_id == 2">
+                    <b> Estado: </b> <span ion-text color="energized"> {{ checklist.nombre_estado }} </span>
+                </p>
+                
+                <p *ngIf="checklist.estado_id && checklist.estado_id == 3">
+                    <b> Estado: </b> <span ion-text color="balanced"> {{ checklist.nombre_estado }} </span>
+                </p>
+                
+                <p *ngIf="checklist.estado_id && checklist.estado_id == 4">
+                    <b> Estado: </b> <span ion-text color="calm"> {{ checklist.nombre_estado }} </span>
+                </p>
+                
+                <p *ngIf="!checklist.estado_id">
+                    <b> Estado: </b> <span ion-text color="dark"> Visita sin iniciar </span>
+                </p>
+
+
+                <!--<p *ngIf="checklist.estado_id"
+                   [ngClass]="{'dark': checklist.estado_id == 1, 'energized': checklist.estado_id == 2, 'balanced': checklist.estado_id == 3, 'calm': checklist.estado_id == 4}">
+                    <b>Estado:</b> {{checklist.nombre_estado}}
+                </p>
+                <p *ngIf="!checklist.estado_id"><b>Estado:</b> Visita sin iniciar</p>-->
+                <ion-icon name='ios-arrow-forward' item-end color="default" class="icon-lg"></ion-icon>
+            </ion-item>
+        </div>
+
+
+        <div *ngFor="let checklist of showChecklists">
+            <ion-item no-lines class="border-bottom-1"
+                      *ngIf="checklist.activo && checklist.tiene_alternativa_incidencia">
+                <ion-icon name="close" item-start></ion-icon>
+                
+                {{ checklist.nombre }}
+                
+                <p> Este checklist solo puede ser respondido desde el sitio web (front). </p>
+            </ion-item>
+            
+            <ion-item margin-top no-lines class="border-bottom-1"
+                      *ngIf="checklist.activo && !checklist.tiene_alternativa_incidencia"
+                      (click)="navigateToAmbito(checklist, false)">
+                <ion-icon [name]="checklist.icon"
+                          color="danger"
+                          *ngIf="checklist.estado_id == 1"
+                          item-start></ion-icon>
+
+                <ion-icon [name]="checklist.icon"
+                          color="energized"
+                          *ngIf="checklist.estado_id == 2"
+                          item-start></ion-icon>
+
+                <ion-icon [name]="checklist.icon"
+                          color="positive"
+                          *ngIf="checklist.estado_id == 3"
+                          item-start></ion-icon>
+
+                <ion-icon [name]="checklist.icon"
+                          color="balanced"
+                          *ngIf="checklist.estado_id == 4"
+                          item-start></ion-icon>
+
+                <span ion-text color="primary"> {{ checklist.nombre }} </span>
+                
+                <p> <b> Ámbitos: </b> {{ checklist.ambitos_cantidad }} </p>
+                
+                <p> <b> Preguntas: </b> ( {{ checklist.preguntas.contestadas }} / {{ checklist.preguntas.total }} ) </p>
+                
+                <p *ngIf="checklist.estado_id"
+                   [ngClass]="{'dark': checklist.estado_id == 1, 'energized': checklist.estado_id == 2, 'balanced': checklist.estado_id == 3, 'calm': checklist.estado_id == 4}">
+                    <b> Estado: </b> {{ checklist.estado_nombre }}
+                </p>
+                
+                <p *ngIf="!checklist.estado_id"> <b> Estado: </b> Visita sin iniciar </p>
+                
+                <p *ngIf="checklist.area_nombre"> <b> Área: </b> {{ checklist.area_nombre }}</p>
+                
+                <p *ngIf="!checklist.area_nombre"> <b> Área: </b> Sin Área </p>
+                
+                <p> <b> Tiempo restante: </b> <span color="danger"> {{ checklist.countDown }} </span></p>
+                
+                <ion-icon name='arrow-forward' item-end color="default" class="icon-lg"></ion-icon>
+            </ion-item>
+        </div>
+    </ion-list>
+
+    <!-- Iconografía estado checklist -->
+    <ion-list>
+        <ion-item text-center align-self-center>
+            <p> Estado de Checklist </p>
+        </ion-item>
+       
+        <ion-item class="text-center" class="customPaddingTop" *ngIf="!navParams.data.sucursal">
+            <div class="row">
+                <div class="col" text-center>
+                    <ion-icon color="secondary" name="checkmark-circle"></ion-icon>
+                    
+                    <p>
+                        <small color="secondary"> Enviado </small>
+                    </p>
+                </div>
+                
+                <div class="col" text-center>
+                    <ion-icon color="balanced" name="checkmark-circle-outline"></ion-icon>
+                    <p>
+                        <small color="balanced"> Completo </small>
+                    </p>
+                </div>
+                
+                <div class="col" text-center>
+                    <ion-icon color="energized" name="ios-radio-button-on"></ion-icon>
+                    <p>
+                        <small color="energized"> Incompleto </small>
+                    </p>
+                </div>
+                
+                <div class="col" text-center>
+                    <ion-icon color="dark" name="ios-radio-button-off"></ion-icon>
+                    
+                    <p>
+                        <small color="dark"> Sin contestar </small>
+                    </p>
+                </div>
+                
+                <div class="col" text-center>
+                    <ion-icon color="danger" name="ios-close-circle"></ion-icon>
+                    
+                    <p>
+                        <small color="danger"> Fuera de horario </small>
+                    </p>
+                </div>
+            </div>
+        </ion-item>
+
+        <!-- Visita -->
+        <ion-item class="text-center" class="customBar" *ngIf="navParams.data.sucursal">
+            <div class="row">
+                <div class="col" text-center>
+                    <ion-icon color="calm" name="checkmark-circle"></ion-icon>
+                    
+                    <p>
+                        <small ion-text color="calm"> Finalizado </small>
+                    </p>
+                </div>
+                
+                <div class="col" text-center>
+                    <ion-icon color="balanced" name="checkmark-circle-outline"></ion-icon>
+                    
+                    <p>
+                        <small ion-text color="balanced"> Completo </small>
+                    </p>
+                </div>
+               
+                <div class="col" text-center>
+                    <ion-icon color="energized" name="ios-radio-button-on"></ion-icon>
+                    
+                    <p>
+                        <small ion-text color="energized"> Incompleto </small>
+                    </p>
+                </div>
+                
+                <div class="col" text-center>
+                    <ion-icon color="danger" name="ios-radio-button-off"></ion-icon>
+                    
+                    <p>
+                        <small ion-text color="danger"> Sin contestar </small>
+                    </p>
+                </div>
+            </div>
+        </ion-item>
+    </ion-list>
+
+</ion-content>

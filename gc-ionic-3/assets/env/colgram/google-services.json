@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "109358555407",
+    "firebase_url": "https://colgram-50f89.firebaseio.com",
+    "project_id": "colgram-50f89",
+    "storage_bucket": "colgram-50f89.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:109358555407:android:d57f1c846ef9b167189e7a",
+        "android_client_info": {
+          "package_name": "cl.newcolgram.gcapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "109358555407-jcrqhanqv025p4rk510slr5v051e0p33.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBF8IznDjfdiJuD-AJSDj9V5fCt7dybvmQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "109358555407-jcrqhanqv025p4rk510slr5v051e0p33.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "109358555407-9ggj798phn8ltl5n0dc0b453gp93nsg9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "cl.newcolgram.gcapp",
+                "app_store_id": "1474685737"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

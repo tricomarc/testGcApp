@@ -1,0 +1,92 @@
+<ion-content *ngIf="details && details.data && details.data.comunicado">
+    <ion-item text-wrap no-lines color="primary">
+        <h2 ion-text text-center color="white">{{details.data.comunicado.comunicado_nombre}}</h2>
+    </ion-item>
+    <ion-grid>
+        <ion-row>
+            <ion-col>
+                <img *ngIf="details.data.comunicado.template_id == 3" class="img-fix"
+                    src="{{details.data.comunicado.header}}" alt="" #image (click)="presentImage(image)">
+                <img *ngIf="details.data.comunicado.template_id != 3" class="img-fix"
+                    src="{{details.data.comunicado.header}}" alt="">
+            </ion-col>
+        </ion-row>
+        <!-- end section images -->
+        <ion-row>
+            <ion-col col-6 text-wrap>
+                <strong color="primary">Área: </strong>
+                <p ion-text>{{details.data.comunicado.area_nombre}}</p>
+                <strong color="primary">Tipo: </strong>
+                <p ion-text>{{details.data.comunicado.tipo_nombre}}</p>
+                <strong color="primary">Inicio: </strong>
+                <p ion-text>{{details.data.comunicado.fecha_inicio}}</p>
+            </ion-col>
+            <!-- -->
+            <ion-col col-6 text-wrap>
+                <strong color="primary">Término: </strong>
+                <p ion-text>{{details.data.comunicado.fecha_termino}}</p>
+                <div *ngIf="!onlyWatch">
+                    <div [ngClass]="{'positive': comunicadoLeido, 'assertive': !comunicadoLeido}">
+                        <strong color="primary">Estado:</strong>
+                        <p ion-text *ngIf="comunicadoLeido">Leido</p>
+                        <p ion-text *ngIf="!comunicadoLeido">No Leido</p>
+                    </div>
+                </div>
+            </ion-col>
+        </ion-row>
+        <!-- end section info -->
+        <ion-row>
+            <ion-col col-12>
+                <h2 ion-text color="primary">{{details.data.comunicado.comunicado_nombre}}</h2>
+            </ion-col>
+            <ion-col col-12>
+                <div margin-top class="fixInterlineado" [innerHTML]="details.data.comunicado.contenido | sanitizeHtml">
+                </div>
+            </ion-col>
+        </ion-row>
+
+        <!-- Imágenes -->
+        <div *ngIf="images.length">
+            <ion-row>
+                <ion-col col-12>
+                    <h3 ion-text color="primary">Imágenes adjuntas</h3>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col col-12>
+                    <ion-slides pager>
+                        <ion-slide *ngFor="let image of images" (click)="openPhotoViewer(image.path)">
+                            <img [src]="image.path" class="img-slide">
+                          </ion-slide>
+                    </ion-slides>
+                </ion-col>
+            </ion-row>
+            <hr>
+        </div>
+
+        <!-- end section details -->
+        <ion-row>
+            <ion-col col-12>
+                <img class="img-fix" src="{{details.data.comunicado.footer}}" alt="">
+            </ion-col>
+            <ion-col col-12>
+                <div *ngIf="archivos.length > 0">
+                    <h3 ion-text color="primary"><b>Descargar:</b></h3>
+                </div>
+                <div *ngFor="let archivo of archivos" (click)="downloadFile(archivo)">
+                    <p>{{archivo.nombre_completo}}</p>
+                    <ion-icon item-right color="primary" name="ios-cloud-download"></ion-icon>
+                </div>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>
+<!-- Seccion de imagen comunicado antigua -->
+<!-- <div class="list card item-text-wrap">
+    <img check-image-directive="img/resources/default-placeholder.png" class="full-image" [src]="details.data.comunicado.header" *ngIf="details.data.comunicado.header">
+    <button style="position: absolute; bottom: -20px; border-radius: 300px; left: 0; right: 0; margin: auto; width: 40px; box-shadow: 0 2px 3px rgba(33,33,33,0.5);" class="button button-positive" (click)="openModalPhoto(details.data.comunicado.header)"
+          *ngIf="details.data.comunicado.header && details.data.comunicado.contenido == '\r\n\r\n                                                ' ">
+      <i class="icon ion-search"></i>
+    </button>
+    <span padding align="justify" style="display: block;" [innerHTML]="details.data.comunicado.contenido"></span>
+  </div> -->

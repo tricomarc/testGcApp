@@ -1,0 +1,59 @@
+page-maquetas {
+  .moduleTitle {
+    background-color: rgb(29, 29, 27) !important;
+    color: rgb(255, 255, 255) !important;
+    border-color: rgb(3, 3, 2) !important;
+  }
+
+  .badge {
+    background-color: rgb(255, 172, 0);
+    color: rgb(255, 255, 255);
+  }
+
+  .myProgress {
+    width: 100%;
+    background-color: grey;
+  }
+
+  .myBar {
+    width: 0%;
+    height: 15px;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .item h2 {
+    margin: 0 0 2px;
+    font-size: 16px;
+    font-weight: 400;
+  }
+
+  .label-muted {
+    background: #EEEFEF;
+    color: #424242;
+  }
+
+  .itemDashboard p {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 2px;
+  }
+
+  .tarjetas.tarjeta-assertive {
+    border-left-color: #730202;
+  }
+
+  .tarjetas {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    border-left: 4px solid;
+    border-bottom: solid 1px #eee;
+  }
+  .itemDashboard {
+    padding: 16px;
+  }
+}
+

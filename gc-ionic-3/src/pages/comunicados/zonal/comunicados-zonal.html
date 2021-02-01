@@ -1,0 +1,34 @@
+<ion-header box-shadow>
+    <ion-navbar>
+        <button ion-button menuToggle>
+            <ion-icon class="icon-menu" name="menu" color="primary"></ion-icon>
+        </button>
+        <div buy>
+            <ion-title><span ion-text color="primary">{{module}}</span></ion-title>
+        </div>
+         <ion-buttons end right>
+            <button ion-button icon-only (click)="presentActionSheet(data)">
+                <ion-icon name="md-more" color="primary"></ion-icon>
+                <!-- <ion-icon name="ios-more" color="primary"></ion-icon>-->
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+<!--header-->
+
+<ion-content>
+   <!-- <ion-tabs *ngIf="tabs.length > 0" tabsPlacement='top'>
+        <div id="pageTabs">
+            <ion-tab *ngFor="let tab of tabs" (ionSelect)="tabSelected($event)" [root]="tab.page"
+                     tabTitle="{{tab.title}}"
+                     tabIcon="{{tab.icon}}"></ion-tab>
+        </div>
+    </ion-tabs>-->
+
+    <tiendas *ngIf="showTienda && !showPropios">
+    </tiendas>
+
+    <propios *ngIf="!showTienda && showPropios">
+    </propios>
+
+</ion-content>

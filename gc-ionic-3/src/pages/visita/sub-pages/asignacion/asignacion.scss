@@ -1,0 +1,61 @@
+asignacion {
+  .dayview-normal-event-container{
+    display: none;
+    height: 0px;
+    width: 0px;
+  }
+  .dayview-allday-label{
+    display: none;
+    height: 0px;
+    width: 0px;
+  }
+  .dayview-allday-table{
+    height: 100% !important;
+  }
+  .dayview-allday-content-wrapper{
+    margin-left: 0px;
+    height: 100% !important;
+  }
+  .dayview-allday-content-table{
+    height: 100% !important;
+  }
+  .scroll-zoom-wrapper{
+    height: 100% !important;
+  }
+  .calendar-cell{
+    height: 100% !important;
+  }
+   ion-slides {
+    height: auto !important;;
+  }
+  .border{
+    border-top: 1px solid #ccc !important;
+  }
+  .caja{
+    text-align: center;
+    width: 70px;
+    font-size: 12px;
+  }
+
+  .table[_ngcontent-c1] > thead[_ngcontent-c1] > tr[_ngcontent-c1] > th[_ngcontent-c1] {
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+  }
+  .monthview-primary-with-event{
+    background-color: color($colors, secondary) !important;
+  }
+  .monthview-current{
+    background-color: color($colors, royal) !important;
+  }
+  .monthview-selected{
+    background-color: color($colors, primary) !important;
+  }
+
+  .selected{
+    background-color: color($colors, primary) !important;
+    color: white !important;
+  }
+
+}

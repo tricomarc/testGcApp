@@ -1,0 +1,28 @@
+<ion-header box-shadow>
+	<ion-navbar>
+		<div buy>
+			<ion-title>
+				<span ion-text color="primary">{{branchOffice ? branchOffice.nombre : ''}}</span>
+			</ion-title>
+		</div>
+		<ion-buttons end right>
+			<button ion-button icon-only (click)="dismissModal()">
+				<ion-icon name="close" color="primary"></ion-icon>
+			</button>
+		</ion-buttons>
+	</ion-navbar>
+</ion-header>
+<ion-content>
+	<ion-list *ngIf="branchOffice" margin-top>
+		<ion-item *ngFor="let user of branchOffice.usuarios" text-wrap>
+			<ion-avatar item-start>
+      			<img [src]="(user.imagen ? user.imagen : 'assets/img/resources/avatar.png')">
+    		</ion-avatar>
+			<h4 ion-text text-capitalize>{{user.nombre}}</h4>
+			<p>{{user.cargo}}</p>
+		</ion-item>
+	</ion-list>
+	<ion-item text-center no-lines margin-top *ngIf="!branchOffice">
+		<p>No hay usuario para mostrar.</p>
+	</ion-item>
+</ion-content>

@@ -1,0 +1,107 @@
+<ion-header box-shadow [ngClass]="view === 'CAMERA' ? 'background-color-transparent no-display' : ''">
+	<ion-navbar box shadow>
+		<div buy box shadow>
+			<ion-title> <span ion-text color="primary"> {{ moduleName }} </span> </ion-title>
+		</div>
+		
+		<ion-buttons end right>
+			<button ion-button icon-only (click)="toggleQuestionView()">
+				<ion-icon name="ios-list-box-outline" color="primary" *ngIf="settings.questionAsSlides"></ion-icon>
+				
+				<ion-icon name="ios-albums-outline" color="primary" *ngIf="!settings.questionAsSlides"></ion-icon>
+			</button>
+			
+			<button ion-button icon-only *ngIf="incompleteQuestions.length" (click)="showIncompleteQuestions()">
+				<ion-icon name="ios-information-circle-outline" color="primary" class="info-icon">
+					<ion-badge color="danger" class="info-badge"> {{ incompleteQuestions.length }} </ion-badge>
+				</ion-icon>
+			</button>
+			
+			<!-- <button ion-button icon-only (click)="showVisitActionSheet()" *ngIf="branchOfficeId">
+				<ion-icon name="more" color="primary"></ion-icon>
+			</button> -->
+			
+		</ion-buttons>
+	</ion-navbar>
+	
+	<ion-row>
+		<ion-col no-padding>
+			<ion-list-header class="tamañoCustom" no-margin no-lines>
+				<ion-label class="fs-1em"> <span ion-text color="primary" class="lh-15"> Ámbito </span> </ion-label>
+				
+				<ion-select padding-right class="fs-1em" interface="popover" [(ngModel)]="selectedAmbitId" (ngModelChange)="changeAmbit()" cancelText="cancelar" okText="ok">
+					<ion-option class="fs-1em" *ngFor="let ambit of ambits | orderAmbits" [value]="ambit.id">
+						{{ ambit.nombre }}
+					</ion-option>
+				</ion-select>
+			</ion-list-header>
+		</ion-col>
+	</ion-row>
+</ion-header>
+
+<ion-content [ngClass]="view === 'CAMERA' ? 'background-color-transparent no-display' : ''">
+	<ion-list-header no-margin no-padding text-wrap class="tamañoCustom2" color="primary" text-center>
+		{{ selectedAmbitName }}
+	</ion-list-header>
+	
+	<ion-item no-lines margin-top text-center *ngIf="requesting">
+		<ion-spinner></ion-spinner>
+		
+		<p> Obteniendo preguntas... </p>
+	</ion-item>
+	
+	<ion-item text-center text-wrap no-lines *ngIf="!questionnaire.questions.length && !requesting">
+		<ion-icon name="refresh" (click)="getQuestionnaire()" class="refresh-icon"> </ion-icon>
+		
+		<p> Ups! No hemos encontrado preguntas. </p>
+	</ion-item>
+	
+	<div class="questionnaire-container" *ngIf="checklist && !requesting">
+		<!-- Preguntas en slides -->
+		<div *ngIf="settings.questionAsSlides">
+			<div class="swiper-pagination bullets-sw"></div>
+			
+			<swiper [(index)]="currentSlideIndex" #swiperElement class="swiper-custom">
+				<div class="swiper-slide" *ngFor="let question of questionnaire.questions" [ngClass]="(checklist.estado_id === 4 || checklist.fromStatistics) ? 'locked' : ''">
+					<div [ngClass]="question.incomplete ? '' : ''" class="question-container">
+						<question [question]="question" [isSubQuestion]="false" [ambitState]="ambitState" [checklist]="checklist"></question>
+					</div>
+				</div>
+			</swiper>
+		</div>
+
+		<!-- Preguntas en lista -->
+		<div *ngIf="!settings.questionAsSlides">
+			<div no-padding color="light" *ngFor="let question of questionnaire.questions" [ngClass]="(checklist.estado_id === 4 || checklist.fromStatistics) ? 'locked' : ''">
+				<div [ngClass]="question.incomplete ? '' : ''">
+					<question [question]="question" [isSubQuestion]="false" [ambitState]="ambitState" [checklist]="checklist"></question>
+				</div>
+			</div>
+		</div>
+
+		<!-- Mensaje de error cuando las respuestas en conjunto exceden el valor total -->
+		<div class="item-divider text-center padding" *ngIf="totalError" text-wrap text-center>
+			<p margin-bottom ion-text color="danger"> *La suma de estos valores no debe superar el valor total. </p>
+		</div>
+	</div>
+	
+	<!-- Botón para enviar las respuestas actuales -->
+	<ion-fab right mini bottom *ngIf="(checklist && (checklist.estado_id < 4 && !checklist.fromStatistics) && !requesting && questionnaire.questions.length)">
+		<button ion-fab mini color="primary" (click)="confirmSendAnswers()">
+			<ion-icon name="md-send"></ion-icon>
+		</button>
+	</ion-fab>
+	
+	<!-- Botones para cambiar de ámbito. Estos botones estarán disponibles solamente cuando se navega desde estadística -->
+	<ion-fab right mini bottom *ngIf="checklist && checklist.fromStatistics && isNextAmbit">
+		<button ion-fab mini color="primary" (click)="showNextAmbit()">
+			<ion-icon name="ios-arrow-forward-outline"></ion-icon>
+		</button>
+	</ion-fab>
+	
+	<ion-fab left mini bottom *ngIf="checklist && checklist.fromStatistics && isPreviousAmbit">
+		<button ion-fab mini color="primary" (click)="showPreviousAmbit()">
+			<ion-icon name="ios-arrow-back-outline"></ion-icon>
+		</button>
+	</ion-fab>
+</ion-content>

@@ -1,0 +1,102 @@
+<ion-header box-shadow>
+    <ion-navbar box shadow>
+        <div buy box shadow>
+            <ion-title><span ion-text color="primary">{{module}}</span></ion-title>
+        </div>
+        <ion-buttons end right>
+            <button ion-button icon-only (click)="showVisitActionSheet()">
+                <ion-icon name="more" color="primary"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <div *ngIf="ready">
+        <ion-list-header no-margin no-padding class="tamañoCustom2" color="primary" text-center>
+            {{checklist.nombre}}
+        </ion-list-header>
+
+        <ion-list padding-top no-padding-bottom>
+            <!----------------------------------VISITAS--------------------------->
+            <ion-row class="tamañoFuenteCustom paddingEspecial stripeColorCustom">
+                <ion-col col-6>
+                    <span ion-text>Fecha inicio de visita:</span>
+                </ion-col>
+                <ion-col col-6>
+                        <span ion-text *ngIf="checklist.fecha">{{checklist.fecha | date:'dd-MM-yyyy'}} a las
+            {{checklist.fecha | date:'HH:mm'}} hrs.</span>
+                </ion-col>
+            </ion-row>
+            <!----------------------------------FIN VISITAS--------------------------->
+            <ion-row class="tamañoFuenteCustom paddingEspecial stripeColorCustom">
+                <ion-col col-6>
+                    <span ion-text>Estado:</span>
+                </ion-col>
+                <ion-col col-6 *ngIf="!checklist.estado_nombre">
+                    <span ion-text>Aún no se ha visitado esta tienda.</span>
+                </ion-col>
+                <ion-col col-6 *ngIf="checklist.estado_nombre">
+                    <span ion-text>{{checklist.estado_nombre}}</span>
+                </ion-col>
+            </ion-row>
+            <ion-row
+                    *ngIf="!navParams.data.visita && checklist && (checklist.nota_tienda || checklist.nota_tienda == 0)"
+                    class="tamañoFuenteCustom paddingEspecial stripeColorCustom">
+                <ion-col col-6>
+                    <span ion-text>Nota Tienda:</span>
+                </ion-col>
+                <ion-col col-6>
+                    <span ion-text>{{checklist.nota_tienda}}</span>
+                </ion-col>
+            </ion-row>
+            <ion-row *ngIf="!navParams.data.visita && checklist && (checklist.nota || checklist.nota == 0)"
+                     class="tamañoFuenteCustom paddingEspecial stripeColorCustom">
+                <ion-col col-6>
+                    <span ion-text>Nota:</span>
+                </ion-col>
+                <ion-col col-6>
+                    <span ion-text>{{checklist.nota}}</span>
+                </ion-col>
+            </ion-row>
+            <ion-row *ngIf="!navParams.data.visita && settingViewDescripcion && checklist && checklist.introduccion"
+                     class="tamañoFuenteCustom paddingEspecial stripeColorCustom">
+                <ion-col col-6>
+                    <span ion-text>Descripción:</span>
+                </ion-col>
+                <ion-col col-6>
+                    <span ion-text [innerHTML]="checklist.introduccion"></span>
+                </ion-col>
+            </ion-row>
+
+            <ion-item-divider no-lines>
+            </ion-item-divider>
+
+            <ion-list-header no-margin no-padding class="tamañoCustom2 paddingEspecial" color="stable"
+                             style="line-height: 1.5;">Ámbitos
+            </ion-list-header>
+
+            <ion-list no-border class="noPaddingBottom">
+                <div (click)="navigateToDetails(checklist.id, ambito.id)"
+                     *ngFor="let ambito of checklist.ambitos">
+                    <ion-item no-padding>
+                        <h2 class="paddingEspecial" ion-text color="primary" *ngIf="ambito && ambito.nombre">
+                            {{ambito.nombre}}</h2>
+                        <p class="paddingEspecial">Estado:
+                            <b *ngIf="ambito.contestadas == ambito.total"><strong color="primary">Completo</strong></b>
+                            <b *ngIf="ambito.contestadas > 0 && ambito.contestadas < ambito.total"><strong ion-text
+                                                                                                           color="primary">Incompleto</strong></b>
+                            <b *ngIf="ambito.contestadas == 0"><strong ion-text color="primary">Sin
+                                contestar</strong></b>
+                        </p>
+                        <p class="paddingEspecial">Preguntas: <b><strong ion-text color="primary">({{ambito.contestadas}}/{{ambito.total}})</strong></b>
+                        </p>
+                        <ion-icon *ngIf="onlyWatch == false" name='ios-arrow-forward' item-end color="default"
+                                  class="icon-lg"></ion-icon>
+                    </ion-item>
+                </div>
+            </ion-list>
+
+        </ion-list>
+    </div>
+</ion-content>

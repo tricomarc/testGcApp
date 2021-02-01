@@ -1,0 +1,123 @@
+<ion-header box-shadow>
+	<ion-navbar>
+		<ion-title>{{module}}</ion-title>
+	</ion-navbar>
+</ion-header>
+
+<ion-content no-lines>
+	<!-- SI FALLA INTERNET Y/O GPS -->
+	<!-- SI SÓLO FALLA INTERNET -->
+	<div *ngIf="!availableServices.internet && availableServices.gps">
+		<ion-row>
+			<ion-col col-12 text-center customPosicionImagen>
+				<img src="assets/img/img-sin-internet.png" style="max-width: 200px;">
+			</ion-col>
+			<ion-col col-12 text-center>
+				<h2 ion-text color="primary" customTitulo>
+					¡Te has quedado sin Internet!
+				</h2>
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col col-12 text-center text-wrap>
+				<!-- <p ion-text color="primary" customTamañoExplicacion>
+					Quizás entraste a algún lugar sin señal o se interrumpió tu servicio.
+				</p> -->
+				<span ion-text color="primary" customTamañoSolucion>
+					Te recomendamos revisar si la red de datos está disponible y activa o conectarte a wifi.
+				</span>
+			</ion-col>
+		</ion-row>
+	</div>
+	<!-- SI SÓLO FALLA GPS -->
+	<div *ngIf="availableServices.internet && !availableServices.gps">
+		<ion-row>
+			<ion-col col-12 text-center customPosicionImagen>
+				<img src="assets/img/img-sin-ubicacion.png" style="max-width: 200px;">
+			</ion-col>
+			<ion-col col-12 text-center>
+				<h2 ion-text color="primary" customTitulo>
+					¡El GPS no está disponible!
+				</h2>
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col col-12 text-center text-wrap>
+				<p ion-text color="primary" customTamañoExplicacion>
+					Al parecer el servicio de GPS está apagado o presenta problemas.
+				</p>
+				<span ion-text color="primary" customTamañoSolucion>
+					Asegúrate de tener encendido el GPS para seguir utilizando la aplicación.
+				</span>
+			</ion-col>
+		</ion-row>
+		<ion-item no-lines>
+			<button ion-button block round color="primary" (click)="turnOnGps()">Encender GPS</button>
+		</ion-item>
+	</div>
+	<!-- SI FALLAN AMBOS -->
+	<div *ngIf="!availableServices.internet && !availableServices.gps">
+		<ion-row>
+			<ion-col col-12 text-center customPosicionImagen>
+				<img src="assets/img/img-errores-ambos.png" style="max-width: 200px;">
+			</ion-col>
+			<ion-col col-12 text-center>
+				<h2 ion-text color="primary" customTitulo>
+					¡Sin internet ni GPS!
+				</h2>
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col col-12 text-center text-wrap>
+				<p ion-text color="primary" customTamañoExplicacion>
+					Al parecer los servicios de GPS e Internet están apagados o presentan problemas.
+				</p>
+				<span ion-text color="primary" customTamañoSolucion>
+					Asegúrate de tener encendido el GPS, los datos o wifi para seguir utilizando la aplicación.
+				</span>
+			</ion-col>
+		</ion-row>
+		<ion-item no-lines>
+			<button ion-button block round color="primary" (click)="turnOnGps()">Encender GPS</button>
+		</ion-item>
+	</div>
+	<!-- SI TENGO AMBOS SERVICIOS Y NO TENGO POSICIÓN -->
+	<div *ngIf="!availableServices.position && availableServices.gps && availableServices.internet">
+		<ion-row>
+			<ion-col col-12 text-center customPosicionImagen>
+				<img src="assets/img/img-buscando-ubicacion.png" style="max-width: 200px;">
+			</ion-col>
+			<ion-col col-10 offset-1 text-center>
+				<h2 ion-text color="primary" customTitulo>
+					Buscando ubicación
+				</h2>
+			</ion-col>
+		</ion-row>
+		<ion-item no-lines text-center>
+			<ion-spinner></ion-spinner>
+		</ion-item>
+		<ion-row>
+			<ion-col col-12 text-wrap text-center>
+				<p ion-text color="primary" customTamañoSolucion>
+					Estamos intentando establecer tu ubicación. <br> Te recomendamos buscar un lugar con mejor recepción.
+				</p>
+			</ion-col>
+		</ion-row>
+		<ion-item *ngIf="currentCheckin" no-lines text-center text-wrap>
+			<p *ngIf="currentCheckin.sucursal">Tienes un checkin en curso en la sucursal: {{currentCheckin.sucursal.nombre ? currentCheckin.sucursal.nombre : 'Desconocida'}}</p>
+		</ion-item>
+		<ion-row *ngIf="session">
+			<ion-col>
+				<button ion-button block round color="primary" (click)="goToMenu()">Menú principal</button>
+			</ion-col>
+		</ion-row>
+		<ion-row *ngIf="currentCheckin">
+			<ion-col>
+				<button ion-button block round color="primary" (click)="navigateToBranchOffice()">Ir a tienda</button>
+			</ion-col>
+			<ion-col>
+				<button ion-button block round color="danger" (click)="confirmCheckOut()">Check out</button>
+			</ion-col>
+		</ion-row>
+	</div>
+</ion-content>

@@ -1,0 +1,32 @@
+<ion-header box-shadow>
+	<ion-navbar>
+		<div buy>
+			<ion-title>
+				<span ion-text color="primary">Filtros ranking</span>
+			</ion-title>
+		</div>
+		<ion-buttons end right>
+			<button ion-button icon-only (click)="dismissModal()">
+				<ion-icon name="close" color="primary"></ion-icon>
+			</button>
+		</ion-buttons>
+	</ion-navbar>
+</ion-header>
+<ion-content>
+	<ion-list>
+		<ion-list-header (click)="selectFilter('categoria', {nombre: 'General'})" class="header-filter">
+			<ion-icon name="grid" item-left item-start></ion-icon>
+			GENERAL
+		</ion-list-header>
+		<div *ngFor="let category of categories.data">	
+			<ion-list-header (click)="selectFilter('categoria', category)" class="header-filter">
+				<ion-icon [name]="category.icono" item-left item-start></ion-icon>
+				{{category.nombre}}
+			</ion-list-header>
+			<ion-item *ngFor="let indicator of category.indicadores" (click)="selectFilter('indicador', indicator)">
+				<ion-icon name="ios-remove-outline" item-left item-start></ion-icon>
+				{{indicator.nombre}}
+			</ion-item>
+		</div>
+	</ion-list>
+</ion-content>

@@ -1,0 +1,18 @@
+<ion-row padding-left padding-top>
+	<ion-col col-3>
+		<ion-label ion-text color="primary" class="tamañoCustomFuente">Fecha:</ion-label>
+	</ion-col>
+	<ion-col class="customPaddingTop" col-4 text-right>
+		<ion-datetime right [(ngModel)]="filters.from" displayFormat="DD/MM/YYYY" pickerFormat="DD-MM-YYYY" placeholder="Desde" (ngModelChange)="dateChange()" doneText="OK" cancelText="Cancelar" [max]="filters.to">
+			{{filters.from | date: 'dd/MM/yyyy' }}
+		</ion-datetime>
+	</ion-col>
+	<ion-col class="customPaddingTop" col-1 text-right>
+		<ion-icon class="espaciadoIcono" name="ios-arrow-forward"></ion-icon>
+	</ion-col>
+	<ion-col class="customPaddingTop" col-4 text-right>
+		<ion-datetime right [(ngModel)]="filters.to" displayFormat="DD/MM/YYYY" pickerFormat="DD-MM-YYYY" placeholder="Hasta" (ngModelChange)="dateChange()" doneText="OK" cancelText="Cancelar" [min]="filters.from">
+			{{filters.to | date: 'dd/MM/yyyy' }}
+		</ion-datetime>
+	</ion-col>
+</ion-row>

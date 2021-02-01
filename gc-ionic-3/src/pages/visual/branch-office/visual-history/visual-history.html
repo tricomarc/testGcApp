@@ -1,0 +1,68 @@
+<ion-header box-shadow>
+	<ion-navbar>
+		<div buy>
+			<ion-title>Implementaciones históricas</ion-title>
+		</div>
+	</ion-navbar>
+	<ion-row padding-left padding-top>
+		<ion-col col-3>
+			<ion-label ion-text color="primary" class="tamañoCustomFuente">Fecha:</ion-label>
+		</ion-col>
+		<ion-col class="customPaddingTop" col-4 text-right>
+			<ion-datetime right [(ngModel)]="filters.from" displayFormat="DD/MM/YYYY" pickerFormat="DD-MM-YYYY" placeholder="Desde" (ngModelChange)="refreshVisuals(null)" doneText="ok" cancelText="cancelar" [max]="filters.to">
+				{{filters.from | date: 'dd/MM/yyyy' }}
+			</ion-datetime>
+		</ion-col>
+		<ion-col class="customPaddingTop" col-1 text-right>
+			<ion-icon class="espaciadoIcono" name="ios-arrow-forward"></ion-icon>
+		</ion-col>
+		<ion-col class="customPaddingTop" col-4 text-right>
+			<ion-datetime right [(ngModel)]="filters.to" displayFormat="DD/MM/YYYY" pickerFormat="DD-MM-YYYY" placeholder="Hasta" (ngModelChange)="refreshVisuals(null)" doneText="ok" cancelText="cancelar" [min]="filters.from">
+				{{filters.to | date: 'dd/MM/yyyy' }}
+			</ion-datetime>
+		</ion-col>
+	</ion-row>
+	<ion-toolbar>
+        <div header-section>
+            <ion-searchbar [formControl]="searchControl" placeholder="Buscar campaña"></ion-searchbar>
+        </div>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content no-lines>
+
+	<ion-item no-lines *ngIf="(!visuals.view || visuals.view.length < 1) && !requesting" text-center text-wrap no-lines padding-top>
+		<p>No encontramos campañas</p>
+	</ion-item>
+	<ion-item no-lines margin-top text-center *ngIf="requesting">
+		<ion-spinner color="primary"></ion-spinner>
+		<p margin-top>Obteniendo campañas</p>
+	</ion-item>
+	<ion-refresher (ionRefresh)="refreshVisuals($event)" color="primary">
+		<ion-refresher-content pullingText="Actualizar" refreshingText="Actualizando..."></ion-refresher-content>
+	</ion-refresher>
+	<ion-list *ngIf="(visuals.view && visuals.view.length > 0) && !requesting">
+		<ion-item class="custom-bb" *ngFor="let visual of visuals.view" (click)="navigateToVisualReport(visual)" no-lines>
+			<ion-avatar item-start>
+				<img [src]="visual.banner"/>
+				<ion-icon [name]="visual.status_data.icon" [color]="visual.status_data.color" class="fix-icon"></ion-icon>
+			</ion-avatar>
+			<h3 text-wrap ion-text color="primary"><b>{{visual.nombre}}</b></h3>
+			<p><strong>Estado:</strong> {{(visual.status_data.defecto && visual.reportable === 0) ? 'No Reportable' :  visual.status_data.nombre}}</p>
+			<p><strong>Término:</strong> {{visual.fecha_termino.day.real}} - {{visual.fecha_termino.month.string}}</p>
+			<p *ngIf="cliente != 'cl.foco.gcapp'">
+				<strong>Reporte:</strong> 
+				<font *ngIf="visual.reportable !== 0">
+					{{visual.fecha_reporte.day.real}} - {{visual.fecha_reporte.month.string}} {{visual.fecha_reporte.time}}
+				</font>
+				<font *ngIf="visual.reportable === 0">
+					No aplica
+				</font>
+			</p>
+			<p><strong>Lectura:</strong> {{visual.fecha_leido ? 'Leído' : 'No leído'}}</p>
+			<p *ngIf="visual.evaluable">
+				<strong>Nota:</strong> {{(visual.reportable === 0 || visual.reportable === 2) ? 'No aplica' : (visual.nota ? visual.nota : 'No evaluado')}}</p>
+			<ion-icon name='ios-arrow-forward' item-end color="default" class="icon-lg"></ion-icon>
+		</ion-item>
+	</ion-list>
+</ion-content>

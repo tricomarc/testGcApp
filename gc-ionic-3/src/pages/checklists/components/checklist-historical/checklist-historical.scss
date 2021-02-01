@@ -1,0 +1,184 @@
+checklist-historical {
+    .customPadding {
+        padding-top: 25px !important;
+    }
+    
+    .customFontSize {
+        font-size: 1.2em !important;
+    }
+    
+    .myCustomSelect {
+        max-width: 100% !important;
+        font-size: 1em !important;
+        padding-top: 13px !important;
+    }
+    
+    .paddingEstilo {
+        margin-bottom: 10px;
+    }
+    
+    .estiloTexto1 {
+        font-size: 0.9em !important;
+        color: color($colors, primary);
+    }
+    
+    .estiloTexto2 {
+        font-size: 0.7em !important;
+        color: color($colors, royal);
+    }
+    
+    .item-md h2 {
+        font-weight: 600;
+    }
+    
+    .custom-bb {
+        border-bottom: 1px solid #ddd !important;
+    }
+    
+    .custom-bb:last-child {
+        border-bottom: none !important;
+    }
+    
+    .espaciadoIcono {
+        color: #ccc !important;
+        font-size: 1.5em !important;
+        padding-top: 9px !important;
+    }
+    
+    .tamañoCustomFuente {
+        font-size: 1.2em !important;
+    }
+    
+    .fix-fechas {
+        padding-top: 7px !important;
+    }
+    
+    .customPaddingTop {
+        padding-top: 8px !important;
+    }
+
+    .fs-1em {
+        font-size: 1em !important;
+    }
+
+    .fs-09em {
+        font-size: 0.9em !important;
+    }
+
+    .icon-lg {
+        position: relative;
+        top: -20px;
+        font-size:2em !important;
+        color: #bbb !important;
+    }
+
+    .row-no-padding > .item-inner {
+        padding-right: 0px !important;
+    }
+    .row-no-padding > .item-inner > .input-wrapper > ion-label {
+        margin-right: 0px !important;
+    }
+
+    .title {
+        padding-left: 15px;
+    }
+
+    // enviado
+    .estado4 {
+        //background-color: color($colors, primary, base );
+        background-color: #a9bf04;
+        padding-left: 14px;
+        padding-top: 7px;
+        padding-bottom: 7px;
+        padding-right: 7px;
+        margin-left: -16px !important;
+    }
+
+
+    // completo
+    .estado3 {
+        background-color: #048abf;
+        padding-left: 14px;
+        padding-top: 7px;
+        padding-bottom: 7px;
+        padding-right: 7px;
+        margin-left: -16px !important;
+    }
+
+    // inpompleto
+    .estado2 {
+        background-color: #f2b705;
+        padding-left: 14px;
+        padding-top: 7px;
+        padding-bottom: 7px;
+        padding-right: 7px;
+        margin-left: -16px !important;
+    }
+
+    // sin contestar
+    .estado1 {
+        background-color: #bfbfbf;
+        padding-left: 14px;
+        padding-top: 7px;
+        padding-bottom: 7px;
+        padding-right: 7px;
+        margin-left: -16px !important;
+    } 
+    .inactivo {
+        background-color: #8c030e;
+        padding-left: 14px;
+        padding-top: 7px;
+        padding-bottom: 7px;
+        padding-right: 7px;
+        margin-left: -16px !important;
+    }
+
+    // enviado
+    .subE4 {
+        text-decoration: underline;
+        // -webki-text-decoration-color: color($colors, primary, base);
+        // text-decoration-color: secondary;
+        -webki-text-decoration-color: #a9bf04;
+        text-decoration-color: #a9bf04;
+        text-decoration-style: solid;
+    }
+
+    // completo
+    .subE3 {
+        text-decoration: underline;
+        -webki-text-decoration-color: #048abf;
+        text-decoration-color: #048abf;
+        text-decoration-style: solid;
+    }
+
+    // incompleto
+    .subE2 {
+        text-decoration: underline;
+        -webki-text-decoration-color: #f2b705;
+        text-decoration-color: #f2b705;
+        text-decoration-style: solid;
+    }
+
+    // sin contestar
+    .subE1 {
+        text-decoration: underline;
+        -webki-text-decoration-color: #bfbfbf;
+        text-decoration-color: #bfbfbf;
+        text-decoration-style: solid;
+    }
+
+    .subInactivo {
+        text-decoration: underline;
+        -webki-text-decoration-color: #8c030e;
+        text-decoration-color: #8c030e;
+        text-decoration-style: solid;
+    }
+
+    .icolor {
+        color: #fff;
+    }
+
+    .selected-bottom-filter{
+        background-color: lightgrey;
+    }
+}

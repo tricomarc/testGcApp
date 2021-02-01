@@ -1,0 +1,73 @@
+<ion-header box-shadow [ngClass]="view === 'CAMERA' ? 'background-color-transparent no-display' : ''">
+	<ion-navbar>
+		<ion-buttons left>
+			<button ion-button icon-only menuToggle>
+				<ion-icon name="menu" color="primary"></ion-icon>
+			</button>
+		</ion-buttons>
+		
+		<ion-title>Incidencias</ion-title>
+		
+		<ion-buttons right>
+			<button ion-button icon-only clear *ngIf="requesting">
+				<ion-spinner color="primary"></ion-spinner>
+			</button>
+			
+			<button ion-button icon-only clear (click)="addIncident()">
+				<ion-icon name="md-add" color="primary"></ion-icon>
+			</button>
+		</ion-buttons>
+	</ion-navbar>
+</ion-header>
+
+<ion-content [ngClass]="view === 'CAMERA' ? 'background-color-transparent no-display' : ''">
+	<ion-refresher (ionRefresh)="refreshIncidents($event)" color="primary">
+	    <ion-refresher-content pullingText="Actualizar" refreshingText="Actualizando incidencias..."></ion-refresher-content> 
+	</ion-refresher>
+
+	<ion-grid no-padding no-margin>
+		<ion-row>
+			<ion-col col-12>
+				<ion-list-header box-shadow no-margin no-lines>
+					<h1 header-title> Listado de incidencias </h1>
+				</ion-list-header>    
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+	<ion-item padding-top no-lines>
+		<ion-label><span ion-text color="primary">Estado: </span></ion-label>
+		<ion-select margin-right placeholder="Todos" cancelText="Cancelar" [(ngModel)]="filters.status" (ngModelChange)="applyFilters()" interface="popover">
+			<ion-option *ngFor="let status of statuses" [value]="status">{{status}}</ion-option>
+		</ion-select>
+	</ion-item>
+	<ion-item no-lines class="custom-bb">
+		<ion-label><span ion-text color="primary" class="lh-15">Área: </span></ion-label>
+		<ion-select margin-right placeholder="Todos" cancelText="Cancelar" [(ngModel)]="filters.area" (ngModelChange)="applyFilters()" interface="popover">
+			<ion-option *ngFor="let area of areas" [value]="area.nombre">{{area.nombre}}</ion-option>
+		</ion-select>
+	</ion-item>
+	<ion-list no-border *ngIf="incidents_view.length > 0">
+		<ion-item no-lines text-center class="item-energized text-center" *ngIf="incidents.length < 1">
+			Sin Incidencias
+		</ion-item>
+		<ion-item *ngFor="let incident of incidents_view" no-lines class="custom-bb">
+			<ion-item text-wrap (click)="showIncident(incident)" no-lines>
+				<h2 class="text-nombre" ion-text color="primary" [ngClass]="incident.status_info.color" >{{incident.servicio}}</h2>
+				<p><b>N°</b>{{incident.id}}</p>
+				<p><b class="lh-15">Área: </b>{{incident.area}}</p>
+				<p *ngIf="incident.prioridad" [ngClass]="incident.prioridad === 'Urgente' ? 'assertive' : ''"><b>Prioridad: </b>{{incident.prioridad}}</p>
+				<p *ngIf="incident.fecha_estimada"><b>Fecha estimada: </b>{{incident.fecha_estimada | cleanDate | date: 'dd/MM/yyyy'}}</p>
+				<p *ngIf="!incident.fecha_estimada"><b ion-text text-wrap>No se ha asignado tiempo de resolución </b></p>
+				<p *ngIf="incident.tipo"><b>Tipo: </b> {{incident.tipo}}</p>
+				<ion-icon name='ios-arrow-forward' item-end color="default" class="icon-lg"></ion-icon>
+			</ion-item>
+			<div start class="customPosition">
+				<ion-badge [color]="incident.status_info.color">{{incident.status}}</ion-badge>
+			</div>
+		</ion-item>
+	</ion-list>
+	<ion-item no-lines icon-left text-center *ngIf="!incidents_view || incidents_view.length < 1">
+		<ion-icon name="md-alert" color="energized" class="icon-no-results"></ion-icon>
+		<span class="assertive">No se encontraron resultados</span>
+	</ion-item>
+</ion-content>

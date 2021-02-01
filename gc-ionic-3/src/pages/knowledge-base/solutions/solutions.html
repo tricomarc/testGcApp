@@ -1,0 +1,53 @@
+<!-- HEADER -->
+<ion-header box-shadow>
+	<ion-navbar box-shadow>
+		<div buy>
+			<ion-title>{{module}}</ion-title>
+		</div>
+	</ion-navbar>
+</ion-header>
+
+<!-- CONTENT -->
+<ion-content>
+	<div *ngIf="problem">
+		<ion-list padding>
+			<!-- INFO DEL PROBLEMA -->
+			<div>
+				<h4 class="example-h4">{{problem.titulo}}</h4>
+				<h5 class="example-h5">Descripción: {{problem.descripcion ? problem.descripcion : 'Sin información'}}</h5>
+			</div>
+		</ion-list>
+		<!-- LISTA DE SOLUCIONES -->
+		<ion-list no-margin>
+			<ion-list-header box-shadow no-lines header-section no-margin>
+				<h1 header-title text-capitalize>Soluciones</h1>
+			</ion-list-header>
+			<ul no-margin no-padding class="collapsible">
+				<li no-margin *ngFor="let solution of problem.soluciones">
+					<div class="collapsible-header" no-margin no-padding (click)="toggleSolution(solution)">
+						<ion-item border no-lines>
+							<h2 item-title text-capitalize>Solución: {{solution.id}}</h2>
+							<ion-icon icon-small item-end>
+								<i class="icon" [ngClass]="solution.show ? 'icon-minus-circle-outline' : 'icon-plus-circle-outline'"></i>
+							</ion-icon>
+						</ion-item>
+					</div>
+					<div class="item-accordion" [ngClass]="{'active': solution.show }" [hidden]="!solution.show">
+						<ion-item border no-lines>
+							<h5 class="example-h5" text-wrap>{{solution.descripcion}}</h5>
+							<ion-row>
+								<ion-col col-12 text-right>
+									<button ion-button icon-start clear small item-right item-end [color]="solution.like === 1 ? 'primary' : 'dark'" (click)="setLike(solution)">
+										<ion-icon name="thumbs-up"></ion-icon>
+										<div>{{solution.total_likes}} Likes</div>
+									</button>
+								</ion-col>
+							</ion-row>
+						</ion-item>
+					</div>
+				</li>
+			</ul>
+		</ion-list>
+	</div>
+</ion-content>
+

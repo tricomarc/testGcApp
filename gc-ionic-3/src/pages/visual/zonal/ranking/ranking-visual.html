@@ -1,0 +1,199 @@
+<ion-header box-shadow>
+	<ion-navbar>
+		<ion-title>{{module}}</ion-title>
+	</ion-navbar>
+</ion-header>
+
+<!-- REFRESHER -->
+<ion-content>
+	<ion-refresher (ionRefresh)="refreshRankingVisual($event)" color="positive">
+		<ion-refresher-content pullingText="Actualizar" refreshingText="Actualizando..."></ion-refresher-content>
+	</ion-refresher>
+
+	<!-- CONTENIDO -->
+	<div *ngIf="!requesting">
+		<!-- FILTROS -->
+		<div>
+			<!-- FILTRO DE FECHA -->
+			<ion-row padding-left padding-top>
+				<ion-col col-3>
+					<ion-label ion-text color="primary" class="tamañoCustomFuente">Fecha:</ion-label>
+				</ion-col>
+				
+				<ion-col class="customPaddingTop" col-4 text-right>
+					<ion-datetime right [(ngModel)]="filters.from" displayFormat="DD/MM/YYYY" pickerFormat="DD-MM-YYYY" placeholder="Desde" (ngModelChange)="filterVisuals(true)" doneText="ok" cancelText="cancelar" [max]="filters.to">
+						{{ filters.from | date: 'dd/MM/yyyy' }}
+					</ion-datetime>
+				</ion-col>
+				
+				<ion-col class="customPaddingTop" col-1 text-right>
+					<ion-icon class="espaciadoIcono" name="ios-arrow-forward"></ion-icon>
+				</ion-col>
+				
+				<ion-col class="customPaddingTop" col-4 text-right>
+					<ion-datetime right [(ngModel)]="filters.to" displayFormat="DD/MM/YYYY" pickerFormat="DD-MM-YYYY" placeholder="Hasta" (ngModelChange)="filterVisuals(true)" doneText="ok" cancelText="cancelar" [min]="filters.from">
+						{{ filters.to | date: 'dd/MM/yyyy' }}
+					</ion-datetime>
+				</ion-col>
+			</ion-row>
+
+			<!-- FILTRO DE AREA -->
+			<ion-item no-lines>
+				<ion-label class="customPadding lh-15"> Áreas: </ion-label>
+				
+				<ionic-selectable
+			        item-content
+			        [(ngModel)]="filters.areas_id"
+			        [items]="search_areas"
+			        itemValueField="id"
+			        itemTextField="nombre"
+			        closeButtonText="Cancelar"
+			        [canSearch]="true"
+			        (onSearch)="onSearchAreas($event)"
+			        (onChange)="filterVisuals(true)"
+			        [isMultiple]="true"
+			        [searchFailText]="'No se encontraron áreas'"
+			        [searchPlaceholder]="'Búsqueda'">
+			        <ng-template ionicSelectableValueTemplate let-ports="value">
+				        <div class="ionic-selectable-value-item">
+				            {{ filters.areas_id.length }} seleccionadas
+				        </div>
+				    </ng-template>
+			    </ionic-selectable>
+			</ion-item>
+
+			<!-- INDICADOR FILTRO DE ÁREAS -->
+			<ion-list-header no-margin no-padding class="tamañoCustom2" text-center color="primary">
+				{{ filters.areas_id.length ? ( filters.areas_id.length === 1 ? '1 área seleccionada' : ( filters.areas_id.length === areas.length ? 'Todas las áreas seleccionadas' : filters.areas_id.length + ' áreas seleccionadas' )) : 'Se consideran todas las áreas' }}
+			</ion-list-header>
+
+			<ion-item no-lines>
+				<ion-label class="customPadding">Campañas: </ion-label>
+				
+				<ionic-selectable
+			        item-content
+			        [(ngModel)]="filters.visuales_id"
+			        [items]="search_visuals"
+			        itemValueField="id"
+			        itemTextField="nombre"
+			        closeButtonText="Cancelar"
+			        [canSearch]="true"
+			        (onSearch)="onSearch($event)"
+			        (onChange)="filterRanking()"
+			        [isMultiple]="true"
+			        [searchFailText]="'No se encontraron campañas'"
+			        [searchPlaceholder]="'Búsqueda'">
+			        <ng-template ionicSelectableValueTemplate let-ports="value">
+				        <div class="ionic-selectable-value-item">
+				            {{filters.visuales_id.length}} seleccionadas
+				        </div>
+				    </ng-template>
+			    </ionic-selectable>
+			</ion-item>
+
+			<!-- INDICADOR FILTRO DE VISUALES -->
+			<!-- CAMPAÑAS -->
+			<ion-list-header no-margin no-padding class="tamañoCustom2" text-center color="primary">
+				{{ 
+					filters.visuales_id.length ? ( filters.visuales_id.length === 1 ? '1 campaña seleccionada' 
+					: ( filters.visuales_id.length === visuals.length ? 'Todas las campañas seleccionadas' : filters.visuales_id.length + ' campañas seleccionadas' ) ) 
+					: 'Se consideran todas las campañas' 
+				}}
+			</ion-list-header>
+		</div>
+
+		<div *ngIf="ranking && (ranking.promedio || ranking.promedio === 0)">
+			<!-- GRAFICO PROMEDIO PAÍS -->
+			<ion-row class="custom-bb" margin>
+				<ion-col col-12 text-center>
+					<h4 class="progress-info"> {{ ranking.promedio }} </h4>
+					
+					<round-progress [current]="ranking.promedio" [max]="ranking.nota_maxima" [color]="color_progress" [background]="'#eaeaea'" [radius]="110" [stroke]="25" [duration]="1500" [rounded]="false" [animation]="'easeOutCubic'" [animationDelay]="0" [semicircle]="true" style="margin: 0 auto;">
+					</round-progress>
+					
+					<p> Nota promedio país </p>
+				</ion-col>
+			</ion-row>
+			
+			<!-- RANKING DE ZONAS -->
+			<ion-item no-lines>
+				<h2 ion-text color="primary">
+					<b> Ranking de zonas </b>
+				</h2>
+			</ion-item>
+			
+			<ion-row text-center padding-top>
+				<ion-col col-6 class="br-1 custom-bb" *ngFor="let zona of ranking.Zonas">
+					<ion-icon [name]="zona.rank < 4 ? 'md-trophy' : 'md-medal'" class="main-trophy" [ngClass]="zona.rank === 1 ? 'gold' : (zona.rank === 2 ? 'silver' : (zona.rank === 3 ? 'bronze' : 'dark'))"></ion-icon>
+					
+					<p> #{{ zona.rank }} {{ zona.nombre }}</p>
+					
+					<p> <b> {{ zona.promedio }} </b> </p>
+				</ion-col>
+			</ion-row>
+			
+			<!-- RANKING DE SUCURSALES -->
+			<ion-item no-lines margin-top>
+				<h2 ion-text color="primary">
+					<b> Ranking de sucursales </b>
+				</h2>
+			</ion-item>
+			
+			<ion-grid text-wrap text-center>
+				<ion-row>
+					<ion-col col-3>
+						<p ion-text color="primary"> <b> Sucursal </b> </p>
+					</ion-col>
+					
+					<ion-col col-3>
+						<p ion-text color="primary"> <b> Posición </b> </p>
+					</ion-col>
+					
+					<ion-col col-4>
+						<p ion-text color="primary"> <b> Responsable </b> </p>
+					</ion-col>
+					
+					<ion-col col-2>
+						<p ion-text color="primary"> <b> Nota </b> </p>
+					</ion-col>
+				</ion-row>
+				
+				<ion-row *ngFor="let branch_office of ranking.Sucursales; let i = index" [ngStyle]="(branch_office.promedio >= ranking.promedio && (ranking.Sucursales[i+1] && ranking.Sucursales[i+1].promedio < ranking.promedio)) ? {'border-bottom': '2px dotted red'} : {}">
+					<ion-col col-3>
+						<p [ngStyle]="branch_office.rank < 4 ? { 'font-weight': 700 } : {}"> {{ branch_office.nombre }} </p>
+					</ion-col>
+					
+					<ion-col col-3>
+						<p [ngStyle]="branch_office.rank < 4 ? { 'font-weight': 700 } : {}">
+							<ion-icon *ngIf="branch_office.rank === 1" name="md-trophy" class="gold" float-left></ion-icon>
+							
+							<ion-icon *ngIf="branch_office.rank === 2" name="md-trophy" class="silver" float-left></ion-icon>
+							
+							<ion-icon *ngIf="branch_office.rank === 3" name="md-trophy" class="bronze" float-left></ion-icon>
+							
+							#{{ branch_office.rank }}
+						</p>
+					</ion-col>
+					
+					<ion-col col-4>
+						<button ion-button clear icon-only [disabled]="!branch_office.usuarios || !branch_office.usuarios.length" (click)="showBranchOfficeUsers(branch_office)">
+							<ion-icon name="people"></ion-icon>
+						</button>
+					</ion-col>
+					
+					<ion-col col-2>
+						<p [ngStyle]="branch_office.rank < 4 ? { 'font-weight': 700 } : {}"> {{ branch_office.promedio }} </p>
+					</ion-col>
+				</ion-row>
+			</ion-grid>
+		</div>
+		
+		<ion-item *ngIf="!ranking || (!ranking.promedio && ranking.promedio !== 0)" text-center no-lines margin-top>
+			<h3> No hay información de ranking </h3>
+		</ion-item>
+	</div>
+	
+	<div *ngIf="requesting" text-center style="margin-top: 40px !important;">
+		<ion-spinner></ion-spinner>
+	</div>
+</ion-content>

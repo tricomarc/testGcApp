@@ -1,0 +1,205 @@
+<ion-header>
+  <ion-navbar class="sombra-vb">
+    <ion-title>Seguimiento Vale</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <!-- REFRESHER PAGE -->
+  <ion-refresher (ionRefresh)="refresh($event)" color="dark">
+    <ion-refresher-content pullingText="Actualizar" refreshingText="Actualizando..."></ion-refresher-content>
+  </ion-refresher>
+
+    
+  <!-- SUBHEADER -->
+  <ion-item-divider text-wrap class="sombra-vb">
+    <h2 ion-text text-center  color="primary">LOCALES ASOCIADOS</h2>
+  </ion-item-divider >
+  <ion-item-divider text-wrap color="primary">
+    <h2 ion-text text-center>Período {{infoPeriodo.periodo}}</h2>
+  </ion-item-divider>
+
+
+  <div padding class="content-wrapper">
+
+    <!-- SEGMENTO TITULO -->
+    <ion-segment mode="ios" [(ngModel)]="segments" (tap)="tapped()" color="primary">
+      <ion-segment-button value="boleta">
+        <label>Boletas</label>
+      </ion-segment-button>
+
+      <ion-segment-button value="informacion">
+        <label>Información</label>
+      </ion-segment-button>
+    </ion-segment>
+
+    <!-- SEGMENTO CUERPO //BOLETA -->
+    <ion-toolbar class="sombra-vb contain" *ngIf="segments == 'boleta'">
+
+      <ng-template #noData>
+        <ion-card-content>
+          <ion-grid>
+            <ion-col col-12 text-center>
+              <p ion-text color="grey1">Sin registro de boletas para este local en este periodo</p>
+            </ion-col>
+          </ion-grid>
+        </ion-card-content>
+      </ng-template>
+
+      <ion-card-content *ngIf="boletaIngresadas && boletaIngresadas.boletas; else noData" >
+        <ion-grid *ngFor="let boleta of boletaIngresadas.boletas; let i = index" [ngClass]="lengthBoletas == i ? '' : 'border-bottom'" align="center">
+          <ion-row>
+            <ion-col col-6 text-left text-center>
+             N° de Boleta&nbsp;: <label ion-text color="grey1">{{boleta.numero}}</label>
+            </ion-col>
+            <ion-col col-6>
+             Fecha: <label ion-text color="grey1">{{boleta.fecha}}</label>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col col-6 text-left text-center>
+              N° de POS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <label ion-text color="grey1">{{boleta.pos}}</label>
+            </ion-col>
+            <ion-col col-6 >
+              <ion-icon ion-text color="primary" name="create" (click)="editarBoleta(boleta)"></ion-icon>&nbsp;&nbsp;&nbsp;
+              <ion-icon ion-text color="danger" name="trash"   (click)="eliminarBoleta(boleta.boleta_id)"></ion-icon>
+            </ion-col>
+          </ion-row>
+        </ion-grid >
+      </ion-card-content>
+
+
+    </ion-toolbar>
+
+    <!-- //INFORMACION -->
+    <ion-toolbar class="sombra-vb contain" *ngIf="segments == 'informacion'">
+      <ng-template #noInfo>
+        <ion-card-content>
+          <ion-grid>
+            <ion-col col-12 text-center>
+              <p ion-text color="grey1">Sin informacion para este local en este periodo</p>
+            </ion-col>
+          </ion-grid>
+        </ion-card-content>
+      </ng-template>
+
+
+      <ion-card-content *ngIf="infoTienda; else noInfo">
+        <ion-grid>
+          <ion-row>
+            <ion-col col-6>
+              Dirección:
+            </ion-col>
+            <ion-col col-6 color="grey">
+              <label ion-text color="grey1">{{infoTienda.direccion}}</label>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col col-6>
+              Región: 
+            </ion-col>
+            <ion-col col-6>
+              <label ion-text color="grey1">{{infoTienda.region}}</label>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col col-6>
+              Comuna: 
+            </ion-col>
+            <ion-col col-6>
+              <label ion-text color="grey1">{{infoTienda.comuna}}</label>
+            </ion-col>
+          </ion-row>
+          <br>
+          <label text-title><strong>Datos del local</strong></label>
+          <br>
+          <ion-row>
+            <ion-col col-6>
+              Código farmacia:
+            </ion-col>
+            <ion-col col-6>
+                <label ion-text color="grey1">{{infoTienda.codigo_tienda}}</label>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col col-6>
+              Formato:
+            </ion-col>
+            <ion-col col-6>
+                <label ion-text color="grey1">{{infoTienda.formato}}</label>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col col-6>
+              Tipo Boleta:
+            </ion-col>
+            <ion-col col-6>
+                <label ion-text color="grey1">{{infoTienda.tipo_boleta}}</label>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col col-6>
+              N° de POS:
+            </ion-col>
+            <ion-col col-6>
+                <label ion-text color="grey1">{{infoTienda.numero_cajas}}</label>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col col-6>
+              Tipo Horario:
+            </ion-col>
+            <ion-col col-6>
+                <label ion-text color="grey1">{{infoTienda.tipo_horario}}</label>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col col-12>
+              Observación:
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col col-12 >
+                <ion-item no-lines class="p-sm" no-padding >
+                  <ion-textarea
+                    [(ngModel)]="observation"
+                    cols="30"
+                    rows="5"
+                    class="b-stable"
+                    style="width:100%;  border-radius: 3px;">
+                  </ion-textarea>
+                </ion-item>
+       
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col col-12>
+              <div class="btn-ctn" >
+                <button ion-button color="primary" style="height: 32px; border-radius: 3px;" (click)="editarObservacion()">Editar observación</button>
+              </div>
+            </ion-col>
+          </ion-row>
+
+      </ion-grid>
+
+      </ion-card-content>
+    </ion-toolbar>
+    <!-- SEGMENTO CUERPO FIN -->
+
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <button paddin-top ion-button full (click)="openModalBoleta()">Ingresar boleta</button>
+  </ion-toolbar>
+</ion-footer>

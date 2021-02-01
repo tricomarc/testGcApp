@@ -1,0 +1,27 @@
+tareas4 {
+	
+	.tamañoImagen{
+        width: 400px;
+        height: 200px;
+    }
+	
+	.custom-bb{
+		border-bottom: 1px solid #ddd !important;
+	}
+
+	.custom-bb:last-child{
+		border-bottom: none !important;
+	}
+
+	.commentary-date p {
+		font-size: 11px;
+	}
+	
+	.customTextArea {
+		border: none;
+		padding: 10px;	
+	}
+	.customTextArea2{
+		border: none;
+	}
+}

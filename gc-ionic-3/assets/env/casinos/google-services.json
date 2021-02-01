@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "84927262546",
+    "firebase_url": "https://casinos-integrados.firebaseio.com",
+    "project_id": "casinos-integrados",
+    "storage_bucket": "casinos-integrados.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:84927262546:android:cae4ade4b7b1860393d48b",
+        "android_client_info": {
+          "package_name": "cl.casinosintegrados.gcapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "84927262546-r78scg6u2lathblfgrl2r8epen9v9c4o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCb6OostOEsBUc1EEp5lBTHFT7Umz7ygL4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "84927262546-r78scg6u2lathblfgrl2r8epen9v9c4o.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "84927262546-m337pep3bauq1h787fc1tfh2sqoiql32.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "cl.casinosintegrados.gcapp",
+                "app_store_id": "1472440428"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

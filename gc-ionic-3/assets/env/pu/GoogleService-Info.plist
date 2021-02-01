@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>657213379723-ht9sjias5b9hmmnank9hn73tdukvpf5h.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.657213379723-ht9sjias5b9hmmnank9hn73tdukvpf5h</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBt4mBbxDR3tfr0K0wEmW6vkqoLxcNUWA4</string>
+	<key>GCM_SENDER_ID</key>
+	<string>657213379723</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>cl.pu.gcapp</string>
+	<key>PROJECT_ID</key>
+	<string>puntourbano-pu</string>
+	<key>STORAGE_BUCKET</key>
+	<string>puntourbano-pu.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:657213379723:ios:50eb0255a73e8d156ef08e</string>
+	<key>DATABASE_URL</key>
+	<string>https://puntourbano-pu.firebaseio.com</string>
+</dict>
+</plist>

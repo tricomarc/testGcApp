@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "396910302738",
+    "firebase_url": "https://gc-via-uno.firebaseio.com",
+    "project_id": "gc-via-uno",
+    "storage_bucket": "gc-via-uno.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:396910302738:android:fadea0a396f41b9156eacb",
+        "android_client_info": {
+          "package_name": "cl.gcvuno.gcapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "396910302738-fp859qc5fv724c0rjqp8jjgh6vifac2e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAX3MfDZBdugV47ig0wdwevDst6kkGc_Io"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "396910302738-fp859qc5fv724c0rjqp8jjgh6vifac2e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

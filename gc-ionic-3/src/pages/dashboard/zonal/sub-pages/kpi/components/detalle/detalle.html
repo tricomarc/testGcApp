@@ -1,0 +1,68 @@
+<ion-header>
+	<ion-navbar>
+		<div buy>
+			<ion-title>
+				<span ion-text color="primary" class="lh-15">Detalle área</span>
+			</ion-title>
+		</div>
+	</ion-navbar>
+</ion-header>
+
+<ion-content>
+	<ion-list-header no-margin no-padding class="tamañoCustom2" text-center color="primary"> {{area.nombre}}
+	</ion-list-header>
+
+	<ion-row>
+		<ion-col col-12 class="br-1 text-center">
+			<span class="span-block current">
+				<h1 ion-text color="primary">
+					<strong class="fs-5em">{{area.ponderado}}</strong>
+				</h1>
+			</span>
+			<hr style="width:80%">
+			<span class="span-block">
+				<h3 ion-text color="primary" text-uppercase>
+					<b *ngIf="fecha.mes">{{fecha.mes}}</b>
+					<b *ngIf="!fecha.mes">Todas</b>
+				</h3>
+			</span>
+		</ion-col>
+	</ion-row>
+
+	<div class="card" *ngIf="area">
+		<ion-item>
+			<div class="table-striped">
+				<div class="customBorderBottom" *ngFor="let indicadorArea of area.indicador">
+					<ion-row>
+						<ion-col col-12 text-center>
+							<h2>{{indicadorArea.nombre}}</h2>
+						</ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col col-4 text-center>
+							<small ion-text class="customTamañoDatoSucursal" color="primary">
+								{{indicadorArea.valores.acumulado}}
+							</small>
+							<br>
+							<small>Mes</small>
+						</ion-col>
+						<ion-col col-4 text-center>
+							<small ion-text class="customTamañoDatoSucursal" color="primary">
+								{{indicadorArea.valores.meta}}
+							</small>
+							<br>
+							<small>Meta</small>
+						</ion-col>
+						<ion-col col-4 text-center>
+							<small ion-text class="customTamañoDatoSucursal" color="primary">
+								{{indicadorArea.valores.cumplimiento}}
+							</small>
+							<br>
+							<small>Cumplimiento</small>
+						</ion-col>
+					</ion-row>
+				</div>
+			</div>
+		</ion-item>
+	</div>
+</ion-content>

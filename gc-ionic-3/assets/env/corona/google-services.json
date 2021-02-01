@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "464944356615",
+    "firebase_url": "https://gc-corona.firebaseio.com",
+    "project_id": "gc-corona",
+    "storage_bucket": "gc-corona.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:464944356615:android:ca3b718b9a9aa6809b39a2",
+        "android_client_info": {
+          "package_name": "cl.opera.gcapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "464944356615-l8qk0tgpbft9729235n9096i1kvtfumt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQtKySie_t0mwdyYlTjmB9Cbi7hQAmc0Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "464944356615-l8qk0tgpbft9729235n9096i1kvtfumt.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "464944356615-em5oguotv35u45ldt7dem5io9nltounc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "cl.operav3.gcapp",
+                "app_store_id": "1447879725"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

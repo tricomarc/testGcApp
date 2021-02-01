@@ -1,0 +1,58 @@
+<ion-header box-shadow>
+	<ion-navbar box shadow>
+		<div buy box shadow>
+			<ion-title> <span ion-text color="primary"> {{ moduleName }} </span> </ion-title>
+		</div>
+	</ion-navbar>
+	
+	<ion-row>
+		<ion-col no-padding>
+			<ion-list-header class="tamañoCustom" no-margin no-lines>
+				<ion-label class="fs-1em"><span ion-text color="primary" class="lh-15"> Ámbito </span>
+				</ion-label>
+				
+				<ion-select padding-right class="fs-1em" interface="popover" [(ngModel)]="selectedAmbitId" (ngModelChange)="changeAmbit()" cancelText="cancelar" okText="ok">
+					<ion-option class="fs-1em" *ngFor="let ambit of ambits | orderAmbits" [value]="ambit.id">
+						{{ ambit.nombre }}
+					</ion-option>
+				</ion-select>
+			</ion-list-header>
+		</ion-col>
+	</ion-row>
+</ion-header>
+
+<ion-content>
+	<ion-list-header no-margin no-padding text-wrap class="tamañoCustom2" color="primary" text-center>
+		{{ selectedAmbitName }}
+	</ion-list-header>
+	
+	<ion-item no-lines margin-top text-center *ngIf="requesting">
+		<ion-spinner></ion-spinner>
+		
+		<p> Obteniendo preguntas... </p>
+	</ion-item>
+	
+	<div class="questionnaire-container locked opaque">
+		<div no-padding color="light" *ngFor="let question of questionnaire.questions">
+			<question [question]="question" [isSubQuestion]="false" [checklist]="checklist"> </question>
+		</div>
+	</div>
+	
+	<ion-item text-center text-wrap no-lines *ngIf="!questionnaire.questions.length && !requesting">
+		<ion-icon name="refresh" (click)="getQuestionnaire()" class="refresh-icon"></ion-icon>
+		
+		<p> Ups! No hemos encontrado preguntas. </p>
+	</ion-item>
+	
+	<ion-fab right bottom mini *ngIf="isNextAmbit">
+		<button ion-fab mini color="primary" (click)="showNextAmbit()">
+			<ion-icon name="ios-arrow-forward-outline"></ion-icon>
+		</button>
+	</ion-fab>
+	
+	<ion-fab left bottom mini *ngIf="isPreviousAmbit">
+		<button ion-fab mini color="primary" (click)="showPreviousAmbit()">
+			<ion-icon name="ios-arrow-back-outline"></ion-icon>
+		</button>
+	</ion-fab>
+</ion-content>

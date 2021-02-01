@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>195233948490-qor83h350jsdk16m8fmg8lplh0l5afvb.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.195233948490-qor83h350jsdk16m8fmg8lplh0l5afvb</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDQ-l7BmI4arznO6Hvah7kFeZXiLBIYW8k</string>
+	<key>GCM_SENDER_ID</key>
+	<string>195233948490</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>cl.gcjoh.gcapp</string>
+	<key>PROJECT_ID</key>
+	<string>gc-johnsons</string>
+	<key>STORAGE_BUCKET</key>
+	<string>gc-johnsons.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:195233948490:ios:54027281f752645034d7b3</string>
+	<key>DATABASE_URL</key>
+	<string>https://gc-johnsons.firebaseio.com</string>
+</dict>
+</plist>

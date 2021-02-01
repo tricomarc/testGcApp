@@ -1,0 +1,57 @@
+page-ranking-visual {
+	.customImage{
+		width: 75x !important;
+		height: 75px !important;
+	}
+	.custom-bb{
+		border-bottom: 1px solid #ddd;
+	}
+	.br-1{
+		border-right: 1px solid #ddd;
+	}
+	.fixPaddingTop{
+		padding-top: 35px;
+	}
+	.main-trophy {
+		font-size: 3.7em !important;
+	}
+	.gold {
+		color:#ffd700 !important;
+	}
+	.silver {
+		color:#c0c0c0 !important;
+	}
+	.bronze {
+		color:#b8860b !important;
+	}
+	.dark {
+		color: #424242 !important;
+	}
+	.progress-info {
+		position: absolute;
+		top: 73px;
+		left: 0;
+		transform: translateY(-50%);
+		-webkit-transform: translateY(-50%);
+		text-align: center;
+		width: 100%;
+		z-index: 1;
+		font-size: 2.9em;
+		color: color($colors, primary);
+	}
+	.tamañoCustomFuente{
+		font-size: 1.2em !important;
+	}
+	.espaciadoIcono{
+		color: #ccc !important;
+		font-size: 1.5em !important;
+		padding-top: 9px !important;
+	}
+	.customPaddingTop{
+		padding-top: 8px !important;
+	}
+
+	.toolbar-title > .toolbar-title-md > span {
+		line-height: 1.5;
+	}
+}

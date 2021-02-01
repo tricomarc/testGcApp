@@ -1,0 +1,154 @@
+<ion-toolbar box-shadow padding>
+    <ion-searchbar [formControl]="searchControl" placeholder="Buscar asignación"></ion-searchbar>
+   <ion-item no-lines>
+      <ion-label>Tipo de Tarea</ion-label>
+      <ion-select [(ngModel)]="typeTask" (ionChange)="getTaskFilter()">
+        <ion-option value="0">Todos</ion-option>
+        <ion-option value="1">Simple</ion-option>
+        <ion-option value="2">Numerica</ion-option>
+      </ion-select>
+   </ion-item>
+
+</ion-toolbar>
+
+<div padding>
+  <!-- <ion-list no-lines margin-top>
+    <ion-item>
+      <h2 ion-text color="primary">Estado de tareas </h2>
+      <ion-note item-end ion-text color="primary" (click)="setView('stats')">Ver estadísticas <ion-icon
+          name="arrow-forward"></ion-icon>
+      </ion-note>
+    </ion-item>
+  </ion-list> -->
+  
+  <!-- <stats-summary></stats-summary> -->
+  
+  <ion-list no-lines margin-top>
+    <ion-item>
+      <h2 ion-text color="primary">Asignadas por ti </h2>
+      <ion-note item-end ion-text color="primary" (click)="setView('extra')">Ver mis tareas <ion-icon name="arrow-forward"></ion-icon>
+      </ion-note>
+    </ion-item>
+  </ion-list>
+
+  <ion-row *ngIf="tasks.length">
+    <ion-col *ngFor="let task of tasks" col-6 col-sm-6 col-md-6 col-lg-4 col-xl-3>
+      <div class="task border-radius box-shadow" (click)="showResolution(task)">
+        <ion-badge color="primary" class="categoria">{{task.usuarios.length}} usuarios</ion-badge>
+        <h4 ion-text color="primary">{{task.tareaNombre}}</h4>
+        <h3 ion-text color="success">{{task.porc_avance}}%</h3>
+        <div class="barra-progreso-fuera">
+          <span [ngStyle]="{'width': task.porc_avance + '%'}" class="success"></span>
+        </div>
+        <div class="footer">
+          <ion-row>
+            <ion-col col-4>
+              <div class="asignados" *ngIf="task.usuarios && task.usuarios.length">
+                <img [src]="task.usuarios[0].imagen ? task.usuarios[0].imagen : 'assets/img/resources/avatar.png'">
+                <span *ngIf="task.usuarios.length > 1">+</span>
+              </div>
+            </ion-col>
+            <ion-col col-8 text-right>
+              <h6 ion-text text-capitalize>{{task.vencimiento | date: 'MMM dd - HH:mm'}}</h6>
+              <p>Vencimiento</p>
+            </ion-col>
+          </ion-row>
+        </div>
+      </div>
+    </ion-col>
+  </ion-row>
+
+  <ion-item no-lines text-wrap text-center *ngIf="!tasks.length">
+    <div class="task-add">
+      <p ion-text color="dark">Actualmente no existe tareas asignadas por tí. <ion-icon item-end name="info-circle" color="default"></ion-icon></p>
+    </div>
+  </ion-item>
+</div>
+
+<!-- <ion-list padding>
+  <ion-item>
+    <ion-label>Filtro</ion-label>
+    <ion-select value="Todas">
+      <ion-option value="cat">Cat</ion-option>
+      <ion-option value="dog">Dog</ion-option>
+    </ion-select>
+  </ion-item>
+  <ion-item text-wrap>
+    <ion-icon item-end name="alarm" color="energized"></ion-icon>
+    <ion-label>
+      <h2 ion-text color="primary">Guillermo Maldonado</h2>
+      <p>Nombre de la tarea</p>
+      <ion-badge color="secondary">Cargo</ion-badge>
+    </ion-label>
+  </ion-item>
+  <ion-item text-wrap>
+    <ion-icon item-end name="checkmark" color="success"></ion-icon>
+    <ion-label>
+      <h2 ion-text color="primary">Paulina Garcia</h2>
+      <p>Nombre de la tarea</p>
+      <ion-badge color="secondary">Cargo</ion-badge>
+    </ion-label>
+  </ion-item>
+  <ion-item text-wrap>
+    <ion-icon item-end name="close" color="danger"></ion-icon>
+    <ion-label>
+      <h2 ion-text color="primary">Juan Cristobal Gomez</h2>
+      <p>Nombre de la tarea</p>
+      <ion-badge color="secondary">Cargo</ion-badge>
+    </ion-label>
+  </ion-item>
+  <ion-item text-wrap>
+    <ion-icon item-end name="close" color="danger"></ion-icon>
+    <ion-label>
+      <h2 ion-text color="primary">Felipe Gomez</h2>
+      <p>Nombre de la tarea</p>
+      <ion-badge color="secondary">Cargo</ion-badge>
+    </ion-label>
+  </ion-item>
+  <ion-item text-wrap>
+    <ion-icon item-end name="close" color="danger"></ion-icon>
+    <ion-label>
+      <h2 ion-text color="primary">Luis Garcia</h2>
+      <p>Nombre de la tarea</p>
+      <ion-badge color="secondary">Cargo</ion-badge>
+    </ion-label>
+  </ion-item>
+  <ion-item text-wrap>
+    <ion-icon item-end name="close" color="danger"></ion-icon>
+    <ion-label>
+      <h2 ion-text color="primary">Carolina Marin</h2>
+      <p>Nombre de la tarea</p>
+      <ion-badge color="secondary">Cargo</ion-badge>
+    </ion-label>
+  </ion-item>
+  <ion-item text-wrap>
+    <ion-icon item-end name="close" color="danger"></ion-icon>
+    <ion-label>
+      <h2 ion-text color="primary">Josefina Prado</h2>
+      <p>Nombre de la tarea</p>
+      <ion-badge color="secondary">Cargo</ion-badge>
+    </ion-label>
+  </ion-item>
+  <ion-item text-wrap>
+    <ion-icon item-end name="close" color="danger"></ion-icon>
+    <ion-label>
+      <h2 ion-text color="primary">Eduardo Valenzuela</h2>
+      <p>Nombre de la tarea</p>
+      <ion-badge color="secondary">Cargo</ion-badge>
+    </ion-label>
+  </ion-item>
+</ion-list>
+<ion-row text-center padding>
+  <ion-col>
+    <ion-icon name="checkmark" color="success"></ion-icon>
+    <p>Realizada</p>
+  </ion-col>
+  <ion-col>
+    <ion-icon name="alarm" color="energized"></ion-icon>
+    <p>Por realizar</p>
+  </ion-col>
+  <ion-col>
+    <ion-icon name="close" color="danger"></ion-icon>
+    <p>No realizada</p>
+  </ion-col>
+</ion-row> -->

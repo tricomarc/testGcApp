@@ -1,0 +1,25 @@
+all-checklists {
+	.icon-lg {
+        font-size:3em !important;
+        color: #bbb !important;
+    }
+
+    .tamañoCustom2 {
+        font-size: 1.2em;
+    }
+
+     .paddingEspecial {
+        padding-left: 15px !important;
+    }
+    
+    .border-bottom-1 {
+        border-bottom: 1px solid #ddd !important;
+    }
+    
+    .border-bottom-1:last-child {
+        border-bottom: none !important;
+    }
+    .customPaddinTopText{
+        padding-top: 3px !important;
+    }
+}

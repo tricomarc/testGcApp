@@ -1,0 +1,8 @@
+
+	<ion-item no-lines>
+			<p>{{pregunta.adicional ? pregunta.adicional : ''}}</p>
+		<span>Fecha: </span>
+		<ion-datetime color="royal" [disabled]="checklistEnviado" displayFormat="DD/MM/YYYY" [(ngModel)]="pregunta.respuesta.data" (ngModelChange)="onChange()" placeholder="DD/MM/YYYY" cancelText="Cancelar" doneText="Aceptar"></ion-datetime>
+	</ion-item>
+
+<!--<input type="date" [disabled]="checklistEnviado" [(ngModel)]="pregunta.respuesta.data">-->

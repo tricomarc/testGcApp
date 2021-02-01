@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "657213379723",
+    "firebase_url": "https://puntourbano-pu.firebaseio.com",
+    "project_id": "puntourbano-pu",
+    "storage_bucket": "puntourbano-pu.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:657213379723:android:18c9d5d9864f24ef6ef08e",
+        "android_client_info": {
+          "package_name": "cl.pu.gcapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "657213379723-cepmu2f7b08ip3n6pd0j5k9slpolnt6m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZ52CJ5P9n4ZLdLEdXecwgShoUoXpESpI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "657213379723-cepmu2f7b08ip3n6pd0j5k9slpolnt6m.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "657213379723-ht9sjias5b9hmmnank9hn73tdukvpf5h.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "cl.pu.gcapp",
+                "app_store_id": "1462289947"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

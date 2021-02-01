@@ -1,0 +1,119 @@
+page-kpi-maicao {
+    .kpi {
+        margin: 15px;
+      }
+      .kpi .oro,
+      .kpi .plata,
+      .kpi .bronce {
+        margin: 5px;
+      }
+
+      .kpi .oro {
+        color: #ffd900;
+      }
+
+      .chart{
+        position: absolute !important;
+        left: -138px !important;
+        top: -22px !important;
+        //transform: rotate(34deg) !important;
+      }
+      .kpi .plata {
+        color: #bdbdbd;
+      }
+      .index1{
+        position: absolute !important;
+        left: 10px !important;
+        top: 80px !important;
+      }
+      .ionic-selectable-value-item{
+        color: #7f8490 !important;
+      }
+      
+      .index2{
+        position: absolute !important;
+        left: 98px !important;
+        top: 80px !important;
+      }
+
+      .kpi .bronce {
+        color: #cc7a00;
+      }
+      .kpi .tablecarddetalle {
+        width: 100%;
+        color: #a1a1a1;
+        font-size: 12px;
+        vertical-align: middle;
+      }
+      .kpi .tablecarddetalle th,
+      .kpi .tablecarddetalle td {
+        padding: 5px;
+        border-bottom: 1px solid #f0f0f0;
+      }
+      .kpi .tablecarddetalle > tbody > tr:nth-child(2n + 1) > td,
+      .kpi .tablecarddetalle > tbody > tr:nth-child(2n + 1) > th {
+        background-color: rgb(245, 245, 245);
+        //background-color: rgb(245, 245, 245, 0.4);
+      }
+      .kpi .tablecard {
+        width: 100%;
+        border-top: 1px solid #f0f0f0;
+        color: #d1d1d1;
+        margin-top: 10px;
+      }
+      .kpi .tablecard th {
+        font-weight: normal !important;
+        padding-top: 10px;
+      }
+      .kpi .tablecard th,
+      .kpi .tablecard td {
+        padding: 3px;
+      }
+      .kpi .tablecard tr.info {
+        background: #fcfbfb;
+      }
+      .kpi .headercard {
+        border-bottom: 1px solid #f0f0f0;
+        font-size: 14px !important;
+      }
+      .kpi .headercard.indicadores {
+        padding-bottom: 5px;
+      }
+      .kpi .contentcard {
+        margin-top: 10px;
+      }
+      .kpi .divisorleft {
+        border-left: 1px solid #f0f0f0;
+      }
+      .kpi .divisortop {
+        border-top: 1px solid #f0f0f0;
+      }
+      .kpi .divisorright {
+        border-right: 1px solid #f0f0f0;
+      }
+      .kpi .card {
+        border-radius: 20px;
+        box-shadow: 0 5px 10px rgba(154, 160, 185, 0.025),
+          0 15px 40px rgba(166, 173, 201, 0.2);
+      }
+      .kpi .cumplimiento {
+        margin-top: 15px;
+        font-size: 35px;
+      }
+      .kpi .ranking {
+        font-size: 35px;
+      }
+      .kpi .dato {
+        font-size: 25px;
+      }
+      .kpi p {
+        color: #d1d1d1;
+        font-size: 14px;
+      }
+      .kpi .titulo {
+        margin-left: 20px;
+        margin-bottom: 20px;
+        margin-top: 20px;
+        font-size: 19px;
+      }
+}

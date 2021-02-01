@@ -1,0 +1,32 @@
+<ion-header box-shadow>
+    <ion-navbar>
+        <ion-title><span ion-text color="primary"> Finalizar incidencia </span></ion-title>
+        <ion-buttons end>
+            <button ion-button icon-only clear (click)="closeModal()">
+                <ion-icon name="md-close"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content *ngIf="incident">
+    <!-- INCIDENCIA SIN PROVEEDORES -->
+    <!-- <ion-card class="card" *ngIf="!incident.proveedores || !incident.proveedores.length"> -->
+    <ion-card class="card">
+        <ion-card-header ion-item color="primary" text-wrap>¿Estás conforme con el trabajo realizado?</ion-card-header>
+        <ion-list radio-group [(ngModel)]="form.jefe_conforme">
+            <ion-item>
+                <ion-label>Sí, estoy conforme</ion-label>
+                <ion-radio checked="true" value="1"></ion-radio>
+            </ion-item>
+            <ion-item>
+                <ion-label>No estoy conforme</ion-label>
+                <ion-radio value="0"></ion-radio>
+            </ion-item>
+        </ion-list>
+        
+        <ion-item>
+            <button ion-button block default color="primary" (click)="evaluate()"> Resolver incidencia </button>
+        </ion-item>
+    </ion-card>
+</ion-content>

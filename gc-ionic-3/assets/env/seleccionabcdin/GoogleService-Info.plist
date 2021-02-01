@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>1048857991641-22ehqepnjd8l3tdggabpvj2qpgc6buu3.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1048857991641-22ehqepnjd8l3tdggabpvj2qpgc6buu3</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBq1ntdeqcfrTknhAnOJBzfKH96zT8tpCo</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1048857991641</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>cl.clseleccionabc.gcapp</string>
+	<key>PROJECT_ID</key>
+	<string>adretail-9dd74</string>
+	<key>STORAGE_BUCKET</key>
+	<string>adretail-9dd74.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1048857991641:ios:19b43001cce18c9c0ce1c8</string>
+	<key>DATABASE_URL</key>
+	<string>https://adretail-9dd74.firebaseio.com</string>
+</dict>
+</plist>

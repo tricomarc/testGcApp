@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "286078634210",
+    "firebase_url": "https://pfalimentos-c836b.firebaseio.com",
+    "project_id": "pfalimentos-c836b",
+    "storage_bucket": "pfalimentos-c836b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:286078634210:android:f8ea987216b4a80c4436bb",
+        "android_client_info": {
+          "package_name": "cl.pfalimentos.gcapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "286078634210-0s2730445p2llsdsiuavgd17q6vnbv5r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDadFeR2oUyLrdT96MRXJoPQBQy5OoJ-OQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "286078634210-0s2730445p2llsdsiuavgd17q6vnbv5r.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "286078634210-k229c5t39gfhckghdidclas7labqukic.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "cl.pfalimentos.gcapp",
+                "app_store_id": "1491028620"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

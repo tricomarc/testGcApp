@@ -1,0 +1,274 @@
+<ion-header>
+  	<ion-navbar (click)="closeModal()">
+    	<ion-title ion-text color="primary">
+    		<ion-icon color="primary" name="md-close"></ion-icon>
+    		CERRAR
+    	</ion-title>
+  	</ion-navbar>
+	  
+	<ion-toolbar no-padding *ngIf="photo && type !== 'none'">
+  		<ion-segment color="primary" [(ngModel)]="item">
+  			<ion-segment-button value="media">
+  				{{ is_video ? 'Video' : 'Fotografía' }}
+  			</ion-segment-button>
+			  
+			<ion-segment-button value="info">
+  				Información
+  			</ion-segment-button>
+			
+			  <!-- Muestra este tab cuando veo la foto de implementacion -->
+			<ion-segment-button *ngIf="type === 'implementation'" value="commentary">
+  				Comentarios
+  			</ion-segment-button>
+  		</ion-segment>
+  	</ion-toolbar>
+</ion-header>
+
+
+
+<ion-content text-wrap>
+	<div *ngIf="photo">
+		
+		<!-- TABS -->
+
+		<!-- TAB FOTOGRAFÍA -->
+		<!-- cuando visualizo la foto de referencia -->
+		<div *ngIf="type==='reference'" [ngSwitch]="item">
+			<div *ngSwitchCase="'media'">
+				<ion-slides pager class="photoAndVideoStyle">
+					<ion-slide>
+						<div text-center>
+							<p ion-text no-padding color="primary"> Referencia </p>
+							
+							<img [src]="photo.url ? (photo.url | sanitizeImg) : 'assets/img/resources/default-placeholder.png'" class="photo" imageViewer #referenceImage (pinchstart)="pinch(referenceImage)">
+						</div>
+				  	</ion-slide>
+				</ion-slides>
+			</div>
+			
+			<div *ngSwitchCase="'info'">
+				<!-- Claramente los nombres de las variables no son representativos, lamentablemente así vienen de la API,
+				entonces descripcion=nombre y descripcion=comentario. -->
+				<!-- Nombre de la foto -->
+				<ion-item no-lines margin-top>
+					<h4 ion-text color="primary"> <b> Nombre de la foto: </b> </h4>
+					
+					<p *ngIf="photo.descripcion"> {{ photo.descripcion }} </p>
+					
+					<p *ngIf="!photo.descripcion"> La foto no tiene nombre. </p>
+				</ion-item>
+				
+				<!-- Descripción de la foto -->
+				<ion-item no-lines>
+					<h4 ion-text color="primary"> <b> Descripción: </b> </h4>
+					
+					<p *ngIf="photo.comentario"> {{ photo.comentario }} </p>
+				   
+					<p *ngIf="!photo.comentario"> La foto no tiene descripción. </p>
+				</ion-item>
+				
+				<!-- Criterios de evaluación -->
+				<ion-item no-lines>
+					<h4 ion-text color="primary"> <b> Criterios de evaluación: </b> </h4>
+				</ion-item>
+				
+				<ion-item no-lines *ngFor="let reason of photo.motivos_aprobacion">
+				    <p class="box-p"> {{ reason.nombre }} </p>
+				</ion-item>
+				
+				<ion-item no-lines *ngIf="photo.motivos_aprobacion.length < 1" >
+					<p> Sin especificar. </p>
+				</ion-item>
+				
+				<!-- Motivos anteriores -->
+				<div *ngIf="photo.motivos.length > 0 && photo.mostrarMotivosAnteriores===true">
+					<ion-item *ngFor="let reason of photo.motivos">
+						<h4 ion-text color="primary"> <b> Motivos anteriores: </b> </h4>
+						
+						<p> {{ reason.nombre }}</p>
+					 </ion-item>
+				</div>
+			</div>
+		</div>
+
+		<!-- cuando veo la foto de implementacion -->
+		<div *ngIf="type==='implementation'" [ngSwitch]="item">
+			<div *ngSwitchCase="'media'">
+				<ion-slides pager class="photoAndVideoStyle" zoom="true">
+				  	<ion-slide>
+					    <!-- Si es foto -->
+						<div *ngIf="!is_video" text-center>
+							<p ion-text padding color="primary"> Implementación </p>
+							
+							<img *ngIf="!photo.url_drawn" [src]="photo.url ? (photo.url | sanitizeImg) : 'assets/img/resources/default-placeholder.png'" class="photo" imageViewer #implImage (pinchstart)="pinch(implImage)">
+							
+							<img *ngIf="photo.url_drawn" [src]="(photo.url_drawn | sanitizeImg)" class="photo" imageViewer #implDrawnImage (pinchstart)="pinch(implDrawnImage)">
+						</div>
+						
+						<!-- Si es video -->
+						<div *ngIf="is_video" text-center>
+							<p ion-text padding color="primary"> Implementación </p>
+							
+							<!-- Si no se implementó el video -->
+							<img *ngIf="!photo.url || (photo.motivo && photo.motivo.id)" [src]="photo.url ? (photo.url | sanitizeImg) : 'assets/img/resources/default-placeholder.png'" class="photo" imageViewer #implVideoImage (pinchstart)="pinch(implVideoImage)">
+							
+							<!-- Si se implementó el video -->
+							<vg-player [vgMedia]="media" #media *ngIf="photo.url && (!photo.motivo || !photo.motivo.id)" class="video-container">
+								<video *ngIf="!is_temporal_url" class="video-player" controls controlsList="nodownload" poster="''">
+									<source [src]="(photo.url | sanitizeImg)">
+								</video>
+								
+								<video *ngIf="is_temporal_url && temporal_video_url" class="video-player" controls controlsList="nodownload" poster="''">
+									<source [src]="(temporal_video_url | sanitizeImg)">
+								</video>
+							</vg-player>
+						</div>
+				  	</ion-slide>
+					  
+					<!-- y muestro la foto de referencia -->
+					<ion-slide *ngIf="reference && photo.parent_id">
+						<div text-center>
+							<p ion-text padding color="primary"> Referencia </p>
+							
+							<img [src]="(reference | sanitizeImg)" class="photo" imageViewer #implRefImage (pinchstart)="pinch(implRefImage)">
+						</div>
+					</ion-slide>
+
+					<!-- y la/las fotos correctivas -->
+					<ion-slide *ngFor="let child of corectiveChilds">
+						<div text-center>
+							<p ion-text padding color="primary"> Correctiva </p>
+							
+							<img [src]="child.url" class="photo" imageViewer #implCorImage (pinchstart)="pinch(implCorImage)">
+						</div>
+					</ion-slide>
+				</ion-slides>
+			</div>
+			
+
+			<!-- TAB INFORMACION -->
+			<div *ngSwitchCase="'info'">
+				<div *ngIf="photo.motivo && photo.motivo.id">
+					<ion-item no-lines>
+						<h4 ion-text color="primary"> <b> Motivo de no implementación: </b> </h4>
+						
+						<p> {{ photo.motivo.nombre }} </p>
+					</ion-item>
+					
+					<ion-item no-lines>
+						<h4 ion-text color="primary"> <b> Comentario de no implementación: </b> </h4>
+						
+						<p> {{ photo.motivo.comentario ? photo.motivo.comentario : 'Sin comentario.' }}</p>
+					</ion-item>
+				</div>
+				
+				<!-- Nota -->
+				<div *ngIf="photo.nota">
+					<ion-item no-lines>
+						<h4 ion-text color="primary"> <b> Nota: </b> <span ion-text color="dark"> <b> {{ photo.nota }} </b> </span> </h4>
+					</ion-item>
+				</div>
+				
+				<!-- Razones de rechazo -->
+				<div *ngIf="photo.rechazos && photo.rechazos.length > 0">
+					<ion-item no-lines class="custom-bb">
+						<h4 ion-text color="primary"> <b> Razones de rechazo: </b> </h4>
+					</ion-item>
+					
+					<ion-item no-lines *ngFor="let reason of photo.rechazos">
+						<ion-icon name="md-close" color="danger" item-start *ngIf="evaluated"></ion-icon>
+						
+						<p> {{ reason.nombre ? reason.nombre : 'Sin especificar' }} </p>
+					</ion-item>
+				</div>
+				
+				<!-- Motivos de aprobación -->
+				<div *ngIf="photo.motivos_aprobacion && photo.motivos_aprobacion.length > 0">
+					<ion-item no-lines class="custom-bb">
+						<h4 ion-text color="primary"> <b> Motivos de aprobación: </b> </h4>
+					</ion-item>
+					
+					<ion-item no-lines *ngFor="let reason of photo.motivos_aprobacion">
+						<ion-icon name="md-checkmark" color="success" item-start *ngIf="evaluated"></ion-icon>
+						
+						<p> {{ reason.nombre ? reason.nombre : 'Sin especificar' }}</p>
+					</ion-item>
+				</div>
+				
+				<!-- Sin info -->
+				<div *ngIf="(!photo.motivo || !photo.motivo.id) && (!photo.nota) && (!photo.rechazos || !photo.rechazos.length) && (!photo.motivos_aprobacion || !photo.motivos_aprobacion.length)">
+					<ion-item text-center no-lines padding-top>
+						<p> Sin información </p>
+					</ion-item>
+				</div>
+			</div>
+			
+
+			<!-- TAB COMENTARIOS -->
+			<div *ngSwitchCase="'commentary'">
+				<ion-item no-lines class="custom-bb">
+					<h4 ion-text color="primary"> <b> Comentario inicial: </b> </h4>
+				</ion-item>
+				
+				<ion-item class="custom-bb" no-lines *ngFor="let commentary of photo.comentarios; let i = index" [attr.data-index]="i">
+				    <h3 ion-text color="primary"> <b> {{ commentary.usuario_tipo }} </b> </h3>
+					
+					<small class="commentary-date"> <p> {{ commentary.created }} </p> </small>
+					
+					<p class="deployment-name"> {{ commentary.nombre_despliegue }} </p>
+					
+					<!-- Si el comentario es texto -->
+				    <p *ngIf="!commentary.nombre_audio"> {{ commentary.comentario }} </p>
+					
+					<!-- Si el comentario es audio -->
+					<vg-player *ngIf="photo.tiene_audio && commentary.nombre_audio" class="audio-container" [ngClass]="(index_played_audio === null ? '' : (index_played_audio === i ? '' : 'locked'))">
+						<audio controls [vgMedia]="audio" #audio class="audio-player" controlsList="nodownload" (playing)="onPlaying(i)" (pause)="onPause(i)">
+							<source [src]="commentary.nombre_audio" type="audio/mp3">
+						</audio>
+					</vg-player>
+				</ion-item>
+				
+				<ion-item no-lines *ngIf="!photo.comentarios || photo.comentarios.length < 1">
+					<p> No se han realizado comentarios a la foto. </p>
+				</ion-item>
+				
+				<div *ngIf="photo.comentario && (!photo.comentarios || photo.comentarios.lenght < 1)">
+					<ion-item no-lines>
+						<h4 ion-text color="primary"> <b> Comentario de la foto: </b> </h4>
+						
+						<p> {{ photo.comentario }} </p>
+					</ion-item>
+				</div>
+			</div>
+		</div>
+		
+		<!-- Solo foto -->
+		<div *ngIf="type==='none'">
+			<ion-slides pager class="photoAndVideoStyle" zoom="true">
+				<ion-slide>
+					<!-- Si es foto -->
+					<div text-center *ngIf="!is_video">
+						<p ion-text padding color="primary"> Fotografía </p>
+						
+						<p *ngIf="removed" ion-text padding style="font-size: 11px;"> Esta implementación ha sido descartada. </p>
+						
+						<img [src]="photo.url ? (photo.url | sanitizeImg) : 'assets/img/resources/default-placeholder.png'" class="photo" imageViewer #normalImage (pinchstart)="pinch(normalImage)">
+					</div>
+					
+					<!-- Si es video -->
+					<div *ngIf="is_video" text-center>
+						<p ion-text padding color="primary">Video</p>
+							
+						<p *ngIf="removed" ion-text padding style="font-size: 11px;"> Esta implementación ha sido descartada. </p>
+							
+						<vg-player [vgMedia]="media" #media *ngIf="photo.url" class="video-container">
+							<video *ngIf="!is_temporal_url" class="video-player" controls controlsList="nodownload" poster="''">
+								<source [src]="(photo.url | sanitizeImg)">
+							</video>
+						</vg-player>
+					</div>
+				</ion-slide>
+			</ion-slides>
+		</div>
+	</div>
+</ion-content>

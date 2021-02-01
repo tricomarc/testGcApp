@@ -1,0 +1,28 @@
+<ion-header box-shadow>
+    <ion-navbar>
+        <div buy>
+            <ion-title><span ion-text color="primary">Información</span></ion-title>
+        </div>
+        <ion-buttons end right>
+            <button ion-button icon-only (click)="closeModal()">
+                <ion-icon name="close" color="primary"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+	<ion-list>
+		<ion-list-header>Preguntas incompletas</ion-list-header>		
+		<ion-item *ngFor="let pregunta of preguntas">
+			<h3 text-wrap>{{pregunta.nombre}}</h3>
+			<p *ngIf="pregunta.codigo_tipo === 'cam'" ion-text text-wrap>Asegurate de adjuntar al menos una fotografía.</p>
+			<p *ngIf="pregunta.codigo_tipo === 'radio'" ion-text text-wrap>Asegurate de seleccionar una alternativa y completar las sub preguntas y acciones asociadas.</p>
+			<p *ngIf="pregunta.codigo_tipo === 'check'" ion-text text-wrap>Asegurate de seleccionar al menos una alternativa y completar las sub preguntas y acciones asociadas.</p>
+			<p *ngIf="(pregunta.codigo_tipo !== 'check' && pregunta.codigo_tipo !== 'radio' && pregunta.codigo_tipo !== 'cam')" ion-text text-wrap>Asegurate de escribir una respuesta.</p>
+			<button ion-button icon-only item-right clear color="primary" (click)="showQuestion(pregunta)">
+				<ion-icon name="link"></ion-icon>
+			</button>
+		</ion-item>
+	</ion-list>
+</ion-content>

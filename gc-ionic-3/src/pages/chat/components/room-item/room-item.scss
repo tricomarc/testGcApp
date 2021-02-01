@@ -1,0 +1,141 @@
+room-item {
+    .mr-0{
+        margin-right: 0px !important;
+    }
+    .ml-0{
+        margin-left: 0px !important;
+    }
+    .pr-0{
+        padding-right: 0px !important;
+    }
+    .pl-0{
+        padding-left: 0px !important;
+    }
+    .text-overflow{
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important; 
+    }
+    .redondeado{
+        float: right;
+        border-radius: 50% !important;
+        width: 25px;
+        height: 25px;
+    }
+    .customPaddingBottom{
+        margin-bottom: 0px !important;
+        padding-bottom: 0px !important;
+    }
+    .customPaddingTop{
+        margin-top: 0px !important;
+        padding-top: 0px !important;
+    }
+
+    .contact-avatar {
+        border-radius: 50%;
+        overflow: hidden;
+        width: 55px !important;
+        height: 55px !important;
+    }
+
+    .last-message-date {
+        position: absolute;
+        top: -26px;
+        right: 6px;
+        font-size: 11px !important;
+        max-width: 20%;
+    }
+
+    .badge-unread-count {
+        margin-top: 25px !important;
+    }
+
+    em {
+        color: #d4d4d4 !important;
+    }
+
+    .room-name {
+        font-size: 15px !important;
+        max-width: 77%;
+    }
+
+    .msg-delivered {
+        font-size: 15px;
+        margin-top: -1px;
+    }
+
+    .msg-failed {
+        font-size: 15px;
+        margin-top: -1px;
+    }
+
+    .msg-sending {
+        font-size: 15px !important;
+        margin-top: -1px !important;
+    }
+
+    .msg-read {
+        color: #3976f9 !important;
+        font-size: 15px;
+        margin-top: -1px;
+    }
+
+    .msg-sent {
+        font-size: 15px;
+        margin-top: -1px;
+    }
+
+    .status-message-icon {
+        float: left;
+    }
+
+    .message-content {
+        padding-left: 2px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 100%;
+        overflow: hidden;
+        padding: 5px;
+    }
+
+    .new-message-icon {
+        font-size: 20px !important;
+        margin: 0px !important;
+        margin-top: 0px !important;
+        margin-bottom: 0px !important;
+    }
+
+    .sender-name {
+        font-size: 12px;
+        color: #979b9e;
+        margin-left: 2px;
+    }
+
+    .message-content > em {
+        margin: 0 0 2px !important;
+    }
+
+    .avatar-class {
+        min-width: 55px !important;
+        min-height: 55px !important;
+    }
+
+    .icon-col {
+        padding: 10px 0 0 0 !important;
+    }
+
+    .main-item > .item-inner > .input-wrapper > label {
+        margin: 0 !important;
+    }
+
+    .muted-message-icon {
+        font-size: 20px !important;
+        margin: 0px !important;
+        margin-top: 0px !important;
+        margin-bottom: 0px !important;
+    }
+
+    .col-p0 {
+        padding: 0px !important;
+    }
+}

@@ -1,0 +1,64 @@
+<ion-header>
+  <ion-navbar class="sombra-vb">
+    <ion-title>Seguimiento Vale</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+  <!-- REFRESHER PAGE -->
+  <ion-refresher (ionRefresh)="refresh($event)" color="dark">
+    <ion-refresher-content pullingText="Actualizar" refreshingText="Actualizando..."></ion-refresher-content>
+  </ion-refresher>
+
+  <!-- SUBHEADER -->
+  <ion-item-divider text-wrap class="sombra-vb">
+    <h2 ion-text text-center color="primary">LOCALES ASOCIADOS</h2>
+  </ion-item-divider>
+  <ion-toolbar color="primary">
+    <ion-title col-12 text-center><strong> {{detallePeriodo.periodo}}</strong>
+      <br><small>({{detallePeriodo.fecha_inicio}}/{{detallePeriodo.fecha_termino}})</small>
+    </ion-title>
+  </ion-toolbar>
+
+
+  <!-- CARD CONTENT -->
+  <ion-card-content class="sombra-vb" margin-top *ngFor="let tienda of localesAsociados.locales" (click)="detalleSeguimiento(tienda.tienda_id)">
+    <ion-grid>
+      <ion-row>
+
+        <!-- IMAGEN LOCAL -->
+        <ion-col col-4 text-center center-col>
+          <div class="in-line">
+            <img src="{{tienda.img_tienda}}" width="60%" /><br>
+            <ion-badge color="primary">{{tienda.codigo_tienda}}</ion-badge>
+          </div>
+        </ion-col>
+
+        <!-- FIELDS -->
+        <ion-col text-left col-5 text-center>
+          <p ion-text color="grey1">
+            {{tienda.direccion}}
+            <br>Cadena        : {{tienda.cadena}}
+            <br>Tipo propiedad: {{tienda.tipo_propiedad}}
+            <br>Región        : {{tienda.region}}
+            <br>Comuna        : {{tienda.comuna}}
+            <br>Formato       : {{tienda.formato}}
+          </p>
+          <ion-badge color="grey1">{{tienda.pendientes}} Pendiente(s)</ion-badge>
+        </ion-col>
+
+        <!-- ARROW RIGHT -->
+        <ion-col col-1 center-col text-center>
+          <h1 ion-text color="primary">
+            <ion-icon name="ios-arrow-forward"></ion-icon>
+          </h1>
+        </ion-col>
+
+      </ion-row>
+    </ion-grid>
+
+  </ion-card-content>
+
+
+</ion-content>

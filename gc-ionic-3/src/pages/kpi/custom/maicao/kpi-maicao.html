@@ -1,0 +1,385 @@
+<ion-header box-shadow>
+	<ion-navbar>
+		<button ion-button menuToggle>
+			<ion-icon icon-menu name="menu" color="primary"></ion-icon>
+		</button>
+		<div buy>
+			<ion-title>
+				<span ion-text color="primary">{{ module }}</span>
+			</ion-title>
+		</div>
+	</ion-navbar>
+</ion-header>
+
+
+<ion-content>
+  	<div class="kpi">
+		<div id="tiendakpi">
+			<!-- Filtro de zonas -->
+			<ion-card *ngIf="charge === 'zonal' || charge === 'pais'">
+				<ion-item no-lines>
+					<ion-label> <p> Zona </p> </ion-label>
+					
+					<ionic-selectable class="fs-09em"
+						item-content
+						[(ngModel)]="zonaSelected"					
+						[items]="zonas" 					
+						itemValueField="id"					
+						itemTextField="nombre"					
+						closeButtonText="Cancelar"					
+						[canSearch]="true"					
+						(onSearch)="onZonasSearch($event)"					
+						(onChange)="filterZona()"					
+						[isMultiple]="false"					
+						[searchFailText]="'No se encontraron áreas'"					
+						[searchPlaceholder]="'Búsqueda'">
+						<ng-template ionicSelectableValueTemplate let-ports="value">
+							<div class="fs-1em">
+								{{ zonaSelected.nombre }}
+							</div>
+						</ng-template>
+					</ionic-selectable>
+				</ion-item>
+			</ion-card>
+			<br />
+
+			<!-- Filtro de sucursales -->
+			<ion-card *ngIf="charge === 'zonal' || charge === 'pais'">
+				<ion-item no-lines>
+					<ion-label> <p> Sucursal </p> </ion-label>
+					
+					<ionic-selectable class="fs-09em"
+						item-content
+						[(ngModel)]="sucursalSelected"					
+						[items]="sucursalesSearch" 					
+						itemValueField="id"					
+						itemTextField="nombre_real"					
+						closeButtonText="Cancelar"					
+						[canSearch]="true"					
+						(onSearch)="onSucursalesSearch($event)"					
+						(onChange)="filterSucursal()"					
+						[isMultiple]="false"					
+						[searchFailText]="'No se encontraron áreas'"					
+						[searchPlaceholder]="'Búsqueda'">
+						<ng-template ionicSelectableValueTemplate let-ports="value">
+							<div class="fs-1em">
+								{{ sucursalSelected.nombre_real }}
+							</div>
+						</ng-template>
+					</ionic-selectable>
+				</ion-item>
+			</ion-card>
+			
+			
+			<!-- Estructura principal -->
+			<div *ngFor="let cumplimiento of cumplimientos">
+				<!-- nombre -->
+				<h4  ion-text color="primary" class="titulo"> {{ cumplimiento.nombre }} </h4>
+				
+				<ion-card class="card" *ngFor="let cump of cumplimiento.indicador">
+					<!-- nombre -->
+					<ion-card-header ion-text color="primary" text-center class="headercard"> {{ cump.nombre }} </ion-card-header>
+				
+					<ion-card-content class="contentcard">
+						<ion-grid>
+							<ion-row>
+								<ion-col col-5 class="divisorright">
+									<!-- header1 / -->
+									<p> {{ cump.header1 }} </p>
+									<!-- meta_acumulada -->
+									<h6 ion-text color="primary" class="dato"> {{ cump.meta_acumulada }} </h6>
+									
+									<!-- header2 /  -->
+									<p> {{ cump.header2 }} </p>
+									<!-- acumulada -->
+									<h6 ion-text color="primary" class="dato"> {{ cump.acumulada }} </h6>
+								</ion-col>
+								
+								<ion-col col-7 text-center>
+									<!-- cumplimiento_acumulado -->
+									<h2 ion-text color="primary" class="cumplimiento"> {{ cump.cumplimiento_acumulado }} </h2>
+									<!-- Este cumplimiento mes queda asi -->
+									<p>Cumplimiento mes</p>
+								</ion-col>
+							</ion-row>
+						</ion-grid>
+					</ion-card-content>
+				</ion-card>
+			</div>
+
+			<!-- GRAFICO de cumplimiento_acumulado -->
+			<h4 ion-text color="primary" class="titulo">Grafico sucursal</h4>
+			<ion-card class="card">
+				<ion-card-header ion-text color="primary" text-center class="headercard indicadores">
+					CUMPLIMIENTO POR INDICADORES <br />
+					
+					<ion-item no-lines>
+						<ion-label> <p>Indicador</p> </ion-label>
+						<ion-select class="fs-09em" multiple="false"
+												[(ngModel)]="indicatorChartSelected"
+												(ngModelChange)="filterChartIndicator()">
+						<ion-option class="fs-1em" *ngFor="let item of rankingMenu" [value]="item.nombre"> {{ item.nombre }} </ion-option>
+						</ion-select>
+					</ion-item>
+				</ion-card-header>
+
+				
+				<ion-card-content class="contentcard" text-center>
+					<h4  ion-text color="primary" class="titulo"> {{ chartIndicator}} </h4>
+
+					<google-chart *ngIf="columnChart" [data]="columnChart"></google-chart>
+					
+				</ion-card-content>
+			</ion-card>
+			
+			<!-- TABLA DETALLE-->
+			<h4 ion-text color="primary" class="titulo"> Detalle sucursal </h4>
+			<!-- MENU -->
+			<ion-card>
+				<ion-item no-lines>
+					<ion-label> <p>Indicador</p></ion-label>
+					<ion-select class="fs-09em" multiple="false"
+											[(ngModel)]="indicatorSelected"
+											(ngModelChange)="filterIndicator()">
+						<ion-option class="fs-1em" *ngFor="let detail of details" [value]="detail.nombre"> {{ detail.nombre }} </ion-option>
+					</ion-select>
+				</ion-item>
+			</ion-card>
+
+			<ion-card class="card">
+				<ion-card-header ion-text color="primary" text-center class="headercard"> {{ indicatorSelected }}</ion-card-header>
+				
+				<!-- recuadro -->
+				<ion-card-content class="contentcard">
+					<table class="tablecarddetalle">
+						<thead>
+							<tr>
+								<th></th>
+								<!-- variables columnas, quedan asi -->
+								<!-- acumulado -->
+								<th ion-text color="primary">AC</th>
+								<!-- meta -->
+								<th ion-text color="primary">ME</th>
+								<!-- variacion anual -->
+								<th ion-text color="primary">VA</th>
+								<!-- cumplimiento -->
+								<th ion-text color="primary">CU</th>
+							</tr>
+						</thead>
+
+						<!-- cuerpo tabla -->
+						<tbody>
+							<tr *ngFor="let indicator of indicatorToShow">
+								<!-- titulo fila {{ valor ? valor : '--' }}-->
+								<!-- nombre -->
+								<th ion-text color="primary" text-left> {{ indicator.nombre }} </th>
+								<!-- valores.acumulado -->
+								<td text-center *ngFor="let valor of indicator.valores" > {{ valor.acumulado ? valor.acumulado : '--' }} </td>
+								<!-- valores.meta_acumulada CONFIRMAR -->
+								<td text-center *ngFor="let valor of indicator.valores"> {{ valor.meta_acumulada ? valor.meta_acumulada : '--'}} </td>
+								<!-- valores.variacion_anual -->
+								<td text-center *ngFor="let valor of indicator.valores"> {{ valor.variacion_anual ? valor.variacion_anual : '--' }} </td>
+								<!-- valores.cumplimineto_acumulado -->
+								<td text-center ion-text color="danger" *ngFor="let valor of indicator.valores"> {{ valor.cumplimiento_acumulado ? valor.cumplimiento_acumulado : '--' }} </td>
+							</tr>
+						</tbody>
+					</table>
+
+					<!-- glosario -->
+					<ion-grid text-center style="margin-top: 10px;">
+						<ion-row>
+						<ion-col>
+							<h6 ion-text color="primary">AC</h6>
+							<p>Acumulado</p>
+						</ion-col>
+						<ion-col>
+							<h6 ion-text color="primary">ME</h6>
+							<p>Meta</p>
+						</ion-col>
+						</ion-row>
+						<ion-row>
+						<ion-col>
+							<h6 ion-text color="primary">VA</h6>
+							<p>Variación Anual</p>
+						</ion-col>
+						<ion-col>
+							<h6 ion-text color="primary">CU</h6>
+							<p>Cumplimiento</p>
+						</ion-col>
+						</ion-row>
+					</ion-grid>
+				</ion-card-content>
+			</ion-card>
+			<br />
+		</div>
+	</div>
+	
+	<!-- RANKING style="display: none;"-->
+	<div id="tiendaranking" class="kpi">
+		<h4 ion-text color="primary" class="titulo">Ranking</h4>
+		<ion-card>
+			<ion-item no-lines>
+				<ion-label> <p>Indicador</p></ion-label>
+				<ion-select class="fs-09em" multiple="false"
+										[(ngModel)]="indicatorRankingSelected"
+										(ngModelChange)="filterRankingIndicator()">
+					<ion-option class="fs-1em" *ngFor="let item of rankingMenu" [value]="item.id"> {{ item.nombre }} </ion-option>
+				</ion-select>
+			</ion-item>
+		</ion-card>
+		
+		<!-- TU POSICION -->
+		<ion-card class="card" *ngIf="charge === 'sucursal'">
+			<ion-card-header ion-text color="primary" text-center class="headercard"> TU POSICIÓN </ion-card-header>
+			<ion-card-content class="contentcard">
+				<ion-grid>
+					<ion-row text-center>
+					<ion-col col-6 class="divisorright">
+						<h2 ion-text color="primary" class="ranking"> #{{ posicion ? posicion : '--' }}</h2>
+						
+						<p> Tu posición <br /> nivel país </p>
+					</ion-col>
+					
+					<ion-col col-6 text-center>
+						<h2 ion-text color="primary" class="ranking"> {{ cumplimiento ? cumplimiento : '--' }} </h2>
+						
+						<p> Cumplimiento <br /> Sucursal </p>
+					</ion-col>
+					</ion-row>
+				</ion-grid>
+			</ion-card-content>
+		</ion-card>
+		
+		<ion-card class="card">
+			<ion-card-header ion-text color="primary" text-center class="headercard"> RANKING ZONAS </ion-card-header>
+			
+			<!-- TABLA -->
+			<ion-card-content class="contentcard">
+				<table class="tablecarddetalle">
+					<thead>
+						<tr>
+							<th ion-text color="primary" text-left>Zona</th>
+							<th ion-text color="primary">PO</th>
+							<th ion-text color="primary">CU</th>
+						</tr>
+					</thead>
+					
+					<tbody>
+						<tr *ngFor="let zona of rankingZona">
+							<!-- .nombre -->
+							<td ion-text color="primary" text-left> {{ zona.nombre }} </td>
+							
+							<!-- .posicion -->
+							<td text-center>
+								<ion-icon name="trophy" *ngIf="(zona.posicion == 1 || zona.posicion == 2 || zona.posicion == 3)" [ngClass]="{'oro': zona.posicion == 1, 'plata': zona.posicion == 2, 'bronce': zona.posicion == 3}" ></ion-icon> 
+								{{ zona.posicion }} 
+							</td>
+
+							<!-- .ponderado -->
+							<td text-center ion-text color="danger"> {{ zona.ponderado }} </td>
+						</tr>
+					</tbody>
+				</table>
+
+				<!-- GLOSARIO -->
+				<ion-grid text-center style="margin-top: 10px;">
+					<ion-row>
+						<!-- <ion-col>
+							<h6 ion-text color="primary">ZN</h6>
+							
+							<p>Zonas</p>
+						</ion-col> -->
+						
+						<ion-col>
+							<h6 ion-text color="primary">PO</h6>
+							
+							<p>Pos. Actual</p>
+						</ion-col>
+						
+						<ion-col>
+							<h6 ion-text color="primary">CU</h6>
+							
+							<p>Cumplimiento</p>
+						</ion-col>
+					</ion-row>
+				</ion-grid>
+			</ion-card-content>
+		</ion-card>
+
+
+		<ion-card class="card" *ngFor="let indicador of rankingSucursales">
+			<ion-card-header ion-text color="primary" text-center class="headercard">
+				RANKING INDICADOR SUCURSALES <br />
+				{{ indicador.nombre }}
+			</ion-card-header>
+			
+			<!-- Tabla -->
+			<ion-card-content class="contentcard">
+				<table class="tablecarddetalle">
+					<thead>
+						<tr>
+							<!-- Cabecera -->
+							<th ion-text color="primary" text-left>Sucursal</th>
+							<th ion-text color="primary">PO</th>
+							<th ion-text color="primary">AC</th>
+							<th ion-text color="primary">ME</th>
+							<th ion-text color="primary">CU</th>
+						</tr>
+					</thead>
+					
+					<tbody>
+						<tr *ngFor=" let sucursal of indicador.data ">
+							<td ion-text color="primary" text-left> {{ sucursal.nombre }} </td>
+							
+							<td text-center>
+								<ion-icon name="trophy" [ngStyle]="{'color': sucursal.color }"></ion-icon> 
+								{{ sucursal.posicion }}
+							</td>
+							
+							<!-- acumulado -->
+							<td text-center> {{ sucursal.acumulado }} </td>
+							
+							<!-- meta_acumulada -->
+							<td text-center> {{ sucursal.meta_acumulada }} </td>
+							
+							<!-- ponderado -->
+							<td text-center ion-text color="danger"> {{ sucursal.ponderado }} </td>
+						</tr>
+					</tbody>
+				</table>
+
+				<!-- GLOSARIO -->
+				<ion-grid text-center style="margin-top: 10px;">
+					<ion-row>
+						<!-- <ion-col>
+							<h6 ion-text color="primary">SC</h6>
+							<p>Sucursal</p>
+						</ion-col> -->
+
+						<ion-col>
+							<h6 ion-text color="primary">PO</h6>
+							<p>Pos. Actual</p>
+						</ion-col>
+					</ion-row>
+
+					<ion-row>
+						<ion-col>
+							<h6 ion-text color="primary">AC</h6>
+							<p>Acumulado</p>
+						</ion-col>
+
+						<ion-col>
+							<h6 ion-text color="primary">ME</h6>
+							<p>Meta</p>
+						</ion-col>
+
+						<ion-col>
+							<h6 ion-text color="primary">CU</h6>
+							<p>Cumplimiento</p>
+						</ion-col>
+					</ion-row>
+				</ion-grid>
+			</ion-card-content>
+		</ion-card>
+	</div>
+</ion-content>

@@ -1,0 +1,54 @@
+<ion-toolbar box-shadow padding>
+  <!-- Filtro por rango de fechas -->
+  <date-filter *ngIf="filters" [filters]="filters" (onDateChange)="changeDateFilters($event)"></date-filter>
+
+  <ion-item no-lines>
+    <ion-label> Tipo de Tarea </ion-label>
+    <ion-select [(ngModel)]="typeTask" (ionChange)="getTaskFilter()">
+      <ion-option value="0">Todos</ion-option>
+      <ion-option value="1">Simple</ion-option>
+      <ion-option value="2">Numerica</ion-option>
+    </ion-select>
+ </ion-item>
+
+  <ion-searchbar [formControl]="searchControl" placeholder="Buscar tarea" margin-top></ion-searchbar>
+
+</ion-toolbar>
+
+<div padding>
+  <ion-row>
+    <ion-col col-6 col-sm-6 col-md-6 col-lg-4 col-xl-3 *ngFor="let task of tasks" (click)="openTask(task)">
+      <div class="task border-radius box-shadow">
+        <ion-badge [color]="task.color" class="categoria">{{task.estadoNombre}}</ion-badge>
+        <h4 ion-text color="primary">
+          {{task.nombre}}
+        </h4>
+
+        <p ion-text color="default">
+          Esta tarea se habilita el {{task.inicioTarea | date: 'dd-MM-yyyy HH:mm'}}
+        </p>
+        <!-- <div class="icono-estado">
+          <ion-icon name="alarm" color="energized"></ion-icon>
+        </div> -->
+        <div class="footer">
+          <ion-row>
+            <ion-col col-2>
+              <!-- <div class="asignados">
+                <img src="assets/img/avatar-01.jpg" />
+              </div> -->
+            </ion-col>
+            <ion-col col-12 text-right>
+              <h6 ion-text text-capitalize>{{task.vencimiento | date: 'MMM dd - HH:mm'}}</h6>
+              <p>Vencimiento</p>
+            </ion-col>
+          </ion-row>
+        </div>
+      </div>
+    </ion-col>
+  </ion-row>
+  <ion-item no-lines text-wrap text-center *ngIf="!tasks || !tasks.length">
+    <div class="task-add">
+      <p ion-text color="dark">No hay tareas para mostrar.</p>
+    </div>
+  </ion-item>
+</div>

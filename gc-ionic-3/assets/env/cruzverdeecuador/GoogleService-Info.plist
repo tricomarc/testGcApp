@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>725621855262-sa17p8o6l0llct57n0e1ka55k8jbnen8.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.725621855262-sa17p8o6l0llct57n0e1ka55k8jbnen8</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAByTj_LwgV4pzW7OTP5HzDNGp-cTOq3Bk</string>
+	<key>GCM_SENDER_ID</key>
+	<string>725621855262</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>cl.gcfcve.gcapp</string>
+	<key>PROJECT_ID</key>
+	<string>gc-cruz-verde-ecuador</string>
+	<key>STORAGE_BUCKET</key>
+	<string>gc-cruz-verde-ecuador.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:725621855262:ios:34dd1b2978adf85c7b4a0f</string>
+	<key>DATABASE_URL</key>
+	<string>https://gc-cruz-verde-ecuador.firebaseio.com</string>
+</dict>
+</plist>

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "726376054579",
+    "firebase_url": "https://wados-b6ec2.firebaseio.com",
+    "project_id": "wados-b6ec2",
+    "storage_bucket": "wados-b6ec2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:726376054579:android:3b372c0df27cc2ade28846",
+        "android_client_info": {
+          "package_name": "cl.wados.gcapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "726376054579-7emcui382ts0vaqctpdlg7l9vug11s86.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCyumi5DoL0r1BfiD_3C89Q9-tVex_wfTg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "726376054579-7emcui382ts0vaqctpdlg7l9vug11s86.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "726376054579-ru6hca56k7a46a73c6nutiudvodcs6cp.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "cl.wados.gcapp",
+                "app_store_id": "1456030568"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

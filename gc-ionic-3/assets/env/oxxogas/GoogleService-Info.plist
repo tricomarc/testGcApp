@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>840131350867-mpqncoeps4s7f8equhakc3av5l0f99jh.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.840131350867-mpqncoeps4s7f8equhakc3av5l0f99jh</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBzCAptdpHYK-KNGTyf_FTH3gs_zsjf3pg</string>
+	<key>GCM_SENDER_ID</key>
+	<string>840131350867</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>cl.gcogas.gcapp</string>
+	<key>PROJECT_ID</key>
+	<string>gc-oxxo-gas</string>
+	<key>STORAGE_BUCKET</key>
+	<string>gc-oxxo-gas.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:840131350867:ios:cbfb3fa554096e1cff51a6</string>
+	<key>DATABASE_URL</key>
+	<string>https://gc-oxxo-gas.firebaseio.com</string>
+</dict>
+</plist>

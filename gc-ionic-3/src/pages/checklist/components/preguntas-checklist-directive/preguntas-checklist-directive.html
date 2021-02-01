@@ -1,0 +1,154 @@
+<div [ngSwitch]="pregunta.codigo_tipo">
+
+    <!--------PREGUNTAS checklist -->
+    <div padding class="customStyle" *ngIf="pregunta.pregunta && !subPregunta">
+        <p no-padding no-margin class="customTamañoTexto" ion-text color="primary"
+           [ngClass]="pregunta.respuesta ? 'positive' : 'assertive'"> {{ pregunta.pregunta }}
+        </p>
+    </div>
+    <!--------PREGUNTAS checklist -->
+
+    <!--SUBPREGUNTAS checklist -->
+    <div padding class="customStyleSubPregunta" *ngIf="pregunta.pregunta && subPregunta">
+        <p no-padding no-margin class="customTamañoTextoSubPregunta" ion-text text-wrap color="primary"
+           [ngClass]="pregunta.respuesta ? 'positive' : 'assertive'"> {{ pregunta.pregunta }}
+        </p>
+    </div>
+    <!--SUBPREGUNTAS checklist -->
+
+    <!-- pregunta VISITAS -->
+    <div padding *ngIf="pregunta.nombre">
+        <ion-row padding class="customStyle">
+            <p no-padding no-margin text-wrap ion-text class="customTamañoTexto" color="primary"
+               [ngClass]="pregunta.respuesta ? 'positive' : 'assertive'">
+                {{ pregunta.nombre }}
+            </p>
+        </ion-row>
+        
+        <!--<ion-row *ngIf="pregunta.aplica">-->
+        <ion-row *ngIf="pregunta.aplica && (pregunta.aplica == 1 || pregunta.aplica == '1') && (pregunta.hasApply == null || pregunta.hasApply == undefined)">
+            <ion-col col-6>
+                <button customColorBotonNoaplica ion-button round block (click)="dontApply()">
+                    <span no-padding class="customFontSize"> No aplica </span>
+                </button>
+            </ion-col>
+            
+            <ion-col col-6>
+                <button customColorBotonAplica ion-button round block (click)="apply()">
+                    <span no-padding class="customFontSize"> Aplica </span>
+                </button>
+            </ion-col>
+        </ion-row>
+       
+        <ion-row *ngIf="pregunta.aplica && (pregunta.aplica == 1 || pregunta.aplica == '1') && (pregunta.hasApply != null && pregunta.hasApply != undefined)">
+            <ion-col col-1>
+                <button customColorBotonNoaplica ion-button round block (click)="resetApply()">
+                    <ion-icon name="arrow-back" class="customFontSize2"></ion-icon>
+                </button>
+            </ion-col>
+        </ion-row>
+
+        <ion-row *ngIf="pregunta.aplica && (pregunta.aplica == 1 || pregunta.aplica == '1') && pregunta.hasApply == false">
+            <ion-col col-8 offset-2>
+                <ion-icon name="close" class="customFontSize3"></ion-icon>
+                <span class="customFontSize4"> Criterios no aplican </span>
+            </ion-col>
+        </ion-row>
+    </div>
+    <!-- pregunta VISITAS -->
+
+    <!-- pregunta TAREAS -->
+    <div padding class="customStyle" *ngIf="pregunta.texto">
+        <p no-padding no-margin class="customTamañoTextoSubPregunta" color="primary" ion-text
+           [ngClass]="pregunta.respuesta ? 'positive' : 'assertive'"> {{ pregunta.texto }}
+        </p>
+    </div>
+    <!-- pregunta TAREAS -->
+
+    <foto-obligatoria-checklist-directive class="customPaddingLeft"
+                                          *ngIf="pregunta.obligatorio && pregunta.obligatorio.foto"
+                                          [pregunta]="pregunta"
+                                          [checklistEnviado]="checklistEnviado" [fromStats]="fromStats" [ambitState]="ambitState">
+    </foto-obligatoria-checklist-directive>
+
+    <ion-item no-lines *ngIf="pregunta.codigo_tipo == 'file'" [ngClass]="subPregunta ? 'customSubPregunta' : ''">
+        <ion-item class="p-sm">
+            <p ion-text text-center style="white-space: normal"> Temporalmente no se puede subir archivos en el app. </p>
+        </ion-item>
+    </ion-item>
+
+    <ion-item no-lines
+              *ngIf="pregunta.codigo_tipo == 'check' && ((pregunta.aplica && (pregunta.aplica == 1 || pregunta.aplica == '1') && pregunta.hasApply) || (!pregunta.aplica || pregunta.aplica == 0 || pregunta.aplica == '0'))"
+              [ngClass]="subPregunta ? 'customSubPregunta' : ''">
+        <checkbox-checklist-directive [pregunta]="pregunta"
+                                      [isTask]="isTask"
+                                      [checklistEnviado]="checklistEnviado" [fromStats]="fromStats" [ambitState]="ambitState"></checkbox-checklist-directive>
+    </ion-item>
+
+    <ion-item no-lines *ngIf="pregunta.codigo_tipo == 'correo'" [ngClass]="subPregunta ? 'customSubPregunta' : ''">
+      <texto-checklist-directive *ngIf="pregunta.obligatorio" [pregunta]="pregunta" [isTask]="isTask" [ambitState]="ambitState" [checklistEnviado]="checklistEnviado" [fromStats]="fromStats"></texto-checklist-directive>
+        
+        <preguntas-checklist-directive style="border: 0px !important" *ngIf="pregunta.subPregunta && pregunta.subPregunta.id"
+                                                   [pregunta]="pregunta.subPregunta"
+                                                   [checklistEnviado]="checklistEnviado"
+                                                   [fromStats]="fromStats"
+                                                   [isTask]="isTask"
+                                                   [limpiarAlternativasRadio]="limpiarAlternativasRadio"
+                                                   [limpiarAlternativasCheckbox]="limpiarAlternativasCheckbox"
+                                                   [tomarFoto]="tomarFoto"
+                                                   [tomarFotoObligatoria]="tomarFotoObligatoria"
+                                                   [subPregunta]="true"
+                                                   [ambitState]="ambitState">
+                    </preguntas-checklist-directive>
+    </ion-item>
+
+    <ion-item no-lines *ngIf="pregunta.codigo_tipo == 'fecha'" [ngClass]="subPregunta ? 'customSubPregunta' : ''">
+        <date-checklist-directive [pregunta]="pregunta"
+                                  [checklistEnviado]="checklistEnviado" [fromStats]="fromStats" [ambitState]="ambitState"></date-checklist-directive>
+    </ion-item>
+
+    <ion-item no-lines
+              *ngIf="pregunta.codigo_tipo == 'cam' && (((pregunta.aplica == 1 || pregunta.aplica == '1') && pregunta.hasApply) || (!pregunta.aplica || pregunta.aplica == 0 || pregunta.aplica == '0'))"
+              [ngClass]="subPregunta ? 'customSubPregunta' : ''">
+        <foto-checklist-directive [pregunta]="pregunta"
+                                  [isTask]="isTask"
+                                  [checklistEnviado]="checklistEnviado" [fromStats]="fromStats" [ambitState]="ambitState"></foto-checklist-directive>
+    </ion-item>
+
+    <!-- <ion-item *ngIf="pregunta.codigo_tipo == 'incidencia'">
+         <incidencia-checklist-directive [pregunta]="pregunta"
+                                         [checklistEnviado]="checklistEnviado" [fromStats]="fromStats" [ambitState]="ambitState"></incidencia-checklist-directive>
+     </ion-item>-->
+
+    <ion-item *ngIf="pregunta.codigo_tipo == 'alert'" class="text-center">
+        <notificacion-checklist-directive [pregunta]="pregunta"
+                                          [checklistEnviado]="checklistEnviado" [fromStats]="fromStats"></notificacion-checklist-directive>
+    </ion-item>
+
+    <ion-item no-lines *ngIf="pregunta.codigo_tipo == 'num'" [ngClass]="subPregunta ? 'customSubPregunta' : ''">
+        <numeric-checklist-directive [pregunta]="pregunta"
+                                     [checklistEnviado]="checklistEnviado" [fromStats]="fromStats" [ambitState]="ambitState"></numeric-checklist-directive>
+    </ion-item>
+    
+    <ion-item no-lines *ngIf="pregunta.codigo_tipo == 'porcentual'">
+        <porcentaje-checklist-directive [pregunta]="pregunta"
+                                        [checklistEnviado]="checklistEnviado" [fromStats]="fromStats" [ambitState]="ambitState"></porcentaje-checklist-directive>
+    </ion-item>
+    
+    <ion-item no-margin no-lines
+              *ngIf="pregunta.codigo_tipo == 'radio' && (((pregunta.aplica == 1 || pregunta.aplica == '1') && pregunta.hasApply) || (!pregunta.aplica || pregunta.aplica == 0 || pregunta.aplica == '0'))"
+              [ngClass]="subPregunta ? 'customSubPregunta' : ''">
+        <radio-checklist-directive [pregunta]="pregunta"
+                                   [isTask]="isTask"
+                                   [checklistEnviado]="checklistEnviado" [fromStats]="fromStats" [ambitState]="ambitState"></radio-checklist-directive>
+    </ion-item>
+    
+    <ion-item no-lines
+              *ngIf="pregunta.codigo_tipo == 'text' && (((pregunta.aplica == 1 || pregunta.aplica == '1') && pregunta.hasApply) || (!pregunta.aplica || pregunta.aplica == 0 || pregunta.aplica == '0'))"
+              [ngClass]="subPregunta ? 'customSubPregunta' : ''">
+        <texto-checklist-directive [pregunta]="pregunta"
+                                   [isTask]="isTask"
+                                   [checklistEnviado]="checklistEnviado" [fromStats]="fromStats" [ambitState]="ambitState"></texto-checklist-directive>
+    </ion-item>
+
+</div>

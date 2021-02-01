@@ -1,0 +1,98 @@
+<ion-header box-shadow [ngClass]="view === 'CAMERA' ? 'background-color-transparent no-display' : ''">
+  	<ion-navbar>
+  		<ion-buttons start *ngIf="requesting">
+  			<ion-spinner color="primary"></ion-spinner>
+  		</ion-buttons>
+    	<ion-title><span ion-text color="primary">Crear incidencia</span></ion-title>
+    	<ion-buttons end>
+    		<button ion-button icon-only clear (click)="closeModal(false)">
+  				<ion-icon name="md-close" color="primary"></ion-icon>
+    		</button>
+  		</ion-buttons>
+  	</ion-navbar>
+</ion-header>
+
+<ion-content [ngClass]="view === 'CAMERA' ? 'background-color-transparent no-display' : ''">
+	<ion-item padding-top no-lines>
+		<ion-label> <span ion-text color="primary" class="lh-15">Área:</span></ion-label>
+		<ion-select [(ngModel)]="form.area_id" okText="OK" cancelText="Cancelar" (ngModelChange)="areaChanged()">
+		    <ion-option *ngFor="let area of areas" [value]="area.id"> {{area.nombre}} </ion-option>
+		</ion-select>
+	</ion-item>
+	<ion-item no-lines>
+		<ion-label> <span ion-text color="primary">Servicio:</span></ion-label>
+		<ion-select [(ngModel)]="form.servicio_id" okText="OK" cancelText="Cancelar" (ngModelChange)="serviceChanged()" [disabled]="!form.area_id">
+		    <ion-option *ngFor="let service of services" [value]="service.id">{{service.nombre}}</ion-option>
+		</ion-select>
+	</ion-item>
+	<ion-item no-lines *ngIf="selected_service && selected_service.sub_servicio.length > 0">
+		<ion-label><span ion-text color="primary">Sub Servicio:</span></ion-label>
+		<ion-select [(ngModel)]="form.sub_servicio_id" okText="OK" cancelText="Cancelar" (ngModelChange)="subServiceChanged()">
+		    <ion-option *ngFor="let sub_service of sub_services" [value]="sub_service.id">{{sub_service.nombre}}</ion-option>
+		</ion-select>
+	</ion-item>
+	<ion-item no-lines class="custom-bb">
+		<ion-label><span ion-text color="primary">Prioridad:</span></ion-label>
+		<ion-select [(ngModel)]="form.priority_id" okText="OK" cancelText="Cancelar" [disabled]="priorities.length < 2">
+		    <ion-option *ngFor="let priority of priorities" [value]="priority.id">{{priority.nombre}}</ion-option>
+		</ion-select>
+	</ion-item>
+	<div *ngIf="problems.length > 0">
+		<ion-item padding-top no-lines>
+			<ion-label color="primary">Base de Conocimientos</ion-label>
+		</ion-item>
+		<ion-item no-padding color="primary" class="customb" *ngFor="let problem of problems" no-lines>
+			<button color="primary" ion-item detail-none (click)="selectProblem(problem)">
+				<span ion-text color="light"><b>¿{{problem.titulo}}?</b></span>
+				<ion-icon color="light" item-right name="md-add" *ngIf="!problem.open"></ion-icon>
+				<ion-icon color="light" item-right name="md-remove" *ngIf="problem.open"></ion-icon>
+			</button>
+			<div *ngIf="problem.open">
+				<ion-item *ngFor="let solution of problem.soluciones" detail-none text-wrap class="child-item">
+					<h5>{{solution.descripcion}}</h5>
+			      	<button ion-button icon-only clear item-end [color]="solution.like === 1 ? 'primary' : 'stable'" (click)="like(solution)">
+			      		<ion-icon name="md-thumbs-up"></ion-icon>
+			      	</button>
+				</ion-item>
+			</div>
+		</ion-item>
+		<ion-item text-wrap no-lines text-center color="dark">
+			<p ion-text color="light">Si no ha conseguido la solución a su problema puede generar la incidencia</p>
+		</ion-item>
+	</div>
+	<div padding-top *ngIf="required_photos">
+		<ion-item no-lines>
+			<ion-label color="primary">Agregar foto</ion-label>
+		</ion-item>
+		<ion-row>
+		   	<ion-col col-10>
+		    	<ion-row *ngIf="photos.length > 0">
+		    		<ion-col col-2 *ngFor="let photo of photos; let i = index" [attr.data-index]="i" text-center>
+		    			<img [src]="(photo | sanitizeImg)" class="photo-incident" (click)="showPhoto(photo)">
+		    			<ion-icon name="md-close" color="assertive" (click)="removePhoto(photo, i)"></ion-icon>
+		    		</ion-col>
+		    	</ion-row>
+		    	<ion-row *ngIf="photos.length < 1">
+		    		<ion-col col-12>
+		    			<p>No ha subido fotos</p>
+		    		</ion-col>
+		    	</ion-row>
+		    </ion-col>
+		    <ion-col col-2>
+		    	<button ion-button clear icon-only (click)="captureMedia()">
+				   	<ion-icon color="dark" name="camera"></ion-icon>
+				</button>
+		    </ion-col>
+		</ion-row>
+	</div>
+	<ion-item no-lines class="b-t">
+		<ion-label stacked class="text-desc"><span ion-text color="primary">Descripción:</span></ion-label>
+		<ion-textarea [disabled]="incident_not_available" [(ngModel)]="form.commentary" placeholder="Escriba la descripción aquí" class="textarea-commentary"></ion-textarea>
+	</ion-item>
+	<ion-item text-wrap *ngIf="incident_not_available">
+		<p><strong>Este tipo de incidencia no puede ser creada desde la APP</strong></p>
+	</ion-item>
+	<ion-item no-lines>
+		<button ion-button block default color="primary" [disabled]="incident_not_available" (click)="sendIncident()"> Reportar incidencia </button>
+	</ion-item>
+</ion-content>

@@ -1,0 +1,30 @@
+// Estilos Reconocimiento 1
+
+	.force-font{
+		margin-left: -10px !important;
+	}
+	.custom-border-bottom{
+		border-bottom: 1px solid #ccc !important;
+	}
+	.hover-select{
+		border: 1px solid transparent;
+	}
+	.hover-select:hover{
+		border: 1px solid #ccc;
+		border-radius: 5%;
+	}
+	.hover-active{
+		border: 1px solid #ccc;
+		border-radius: 5%;	
+	}
+	.main-text{
+		p{
+			font-size: 10px;
+			margin-top: 10px;
+		}
+	}
+	.custom-textarea{
+		height: 100px;
+		border-bottom: 1px solid #ccc;
+		border-top: 1px solid #ccc;
+	}

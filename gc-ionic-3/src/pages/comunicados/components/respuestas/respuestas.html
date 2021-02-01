@@ -1,0 +1,28 @@
+<ion-content>
+  <ion-grid no-margin no-padding>
+    <ion-row>
+        <ion-col col-12>
+            <ion-list-header box-shadow no-margin no-lines>
+                <h1 header-title ion-text color="primary">Tus respuestas</h1>
+            </ion-list-header>      
+        </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-item text-wrap no-lines color="primary">
+    <h2 ion-text>{{details.data.comunicado.comunicado_nombre}}</h2>
+  </ion-item>
+  <ion-item no-lines padding-bottom color="royal">
+    <h4 ion-text text-center color="light">Has respondido con nota: {{details.data.evaluacion.nota}}%</h4>
+  </ion-item>
+  <ion-list *ngFor="let respuesta of questions" no-lines padding-top>
+    <ion-item no-lines class="custom-m-fix">
+      <h2 ion-text color="primary">{{respuesta.pregunta_nombre}}: </h2>
+      <h4 margin-top ion-text color="primary">Tu Respuesta: </h4>
+      <p class="fix-mt">{{respuesta.respuesta_usuario}}</p>
+    </ion-item>
+    <ion-item no-lines class="custom-bb">
+      <h2 ion-text color="primary">Respuesta correcta: </h2>
+      <p class="fix-mt">{{respuesta.respuesta_correcta}}</p>
+    </ion-item>
+  </ion-list>
+</ion-content>

@@ -1,0 +1,75 @@
+page-detalle {
+ion-item{
+		background-color: transparent !important;
+	}
+	.tamaño-especial{
+		font-size: 1.5em;
+	}
+	.customBorder{
+    	padding-right: 100px !important;
+    	padding-left: 100px !important;
+    	border-bottom: 1px solid #CFCFCF !important;
+    	padding-bottom: 0px !important;
+    	margin-bottom: 0px !important;
+
+    }
+    .customBorder2{
+    	padding-right: 20px !important;
+    	padding-left: 20px !important;
+    	padding-bottom: 0px !important;
+    	margin-bottom: 0px !important;
+    	margin-top: -15px !important;
+    }
+    .tamañoFuenteCustomCaracteristica{
+    	font-size: 1.2em !important;
+    }
+    .customBorder3{
+    	padding-right: 100px !important;
+    	padding-left: 100px !important;
+    	border-bottom: 1px solid #CFCFCF !important;
+    	padding-bottom: 0px !important;
+    	margin-bottom: 0px !important;
+
+    }
+    .customBorder4{
+    	padding-right: 100px !important;
+    	padding-left: 100px !important;
+    	padding-bottom: 0px !important;
+    	margin-bottom: 0px !important;
+
+    }
+    .customTamañoAmbitos{
+    	font-size: 2em !important;
+    }
+    ion-item-divider{
+        border-bottom: 0px !important;
+    }
+    .tamañoCustom{
+        height: 70px !important;
+    }
+    
+    .tamañoCustom2{
+        font-size: 1.1em;
+    }
+    .stripeColorCustom:nth-child(odd){
+         background-color: lighten(color($colors, royal), 30);
+    }
+    .paddingEspecial{
+        padding-left: 15px !important;
+    }
+    .tamañoFuenteCustom{
+        font-size: 0.9em !important;
+    }
+
+    .bullets-sw {
+        width: 100%;
+        margin-top: 10px;
+        position: none !important;
+        text-align: none !important;
+    }
+
+    .swiper-pagination-bullet {
+        margin: 1px !important;
+    }
+
+}

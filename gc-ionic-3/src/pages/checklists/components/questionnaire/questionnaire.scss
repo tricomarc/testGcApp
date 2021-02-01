@@ -1,0 +1,57 @@
+questionnaire {
+	.fs-1em {
+    	font-size: 1em !important
+    }
+
+    .tamañoCustom2{
+        font-size: 1.1em;
+    }
+
+    .questionnaire-container {
+    	margin-bottom: 60px;
+    }
+
+    .refresh-icon {
+    	font-size: 35px;
+    }
+
+    .info-icon {
+        position: relative !important;
+        font-size: 2em !important;
+        font-weight: bold !important;
+        right: 10px !important;
+    }
+
+    .info-badge {
+        position: absolute !important;
+        font-weight: bold !important;
+        top: -3px !important;
+        left: 29px !important;
+        font-size: 13px !important;
+        padding: 2px 4px !important;
+    }
+
+    .bullets-sw {
+        width: 100% !important;
+        margin-top: -15px !important;
+        position: none !important;
+        text-align: none !important;
+    }
+
+    .swiper-pagination-bullet {
+        margin: 1px !important;
+    }
+
+    .swiper-custom > .s-wrapper {
+        padding: 8px !important;
+        margin-top: 25px !important;
+    }
+
+    .question-container {
+        width: 96%;
+    }
+
+    .no-locked-opaque {
+        pointer-events: all !important;
+    }
+}

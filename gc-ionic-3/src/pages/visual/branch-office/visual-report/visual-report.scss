@@ -1,0 +1,140 @@
+page-visual-report {
+
+    .custom-bb {
+        border-bottom: 1px solid #ddd !important;
+        overflow-x: auto;
+        padding-bottom: 2vw;
+    }
+
+    .icon-size {
+        font-size: 30px;
+    }
+
+    .foto-fix>img {
+        height: 150px;
+        width: 100%;
+    }
+
+    .foto-fix>vg-player {
+        height: 150px;
+        width: 100%;
+    }
+
+    .img-fix {
+        max-height: 300px;
+        width: 100%;
+    }
+
+    textarea {
+        background: #fff;
+        border: none;
+        text-align: center;
+        color: color($colors, primary);
+    }
+
+    .commentary-date {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        font-size: 11px;
+        color: color($colors, royal);
+    }
+
+    .photo-container {
+        position: relative;
+        text-align: center;
+        height: 150px;
+        width: 135px;
+        margin: 0 auto;
+        margin-bottom: 10px;
+    }
+
+    .photo-container img {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+    }
+
+    .btn-top-right {
+        position: absolute;
+        top: -2px;
+        right: 0px;
+        border-radius: 25px;
+        padding: 2px 5px;
+        z-index: 1;
+        box-shadow: 0.5px 0.5px 0.5px 0.5px #999;
+    }
+
+    .btn-top-left {
+        position: absolute;
+        top: -2px;
+        left: 0px;
+        border-radius: 25px;
+        padding: 2px 5px;
+        z-index: 1;
+        box-shadow: 0.5px 0.5px 0.5px 0.5px #999;
+    }
+
+    .btn-bottom-right {
+        position: absolute;
+        bottom: -2px;
+        right: 0px;
+        border-radius: 25px;
+        padding: 2px 5px;
+        z-index: 1;
+        box-shadow: 0.5px 0.5px 0.5px 0.5px #999;
+    }
+
+    .btn-bottom-left {
+        position: absolute;
+        bottom: -2px;
+        left: 0px;
+        border-radius: 25px;
+        padding: 2px 5px;
+        z-index: 1;
+        box-shadow: 0.5px 0.5px 0.5px 0.5px #999;
+    }
+
+    .customBackgroundRed {
+        background-color: #ED0404 !important;
+    }
+
+    .customBackgroundYellow {
+        background-color: #F4F100 !important;
+    }
+
+    .customBackgroundGreen {
+        background-color: #00E63C !important;
+    }
+
+    table {
+        width: 95%;
+
+        tbody {
+            tr {
+				&:nth-child(1){
+					background: #92D050;
+				}
+                td {
+                    border: 1px solid #000;
+                }
+            }
+        }
+    }
+
+    p {
+        img {
+            float: right;
+        }
+    }
+
+    .tool-button{
+        background-color: color($colors, primary, base );
+        font-size: initial;
+    }
+}

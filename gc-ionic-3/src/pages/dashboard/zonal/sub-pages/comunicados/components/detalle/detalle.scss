@@ -1,0 +1,41 @@
+page-details-comunicado {
+    ion-card-header {
+        font-weight: bold;
+    }
+    .tamañoCustom2 {
+        font-size: 1em;
+    }
+    .fuenteColor {
+        color: color($colors, primary) !important;
+    }
+    .icon-lg {
+        font-size: 3em !important;
+        color: #bbb !important;
+    }
+    .paddingEspecial {
+        padding-left: 15px !important;
+    }
+    .noPaddingBottom {
+        padding-bottom: 0px !important;
+    }
+
+    .col-6 {
+        -webkit-box-flex: 0;
+        -webkit-flex: 0 0 50%;
+        -ms-flex: 0 0 50%;
+        flex: 0 0 50%;
+        width: 50%;
+        max-width: 50%;
+        padding: 5px;
+    }
+
+    .col-4 {
+        -webkit-box-flex: 0;
+        -webkit-flex: 0 0 33.33333%;
+        -ms-flex: 0 0 33.33333%;
+        flex: 0 0 33.33333%;
+        width: 33.33333%;
+        max-width: 33.33333%;
+        padding: 5px;
+    }
+}

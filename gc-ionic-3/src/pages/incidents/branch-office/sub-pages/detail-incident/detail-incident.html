@@ -1,0 +1,121 @@
+<ion-header box-shadow [ngClass]="view === 'CAMERA' ? 'background-color-transparent no-display' : ''">
+	<ion-navbar>
+		<ion-title><span ion-text color="primary">Detalle incidencia</span></ion-title>
+		<ion-buttons end>
+			<button ion-button (click)="showLogs()" icon-only clear style="margin-right: 7px;">
+				<ion-icon name="flag"></ion-icon>
+			</button>
+		</ion-buttons>
+	</ion-navbar>
+</ion-header>
+
+<ion-content [ngClass]="view === 'CAMERA' ? 'background-color-transparent no-display' : ''">
+
+	<div *ngIf="!requesting">
+		<ion-toolbar [color]="status_info.color">
+			<ion-item no-lines [color]="status_info.color" class="item-status">
+				<ion-label *ngIf="incident">Incidencia: <strong>{{incident.datos ? incident.datos.estado : 'Desconocido'}}</strong></ion-label>
+				<ion-icon [name]="status_info.icon" item-right></ion-icon>
+			</ion-item>
+		</ion-toolbar>
+
+		<div *ngIf="incident && incident.datos">
+			<ion-item no-lines *ngIf="incident.datos.estado === 'Solicitada'" text-wrap text-center class="item-message">
+				<h2>No se ha asignado tiempo de resolución</h2>
+			</ion-item>
+			<div *ngIf="incident.datos.estado !== 'Solicitada'">
+				<div no-lines padding-top text-center>
+					<h2 ion-text color="primary">{{incident.datos.servicio}}</h2>
+				</div>
+				<div no lines text-wrap text-center>
+					<h3>Tiempo restante para resolver</h3>
+				</div>
+				<div text-wrap text-center>
+					<h1 ion-text color="primary" class="days-count"><strong>{{(!incident.datos.dias_entrega || incident.datos.dias_entrega < 0) ? 0 : incident.datos.dias_entrega}}</strong></h1>
+					<h4>Día<span *ngIf="incident.datos.dias_entrega !== 1">s</span></h4>
+				</div>
+				<ion-item *ngIf="!incident.resolver && incident.datos.estado !== 'Resuelta'" text-wrap text-center class="item-message">
+					<h2>No se puede resolver esta incidencia</h2>
+				</ion-item>
+				<ion-item no-lines *ngIf="!incident.resolver && incident.datos.estado === 'Resuelta'" text-wrap text-center>
+					Esta incidencia ya fue resuelta
+				</ion-item>
+			</div>
+			<ion-item no-lines class="custom-bb">
+				<h2 ion-text color="primary">Información:</h2>
+			</ion-item>
+			<ion-item no-lines>
+				<h4 class="customMargin" *ngIf="incident.datos.id" ion-text color="primary">N° Incidencia: </h4>
+				<h2>#{{incident.datos.id}}</h2>
+			</ion-item>
+			<ion-item no-lines>
+				<h4 class="customMargin" *ngIf="incident.datos.descripcion"ion-text color="primary">Descripción: </h4>
+				<h2 text-wrap> {{incident.datos.descripcion}}</h2>
+			</ion-item>
+			<ion-item no-lines>
+				<h4 class="customMargin" *ngIf="incident.datos.descripcion" ion-text color="primary">Servicio: </h4>
+				<h2 text-wrap>{{incident.datos.servicio}}</h2>
+			</ion-item>
+			<ion-item no-lines *ngIf="incident.datos.prioridad">
+				<h4 class="customMargin" ion-text color="primary">Prioridad: </h4>
+				<h2  ng-class="incident.datos.prioridad === 'Urgente' ? 'assertive' : ''">{{incident.datos.prioridad}}</h2>
+			</ion-item>
+			<ion-item no-lines class="custom-bb">
+				<h4 class="customMargin lh-15" *ngIf="incident.datos.area" ion-text color="primary">Área: </h4>
+				<h2 text-wrap>{{incident.datos.area}}</h2>
+			</ion-item>
+			<ion-item no-lines *ngIf="incident.fotos.length > 0">
+				<h2 ion-text color="primary">Archivos asociados</h2>
+			</ion-item>
+			<ion-item no-lines class="custom-bb" *ngFor="let photo of incident.fotos" (click)="downloadPhoto(photo)">
+				<span>{{photo.nombre}}</span>
+				<button ion-button item-right clear icon-only>
+					<ion-icon name="ios-cloud-download" color="primary" ></ion-icon>
+				</button>
+			</ion-item>
+			<ion-item no-lines *ngIf="!from_statistics">
+				<button ion-button item-start outline color="secondary" (click)="addPhoto()">Subir Foto</button>
+				<span text-wrap class="ResizeText">Para subir otro tipo de archivos, utilizar el portal web.</span>
+			</ion-item>
+			<div *ngIf="incident.comentarios.length > 0">
+				<ion-item padding-top no-lines class="custom-bb">
+					<h2 ion-text color="primary">Comentarios:</h2>
+				</ion-item>
+				<ion-item no-lines *ngFor="let commentary of incident.comentarios" class="item-list-report">
+					<ion-avatar item-start>
+						<img src="assets/img/resources/avatar.png">
+					</ion-avatar>
+					<h3 class="commentary-title positive">{{commentary.nombre}}</h3>
+					<p ion-text text-wrap>{{commentary.texto}}</p>
+					<small class="commentary-date"><p>{{commentary.created}}</p></small>
+				</ion-item>
+			</div>
+			<ion-item-divider class="divider-incident">Agregar comentario:</ion-item-divider>
+			<ion-item no-lines>
+				<ion-textarea type="text" placeholder="Escribe tu comentario aquí" [(ngModel)]="form.commentary"></ion-textarea>
+			</ion-item>
+			<ion-item no-lines>
+				<button ion-button block default (click)="addCommentary()" color="primary">
+					Enviar comentario
+				</button>
+			</ion-item>
+		</div>
+	</div>
+
+	<ion-item *ngIf="requesting" margin-top text-center no-lines>
+        <ion-spinner color="primary"></ion-spinner>
+    </ion-item>
+
+</ion-content>
+
+<ion-footer 
+	*ngIf="(incident.resolver === 1 || incident.resolver === 2) && !from_statistics"
+	[ngClass]="view === 'CAMERA' ? 'background-color-transparent no-display' : ''">
+	<ion-toolbar [color]="incident.resolver === 1 ? 'balanced' : 'energized'" text-center>
+		<ion-buttons>
+			<button ion-button block clear class="btn-footer" (click)="evaluateIncident()">
+				Resolver Incidencia
+			</button>
+		</ion-buttons>
+	</ion-toolbar>
+</ion-footer>

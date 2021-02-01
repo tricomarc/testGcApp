@@ -1,0 +1,49 @@
+<ion-header box-shadow>
+    <ion-navbar>
+        <div buy>
+            <ion-title><span ion-text text-center color="primary">Histórico de visitas</span></ion-title>
+        </div>
+    </ion-navbar>
+    <ion-toolbar>
+        <!-- Filtro por rango de fechas -->
+        <date-filter *ngIf="filters" [filters]="filters" (onDateChange)="refreshVisits(null)"></date-filter>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-refresher (ionRefresh)="refreshVisits($event)" color="primary">
+        <ion-refresher-content pullingText="Actualizar" refreshingText="Actualizando..."></ion-refresher-content>
+    </ion-refresher>
+
+    <ion-toolbar text-center color="light">
+        <ion-title text-center>
+            <p ion-text color="primary">Lista de visitas realizadas</p>
+        </ion-title>
+    </ion-toolbar>
+
+    <div *ngIf="!loading.getVisits">
+        <ion-list *ngIf="visits.length">
+            <ion-item no-lines margin-top padding-right no-lines class="sombra-vb" *ngFor="let visit of visits" (click)="showVisitDetail(visit)">
+                <h3 ion-text text-wrap color="primary" class="mt-0"><b> {{ 'Sucursal' | synonymous }}:</b> {{visit.branchOffice.name}}</h3>
+                <p ion-text text-wrap><b>Checkin:</b> {{visit.checkinDate | date: 'dd-MM-yyyy HH:mm:ss'}}</p>
+                <p ion-text text-wrap>
+                    <b>Checkout:</b>
+                    <font *ngIf="visit.checkoutDate">{{visit.checkoutDate | date: 'dd-MM-yyyy HH:mm:ss'}}</font>
+                    <font *ngIf="!visit.checkoutDate">No realizado</font>
+                </p>
+                <p ion-text text-wrap><b>Duración:</b> {{visit.duration ? (visit.duration + ' min.') : 'No aplica'}}</p>
+                <p ion-text text-wrap><b>Checklists respondidos:</b> {{visit.checklists.length}}</p>
+            </ion-item>
+        </ion-list>
+
+        <ion-item no-lines text-center *ngIf="!visits.length">
+            <p ion-text text-wrap margin-top>No hemos encontrado visitas.</p>
+        </ion-item>
+    </div>
+
+    <ion-item no-lines text-center *ngIf="loading.getVisits">
+        <ion-spinner color="primary"></ion-spinner>
+        <p ion-text text-wrap margin-top>Obteniendo visitas...</p>
+    </ion-item>
+
+</ion-content>

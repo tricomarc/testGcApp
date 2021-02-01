@@ -1,0 +1,16 @@
+zonal-position {
+    ion-content{
+		background: rgb(229, 227, 223);
+		#map_canvas_zonal {
+			width: 100%;
+			height: 100%;
+			opacity: 0;
+			transition: opacity 150ms ease-in;
+			display: block;
+		}
+	}
+
+	ion-select > .select-text {
+  		line-height: 1.5 !important; 
+	}
+}

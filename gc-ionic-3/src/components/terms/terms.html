@@ -1,0 +1,70 @@
+<ion-header box-shadow>
+	<ion-navbar>
+		<ion-buttons start left>
+			<button ion-button icon-only (click)="showInfo()">
+				<ion-icon color="primary" name="information-circle-outline"></ion-icon>
+			</button>
+		</ion-buttons>
+		<div buy>
+			<ion-title ion-text text-center>
+				<span ion-text color="primary" text-center text-wrap>
+					Términos y condiciones
+				</span>
+			</ion-title>
+		</div>
+		<ion-buttons end right>
+			<button ion-button icon-only (click)="close()">
+				<ion-icon color="primary" name="close"></ion-icon>
+			</button>
+		</ion-buttons>
+	</ion-navbar>
+	<ion-toolbar>
+		<ion-segment color="primary" [(ngModel)]="currentItemId">
+			<ion-segment-button *ngFor="let item of items" [value]="item.id" (click)="onItemChange(item.id)">
+				{{item.title}}
+			</ion-segment-button>
+		</ion-segment>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content>
+	<div [ngSwitch]="currentItemId">
+
+		<div *ngFor="let item of items">
+			<ion-item *ngSwitchCase="item.id" no-lines no-padding>
+				<pdf-viewer [src]="item.src" [zoom]="zoomValue" [fit-to-page]="true" [render-text]="true" style="display: block;">
+				</pdf-viewer>
+			</ion-item>
+		</div>
+	</div>
+
+	<ion-fab right bottom>
+		<button ion-fab mini color="primary" (click)="zoomIn()">
+			<ion-icon name="ios-add-outline"></ion-icon>
+		</button>
+		<button ion-fab mini color="primary" (click)="zoomOut()" [disabled]="zoomValue <= 1">
+			<ion-icon name="ios-remove-outline"></ion-icon>
+		</button>
+	</ion-fab>
+
+</ion-content>
+
+<ion-footer *ngIf="currentItem">
+	<ion-row *ngIf="currentItem.accepted !== true">
+		<ion-col col-6>
+			<button ion-button block color="default" (click)="openFile()">Abrir visor</button>
+		</ion-col>
+		<ion-col col-6>
+			<button ion-button block (click)="setItemValue(true)">Aceptar</button>
+		</ion-col>
+	</ion-row>
+
+	<ion-row *ngIf="currentItem.accepted === true">
+		<ion-col col-6>
+			<button ion-button block color="default" (click)="openFile()">Abrir visor</button>
+		</ion-col>
+		<ion-col col-6>
+			<button ion-button block [disabled]="true">Aceptado</button>
+		</ion-col>
+	</ion-row>
+</ion-footer>

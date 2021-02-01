@@ -1,0 +1,13 @@
+<ion-item no-lines>
+    <button ion-button clear icon-only item-left color="primary" class="posicionClip"
+        (click)="cancelRecord()">
+        <ion-icon name="ios-trash-outline" class="BotonesSizesClip"></ion-icon>
+    </button>
+    <h6 class="duration-text">
+        <ion-icon name="md-mic" class="breathing-icon" color="danger"></ion-icon>
+        {{duration.currentDuration | secondsToMinutes}} / {{duration.maxAudioDurationString}}
+    </h6>
+    <button ion-button clear icon-only item-right class="posicionEnviar" (click)="sendRecord()">
+        <ion-icon name="ios-send-outline" class="BotonesSizesEnviar"></ion-icon>
+    </button>
+</ion-item>

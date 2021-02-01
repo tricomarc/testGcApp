@@ -1,0 +1,239 @@
+<ion-header box-shadow [ngClass]="view === 'CAMERA' ? 'background-color-transparent no-display' : ''">
+    <ion-navbar>
+        <ion-title>Reportar campaña</ion-title>
+        <ion-buttons end *ngIf="requesting">
+            <ion-spinner color="primary"></ion-spinner>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+
+<ion-content [ngClass]="view === 'CAMERA' ? 'background-color-transparent no-display' : ''">
+    <div *ngIf="visual" text-wrap>
+        <ion-item margin-top no-lines class="custom-bb fix-mb">
+            <h4 ion-text color="primary"><b>Fotos de referencia</b></h4>
+            <div no-lines *ngIf="visual.classified_photos.required.all.length > 0">
+                <ion-grid>
+                    <ion-row *ngFor="let photo of visual.classified_photos.required.all; let i = index"
+                        [ngStyle]="(i === visual.classified_photos.required.all.length - 1) ? {'margin-bottom': '55px'} : {}">
+                        <!-- Referencia -->
+                        <ion-col col-6 text-center>
+                            <div class="photo-container"
+                                (click)="openPhotoViewer(photo, 'reference', false, null, false)">
+                                <img [src]="photo.url ? (photo.url | sanitizeImg) : 'assets/img/resources/default-placeholder.png'"
+                                    class="implementation-container">
+                                <button ion-button color="light" *ngIf="photo.url" class="btn-bottom-left">
+                                    <ion-icon name="eye" color="primary"></ion-icon>
+                                </button>
+                            </div>
+                            <textarea #area rows="5" disabled="true" class="commentary-field"
+                                [value]="photo.descripcion ? photo.descripcion : 'Sin nombre.'"></textarea>
+                            <ion-icon name="ios-arrow-dropdown-circle"
+                                *ngIf="photo.comentario && photo.comentario.length > 75" class="icon-scroll"
+                                color="dark" ion-long-press [interval]="400" (onPressStart)="scrollTextArea(area)"
+                                (onPressing)="scrollTextArea(area)"></ion-icon>
+                        </ion-col>
+                        <!-- Nueva foto / video o motivo de no implementación -->
+                        <ion-col col-6 *ngIf="!photo.implementation" text-center>
+                            <div class="photo-container">
+                                <img [src]="'assets/img/resources/camera.png'">
+                                <button *ngIf="!photo.solicitar_video" ion-button color="light" class="btn-bottom-right"
+                                    (click)="capturePhoto(photo)">
+                                    <ion-icon class="tamañoCamaraIcon" name="ios-camera" color="primary"></ion-icon>
+                                </button>
+                                <button *ngIf="photo.solicitar_video" ion-button color="light" class="btn-bottom-right"
+                                    (click)="captureVideo(photo)">
+                                    <ion-icon name="md-videocam" color="primary"></ion-icon>
+                                </button>
+                                <button ion-button color="light" class="btn-top-right"
+                                    *ngIf="visual.motivos && visual.motivos.length"
+                                    (click)="openNoImplementation(photo, false)">
+                                    <ion-icon name="md-remove-circle" color="primary"></ion-icon>
+                                </button>
+                            </div>
+                            <textarea #area rows="5" class="commentary-field" placeholder="Escribe aquí tu comentario"
+                                [(ngModel)]="photo.commentary_form"></textarea>
+                            <ion-icon name="ios-arrow-dropdown-circle"
+                                *ngIf="photo.commentary_form && photo.commentary_form.length > 75" class="icon-scroll"
+                                color="dark" ion-long-press [interval]="400" (onPressStart)="scrollTextArea(area)"
+                                (onPressing)="scrollTextArea(area)"></ion-icon>
+                        </ion-col>
+                        <!-- Implementación -->
+                        <ion-col col-6 *ngIf="photo.implementation" text-center>
+                            <!-- Implementaciones con motivo de no implementación -->
+                            <div class="photo-container"
+                                *ngIf="photo.implementation.motivo && photo.implementation.motivo.id"
+                                [ngClass]="photo.sending ? 'locked opaque' : ''">
+                                <ion-spinner class="loading-file" color="primary" *ngIf="photo.sending"></ion-spinner>
+                                <button ion-button *ngIf="!photo.implementation.id" color="light" class="btn-top-left"
+                                    (click)="retryUploadImage(photo, true)">
+                                    <ion-icon name="md-refresh" color="primary"></ion-icon>
+                                </button>
+                                <ion-icon name="md-cloud-upload"
+                                    *ngIf="photo.implementation.id && photo.implementation.url"
+                                    class="icon-status-image icon-uploaded-image"></ion-icon>
+                                <img [src]="photo.implementation.url ? (photo.implementation.url | sanitizeImg) : 'assets/img/resources/default-placeholder.png'"
+                                    class="implementation-container">
+                                <button ion-button color="light" class="btn-bottom-left"
+                                    (click)="openPhotoViewer(photo.implementation, 'implementation', false, photo.url, false)">
+                                    <ion-icon name="eye" color="primary"></ion-icon>
+                                </button>
+                                <button ion-button color="light" class="btn-top-right"
+                                    (click)="showNoImplementationReason(photo)">
+                                    <ion-icon name="ios-information-circle" color="primary"></ion-icon>
+                                </button>
+                                <button ion-button color="light" class="btn-bottom-right"
+                                    (click)="takeNoImplementationPhoto(photo.implementation, photo)">
+                                    <ion-icon name="camera" color="primary"></ion-icon>
+                                </button>
+                            </div>
+                            <!-- Implementaciones normales -->
+                            <div class="photo-container"
+                                *ngIf="!photo.implementation.motivo || photo.implementation.motivo.length < 1">
+                                <ion-icon name="md-cloud-upload" class="icon-status-image icon-uploaded-image"
+                                    *ngIf="photo.implementation.id"></ion-icon>
+                                <ion-spinner class="loading-file" color="primary"
+                                    *ngIf="!photo.implementation.id && photo.sending"></ion-spinner>
+                                <ion-badge color="primary" class="top-right"
+                                    *ngIf="!photo.implementation.id && photo.sending && photo.solicitar_video">
+                                    {{photo.progress ? photo.progress : 0 }} %</ion-badge>
+                                <!-- Si la implementación es una foto -->
+                                <div *ngIf="!photo.solicitar_video">
+                                    <button ion-button *ngIf="!photo.implementation.id && !photo.sending" color="light"
+                                        class="btn-top-left" (click)="retryUploadImage(photo, true)">
+                                        <ion-icon name="md-refresh" color="primary"></ion-icon>
+                                    </button>
+                                    <img [src]="photo.implementation.url ? (photo.implementation.url | sanitizeImg) : 'assets/img/resources/default-placeholder.png'"
+                                        class="implementation-container"
+                                        [ngClass]="!photo.implementation.id ? 'locked opaque' : ''">
+                                </div>
+                                <!-- Si la implementación es un video -->
+                                <div *ngIf="photo.solicitar_video">
+                                    <button ion-button *ngIf="!photo.implementation.id && !photo.sending" color="light"
+                                        class="btn-top-left" (click)="retryUploadVideo(photo)">
+                                        <ion-icon name="md-refresh" color="primary"></ion-icon>
+                                    </button>
+                                    <!-- Si se implementó el video -->
+                                    <img *ngIf="photo.implementation.url" class="implementation-container locked"
+                                        [ngClass]="photo.implementation.id ? '' : 'opaque'"
+                                        [src]="'assets/img/resources/play-btn.png'">
+                                </div>
+                                <button ion-button color="light" class="btn-bottom-left"
+                                    (click)="openPhotoViewer(photo.implementation, 'implementation', photo.solicitar_video, photo.url, false)">
+                                    <ion-icon name="eye" color="primary"></ion-icon>
+                                </button>
+                                <button ion-button color="light" class="btn-bottom-right"
+                                    [ngClass]="((photo.implementation.id || photo.implementation.saved_locally) && !photo.sending) ? '' : 'locked opaque'"
+                                    (click)="deleteFile(photo)">
+                                    <ion-icon name="md-close" color="primary"></ion-icon>
+                                </button>
+                            </div>
+                            <textarea #area rows="5" class="commentary-field" [disabled]="photo.sending"
+                                placeholder="Escribe tu comentario aquí"
+                                (focusout)="addCommentaryToImplementation(photo, true)"
+                                [(ngModel)]="photo.commentary_form"
+                                [disabled]="photo.implementation.saved_locally"></textarea>
+                            <ion-icon name="ios-arrow-dropdown-circle"
+                                *ngIf="photo.commentary_form && photo.commentary_form.length > 75" class="icon-scroll"
+                                color="dark" ion-long-press [interval]="400" (onPressStart)="scrollTextArea(area)"
+                                (onPressing)="scrollTextArea(area)"></ion-icon>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </div>
+        </ion-item>
+
+        <div *ngIf="visual.preguntar_implementacion && (implementationsCount >= visual.classified_photos.required.all.length)">
+            <ion-list-header>
+                Porcentaje de implementación
+                <ion-badge color="primary" item-end>{{reportPercentage}}</ion-badge>
+            </ion-list-header>
+
+            <ion-item>
+                <ion-range [(ngModel)]="reportPercentage" min="0" max="100">
+                    <ion-label range-left>0</ion-label>
+                    <ion-label range-right>100</ion-label>
+                </ion-range>
+            </ion-item>
+
+            <ion-list-header *ngIf="reportPercentage !== null && reportPercentage < 100">
+                Motivos
+            </ion-list-header>
+
+            <ion-item *ngIf="reportPercentage !== null && reportPercentage < 100">
+                <ion-textarea placeholder="Motivo de implementación incompleta" [(ngModel)]="reasonReportPercentage"
+                    class="textarea-commentary" rows="5"></ion-textarea>
+            </ion-item>
+        </div>
+
+
+        <div *ngIf="!visual.visual_sin_foto_adicional">
+            <ion-item no-lines class="custom-bt">
+                <h4 ion-text color="primary"><b>Fotos adicionales</b></h4>
+            </ion-item>
+            <ion-item no-lines *ngIf="optionalImplementations.length > 0" class="fix-mb">
+                <ion-grid>
+                    <ion-row>
+                        <!-- Fotos adicionales -->
+                        <ion-col col-6 *ngFor="let photo of optionalImplementations" text-center>
+                            <div class="photo-container">
+                                <ion-spinner class="loading-file" color="primary" *ngIf="!photo.id && photo.sending">
+                                </ion-spinner>
+                                <ion-icon name="md-cloud-upload" *ngIf="photo.id"
+                                    class="icon-status-image icon-uploaded-image"></ion-icon>
+                                <button ion-button *ngIf="!photo.id && !photo.sending" color="light"
+                                    class="btn-top-left" (click)="retryUploadImage(photo, false)">
+                                    <ion-icon name="md-refresh" color="primary"></ion-icon>
+                                </button>
+                                <img [src]="photo.url ? (photo.url | sanitizeImg) : 'assets/img/resources/default-placeholder.png'"
+                                    class="implementation-container" [ngClass]="!photo.id ? 'locked opaque' : ''">
+                                <button ion-button color="light" class="btn-bottom-left"
+                                    (click)="openPhotoViewer(photo, 'implementation', photo.solicitar_video, photo.url, false)">
+                                    <ion-icon name="eye" color="primary"></ion-icon>
+                                </button>
+                                <button ion-button color="light" class="btn-bottom-right"
+                                    (click)="deleteOptionalPhoto(photo)"
+                                    [ngClass]="((photo.id || photo.saved_locally) && !photo.sending) ? '' : 'locked opaque'">
+                                    <ion-icon name="md-close" color="primary"></ion-icon>
+                                </button>
+                            </div>
+                            <textarea #area rows="5" class="commentary-field" [disabled]="photo.id ? false : true"
+                                placeholder="Escribe tu comentario aquí"
+                                (focusout)="addCommentaryToImplementation(photo, false)"
+                                [(ngModel)]="photo.comentario"></textarea>
+                            <ion-icon name="ios-arrow-dropdown-circle"
+                                *ngIf="photo.comentario && photo.comentario.length > 75" class="icon-scroll"
+                                color="dark" ion-long-press [interval]="400" (onPressStart)="scrollTextArea(area)"
+                                (onPressing)="scrollTextArea(area)"></ion-icon>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ion-item>
+            <ion-item class="custom-bb" no-lines>
+                <button ion-button block default color="primary" (click)="addOptionalPhoto()">
+                    <ion-icon name="camera" item-right></ion-icon>
+                    Tomar foto adicional
+                </button>
+            </ion-item>
+        </div>
+
+        
+
+        <!-- <ion-item no-lines>
+			<h4 ion-text color="primary"><b>Agregar comentario</b></h4>
+		</ion-item>
+		<ion-item no-lines margin-bottom>
+		    <ion-textarea placeholder="Escribe tu comentario aquí" [(ngModel)]="form.commentary" class="textarea-commentary" rows="5"></ion-textarea>
+		</ion-item> -->
+    </div>
+</ion-content>
+
+<ion-footer *ngIf="visual" [ngClass]="view === 'CAMERA' ? 'background-color-transparent no-display' : ''">
+    <ion-toolbar color="primary">
+        <ion-buttons>
+            <button ion-button block clear class="btn-footer" (click)="sendReport()">
+                ENVIAR REPORTE - Fotos: {{implementationsCount}} / {{visual.classified_photos.required.all.length}}
+            </button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-footer>

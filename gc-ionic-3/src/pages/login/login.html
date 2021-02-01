@@ -1,0 +1,68 @@
+<ion-content padding background-size style="background-image: url(assets/visapp/img/fondo.jpg);" [ngClass]="view === 'CAMERA' ? 'background-color-transparent no-display' : ''">
+    <ion-grid>
+        <ion-row>
+            <img transparent text-center transparent src="assets/img/logotipo-login.png"/>
+            <ion-col col-12>
+               <ion-item margin-top transparent class="bb-custom">
+                   <ion-label floating><span ion-text color="primary">Usuario</span> </ion-label>
+                   <ion-input type="text" [(ngModel)]="form.ci" required></ion-input>
+               </ion-item>
+               <ion-item margin-top transparent class="bb-custom">
+                   <ion-label floating><span ion-text color="primary">Clave</span></ion-label>
+                   <ion-input type="password" [(ngModel)]="form.password" [disabled]="form.ci" required></ion-input>
+               </ion-item>
+            </ion-col>
+
+            <ion-col align-self-end bottom-form col-12 col-sm-12 col-md-12 offset-lg-3 col-lg-6 offset-xl-3 col-xl-6>
+                <button ion-button full text-uppercase box-shadow color="primary" (click)="login()" [disabled]="!form.ci || !form.password">
+                  Ingresar
+                </button>
+                <div description text-center *ngIf="!is_active_directory">
+                    <p>¿Olvidaste tu clave? <a (click)="recoverPassword()"><span ion-text color="primary"><b>Recuperar clave</b></span></a></p>
+                </div>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>
+
+<!-- <ion-header box-shadow>
+  <ion-navbar>
+    <ion-title>Seleccione un perfil</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content background-size>
+
+    <ion-card background-size text-left style="background-image: url(assets/visapp/img/card-1.jpg)" (click)="loginCard(1)">
+      <div title-block>
+        <div card-title>Gerente</div>
+          <div text-wrap card-body-text>Gestión a nivel país</div>
+      </div>
+    </ion-card>
+    <br>
+
+    <ion-card background-size text-left style="background-image: url(assets/visapp/img/card-2.jpg)" (click)="loginCard(2)">
+      <div title-block>
+        <div card-title>Zonal</div>
+          <div text-wrap card-body-text>Gestión a nivel de zonas</div>
+      </div>
+    </ion-card>
+    <br>
+
+    <ion-card background-size text-left style="background-image: url(assets/visapp/img/card-3.jpg)" (click)="loginCard(3)">
+      <div title-block>
+        <div card-title>Parque Arauco</div>
+          <div text-wrap card-body-text>Gestión a nivel de sucursales</div>
+      </div>
+    </ion-card>
+    <br>
+
+    <ion-card background-size text-left style="background-image: url(assets/visapp/img/card-4.jpg)" (click)="loginCard(4)">
+      <div title-block>
+        <div card-title>Costanera Center</div>
+          <div text-wrap card-body-text>Gestión a nivel de sucursales</div>
+      </div>
+    </ion-card>
+    <br>
+
+</ion-content> -->

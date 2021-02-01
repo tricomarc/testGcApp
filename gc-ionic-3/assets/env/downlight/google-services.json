@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "412194462265",
+    "firebase_url": "https://rutadownlight.firebaseio.com",
+    "project_id": "rutadownlight",
+    "storage_bucket": "rutadownlight.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:412194462265:android:a98ebd37f767b47b800be8",
+        "android_client_info": {
+          "package_name": "cl.rutadownlight.gcapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "412194462265-6hpvkauhcphep3qtj82u9smjvcvtm32l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZ-TSqX6UzGsx52xMyahUKefScRnY0Vac"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "412194462265-6hpvkauhcphep3qtj82u9smjvcvtm32l.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "412194462265-c2eeeil3r4moe36l0l3j5cgu051dl2ok.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "cl.rutadownlight.gcapp",
+                "app_store_id": "1462801132"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

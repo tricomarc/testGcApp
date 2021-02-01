@@ -1,0 +1,44 @@
+<ion-header box-shadow>
+  	<ion-navbar>
+<!--   		<button ion-button icon-only menuToggle>
+  			<ion-icon name="menu" color="primary"></ion-icon>
+  		</button> -->
+    	<ion-title>{{module}}</ion-title>
+    	<ion-buttons end right>
+    		<button ion-button icon-only (click)="showRanking()">
+    			<ion-icon name="md-more" color="primary"></ion-icon>
+    			<ion-spinner *ngIf="requesting" color="primary"></ion-spinner>
+              <!--   <ion-icon name="md-trophy" color="primary"></ion-icon> -->
+            </button>
+		</ion-buttons>
+  	</ion-navbar>
+</ion-header>
+
+<ion-content no-lines>
+    <ion-row>
+        <ion-col col-12 text-center customPosicionImagen>
+        	<img src="assets/img/markgood.png" alt="">
+        </ion-col>
+        <ion-col col-10 offset-1 text-center>
+            <h2 ion-text color="primary" customTitulo>
+                ¡Hemos encontrado un error!
+            </h2>
+        </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col col-10 offset-1 text-center>
+            <p ion-text color="primary" customTamañoExplicacion>
+                Hemos detectado que no tienes activado el internet o el gps. Activalo abajo seleccionando una opción.
+            </p>
+        </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col col-6 text-center>
+           <button box-shadow ion-button customSeparacionPaddingMarginBoton>Activar Internet</button>
+       </ion-col>
+       <ion-col col-6 text-center>
+           <button box-shadow ion-button customSeparacionPaddingMarginBoton>Activar GPS</button>
+       </ion-col>
+   </ion-row>
+
+</ion-content>

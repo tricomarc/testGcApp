@@ -1,0 +1,52 @@
+<ion-item no-lines class="p-sm" *ngIf="!pregunta.visita && !isTask">
+    <p ion-text text-center style="white-space: normal">{{pregunta.adicional ? pregunta.adicional : ''}}</p>
+    <textarea
+            [(ngModel)]="pregunta.respuesta.data"
+            cols="30"
+            rows="5"
+            class="b-stable padding"
+            style="width:100%"
+            [disabled]="checklistEnviado"
+            [placeholder]="pregunta.codigo_tipo === 'correo' ? 'Comentarios' : 'Escribe tu respuesta...'">
+	</textarea>
+</ion-item>
+
+<ion-item no-lines class="p-sm" *ngIf="pregunta.visita && !pregunta.participacion && !isTask">
+
+    <p ion-text text-center style="white-space: normal">{{pregunta.adicional ? pregunta.adicional : ''}}</p>
+    <textarea
+            [(ngModel)]="pregunta.respuesta"
+            (ngModelChange)="onChange()"
+            cols="30"
+            rows="5"
+            class="b-stable padding"
+            style="width:100%"
+            [disabled]="checklistEnviado"
+            placeholder="Escribe tu respuesta...">
+	    </textarea>
+</ion-item>
+
+<ion-item no-lines class="p-sm" *ngIf="pregunta.visita && pregunta.participacion && !isTask">
+    <p ion-text text-center style="white-space: normal">{{pregunta.adicional ? pregunta.adicional : ''}}</p>
+    <input type="number"
+           [(ngModel)]="pregunta.respuesta"
+           (ngModelChange)="onChange()"
+           cols="30"
+           rows="5"
+           class="b-stable padding"
+           style="width:100%"
+           [disabled]="checklistEnviado"
+           placeholder="Escribe tu respuesta...">
+</ion-item>
+
+<ion-item no-lines class="p-sm" *ngIf="isTask">
+    <textarea
+            [(ngModel)]="pregunta.respuesta.texto"
+            cols="30"
+            rows="10"
+            class="b-stable padding"
+            style="width:100%"
+            [disabled]="checklistEnviado"
+            placeholder="Escribe tu respuesta...">
+	</textarea>
+</ion-item>

@@ -1,0 +1,104 @@
+<ion-header box-shadow>
+  <ion-navbar>
+    <ion-title *ngIf="from === 'HOME'">Reporte</ion-title>
+    <ion-title *ngIf="from === 'DETAIL_ASSIGN'">Email</ion-title>
+
+    <ion-buttons end>
+			<button (click)="viewCtrl.dismiss()" ion-button icon-only clear small>
+				<ion-icon name="close"></ion-icon>
+			</button>
+    </ion-buttons>
+
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+  <ng-container *ngIf="from === 'HOME'">
+    <ion-toolbar>
+      <date-filter *ngIf="filters" [filters]="filters" (onDateChange)="changeDateFilters($event)"></date-filter>
+
+
+      <ion-item no-lines>
+        <ion-label>Tipo</ion-label>
+        <ion-select [(ngModel)]="filters.type">
+          <ion-option value="all">Todas</ion-option>
+          <ion-option value="SIMPLE">Simple</ion-option>
+          <ion-option value="NUMERICA">Numerica</ion-option>
+        </ion-select>
+      </ion-item>
+      
+      <ion-item no-lines>
+        <ion-label class="customPadding lh-15">Zonas:</ion-label>
+        <ionic-selectable
+          *ngIf="filters && filters.zones"
+          item-content
+          [(ngModel)]="onSelectedFilter.zones"
+          [items]="filters.zones"
+          itemValueField="id"
+          itemTextField="nombre"
+          closeButtonText="Cancelar"
+          [canSearch]="false"
+          (onChange)="onSelectFilter()"
+          [isMultiple]="false"
+          [searchFailText]="'No se encontraron zonas'"
+          [searchPlaceholder]="'Búsqueda'">
+        </ionic-selectable>
+      </ion-item>
+
+      <ion-item no-lines>
+        <ion-label class="customPadding lh-15">Sucursales:</ion-label>
+        <ionic-selectable
+          *ngIf="filters && filters.stores"
+          item-content
+          [(ngModel)]="onSelectedFilter.store"
+          [items]="filters.stores"
+          itemValueField="id"
+          itemTextField="nombre"
+          closeButtonText="Cancelar"
+          [canSearch]="false"
+          (onChange)="onSelectFilter()"
+          [isMultiple]="false"
+          [searchFailText]="'No se encontraron sucursales'"
+          [searchPlaceholder]="'Búsqueda'">
+        </ionic-selectable>
+      </ion-item>
+
+      <ion-item no-lines>
+        <ion-label>Correo</ion-label>
+        <ion-input type="email" [(ngModel)]="email.email"></ion-input>
+      </ion-item>
+
+      <ion-item no-lines align="center">
+        <button ion-button block (click)="sendReport()">Generar Reporte</button>
+      </ion-item>
+
+    </ion-toolbar>
+  </ng-container>
+
+  <ng-container *ngIf="from === 'DETAIL_ASSIGN'">
+    <ion-list padding >
+      <ion-item>
+        <ion-label>Titulo</ion-label>
+        <ion-input type="text" [(ngModel)]="email.title"></ion-input>
+      </ion-item>
+  
+      <ion-item>
+        <ion-label>Asunto</ion-label>
+        <ion-input type="text"  [(ngModel)]="email.subject"></ion-input>
+      </ion-item>
+  
+      <ion-item>
+        <ion-label>Correo</ion-label>
+        <ion-input type="email" [(ngModel)]="email.email"></ion-input>
+      </ion-item>
+  
+      <ion-item align="center" no-lines>
+        <button ion-button block (click)="sendEmail()">Enviar</button>
+      </ion-item>
+    </ion-list>
+  </ng-container>
+
+
+
+</ion-content>

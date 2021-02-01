@@ -1,0 +1,106 @@
+<!-- Reconocimiento 1 -->
+
+<ion-header box-shadow>
+	<ion-navbar>
+		<button ion-button menuToggle>
+			<ion-icon icon-menu name="menu"></ion-icon>
+		</button>
+		<ion-title text-center>
+			CHECKSTORE
+		</ion-title>
+	</ion-navbar>
+	<ion-toolbar color="dark">
+		<ion-title text-center>
+			Asignación de Reconocimientos
+		</ion-title>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content>
+	<ion-card>
+		<ion-card-content>
+	    	<ion-list no-marginMo>
+        		<ion-item no-lines class="custom-border-bottom">
+			  		<ion-label>Selecciona sucursal:</ion-label>
+					<ion-select multiple="true">
+				    	<ion-option value="0"><p>Todas</p></ion-option>
+				    	<ion-option value="1"><p>Alameda</p></ion-option>
+				    	<ion-option value="2"><p>Santiago</p></ion-option>
+				    	<ion-option value="3"><p>Valparaiso</p></ion-option>
+					</ion-select>
+				</ion-item>
+				<ion-item no-lines class="custom-border-bottom">
+			  		<ion-label>Selecciona cargo:</ion-label>
+					<ion-select multiple="true">
+						<ion-option value="4"><p>Todos</p></ion-option>
+				    	<ion-option value="5"><p>Gerente</p></ion-option>
+				    	<ion-option value="6"><p>Vendedor</p></ion-option>
+				    	<ion-option value="7"><p>Despechador</p></ion-option>
+					</ion-select>
+				</ion-item>
+				<ion-item no-lines class="custom-border-bottom">
+			  		<ion-label>Selecciona usuario:</ion-label>
+					<ion-select multiple="true">
+						<ion-option value="8"><p>Todos</p></ion-option>
+				    	<ion-option value="9"><p>Pedro</p></ion-option>
+				    	<ion-option value="10"><p>Andres</p></ion-option>
+				    	<ion-option value="11"><p>Mauricio</p></ion-option>
+					</ion-select>
+				</ion-item>
+        	</ion-list>
+	  	</ion-card-content>
+	</ion-card>
+	<ion-card>
+		<ion-card-header text-center class="custom-border-bottom">
+		    <ion-icon name="ribbon"></ion-icon>
+		    Opciones de asignación
+		</ion-card-header>
+		<ion-card-content margin-top class="main-text">
+			<ion-card-header text-left class="custom-border-bottom force-font">
+		    	<h2 ion-text color="danger">Selecciona reconocimiento:</h2>
+			</ion-card-header>
+			<ion-row margin-top text-center>
+				<ion-col col-3 class="hover-select">
+					<img src="https://via.placeholder.com/40x40" alt="">
+					<p>Mejor Ponderado</p>
+				</ion-col>
+				<ion-col col-3 class="hover-select hover-active">
+					<img src="https://via.placeholder.com/40x40" alt="">
+					<p>Compromiso</p>
+				</ion-col>
+				<ion-col col-3 class="hover-select">
+					<img src="https://via.placeholder.com/40x40" alt="">
+					<p>Trabajo en Equipo</p>
+				</ion-col>
+				<ion-col col-3 class="hover-select">
+					<img src="https://via.placeholder.com/40x40" alt="">
+					<p>Mejor Trimestre</p>
+				</ion-col>
+			</ion-row>
+			<ion-row text-center>
+				<ion-col col-3 class="hover-select">
+					<img src="https://via.placeholder.com/40x40" alt="">
+					<p>Mayor Crecimiento</p>
+				</ion-col>
+				<ion-col col-3 class="hover-select">
+					<img src="https://via.placeholder.com/40x40" alt="">
+					<p>Espiritu de Superación</p>
+				</ion-col>
+				<ion-col col-3 class="hover-select">
+					<img src="https://via.placeholder.com/40x40" alt="">
+					<p>Mejor Clima</p>
+				</ion-col>
+				<ion-col col-3 class="hover-select">
+					<img src="https://via.placeholder.com/40x40" alt="">
+					<p>Otro</p>
+				</ion-col>
+			</ion-row>
+			<ion-row>
+				<ion-col>
+					<ion-textarea placeholder="Mensaje de reconocimiento" rows="4" class="custom-textarea"></ion-textarea>
+				</ion-col>
+			</ion-row>
+			<button ion-button block color="danger">Dar reconocimiento</button>
+		</ion-card-content>
+	</ion-card>
+</ion-content>

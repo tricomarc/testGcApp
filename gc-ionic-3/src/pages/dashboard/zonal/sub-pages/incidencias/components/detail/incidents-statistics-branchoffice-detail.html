@@ -1,0 +1,117 @@
+<ion-header box-shadow>
+	<ion-navbar>
+		<div buy>
+			<ion-title><span ion-text text-center color="primary">{{module}}</span></ion-title>
+		</div>
+	</ion-navbar>
+</ion-header>
+<ion-content>
+
+	<ion-refresher (ionRefresh)="refreshStatistics($event, true)" color="dark">
+		<ion-refresher-content pullingText="Actualizar" refreshingText="Actualizando..."></ion-refresher-content>
+	</ion-refresher>
+
+	<div *ngIf="!requesting && statistics">
+		<ion-row>
+			<ion-col no-padding>
+				<ion-list-header box-shadow no-margin no-lines *ngIf="branch_office">
+					<h3 ion-text text-wrap color="primary" header-title>Estadísticas - {{branch_office.nombre}}</h3>
+				</ion-list-header>
+			</ion-col>
+		</ion-row>
+
+		<ion-row padding-left>
+			<ion-col col-3>
+				<ion-label ion-text color="primary" class="tamañoCustomFuente">Fecha:</ion-label>
+			</ion-col>
+			<ion-col col-4 text-right>
+				<ion-datetime right [(ngModel)]="filters.from" displayFormat="DD/MM/YYYY" pickerFormat="DD-MM-YYYY" placeholder="Desde" (ngModelChange)="refreshStatistics(null, false)" doneText="ok" cancelText="cancelar" [max]="filters.to">
+					{{filters.from | date: 'dd/MM/yyyy' }}
+				</ion-datetime>
+			</ion-col>
+			<ion-col col-1 text-right>
+				<ion-icon class="espaciadoIcono" name="ios-arrow-forward"></ion-icon>
+			</ion-col>
+			<ion-col col-4 text-right>
+				<ion-datetime right [(ngModel)]="filters.to" displayFormat="DD/MM/YYYY" pickerFormat="DD-MM-YYYY" placeholder="Hasta" (ngModelChange)="refreshStatistics(null, false)" doneText="ok" cancelText="cancelar" [min]="filters.from">
+					{{filters.to | date: 'dd/MM/yyyy' }}
+				</ion-datetime>
+			</ion-col>
+		</ion-row>
+
+		<ion-item no-padding text-center no-lines *ngIf="statistics && statistics.estadisticas">
+			<ion-row>
+				<ion-col col-12>
+					<h1 ion-text color="primary"><strong>{{(statistics.estadisticas.total || statistics.estadisticas.total === 0) ? (statistics.estadisticas.total) : '-- '}}</strong></h1>
+					<small>Total</small>
+				</ion-col>
+			</ion-row>
+		</ion-item>
+
+		<ion-item no-padding text-center no-lines *ngIf="statistics && statistics.estadisticas">
+			<ion-row>
+				<ion-col col-4 text-center>
+					<small ion-text color="primary"><strong>{{(statistics.estadisticas.proceso || statistics.estadisticas.proceso === 0) ? statistics.estadisticas.proceso : '-- '}}</strong>
+					</small>
+					<small>En Proceso</small>
+				</ion-col>
+				<ion-col col-4>
+					<small ion-text color="primary"><strong>{{(statistics.estadisticas.anuladas || statistics.estadisticas.anuladas === 0) ? statistics.estadisticas.anuladas : '-- '}}</strong>
+					</small>
+					<small>Anuladas</small>
+				</ion-col>
+				<ion-col col-4>
+					<small ion-text color="primary"><strong>{{(statistics.estadisticas.rechazadas || statistics.estadisticas.rechazadas === 0) ? statistics.estadisticas.rechazadas : '-- '}}</strong>
+					</small>
+					<small>Rechazadas</small>
+				</ion-col>
+			</ion-row>
+			<ion-row>
+				<ion-col col-4 text-center>
+					<small ion-text color="primary"><strong>{{(statistics.estadisticas.resueltas || statistics.estadisticas.resueltas === 0) ? statistics.estadisticas.resueltas : '-- '}}</strong>
+					</small>
+					<small>Resueltas</small>
+				</ion-col>
+				<ion-col col-4>
+					<small ion-text color="primary"><strong>{{(statistics.estadisticas.solicitadas || statistics.estadisticas.solicitadas === 0) ? statistics.estadisticas.solicitadas : '-- '}}</strong>
+					</small>
+					<small>Solicitadas</small>
+				</ion-col>
+				<ion-col col-4>
+					<small ion-text color="primary"><strong>{{(statistics.estadisticas.vencidas || statistics.estadisticas.vencidas === 0) ? statistics.estadisticas.vencidas : '-- '}}</strong>
+					</small>
+					<small>Vencidas</small>
+				</ion-col>
+			</ion-row>
+		</ion-item>
+
+		<ion-item color="primary" no-lines no-padding margin-top text-center>
+			<ion-label>
+				Listado de incidencias
+			</ion-label>
+		</ion-item>
+		<ion-item no-lines text-center *ngIf="!statistics || !statistics.incidencias || !statistics.incidencias.length">
+			<span>No hay incidencias para mostrar</span>
+		</ion-item>
+		<ion-list no-lines *ngIf="statistics && statistics.incidencias && statistics.incidencias.length">
+			<ion-item *ngFor="let incident of statistics.incidencias" no-lines class="custom-bb">
+				<ion-item text-wrap (click)="showIncident(incident)" no-lines>
+					<h2 class="text-nombre" ion-text color="primary" [ngClass]="incident.status_info.color" >{{incident.servicio}}</h2>
+					<p><b>N°</b>{{incident.id}}</p>
+					<p><b class="lh-15">Área: </b>{{incident.area}}</p>
+					<p *ngIf="incident.prioridad" [ngClass]="incident.prioridad === 'Urgente' ? 'assertive' : ''"><b>Prioridad: </b>{{incident.prioridad}}</p>
+					<p *ngIf="incident.fecha_estimada"><b>Fecha estimada: </b>{{incident.fecha_estimada | cleanDate | date: 'dd/MM/yyyy'}}</p>
+					<!-- <p *ngIf="!incident.fecha_estimada"><b ion-text text-wrap>No se ha asignado tiempo de resolución </b></p> -->
+					<p *ngIf="incident.tipo"><b>Tipo: </b> {{incident.tipo}}</p>
+					<ion-icon name='ios-arrow-forward' item-end color="default" class="icon-lg"></ion-icon>
+				</ion-item>
+				<div margin-left>
+					<ion-badge [color]="incident.status_info.color">{{incident.status}}</ion-badge>
+				</div>
+			</ion-item>
+		</ion-list>
+	</div>
+	<ion-item *ngIf="requesting" margin-top text-center no-lines>
+		<ion-spinner color="primary"></ion-spinner>
+	</ion-item>
+</ion-content>

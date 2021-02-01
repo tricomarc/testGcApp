@@ -1,0 +1,114 @@
+<ion-header>
+	<ion-navbar>
+		<div buy>
+			<ion-title>
+				<span ion-text color="primary">Detalle indicador</span>
+			</ion-title>
+		</div>
+		<ion-buttons end right>
+			<button ion-button icon-only (click)="showRanking()">
+				<ion-icon name="md-trophy" color="primary"></ion-icon>
+			</button>
+		</ion-buttons>
+	</ion-navbar>          
+</ion-header>
+
+<ion-content *ngIf="area">
+	<ion-item no-lines text-center color="primary" *ngIf="filters">
+		<h2>{{filters.charge === 'pais' ? '' : (filters.charge === 'sucursal' ? '' : 'Zona') }} {{name}}</h2>
+	</ion-item>
+	<ion-item no-lines>
+		<ion-icon color="primary" [name]="area.icono ? area.icono : 'ios-radio-button-off-outline'"></ion-icon>
+		<h2 ion-text color="primary" class="fixblock">
+			<b>{{area.nombre}}</b>
+		</h2>
+		<br>
+		<ion-icon color="primary" [name]="indicator.icono ? indicator.icono : 'ios-radio-button-off-outline'"></ion-icon>
+		<h1 ion-text color="primary" class="fixblock">
+			<b>{{indicator.nombre}}</b>
+		</h1>
+	</ion-item>  
+	<ion-grid>
+		<!-- CUMPLIMIENTOS DEL PERIODO PARA PAÍS, ZONA O SUCURSAL SEGÚN CORRESPONDA -->
+		<ion-row>
+			<ion-col col-12 text-center>
+				<h2 ion-text color="primary" class="fs-5em"><b>{{indicator.valores.cumplimiento}}</b></h2>
+				<p ion-text color="primary">Cumplimiento a la fecha</p>
+			</ion-col>
+		</ion-row>
+		<!-- CUMPLIMIENTO POR ZONA Y/O PAÍS SI ES QUE APLICAN -->
+		<ion-row col-12 text-center *ngIf="filters.charge !== 'pais'">
+			<ion-col col-6 *ngIf="filters.charge === 'sucursal'">
+				<span class="customFontSize" ion-text color="primary">
+					<h4>{{indicator.valores.cumplimiento_zona}}</h4>
+					<h5 class="customMarginTopFix">Zona</h5>
+				</span>
+			</ion-col>
+			<ion-col class="customFontSize" [attr.width-100]="filters.charge === 'zona'" [attr.width-50]="filters.charge === 'sucursal'">
+				<span ion-text color="primary">
+					<h4>{{indicator.valores.cumplimiento_pais}}</h4>
+					<h5 class="customMarginTopFix">País</h5>
+				</span>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+
+	<!-- Gráfico del indicador -->
+	<ion-item no-lines>
+		<h2 margin-top ion-text color="primary">
+			<b>Gráfico {{name}}</b>
+		</h2>
+	</ion-item>
+	
+	<ion-item no-lines text-center *ngIf="chart">
+		<google-chart [data]="chart" class="google-chart-general"></google-chart>
+	</ion-item>
+
+	<ion-item *ngIf="!chart" no-lines text-center>
+		<p>No hay datos para graficar.</p>
+	</ion-item>
+
+	<!-- Detalle del indicador -->
+	<div *ngIf="indicator.detail">
+		<ion-item no-lines>
+			<h2 margin-top ion-text color="primary">
+				<b>Detalle {{name}}</b>
+			</h2>
+		</ion-item>
+		<ion-grid class="pd-15">
+			<ion-row>
+				<ion-col col-12 text-left>
+					<h5><b>{{indicator.detail.top.nombre_dia}}</b></h5>
+				</ion-col>
+			</ion-row>
+			<ion-row>
+				<ion-col col-5 text-center no-padding class="br-tl"><p>{{indicator.detail.top.fecha_actual}}</p></ion-col>
+				<ion-col col-5 text-center no-padding class="br-t"><p>{{indicator.detail.top.fecha_anterior}}</p></ion-col>
+				<ion-col col-2 text-center no-padding class="br-tr"><p>%</p></ion-col>
+			</ion-row>
+			<ion-row class="bg-day">
+				<ion-col col-5 text-center><h5>{{indicator.detail.valores.dia}}</h5></ion-col>
+				<ion-col col-5 text-center><h5>{{indicator.detail.valores.dia_anterior}}</h5></ion-col>
+				<ion-col col-2 text-center><h5>{{indicator.detail.valores.variacion_diaria}}</h5></ion-col>
+			</ion-row>
+		</ion-grid>
+
+		<ion-grid margin-bottom class="pd-15">
+			<ion-row>
+				<ion-col col-12 text-left>
+					<h5><b>{{indicator.detail.top.nombre_mes + ' Acumulado'}}</b></h5>
+				</ion-col>
+			</ion-row>
+			<ion-row>
+				<ion-col col-5 text-center no-padding class="br-tl"><p>{{indicator.detail.top.ano_actual}}</p></ion-col>
+				<ion-col col-5 text-center no-padding class="br-t"><p>{{indicator.detail.top.ano_anterior}}</p></ion-col>
+				<ion-col col-2 text-center no-padding class="br-tr"><p>%</p></ion-col>
+			</ion-row>
+			<ion-row class="bg-month">
+				<ion-col col-5 text-center><h5>{{indicator.detail.valores.acumulado}}</h5></ion-col>
+				<ion-col col-5 text-center><h5>{{indicator.detail.valores.mes_anterior}}</h5></ion-col>
+				<ion-col col-2 text-center><h5>{{indicator.detail.valores.variacion_mensual}}</h5></ion-col>
+			</ion-row>
+		</ion-grid>
+	</div>
+</ion-content>

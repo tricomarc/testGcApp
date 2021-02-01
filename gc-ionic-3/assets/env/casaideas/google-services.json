@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "374575210222",
+    "firebase_url": "https://gc-casa-ideas.firebaseio.com",
+    "project_id": "gc-casa-ideas",
+    "storage_bucket": "gc-casa-ideas.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:374575210222:android:a662326efc304c0abfddff",
+        "android_client_info": {
+          "package_name": "cl.gccasaid.gcapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "374575210222-up38mn2ri1t1fqd6oiiemt1jevs97eh5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbScxD6tE7C2mLO1xgdBkoEG2RoqzwhvM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "374575210222-up38mn2ri1t1fqd6oiiemt1jevs97eh5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,14 @@
+{
+  "name": "gcapp",
+  "integrations": {
+    "cordova": {},
+    "gulp": {}
+  },
+  "type": "ionic-angular",
+  "gulp": {
+    "file": "gulp.js",
+    "enabled": true
+  },
+  "id": "108390ff",
+  "pro_id": "9218ae25"
+}

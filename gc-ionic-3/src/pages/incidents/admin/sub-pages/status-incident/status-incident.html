@@ -1,0 +1,156 @@
+<ion-header>
+	<ion-navbar color="primary" text-wrap>
+		<ion-title *ngIf="action === 'adm_close'">Cierre administrativo</ion-title>
+		<ion-title *ngIf="action !== 'adm_close'">
+			{{ (action === 'accept' && !is_finished) ? 'Aceptación' : (action === 'reject' ? 'Rechazo' : ((action === 'accept' && is_finished) ? 'Finalización' : 'Anulación'))}}
+		</ion-title>
+		<ion-buttons end>
+			<button ion-button icon-only clear (click)="closeModal(false)">
+				<ion-icon name="md-close"></ion-icon>
+			</button>
+		</ion-buttons>
+	</ion-navbar>
+</ion-header>
+
+<ion-content text-wrap>
+	<!-- Cerrar administrativamente una incidencia --->
+	<div *ngIf="action === 'adm_close'">
+		<ion-item>
+			<ion-label stacked>Motivo de cierre: </ion-label>
+			<ion-textarea [(ngModel)]="forms.adm_close.reason" placeholder="Escriba el motivo aquí"
+				class="textarea-commentary">
+			</ion-textarea>
+		</ion-item>
+		<!-- <ion-item>
+			<ion-label stacked>Comentario: </ion-label>
+			<ion-textarea [(ngModel)]="forms.adm_close.commentary" placeholder="Comentario trabajos realizados" class="textarea-commentary">
+			</ion-textarea>
+		</ion-item> -->
+	</div>
+
+	<!-- Aceptar una incidencia que no ha sido finalizada --->
+	<div *ngIf="action === 'accept' && !is_finished">
+		<ion-item no-lines padding-top text-center>
+			<h2 ion-text color="primary">Solicitud de
+				{{ action === 'accept' ? 'aceptación' : (action === 'reject' ? 'Rechazo' : 'Anulación')}} de Incidencia
+			</h2>
+		</ion-item>
+		<ion-item no-lines>
+			<ion-label><b>Prioridad:</b></ion-label>
+			<ion-select [(ngModel)]="forms.accept.priority" class="select-filters" interface="popover"
+				cancelText="cancelar">
+				<ion-option [value]="0">
+					<p>Seleccionar</p>
+				</ion-option>
+				<ion-option *ngFor="let priority of priorities" [value]="priority.id">
+					<p>{{priority.nombre}}</p>
+				</ion-option>
+			</ion-select>
+		</ion-item>
+		<ion-item no-lines>
+			<ion-label><b>Tipo:</b></ion-label>
+			<ion-select [(ngModel)]="forms.accept.type" class="select-filters" interface="popover"
+				cancelText="cancelar">
+				<ion-option [value]="0">
+					<p>Seleccionar</p>
+				</ion-option>
+				<ion-option *ngFor="let type of types" [value]="type.id">
+					<p>{{type.nombre}}</p>
+				</ion-option>
+			</ion-select>
+		</ion-item>
+	</div>
+
+	<!-- Aceptar una incidencia que fue finalizada por la tienda --->
+	<div *ngIf="action === 'accept' && is_finished">
+		<ion-item no-lines padding-top text-center>
+			<h2 ion-text color="primary">Solicitud de finalización de incidencia</h2>
+		</ion-item>
+		<ion-item no-lines>
+			<ion-label>¿Jefe de tienda conforme?: <b>
+					<h2 style="display: inline;">
+						{{incident.jefe_conforme === true ? 'Si' : incident.jefe_conforme === false ? 'No' : 'No informado.'}}
+					</h2>
+				</b></ion-label>
+		</ion-item>
+	</div>
+
+	<!-- Anular --->
+	<div *ngIf="action === 'cancel'">
+		<div no-lines padding-top text-center>
+			<h2 ion-text color="primary">Solicitud de
+				{{ action === 'accept' ? 'aceptación' : (action === 'reject' ? 'Rechazo' : 'Anulación')}} de Incidencia
+			</h2>
+		</div>
+		<ion-item>
+			<ion-label>Tipo de anulación:</ion-label>
+			<ion-select [(ngModel)]="forms.cancel.cancellation" class="select-filters" interface="popover"
+				cancelText="cancelar">
+				<ion-option [value]="0">
+					<p>Seleccionar</p>
+				</ion-option>
+				<ion-option *ngFor="let cancellation of cancellations" [value]="cancellation.id">
+					<p>{{cancellation.nombre}}</p>
+				</ion-option>
+			</ion-select>
+		</ion-item>
+
+		<ion-item>
+			<ion-label stacked>Motivo para anular esta incidencia: </ion-label>
+			<ion-textarea [(ngModel)]="forms.cancel.reason" placeholder="Escriba el motivo aquí"
+				class="textarea-commentary"></ion-textarea>
+		</ion-item>
+	</div>
+
+	<!-- Rechazar una incidencia que no ha sido finalizada --->
+	<div *ngIf="action === 'reject' && !is_finished">
+		<ion-item no-lines>
+			<ion-label stacked><b>
+					<h3>Motivo para rechazar esta incidencia: </h3>
+				</b></ion-label>
+			<ion-textarea [(ngModel)]="forms.reject.reason" placeholder="Escriba el motivo aquí"
+				class="textarea-commentary"></ion-textarea>
+		</ion-item>
+	</div>
+
+	<!-- Rechazar una incidencia que ha sido finalizada por la tienda --->
+	<div *ngIf="action === 'reject' && is_finished">
+		<ion-item no-lines>
+			<ion-label stacked><b>
+					<h3>Fecha estimada de término: </h3>
+				</b></ion-label>
+			<ion-datetime [(ngModel)]="forms.reject_finished.date" displayFormat="DD/MM/YYYY" pickerFormat="DD-MM-YYYY"
+				placeholder="Seleccione fecha" doneText="ok" cancelText="cancelar" [min]="min_date"></ion-datetime>
+		</ion-item>
+		<ion-item no-lines>
+			<ion-label stacked><b>
+					<h3>Comentario: </h3>
+				</b></ion-label>
+			<ion-textarea [(ngModel)]="forms.reject_finished.commentary" placeholder="Adjunte un comentario"
+				class="textarea-commentary"></ion-textarea>
+		</ion-item>
+	</div>
+
+	<ion-grid>
+		<ion-row>
+			<ion-col col-6>
+				<button ion-button block color="dark" (click)="closeModal(false)">Cancelar</button>
+			</ion-col>
+			<ion-col col-6 *ngIf="action==='accept' && !is_finished">
+				<button ion-button block color="success" (click)="changeIncidentStatus()">Aceptar</button>
+			</ion-col>
+			<ion-col col-6 *ngIf="action==='accept' && is_finished">
+				<button ion-button block color="success" (click)="changeIncidentStatus()">Finalizar</button>
+			</ion-col>
+			<ion-col col-6 *ngIf="action==='cancel'">
+				<button ion-button block color="dark" (click)="changeIncidentStatus()">Anular</button>
+			</ion-col>
+			<ion-col col-6 *ngIf="action==='reject'">
+				<button ion-button block color="danger" (click)="changeIncidentStatus()">Rechazar</button>
+			</ion-col>
+			<ion-col col-6 *ngIf="action==='adm_close'">
+				<button ion-button block color="danger" (click)="changeIncidentStatus()">Cerrar</button>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+</ion-content>

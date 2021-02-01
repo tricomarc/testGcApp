@@ -1,0 +1,52 @@
+<ion-header box-shadow>
+    <ion-navbar>
+        <button ion-button menuToggle>
+            <ion-icon class="icon-menu" name="menu" color="primary"></ion-icon>
+        </button>
+        
+        <div buy>
+            <ion-title> <span ion-text text-center color="primary"> {{ module }} </span> </ion-title>
+        </div>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <div>
+        <h4 text-center ion-text color="primary">
+            <strong> Listado de transporte </strong>
+        </h4>
+    </div>
+
+    <!-- card ONLINE -->
+    <ion-card class="sombra-vb" *ngFor="let patent of patents">
+        <ion-item class="item item-block item-ios" (click)="truckDetails( patent.placa )">
+            <ion-card-content class="item-block item-ios">
+                <ion-grid>
+                    <ion-row>
+                        <ion-col col-4>
+                            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="truck" class="svg-inline--fa fa-truck fa-w-0" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
+                                <path *ngIf="patent.estado == 'Paquete normal'" fill="#D9CF41" d="M624 352h-16V243.9c0-12.7-5.1-24.9-14.1-33.9L494 110.1c-9-9-21.2-14.1-33.9-14.1H416V48c0-26.5-21.5-48-48-48H48C21.5 0 0 21.5 0 48v320c0 26.5 21.5 48 48 48h16c0 53 43 96 96 96s96-43 96-96h128c0 53 43 96 96 96s96-43 96-96h48c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zM160 464c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm320 0c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm80-208H416V144h44.1l99.9 99.9V256z"></path>
+
+                                <path *ngIf="patent.estado == 'Apagado de motor'" fill="#DBDBDB" d="M624 352h-16V243.9c0-12.7-5.1-24.9-14.1-33.9L494 110.1c-9-9-21.2-14.1-33.9-14.1H416V48c0-26.5-21.5-48-48-48H48C21.5 0 0 21.5 0 48v320c0 26.5 21.5 48 48 48h16c0 53 43 96 96 96s96-43 96-96h128c0 53 43 96 96 96s96-43 96-96h48c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zM160 464c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm320 0c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm80-208H416V144h44.1l99.9 99.9V256z"></path>
+                            </svg>
+                        </ion-col>
+                        
+                        <ion-col col-4 class="ion-align-self-center ">
+                            <div class="ion-row">
+                                <p ion-text color="warning">
+                                    <ion-icon name="radio-button-on" [ngStyle]="{ 'color': patent.estado == 'Paquete normal' ? '#D9CF41': '#B2B2B2' }"> {{ patent.placa }} </ion-icon> 
+                                </p>
+                            </div>
+                            
+                            <p *ngIf="patent.estado == 'Paquete normal'" style="color: #D9CF41;"> Estado: ONLINE </p>
+                            
+                            <p *ngIf="patent.estado == 'Apagado de motor'" style="color: #B2B2B2;"> Estado: MOTOR <br> APAGADO </p>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ion-card-content>
+
+            <ion-icon name='ios-arrow-forward' item-end color="primary" class="icon-lg"></ion-icon>
+        </ion-item>
+    </ion-card>
+</ion-content>

@@ -1,0 +1,127 @@
+<ion-list [ngSwitch]="question.codigo_tipo" [id]="question.uuid">
+
+	<div [ngClass]="isSubQuestion ? 'customStyleSubPregunta' : 'customStyle'" *ngIf="question.pregunta">
+		<ion-item no-lines no-padding no-margin class="customTamañoTexto question-item"
+			[ngClass]="question.answer ? 'positive' : 'assertive'"
+			[ngClass]="isSubQuestion ? 'customTamañoTextoSubPregunta' : 'customTamañoTexto'">
+			<p color="primary" ion-text text-wrap> {{ question.pregunta }} </p>
+
+			<button *ngIf="question.imagen_referencia" class="btn-reference-image" ion-button item-right icon-only clear
+				(click)="showReferenceImage(questionReferenceImage)">
+				<ion-icon name="ios-image-outline"></ion-icon>
+
+				<img [hidden]="true" [src]="question.imagen_referencia.path" #questionReferenceImage>
+			</button>
+		</ion-item>
+	</div>
+
+	<!-- Para preguntas que usan aplica / no aplica -->
+	<div *ngIf="question.useApplies"
+		[ngClass]="((question.validations && question.validations.appliesUnspecified === true) ? 'ch-incomplete-question' : '')"
+		class="apply-btns">
+		<ion-row padding>
+			<ion-col col-6>
+				<!-- Asigna no aplica a la pregunta -->
+				<button customColorBotonNoaplica ion-button round block (click)="setApplies(1)"
+					*ngIf="question.respuesta.no_aplica === 2">
+					<span no-padding class="customFontSize"> No aplica </span>
+				</button>
+
+				<!-- Reinica el valor de aplica / no aplica -->
+				<button customColorBotonNoaplica ion-button round block (click)="setApplies(2)"
+					*ngIf="question.respuesta.no_aplica === 1 || question.respuesta.no_aplica === 0">
+					<ion-icon name="arrow-back" class="customFontSize2"></ion-icon>
+				</button>
+			</ion-col>
+
+			<ion-col col-6>
+				<!-- Asigna aplica a la pregunta -->
+				<button customColorBotonAplica ion-button round block (click)="setApplies(0)"
+					*ngIf="question.respuesta.no_aplica === 2">
+					<span no-padding class="customFontSize"> Aplica </span>
+				</button>
+			</ion-col>
+		</ion-row>
+
+		<ion-row *ngIf="question.respuesta.no_aplica === 1">
+			<ion-col col-8 offset-2>
+				<ion-icon name="close" class="customFontSize3"></ion-icon>
+
+				<span class="customFontSize4"> Criterios no aplican </span>
+			</ion-col>
+		</ion-row>
+	</div>
+
+	<div *ngIf="!question.useApplies || (question.useApplies && question.respuesta.no_aplica === 0)">
+		<!-- Acción de tipo foto obligatoria para cualquier tipo de pregunta -->
+		<ion-item *ngIf="question.obligatorio && question.obligatorio.foto" no-lines>
+			<required-photo-action [question]="question" [ambitState]="ambitState" [checklist]="checklist"
+				[ngClass]="question.isIncomplete === true ? 'ch-incomplete-question' : ''">
+			</required-photo-action>
+		</ion-item>
+
+		<!-- Radio -->
+		<ion-item *ngSwitchCase="'radio'" no-lines>
+			<radio-question [question]="question" [ambitState]="ambitState" [checklist]="checklist"></radio-question>
+		</ion-item>
+
+		<!-- Checkbox -->
+		<ion-item *ngSwitchCase="'check'" no-lines>
+			<checkbox-question [question]="question" [ambitState]="ambitState" [checklist]="checklist">
+			</checkbox-question>
+		</ion-item>
+
+		<!-- Texto -->
+		<ion-item *ngSwitchCase="'text'" no-lines>
+			<text-question [question]="question" [ambitState]="ambitState" [checklist]="checklist"></text-question>
+		</ion-item>
+
+		<!-- Foto -->
+		<ion-item *ngSwitchCase="'cam'" no-lines>
+			<photo-question [question]="question" [ambitState]="ambitState" [checklist]="checklist"></photo-question>
+		</ion-item>
+
+		<!-- Correo -->
+		<div *ngSwitchCase="'correo'">
+			<!-- El campo de comentarios de correo solo se muestra si es obligatorio -->
+			<ion-item *ngIf="question.obligatorio === true" no-lines>
+				<email-question [question]="question" [ambitState]="ambitState" [checklist]="checklist">
+				</email-question>
+			</ion-item>
+		</div>
+
+		<!-- Fecha -->
+		<ion-item *ngSwitchCase="'fecha'" no-lines>
+			<date-question [question]="question" [ambitState]="ambitState" [checklist]="checklist"></date-question>
+		</ion-item>
+
+		<!-- Incidencia -->
+		<ion-item *ngSwitchCase="'incidencia'" no-lines>
+			<incident-question [question]="question" [ambitState]="ambitState" [checklist]="checklist">
+			</incident-question>
+		</ion-item>
+
+		<!-- Notificación -->
+		<ion-item *ngSwitchCase="'alert'" no-lines>
+			<notification-question [question]="question" [ambitState]="ambitState" [checklist]="checklist">
+			</notification-question>
+		</ion-item>
+
+		<!-- Numérica -->
+		<ion-item *ngSwitchCase="'num'" no-lines>
+			<numeric-question [question]="question" [ambitState]="ambitState" [checklist]="checklist">
+			</numeric-question>
+		</ion-item>
+
+		<!-- Porcentual -->
+		<ion-item *ngSwitchCase="'porcentual'" no-lines>
+			<percentage-question [question]="question" [ambitState]="ambitState" [checklist]="checklist">
+			</percentage-question>
+		</ion-item>
+
+		<!-- Archivo -->
+		<ion-item *ngSwitchCase="'file'" no-lines>
+			<file-question [question]="question" [ambitState]="ambitState" [checklist]="checklist"></file-question>
+		</ion-item>
+	</div>
+</ion-list>

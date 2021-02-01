@@ -1,0 +1,328 @@
+room {
+    .sizecustom{ 
+        height: 70px !important;
+    }
+    .mbpb-0{
+        margin-bottom: 0px !important;
+        padding-bottom: 0px !important;
+    }
+    .mtpt-x{
+        margin-top: 20px !important;
+    }
+    
+    .tamanoFoto{
+        height: 40px !important;
+        width: 40px !important;
+    }
+    .fotoPosicion{
+        padding: 0px !important;
+        margin: 0px !important;
+    }
+    .customPaddingGrid{
+        padding-top: 8px !important;
+    }
+    .customPaddingBottom{
+        margin-bottom: 0px !important;
+        padding-bottom: 0px !important;
+    }
+    .text-overflow{
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important; 
+    }
+    .customPaddingTop{
+        margin-top: 0px !important;
+        padding-top: 0px !important;
+    }
+    .fontSize1{
+        font-size: 16px !important;
+    }
+    .fontSize2{
+        text-transform: none !important;
+        font-size: 12px !important;
+    }
+    .iconoLlamada{
+        padding-top: 5px !important;
+        font-size: 25px !important;
+        color: color($colors, primary);
+    }
+    .customAlign{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .message-wrap-left {
+        padding: 0 10px; 
+    }
+    .message-wrap-left .message-left {
+        position: relative;
+        padding: 1px 0; 
+    }
+    
+    .message-wrap-left .message-left .msg-detail-left {
+        width: 100%;
+        display: inline-block; 
+    }
+    .message-wrap-left .message-left .msg-detail-left p {
+        margin: 0; 
+    }
+    .message-wrap-left .message-left .msg-detail-left .msg-info-left p {
+        margin-top: 0px;
+        margin-left: 52px;
+        font-size: .8em;
+        color: #888; 
+    }
+    
+    .message-wrap-right {
+        padding: 0 10px; 
+    }
+    
+    .message-wrap-right .message-right {
+        position: relative;
+        padding: 1px 0; 
+    }
+    
+    .message-wrap-right .message-right .msg-detail-right {
+        width: 100%;
+        display: inline-block; 
+    }
+    .message-wrap-right .message-right .msg-detail-right p {
+        margin: 0; 
+    }
+    .message-wrap-right .message-right .msg-detail-right .msg-info-right p {
+        text-align: right;
+        margin-top: 8px;
+        margin-right: 60px;
+        font-size: .8em;
+        color: #888; 
+    }
+    
+    ion-footer {
+        /* margin-bottom: 2px; */
+        background-color: #fff;
+        height: auto;
+        /* border-radius: 100px; */
+        -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.11);
+        box-shadow: 0 0 4px rgba(0, 0, 0, 0.11);
+    }
+    .input-wrap {
+        padding-top: 15px;
+        padding: 5px;
+        display: flex; 
+    }
+    .input-wrap textarea {
+        max-height: 80px !important;
+        min-height: 38px !important;
+        position: relative;
+        margin-right: 0px;
+        margin-top: 0px;
+        padding-top: 8px;
+        margin-left: 0px;
+        padding-left: 10px;
+        padding-right: 10px;
+        height: 38px;
+        -webkit-box-flex: 1;
+        -webkit-flex: 1;
+        -ms-flex: 1;
+        flex: 1;
+        border-radius: 15px;
+        border: 1px #C7C7C7;
+        border-style: solid;
+        width: 100% !important;
+    }
+    .BotonesSizesEnviar{
+        font-size: 45px !important;
+        -webkit-transform: rotate(45deg);
+        transform: rotate(45deg);
+        margin-top: 5px !important;
+    }
+    .BotonesSizesCamara{
+        font-size: 30px !important;
+        margin-top: 5px !important;
+    }
+    .BotonesSizesClip{
+        font-size: 28px !important;
+        margin-top: 6px !important;
+    }
+    .posicionEnviar{
+        width: 40px;
+        position: relative;
+        right: 4px;
+    }
+    .posicionCamara{
+        width: 35px;
+        position: relative;
+        right: 2px;
+    }
+    .posicionClip{
+        width: 30px;
+        position: relative;
+        right: 0px;
+    }
+    
+    .avatar-header, .avatar-header > img {
+        width: 35px;
+        height: 35px;
+        min-width: 35px;
+        min-height: 35px;
+    }
+    
+    .user-name-message {
+        display: inherit;
+        margin-bottom: 10px;
+        margin-top: 5px;
+        color: #666;
+        font-size: 13px;
+    }
+    
+    .ChatContainer {
+        margin-bottom: 10px;
+    }
+    
+    .date-row {
+        float: right;
+    }
+    
+    .date-divider, .queue-divider {
+        background-color: transparent !important;
+        text-align: center !important;
+        border-bottom: 0 !important;
+        padding-left: 0 !important;
+        margin-bottom: 10px !important;
+        margin-top: 0px !important;
+    }
+    
+    .date-divider > .item-inner > .input-wrapper > .label {
+        max-width: 130px !important;
+        margin: 0 auto !important;
+        background-color: #c2e9fa;
+        padding: 4px;
+        border-radius: 10px;
+        -moz-box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.75);
+        -moz-box-shadow: 0px 0px 1px 0px rgba(51,51,51,1);
+        -webkit-box-shadow: 0px 0px 0.5px 0px rgba(117,117,117,1);
+        -moz-box-shadow: 0px 0px 0.5px 0px rgba(117,117,117,1);
+        box-shadow: 0px 0px 0.5px 0px rgba(117,117,117,1);
+        color: #333;
+    }
+    
+    .date-divider > .item-inner > .input-wrapper, .queue-divider > .item-inner > .input-wrapper {
+        text-align: center !important;
+    }
+    
+    .content-room {
+        background-color: #fff !important;
+    }
+    
+    .content-room-android > .scroll-content {
+        margin-top: 60px !important;
+    }
+
+    .content-room-ios > .scroll-content {
+        margin-top: 65px !important;
+    }
+    
+    .loading-item {
+        background-color: #fff !important;
+    }
+    
+    .ion-navbar-class {
+        max-height: 56px !important;
+    }
+    
+    #textAreaInput {
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+    }
+    
+    .uploading {
+        border: 1px solid #ddd;
+        border-radius: 25px;
+        max-width: 175px;
+        float: right;
+        margin-right: 15px;
+        min-height: 3.1rem !important;
+        height: 3.1rem !important;
+        margin-bottom: 10px;
+        margin-top: 5px;
+        color: #666;
+    }
+    
+    .uploading > .item-inner {
+        border-bottom: 0 !important;
+    }
+    
+    .spinner-cancel {
+        position: absolute;
+        top: -9px;
+        right: 10px;
+    }
+    
+    .upload-progress {
+        position: absolute !important;
+        right: 21px !important;
+        top: 3px !important;
+    }
+
+    .dots {
+        width: 15px;
+		top: 8px;
+        left: 2px;
+        position: absolute;
+    }
+
+    .room-footer {
+        padding-right: 5px !important;
+        padding-left: 5px !important;
+        padding-top: 5px !important;
+    }
+
+    .fs-1dot2rem {
+        font-size: 1rem !important;
+    }
+
+    .btn-attach {
+        margin-right: 5px !important;
+    }
+
+    .mt-ta-ios {
+        margin-top: 5px !important;
+    }
+
+    .item-room-header > .item-inner > .input-wrapper /* > ion-label */ {
+        max-width: 90% !important;
+    }
+
+    .h2-room-name {
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        white-space: nowrap !important;
+    }
+
+    .audio-recorder {
+        width: 100% !important;
+        margin-bottom: 5px !important;
+    }
+    
+    .queue-divider > .item-inner > .input-wrapper > .label {
+        max-width: 250px !important;
+        margin: 0 auto !important;
+        background-color: #c2e9fa;
+        padding: 4px;
+        border-radius: 10px;
+        -moz-box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.75);
+        -moz-box-shadow: 0px 0px 1px 0px rgba(51,51,51,1);
+        -webkit-box-shadow: 0px 0px 0.5px 0px rgba(117,117,117,1);
+        -moz-box-shadow: 0px 0px 0.5px 0px rgba(117,117,117,1);
+        box-shadow: 0px 0px 0.5px 0px rgba(117,117,117,1);
+        color: #333; 
+    }
+
+    .queue-container {
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+}

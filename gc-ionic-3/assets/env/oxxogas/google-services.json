@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "840131350867",
+    "firebase_url": "https://gc-oxxo-gas.firebaseio.com",
+    "project_id": "gc-oxxo-gas",
+    "storage_bucket": "gc-oxxo-gas.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:840131350867:android:8775683a359cfd96ff51a6",
+        "android_client_info": {
+          "package_name": "cl.gcogas.gcapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "840131350867-ho4m2j39k3cicc9utmrtb4id329fq0r2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAuIlkk6ZkrlRSErLOPTKM8TnZv-ptCrk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "840131350867-ho4m2j39k3cicc9utmrtb4id329fq0r2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
